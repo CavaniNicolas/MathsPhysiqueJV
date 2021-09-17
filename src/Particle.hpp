@@ -1,7 +1,7 @@
 #pragma once
 
-#include "Vector3D.hpp"
 #include <time.h>
+#include "Vector3D.hpp"
 
 class Particle
 {
