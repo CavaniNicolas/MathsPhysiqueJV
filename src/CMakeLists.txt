@@ -1,16 +1,15 @@
-
 set(MP_EXE_NAME MathsPhysique)
 
 set(SOURCES
         main.cpp
+        Particle.cpp
         Vector3D.cpp
 )
 
 set(HEADERS
+        Particle.hpp
         Vector3D.hpp
 )
-
-
 
 add_executable(${MP_EXE_NAME} ${SOURCES} ${HEADERS})
 
