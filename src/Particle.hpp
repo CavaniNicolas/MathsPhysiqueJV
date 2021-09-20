@@ -1,21 +1,26 @@
 #pragma once
 
 #include <time.h>
+#include <vector>
 #include "Vector3D.hpp"
 
 class Particle
 {
 private:
 	float m_inverseMass;
+	float m_damping;
+
 	Vector3D m_position;
 	Vector3D m_velocity;
 	Vector3D m_acceleration;
+	std::vector<Vector3D> m_forces;
 
 	clock_t m_lastIntegrationTime;
 
 public:
 	//Constructors
-	Particle(Vector3D position, Vector3D velocity, Vector3D acceleration, float inverseMass = 0.0);
+	Particle(Vector3D position, Vector3D velocity, Vector3D acceleration, float inverseMass = 1, float damping = 0.999);
+	Particle(Vector3D position, Vector3D velocity, std::vector<Vector3D> forces = {}, float inverseMass = 1, float damping = 0.999);
 	Particle();
 	Particle(const Particle& other);
 	
@@ -23,14 +28,21 @@ public:
 	Particle& operator=(const Particle& other);
 	
 	float getInverseMass() const;
+	float getMass() const;
+	float getDamping() const;
 	Vector3D getPosition() const;
 	Vector3D getVelocity() const;
 	Vector3D getAcceleration() const;
+	std::vector<Vector3D> getForces() const;
 	
-	void setInverseMass(float mass);
+	void setInverseMass(float inverseMass);
+	void setMass(float mass);
+	void setDamping(float damping);
 	void setPosition(Vector3D position);
 	void setVelocity(Vector3D velocity);
 	void setAcceleration(Vector3D acceleration);
+	void addForce(Vector3D force);
+	void setForces(std::vector<Vector3D> forces);
 	
 	void integrate();
 };

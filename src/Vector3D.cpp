@@ -66,8 +66,18 @@ Vector3D Vector3D::operator+(const Vector3D& vector) const {
 	return Vector3D(m_x + vector.m_x, m_y + vector.m_y, m_z + vector.m_z);
 }
 
+Vector3D& Vector3D::operator+=(const Vector3D& vector) {
+	*this = *this + vector;
+	return *this;
+}
+
 Vector3D Vector3D::operator-(const Vector3D& vector) const {
 	return Vector3D(m_x - vector.m_x, m_y - vector.m_y, m_z - vector.m_z);
+}
+
+Vector3D& Vector3D::operator-=(const Vector3D& vector) {
+	*this = *this - vector;
+	return *this;
 }
 
 float Vector3D::scalarProduct(const Vector3D& vector) const {
@@ -79,16 +89,31 @@ Vector3D Vector3D::crossProduct(const Vector3D& vector) const {
 }
 
 //	with a scalar
-Vector3D Vector3D::operator*(float scalar) const {
+Vector3D Vector3D::operator*(const float scalar) const {
 	return Vector3D(m_x * scalar, m_y * scalar, m_z * scalar);
 }
 
-Vector3D Vector3D::operator/(float scalar) const {
+Vector3D& Vector3D::operator*=(const float scalar) {
+	*this = *this * scalar;
+	return *this;
+}
+
+Vector3D Vector3D::operator/(const float scalar) const {
 	return Vector3D(m_x / scalar, m_y / scalar, m_z / scalar);
 }
 
-Vector3D Vector3D::operator^(float scalar) const {
+Vector3D& Vector3D::operator/=(const float scalar) {
+	*this = *this / scalar;
+	return *this;
+}
+
+Vector3D Vector3D::operator^(const float scalar) const {
 	return Vector3D(pow(m_x, scalar), pow(m_y, scalar), pow(m_z, scalar));
+}
+
+Vector3D& Vector3D::operator^=(const float scalar) {
+	*this = *this ^ scalar;
+	return *this;
 }
 
 //Other methods

@@ -33,13 +33,18 @@ public:
 	//Operations
 	//	with a Vector3D
     Vector3D operator+(const Vector3D& vector) const;
+	Vector3D& operator+=(const Vector3D& vector);
     Vector3D operator-(const Vector3D& vector) const;
+	Vector3D& operator-=(const Vector3D& vector);
 	float scalarProduct(const Vector3D& vector) const;
     Vector3D crossProduct(const Vector3D& vector) const;
 	//	with a scalar
-    Vector3D operator*(float scalar) const;
-    Vector3D operator/(float scalar) const;
-    Vector3D operator^(float scalar) const;
+    Vector3D operator*(const float scalar) const;
+	Vector3D& operator*=(const float scalar);
+    Vector3D operator/(const float scalar) const;
+	Vector3D& operator/=(const float scalar);
+    Vector3D operator^(const float scalar) const;
+	Vector3D& operator^=(const float scalar);
 
 	//Other methods
 	float getNorm() const;
