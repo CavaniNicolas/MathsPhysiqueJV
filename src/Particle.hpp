@@ -9,6 +9,8 @@ class Particle
 private:
 	float m_inverseMass;
 	float m_damping;
+	float m_g;
+	Vector3D m_gravityForce;
 
 	Vector3D m_position;
 	Vector3D m_velocity;
@@ -19,8 +21,8 @@ private:
 
 public:
 	//Constructors
-	Particle(Vector3D position, Vector3D velocity, Vector3D acceleration, float inverseMass = 1, float damping = 0.999);
-	Particle(Vector3D position, Vector3D velocity, std::vector<Vector3D> forces = {}, float inverseMass = 1, float damping = 0.999);
+	Particle(Vector3D position, Vector3D velocity, Vector3D acceleration, float mass = 1, float damping = 0.999, float g = 10);
+	Particle(Vector3D position, Vector3D velocity, std::vector<Vector3D> forces = {}, float mass = 1, float damping = 0.999, float g = 10);
 	Particle();
 	Particle(const Particle& other);
 	
@@ -30,6 +32,7 @@ public:
 	float getInverseMass() const;
 	float getMass() const;
 	float getDamping() const;
+	float getG() const;
 	Vector3D getPosition() const;
 	Vector3D getVelocity() const;
 	Vector3D getAcceleration() const;
@@ -38,6 +41,7 @@ public:
 	void setInverseMass(float inverseMass);
 	void setMass(float mass);
 	void setDamping(float damping);
+	void setG(float g);
 	void setPosition(Vector3D position);
 	void setVelocity(Vector3D velocity);
 	void setAcceleration(Vector3D acceleration);
@@ -45,5 +49,7 @@ public:
 	void setForces(std::vector<Vector3D> forces);
 	
 	void integrate();
+
+	friend std::ostream& operator<<(std::ostream& out, Particle const& particle);
 };
 
