@@ -386,3 +386,8 @@ FodyWeavers.xsd
 # JetBrains Rider
 .idea/
 *.sln.iml
+
+out
+
+thirdparty/glew-2.2.0
+thirdparty/glfw-3.3.4
