@@ -10,7 +10,7 @@ GameEngine::GameEngine(Scene scene, int desiredFrameRate) {
 	m_gameLoopThread = std::thread([this] { gameLoop(); });
 }
 
-GameEngine::GameEngine(GameEngine& other) :
+GameEngine::GameEngine(const GameEngine& other) :
 	GameEngine(other.m_scene, other.m_desiredFrameRate)
 { }
 
@@ -28,43 +28,38 @@ GameEngine::~GameEngine() {
 	m_gameLoopThread.join();
 }
 
-std::vector<Particle*> GameEngine::getParticles() {
-	m_mutexParticles.lock();
-	std::vector<Particle*> tempParticles = m_scene.getParticles();
-	m_mutexParticles.unlock();
-	return tempParticles;
+//std::vector<Particle> GameEngine::getParticlesSynchronized() {
+//	return m_scene.getParticlesSynchronized();
+//}
+
+std::vector<Particle> GameEngine::getParticles() const {
+	return m_scene.getParticles();
 }
 
 void GameEngine::gameLoop() {
 
-	std::cout << "Entered gameLoop" << std::endl;
+	float timeBetweenFrames = 1 / (static_cast<float>(m_desiredFrameRate));
 
-	float timeBetweenFrames = 1 / ((float)m_desiredFrameRate);
+	float desiredEndTime = static_cast<float>(clock()) / CLOCKS_PER_SEC + timeBetweenFrames;
 
-	float desiredEndTime = (float)(clock()) / CLOCKS_PER_SEC + timeBetweenFrames;
+	while (!m_stop) {
+		if (m_running) {
+			m_scene.integrateAll();
+			//std::cout << m_scene.getParticlesSynchronized()[0] << std::endl;
 
-	while (1) {
-		if (!m_stop) {
-			if (m_running) {
-				m_mutexParticles.lock();
-				m_scene.integrateAll();
-				std::cout << *m_scene.getParticles()[0] << std::endl;
-				m_mutexParticles.unlock();
-
-				float endTime = (float)(clock()) / CLOCKS_PER_SEC;
-				if (endTime < desiredEndTime) {
-					float milliSecToWait = (desiredEndTime - endTime) * 1000;
-					Sleep(milliSecToWait);
-					desiredEndTime = (float)(clock()) / CLOCKS_PER_SEC + timeBetweenFrames;
-				}
-				else {
-					std::cerr << "WARNING : too many particles to respect the desired frame rate" << std::endl;
-					desiredEndTime = endTime + timeBetweenFrames;
-				}
+			float endTime = static_cast<float>(clock()) / CLOCKS_PER_SEC;
+			if (endTime < desiredEndTime) {
+				float milliSecToWait = (desiredEndTime - endTime) * 1000;
+				Sleep(milliSecToWait);
+				desiredEndTime += timeBetweenFrames;
+			}
+			else {
+				std::cerr << "WARNING : too many particles to respect the desired frame rate (" << endTime - desiredEndTime << "s late)" << std::endl;
+				desiredEndTime = endTime + timeBetweenFrames;
 			}
 		}
 		else {
-			break;
+			desiredEndTime = static_cast<float>(clock()) / CLOCKS_PER_SEC + timeBetweenFrames;
 		}
 	}
 }
