@@ -1,29 +1,33 @@
-
 #include <iostream>
-#include <vector>
 #include <Windows.h>
 
-#include "Particle.hpp"
-#include "Vector3D.hpp"
+#include "GameEngine.hpp"
 
 int main()
 {
-    std::cout << "Hey\n";
-
-    int nbParticles = 100000;
+    int nbParticles = 1000;
     std::vector<Particle*> particles;
 
-    for (int i = 0; i < nbParticles; i++) {
-        particles.push_back(new Particle(Vector3D(), Vector3D(), Vector3D(1, 1, 1), 0));
+    std::vector<Vector3D> forces = { Vector3D(50, 0, 0) };
+    for (int i = 0; i <= nbParticles; i++) {
+        particles.push_back(new Particle(Vector3D(), Vector3D(), forces, 1));
     }
+    
+    Scene scene = Scene(particles);
 
-    while (1) {
-        for (Particle* particle : particles) {
-            particle->integrate();
-        }
-        std::cout << "Position : " << particles[0]->getPosition() << std::endl;
-        std::cout << "Velocity : " << particles[0]->getVelocity() << std::endl;
-        std::cout << "Acceleration : " << particles[0]->getAcceleration() << std::endl;
-        Sleep(17);
-    }
+    GameEngine gameEngine = GameEngine(scene);
+
+    gameEngine.run();
+
+    Sleep(5000);
+
+    gameEngine.pause();
+
+    Sleep(2000);
+
+    gameEngine.run();
+
+    Sleep(5000);
+
+    gameEngine.stop();
 }

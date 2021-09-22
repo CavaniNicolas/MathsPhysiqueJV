@@ -4,11 +4,15 @@ set(SOURCES
         main.cpp
         Particle.cpp
         Vector3D.cpp
+        Scene.cpp
+        GameEngine.cpp
 )
 
 set(HEADERS
         Particle.hpp
         Vector3D.hpp
+        Scene.hpp
+        GameEngine.hpp
 )
 
 add_executable(${MP_EXE_NAME} ${SOURCES} ${HEADERS})
