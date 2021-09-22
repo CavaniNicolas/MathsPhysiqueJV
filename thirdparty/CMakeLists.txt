@@ -39,10 +39,11 @@ target_link_libraries(GLEW_220
 target_include_directories(GLEW_220 PUBLIC
     glew-2.2.0/include
 )
-#target_compile_definitions(GLEW_220 PUBLIC
-#    -DTW_STATIC
-#    -DTW_NO_LIB_PRAGMA
-#    -DTW_NO_DIRECT3D
-#    -DGLEW_STATIC
-#    -D_CRT_SECURE_NO_WARNINGS
-#)
+
+target_compile_definitions(GLEW_220 PUBLIC
+    -DTW_STATIC
+    -DTW_NO_LIB_PRAGMA
+    -DTW_NO_DIRECT3D
+    -DGLEW_STATIC
+    -D_CRT_SECURE_NO_WARNINGS
+)

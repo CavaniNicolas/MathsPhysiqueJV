@@ -42,13 +42,13 @@ int main()
     glfwSetWindowPos(window, 450, 100);
 
 
-//    // Initialize GLEW
-//    if (glewInit() != GLEW_OK) {
-//        fprintf(stderr, "Failed to initialize GLEW\n");
-//        getchar();
-//        glfwTerminate();
-//        return -1;
-//    }
+    // Initialize GLEW
+    if (glewInit() != GLEW_OK) {
+        fprintf(stderr, "Failed to initialize GLEW\n");
+        getchar();
+        glfwTerminate();
+        return -1;
+    }
 
     // Ensure we can capture the escape key being pressed below
     glfwSetInputMode(window, GLFW_STICKY_KEYS, GL_TRUE);
