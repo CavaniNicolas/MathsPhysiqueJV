@@ -49,12 +49,31 @@ int main()
     // Dark blue background
     glClearColor(0.0f, 0.0f, 0.4f, 0.0f);
 
+    // each line here is a vertex (a vertex is a point that can contain position, texture coordinates, normals, colors ...)
+    // here we have got "vertex position"
+    float positions[6] = {
+        -0.5f, -0.5f,
+         0.0f,  0.5f,
+         0.5f, -0.5f
+    };
+
+    // Give OpenGL the data
+    unsigned int buffer;
+    glGenBuffers(1, &buffer);
+    glBindBuffer(GL_ARRAY_BUFFER, buffer);
+    glBufferData(GL_ARRAY_BUFFER, 6 * sizeof(float), positions, GL_STATIC_DRAW);
+
+    glEnableVertexAttribArray(0);
+    glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(float), 0);
+
     while( glfwGetKey(window, GLFW_KEY_ESCAPE ) != GLFW_PRESS &&
            glfwWindowShouldClose(window) == 0 )
     {
         // Clear the screen. It's not mentioned before Tutorial 02, but it can cause flickering, so it's there nonetheless.
         glClear( GL_COLOR_BUFFER_BIT );
 
+        // Draw whats on the currently bound buffer
+        glDrawArrays(GL_TRIANGLES, 0, 3);
 
         // Swap buffers
         glfwSwapBuffers(window);
