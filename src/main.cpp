@@ -3,7 +3,7 @@
 #include <stdlib.h>
 #include <iostream>
 
-// Include GLEW
+// Include GLEW (important to be first)
 #include <GL/glew.h>
 
 // Include GLFW
@@ -22,13 +22,6 @@ int main()
 
     GLFWwindow* window;
 
-    glfwWindowHint(GLFW_SAMPLES, 4);
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
-    glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE); // To make MacOS happy; should not be needed
-    glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-
-
     // Open a window and create its OpenGL context
     window = glfwCreateWindow(1024, 768, "Moteur Physique", NULL, NULL);
     if( window == NULL ){
@@ -42,7 +35,7 @@ int main()
     glfwSetWindowPos(window, 450, 100);
 
 
-    // Initialize GLEW
+    // Initialize GLEW (important to be after glfwMakeContextCurrent() )
     if (glewInit() != GLEW_OK) {
         fprintf(stderr, "Failed to initialize GLEW\n");
         getchar();
@@ -56,11 +49,11 @@ int main()
     // Dark blue background
     glClearColor(0.0f, 0.0f, 0.4f, 0.0f);
 
-    do{
+    while( glfwGetKey(window, GLFW_KEY_ESCAPE ) != GLFW_PRESS &&
+           glfwWindowShouldClose(window) == 0 )
+    {
         // Clear the screen. It's not mentioned before Tutorial 02, but it can cause flickering, so it's there nonetheless.
         glClear( GL_COLOR_BUFFER_BIT );
-
-        // Draw nothing, see you in tutorial 2 !
 
 
         // Swap buffers
@@ -68,8 +61,6 @@ int main()
         glfwPollEvents();
 
     } // Check if the ESC key was pressed or the window was closed
-    while( glfwGetKey(window, GLFW_KEY_ESCAPE ) != GLFW_PRESS &&
-           glfwWindowShouldClose(window) == 0 );
 
     // Close OpenGL window and terminate GLFW
     glfwTerminate();
