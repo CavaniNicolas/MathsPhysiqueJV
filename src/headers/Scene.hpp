@@ -2,7 +2,7 @@
 
 #include <vector>
 //#include <mutex>
-#include "Particle.hpp"
+#include "Projectile.hpp"
 
 class Scene 
 {
@@ -15,6 +15,7 @@ private:
 public:
 	//Constructors
 	Scene(std::vector<Particle*> particles = {});
+	Scene(std::vector<Projectile*> projectiles);
 	Scene(const Scene& other);
 
 	//Assignation

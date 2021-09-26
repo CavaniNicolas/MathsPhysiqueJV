@@ -21,8 +21,8 @@ private:
 
 public:
 	//Constructors
-	Particle(Vector3D position, Vector3D velocity, Vector3D acceleration, float mass = 1, float damping = 0.999, float g = 10);
-	Particle(Vector3D position, Vector3D velocity, std::vector<Vector3D> forces = {}, float mass = 1, float damping = 0.999, float g = 10);
+	//Particle(Vector3D position, Vector3D velocity, Vector3D acceleration, float mass = 1, float g = 10, float damping = 0.999);
+	Particle(Vector3D position, Vector3D velocity, std::vector<Vector3D> forces = {}, float mass = 1, float g = 10, float damping = 0.999);
 	Particle();
 	Particle(const Particle& other);
 	
@@ -45,10 +45,11 @@ public:
 	void setPosition(Vector3D position);
 	void setVelocity(Vector3D velocity);
 	void setAcceleration(Vector3D acceleration);
+	//void setAcceleration(Vector3D acceleration);
 	void addForce(Vector3D force);
 	void setForces(std::vector<Vector3D> forces);
 	
-	void integrate();
+	virtual void integrate();
 
 	friend std::ostream& operator<<(std::ostream& out, Particle const& particle);
 };

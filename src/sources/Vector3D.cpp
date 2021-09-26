@@ -1,6 +1,8 @@
 
 #include <cmath>
-#include "Vector3D.hpp"
+#include <iostream>
+#include <regex>
+#include "../headers/Vector3D.hpp"
 
 //Constructors
 Vector3D::Vector3D(float x, float y, float z)
@@ -119,6 +121,32 @@ Vector3D& Vector3D::operator^=(const float scalar) {
 //Other methods
 float Vector3D::getNorm() const {
 	return sqrt(pow(m_x, 2) + pow(m_y, 2) + pow(m_z, 2));
+}
+
+Vector3D Vector3D::normalize() const {
+	return *this / getNorm();
+}
+
+Vector3D Vector3D::getVectorInput() {
+	std::string strVector;
+	while (1) {
+		std::cin >> strVector;
+		if (std::regex_match(strVector, std::regex("\\((-?[0-9]+(.[0-9])?),(-?[0-9]+(.[0-9])?),(-?[0-9]+(.[0-9])?)\\)"))) {
+			std::smatch matches;
+			if (regex_search(strVector, matches, std::regex("\\((-?[0-9]+(.[0-9])?),(-?[0-9]+(.[0-9])?),(-?[0-9]+(.[0-9])?)\\)")) == true) {
+				float x = std::stof(matches[1]);
+				float y = std::stof(matches[3]);
+				float z = std::stof(matches[5]);
+				Vector3D vector = Vector3D(x, y, z);
+				return vector;
+			}
+		}
+		else {
+			std::cout << "Please respect the format (x,y,z). Input your vector: ";
+			continue;
+		}
+	}
+	
 }
 
 std::ostream& operator<<(std::ostream& out, Vector3D const& vector) {

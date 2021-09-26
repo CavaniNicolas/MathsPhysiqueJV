@@ -1,7 +1,13 @@
-#include "Scene.hpp"
+#include "../headers/Scene.hpp"
 
 Scene::Scene(std::vector<Particle*> particles) {
 	m_particles = particles;
+}
+
+Scene::Scene(std::vector<Projectile*> projectiles) {
+	for (Projectile* projectile : projectiles) {
+		m_particles.push_back(projectile);
+	}
 }
 
 Scene::Scene(const Scene& other) {

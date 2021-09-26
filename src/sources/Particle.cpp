@@ -1,22 +1,22 @@
-
-#include "Particle.hpp"
+#include "../headers/Particle.hpp"
 
 //Constructors
-Particle::Particle(Vector3D position, Vector3D velocity, Vector3D acceleration, float mass, float damping, float g) {
+//Particle::Particle(Vector3D position, Vector3D velocity, Vector3D acceleration, float mass, float g, float damping) {
+//	m_position = position;
+//	m_velocity = velocity;
+//	m_acceleration = acceleration;
+//	m_inverseMass = 1 / mass;
+//	m_damping = damping;
+//	m_g = g;
+//	m_gravityForce = Vector3D(0, -m_g, 0);
+//
+//	m_lastIntegrationTime = 0;
+//}
+
+Particle::Particle(Vector3D position, Vector3D velocity, std::vector<Vector3D> forces, float mass, float g, float damping) {
 	m_position = position;
 	m_velocity = velocity;
-	m_acceleration = acceleration;
-	m_inverseMass = 1 / mass;
-	m_damping = damping;
-	m_g = g;
-	m_gravityForce = Vector3D(0, -m_g, 0);
-
-	m_lastIntegrationTime = 0;
-}
-
-Particle::Particle(Vector3D position, Vector3D velocity, std::vector<Vector3D> forces, float mass, float damping, float g) {
-	m_position = position;
-	m_velocity = velocity;
+	m_acceleration = Vector3D();
 	m_forces = forces;
 	m_inverseMass = 1 / mass;
 	m_damping = damping;
@@ -27,11 +27,11 @@ Particle::Particle(Vector3D position, Vector3D velocity, std::vector<Vector3D> f
 }
 
 Particle::Particle(): 
-    Particle::Particle(Vector3D(), Vector3D(), Vector3D())
+	Particle::Particle(Vector3D(), Vector3D())
 {}
 
 Particle::Particle(const Particle& other): 
-    Particle::Particle(other.m_position, other.m_velocity, other.m_acceleration, other.m_inverseMass, other.m_damping, other.m_g)
+    Particle::Particle(other.m_position, other.m_velocity, other.m_forces, other.getMass(), other.m_g, other.m_damping)
 {}
 
 //Assignation
@@ -132,12 +132,14 @@ void Particle::integrate() {
                             m_position.getZ() + deltaT * m_velocity.getZ() + powTerm * m_acceleration.getZ());
 
 		//Resulting acceleration calculation
-		Vector3D forces_sum = Vector3D();
+		Vector3D forcesSum = Vector3D();
 		for (Vector3D force : m_forces) {
-			forces_sum += force;
+			forcesSum += force;
 		}
-		m_acceleration = forces_sum * m_inverseMass;
-		m_acceleration += m_gravityForce;
+		forcesSum *= m_inverseMass;
+		forcesSum += m_gravityForce;
+
+		setAcceleration(forcesSum);
 
 		//Velocity update
 		m_velocity.setCoord(m_velocity.getX() * pow(m_damping, deltaT) + deltaT * m_acceleration.getX(),
@@ -151,8 +153,12 @@ void Particle::integrate() {
 }
 
 std::ostream& operator<<(std::ostream& out, Particle const& particle) {
-	out << "Position : "		<< particle.m_position		<< ", "
-		<< "Velocity : "		<< particle.m_velocity		<< ", "
-		<< "Acceleration : "	<< particle.m_acceleration;
+	out << "Position : " << particle.m_position << ", "
+		<< "Velocity : " << particle.m_velocity;// << ", "
+		//<< "Acceleration : "	<< particle.m_acceleration	<< ", "
+		//<< "Forces : ";
+	//for (Vector3D force : particle.m_forces) {
+	//	out << force << " ";
+	//}
 	return out;
 }

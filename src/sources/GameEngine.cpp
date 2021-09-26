@@ -1,5 +1,5 @@
 #include <Windows.h>
-#include "GameEngine.hpp"
+#include "../headers/GameEngine.hpp"
 
 GameEngine::GameEngine(Scene scene, int desiredFrameRate) {
 	m_scene = scene;
@@ -45,7 +45,7 @@ void GameEngine::gameLoop() {
 	while (!m_stop) {
 		if (m_running) {
 			m_scene.integrateAll();
-			//std::cout << m_scene.getParticlesSynchronized()[0] << std::endl;
+			//std::cout << m_scene.getParticles()[0] << std::endl;
 
 			float endTime = static_cast<float>(clock()) / CLOCKS_PER_SEC;
 			if (endTime < desiredEndTime) {

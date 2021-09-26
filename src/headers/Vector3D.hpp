@@ -48,6 +48,8 @@ public:
 
 	//Other methods
 	float getNorm() const;
+	Vector3D normalize() const;
+	static Vector3D getVectorInput();
 
 	friend std::ostream& operator<<(std::ostream& out, Vector3D const& vector);
 };
