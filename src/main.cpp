@@ -144,6 +144,7 @@ int main()
 
     GLCall(glfwSetWindowPos(window, 450, 100));
 
+    GLCall(glfwSwapInterval(1));
 
     // Initialize GLEW (important to be after glfwMakeContextCurrent() )
     if (glewInit() != GLEW_OK) {
@@ -193,9 +194,17 @@ int main()
 //    std::cout << source.VertexSource << std::endl;
 //    std::cout << "FRAGMENT SHADER :" << std::endl;
 //    std::cout << source.FragmentSource << std::endl;
-
     unsigned int shader = CreateShader(source.VertexSource, source.FragmentSource);
     GLCall(glUseProgram(shader));
+
+    // retrieve uniform location
+    GLCall(int location = glGetUniformLocation(shader, "u_Color"));
+    ASSERT(location != -1); // just to check for errors
+    // set the uniform values
+    GLCall(glUniform4f(location, 1.0f, 1.0f, 0.0f, 1.0f));
+
+    float r = 0.0f;
+    float increment = 0.05f;
 
     while( glfwGetKey(window, GLFW_KEY_ESCAPE ) != GLFW_PRESS &&
            glfwWindowShouldClose(window) == 0 )
@@ -203,8 +212,16 @@ int main()
         // Clear the screen. It's not mentioned before Tutorial 02, but it can cause flickering, so it's there nonetheless.
         GLCall(glClear( GL_COLOR_BUFFER_BIT ));
 
+        GLCall(glUniform4f(location, r, 0.3f, 0.8f, 1.0f));
         // Draw whats on the currently bound buffer
         GLCall(glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr)); // unsigned is important !
+
+        if (r > 1.0f)
+            increment = -0.05f;
+        else if (r < 0.0f)
+            increment = 0.05f;
+
+        r += increment;
 
         // Swap buffers
         GLCall(glfwSwapBuffers(window));
