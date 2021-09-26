@@ -146,9 +146,9 @@ int main()
     }
     glfwMakeContextCurrent(window);
 
-    GLCall(glfwSetWindowPos(window, 450, 100));
+    glfwSetWindowPos(window, 450, 100);
 
-    GLCall(glfwSwapInterval(1));
+    glfwSwapInterval(1);
 
     // Initialize GLEW (important to be after glfwMakeContextCurrent() )
     if (glewInit() != GLEW_OK) {
@@ -161,7 +161,7 @@ int main()
     std::cout << glGetString(GL_VERSION) << std::endl;
 
     // Ensure we can capture the escape key being pressed below
-    GLCall(glfwSetInputMode(window, GLFW_STICKY_KEYS, GL_TRUE));
+    glfwSetInputMode(window, GLFW_STICKY_KEYS, GL_TRUE);
 
     // Dark blue background
     GLCall(glClearColor(0.0f, 0.0f, 0.4f, 0.0f));
@@ -251,15 +251,15 @@ int main()
         r += increment;
 
         // Swap buffers
-        GLCall(glfwSwapBuffers(window));
-        GLCall(glfwPollEvents());
+        glfwSwapBuffers(window);
+        glfwPollEvents();
 
     } // Check if the ESC key was pressed or the window was closed
 
     GLCall(glDeleteProgram(shader));
 
     // Close OpenGL window and terminate GLFW
-    GLCall(glfwTerminate());
+    glfwTerminate();
 
     return 0;
 }
