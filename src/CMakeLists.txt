@@ -11,10 +11,16 @@ set(MP_LINK_LIBS
 set(SOURCES
         main.cpp
         Vector3D.cpp
+        Render/IndexBuffer.cpp
+        Render/Renderer.cpp
+        Render/VertexBuffer.cpp
 )
 
 set(HEADERS
         Vector3D.hpp
+        Render/IndexBuffer.hpp
+        Render/Renderer.hpp
+        Render/VertexBuffer.hpp
 )
 
 #add_definitions(
