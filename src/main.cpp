@@ -132,8 +132,8 @@ int main()
 
     GLFWwindow* window;
 
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 6);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
     // Open a window and create its OpenGL context
@@ -157,6 +157,8 @@ int main()
         glfwTerminate();
         return -1;
     }
+
+    std::cout << glGetString(GL_VERSION) << std::endl;
 
     // Ensure we can capture the escape key being pressed below
     GLCall(glfwSetInputMode(window, GLFW_STICKY_KEYS, GL_TRUE));
