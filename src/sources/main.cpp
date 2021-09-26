@@ -8,15 +8,14 @@
 #include "../headers/GameEngine.hpp"
 
 
-void startEngineWithParticle(Particle* particle) {
+void startEngineWithParticle(Particle* particle, float duration) {
 	Scene scene = Scene({ particle });
 	GameEngine gameEngine = GameEngine(scene);
 
 	gameEngine.run();
 
-	float simulationTime = 10;
 	float time = static_cast<float>(clock()) / CLOCKS_PER_SEC;
-	float simulationEndTime = time + simulationTime;
+	float simulationEndTime = time + duration;
 
 	while (time < simulationEndTime) {
 		std::vector<Particle> particles = gameEngine.getParticles();
@@ -41,9 +40,7 @@ int main() {
 		std::string projectileType;
 		std::cout << "Your choice: ";
 		std::cin >> projectileType;
-		std::cout << std::endl;
 		std::transform(projectileType.begin(), projectileType.end(), projectileType.begin(), tolower);
-		std::cout << projectileType << std::endl;
 		if (projectileType == "laser") {
 			projectile = new Laser();
 		}
@@ -62,11 +59,35 @@ int main() {
 		Vector3D initialPosition = Vector3D::getVectorInput();
 		projectile->setPosition(initialPosition);
 
-
 		std::cout << "Chose the direction of your shoot (example: (10,-2,6.5) ): ";
 		Vector3D direction = Vector3D::getVectorInput();
 		projectile->setDirection(direction);
 
-		startEngineWithParticle(projectile);
+		std::cout << "Chose the simulation duration (in seconds): ";
+		std::string timeStr;
+		
+		float duration;
+		while (1) {
+			try {
+				std::cin >> timeStr;
+
+				duration = std::stof(timeStr);
+
+				if (duration <= 1) {
+					std::cout << "Please enter a time greater than 1 second, otherwise you won't see any print" << std::endl;
+					std::cout << "Your new choice: ";
+				}
+				else {
+					//We have a valid duration
+					break;
+				}
+			}
+			catch (std::invalid_argument) {
+				std::cout << "Please enter a float value (for example 10, or 9.6)" << std::endl;
+				std::cout << "Your new choice: ";
+			}
+		}
+
+		startEngineWithParticle(projectile, duration);
 	}
 }
