@@ -132,6 +132,10 @@ int main()
 
     GLFWwindow* window;
 
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+    glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+
     // Open a window and create its OpenGL context
     window = glfwCreateWindow(1024, 768, "Moteur Physique", NULL, NULL);
     if( window == NULL ){
@@ -174,7 +178,12 @@ int main()
         2, 3, 0
     };
 
-    // Give OpenGL the data (the vertex buffer)
+    // bind the vertex array object
+    unsigned int vao;
+    GLCall(glGenVertexArrays(1, &vao));
+    GLCall(glBindVertexArray(vao));
+
+    // bind the vertex buffer
     unsigned int buffer;
     GLCall(glGenBuffers(1, &buffer));
     GLCall(glBindBuffer(GL_ARRAY_BUFFER, buffer));
@@ -182,6 +191,7 @@ int main()
 
     // specify the vertex layout
     GLCall(glEnableVertexAttribArray(0));
+    // index 0 of the vertex array will be bound to the currently bound GL_ARRAY_BUFFER (it links the buffer with the vao)
     GLCall(glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(float), 0));
 
     // give the index buffer to the gpu
@@ -204,6 +214,12 @@ int main()
     // set the uniform values
     GLCall(glUniform4f(location, 1.0f, 1.0f, 0.0f, 1.0f));
 
+    // unbounds everything
+    GLCall(glBindVertexArray(0));
+    GLCall(glUseProgram(0));
+    GLCall(glBindBuffer(GL_ARRAY_BUFFER, 0));
+    GLCall(glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0));
+
     float r = 0.0f;
     float increment = 0.05f;
 
@@ -213,7 +229,15 @@ int main()
         // Render Here
         GLCall(glClear( GL_COLOR_BUFFER_BIT ));
 
+        // bind the shader
+        GLCall(glUseProgram(shader));
         GLCall(glUniform4f(location, r, 0.3f, 0.8f, 1.0f));
+
+        // bind the vertex array (same as binding the buffer and seting up its layout)
+        GLCall(glBindVertexArray(vao));
+        // bind the index buffer
+        GLCall(glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo));
+
         // Draw whats on the currently bound buffer
         GLCall(glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr)); // unsigned is important !
 
