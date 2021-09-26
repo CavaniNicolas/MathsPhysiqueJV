@@ -180,6 +180,7 @@ int main()
     GLCall(glBindBuffer(GL_ARRAY_BUFFER, buffer));
     GLCall(glBufferData(GL_ARRAY_BUFFER, 6 * 2 * sizeof(float), positions, GL_STATIC_DRAW));
 
+    // specify the vertex layout
     GLCall(glEnableVertexAttribArray(0));
     GLCall(glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(float), 0));
 
@@ -209,7 +210,7 @@ int main()
     while( glfwGetKey(window, GLFW_KEY_ESCAPE ) != GLFW_PRESS &&
            glfwWindowShouldClose(window) == 0 )
     {
-        // Clear the screen. It's not mentioned before Tutorial 02, but it can cause flickering, so it's there nonetheless.
+        // Render Here
         GLCall(glClear( GL_COLOR_BUFFER_BIT ));
 
         GLCall(glUniform4f(location, r, 0.3f, 0.8f, 1.0f));
