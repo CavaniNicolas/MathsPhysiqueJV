@@ -1,4 +1,4 @@
-#include "../headers/Bullet.hpp"
+#include "Bullet.hpp"
 
 Bullet::Bullet() : Projectile()
 {

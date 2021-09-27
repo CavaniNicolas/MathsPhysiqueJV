@@ -1,4 +1,4 @@
-#include "../headers/Particle.hpp"
+#include "Particle.hpp"
 
 //Constructors
 //Particle::Particle(Vector3D position, Vector3D velocity, Vector3D acceleration, float mass, float g, float damping) {

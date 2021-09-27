@@ -2,7 +2,7 @@
 #include <cmath>
 #include <iostream>
 #include <regex>
-#include "../headers/Vector3D.hpp"
+#include "Vector3D.hpp"
 
 //Constructors
 Vector3D::Vector3D(float x, float y, float z)

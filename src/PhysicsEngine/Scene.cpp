@@ -1,4 +1,4 @@
-#include "../headers/Scene.hpp"
+#include "Scene.hpp"
 
 Scene::Scene(std::vector<Particle*> particles) {
 	m_particles = particles;

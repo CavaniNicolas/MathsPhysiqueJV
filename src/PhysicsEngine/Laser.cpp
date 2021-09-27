@@ -1,4 +1,4 @@
-#include "../headers/Laser.hpp"
+#include "Laser.hpp"
 
 Laser::Laser() : Projectile()
 {

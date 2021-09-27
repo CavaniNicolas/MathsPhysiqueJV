@@ -2,10 +2,10 @@
 #include <string>
 #include <algorithm>
 #include <Windows.h>
-#include "../headers/Fireball.hpp"
-#include "../headers/Bullet.hpp"
-#include "../headers/Laser.hpp"
-#include "../headers/GameEngine.hpp"
+#include "PhysicsEngine/Fireball.hpp"
+#include "PhysicsEngine/Bullet.hpp"
+#include "PhysicsEngine/Laser.hpp"
+#include "PhysicsEngine/GameEngine.hpp"
 
 
 void startEngineWithParticle(Particle* particle, float duration) {

@@ -1,5 +1,5 @@
 #include <Windows.h>
-#include "../headers/GameEngine.hpp"
+#include "GameEngine.hpp"
 
 GameEngine::GameEngine(Scene scene, int desiredFrameRate) {
 	m_scene = scene;

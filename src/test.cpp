@@ -1,10 +1,10 @@
 #include <iostream>
 #include <Windows.h>
 
-#include "../headers/GameEngine.hpp"
-#include "../headers/Fireball.hpp"
-#include "../headers/Laser.hpp"
-#include "../headers/Bullet.hpp"
+#include "PhysicsEngine/GameEngine.hpp"
+#include "PhysicsEngine/Fireball.hpp"
+#include "PhysicsEngine/Laser.hpp"
+#include "PhysicsEngine/Bullet.hpp"
 
 int main()
 {
