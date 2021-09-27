@@ -4,11 +4,23 @@ This project aims to simulate basic physics principles.
 This first part is about simple particles' behaviors, and you will be able to shoot three types of particles
 with their specific attributes, and see their evolution in space.
 
-# Configuration
 
+## Build Guide
 
+Download the latest version of the project
 
-# User Guide
+Download the required thirdparty libraries :
+
+- [ ] [glfw sources (3.3.4)](https://github.com/glfw/glfw)
+- [ ] [glew sources (2.2.0)](https://github.com/nigels-com/glew)
+
+Extract those libs and place them in the **thirdparty** directory of the project named as follow:
+thirdparty/glew-2.2.0
+thirdparty/glfw-3.3.4
+
+Go to your build dir and compile the source using the root CMakeLists.txt
+
+## User Guide
 
 Once the executable is started, you will be asked many questions that you should answer in the console directly.
 
