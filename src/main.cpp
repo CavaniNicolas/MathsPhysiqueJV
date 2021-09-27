@@ -101,6 +101,8 @@ int main()
         ib.unbind();
         shader.unbind();
 
+        Renderer renderer;
+
         float r = 0.0f;
         float increment = 0.05f;
 
@@ -108,16 +110,13 @@ int main()
                glfwWindowShouldClose(window) == 0 )
         {
             // Render Here
-            GLCall(glClear( GL_COLOR_BUFFER_BIT ));
+            renderer.clear();
 
             // bind the shader and set the uniform values
             shader.bind();
             shader.setUniforms4f("u_Color", r, 0.3f, 0.8f, 1.0f);
 
-            // bind the vertex array (same as binding the buffer and seting up its layout)
-            va.bind();
-            // bind the index buffer
-            ib.bind();
+            renderer.draw(va, ib, shader);
 
             // Draw whats on the currently bound buffer
             GLCall(glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr)); // unsigned is important !
