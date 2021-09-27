@@ -101,18 +101,20 @@ int main()
 
         // set minimum left and right and maximum left and right values on the screen
         glm::mat4 proj = glm::ortho(0.0f, 960.0f, 0.0f, 540.0f, -1.0f, 1.0f);
+        // moving the camera to the right (actually moving everything to the left)
+        glm::mat4 view = glm::translate(glm::mat4(1.0f), glm::vec3(-100, 0, 0));
+        // moving the model up right
+        glm::mat4 model = glm::translate(glm::mat4(1.0f), glm::vec3(200, 200, 0));
 
-//        // back to values in -1.0f, 1.0f screen and print them
-//        glm::vec4 vp(100.0f, 100.0f, 0.0f, 1.0f);
-//        glm::vec4 results = proj * vp;
-//        std::cout << results[0] << " " << results[1] << " " << results[2] << " " << results[3] << std::endl;
+        // model view projection matrix
+        glm::mat4 mvp = proj * view * model;
 
         Shader shader("res/shaders/basic.shader");
         shader.bind();
         // set the uniform values
         shader.setUniforms4f("u_Color", 1.0f, 1.0f, 0.0f, 1.0f);
         // give the proj matrix to the shader
-        shader.setUniformsMat4f("u_MVP", proj);
+        shader.setUniformsMat4f("u_MVP", mvp);
 
         Texture texture("res/textures/fire_texture.jpg");
         texture.bind(); // bind parameter is 0 by default
