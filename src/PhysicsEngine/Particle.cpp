@@ -123,7 +123,7 @@ void Particle::integrate() {
 	if (m_lastIntegrationTime != 0) {
 		clock_t currentTime = clock();
 	
-        double deltaT = (float)(currentTime - m_lastIntegrationTime) / CLOCKS_PER_SEC;
+        float deltaT = (float)(currentTime - m_lastIntegrationTime) / CLOCKS_PER_SEC;
 
 		//Position update
         float powTerm = 0.5 * pow(deltaT, 2);
