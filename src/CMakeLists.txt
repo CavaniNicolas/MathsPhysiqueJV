@@ -14,8 +14,10 @@ set(SOURCES
         Render/IndexBuffer.cpp
         Render/Renderer.cpp
         Render/Shader.cpp
+        Render/Texture.cpp
         Render/VertexArray.cpp
         Render/VertexBuffer.cpp
+        stb_image/stb_image.cpp
 )
 
 set(HEADERS
@@ -23,9 +25,11 @@ set(HEADERS
         Render/IndexBuffer.hpp
         Render/Renderer.hpp
         Render/Shader.hpp
+        Render/Texture.hpp
         Render/VertexArray.hpp
         Render/VertexBuffer.hpp
         Render/VertexBufferLayout.hpp
+        stb_image/stb_image.h
 )
 
 #add_definitions(
