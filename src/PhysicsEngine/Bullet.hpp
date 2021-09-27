@@ -2,8 +2,8 @@
 
 #include "Projectile.hpp"
 
-class Bullet : public Projectile {
-private:
+class Bullet : public Projectile
+{
 public:
 	Bullet();
 

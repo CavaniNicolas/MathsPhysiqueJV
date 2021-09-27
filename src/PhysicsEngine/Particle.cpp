@@ -1,29 +1,29 @@
 #include "Particle.hpp"
 
-//Constructors
-//Particle::Particle(Vector3D position, Vector3D velocity, Vector3D acceleration, float mass, float g, float damping) {
-//	m_position = position;
-//	m_velocity = velocity;
-//	m_acceleration = acceleration;
-//	m_inverseMass = 1 / mass;
-//	m_damping = damping;
-//	m_g = g;
-//	m_gravityForce = Vector3D(0, -m_g, 0);
-//
-//	m_lastIntegrationTime = 0;
+//// Constructors
+//Particle::Particle(Vector3D position, Vector3D velocity, Vector3D acceleration, float mass, float g, float damping):
+//    m_position(position),
+//    m_velocity(velocity),
+//    m_acceleration(acceleration),
+//    m_inverseMass(1 / mass),
+//    m_damping(damping),
+//    m_g(g),
+//    m_gravityForce(Vector3D(0, -m_g, 0)),
+//    m_lastIntegrationTime(0)
+//{
 //}
 
-Particle::Particle(Vector3D position, Vector3D velocity, std::vector<Vector3D> forces, float mass, float g, float damping) {
-	m_position = position;
-	m_velocity = velocity;
-	m_acceleration = Vector3D();
-	m_forces = forces;
-	m_inverseMass = 1 / mass;
-	m_damping = damping;
-	m_g = g;
-	m_gravityForce = Vector3D(0, -m_g, 0);
-
-	m_lastIntegrationTime = 0;
+Particle::Particle(Vector3D position, Vector3D velocity, std::vector<Vector3D> forces, float mass, float g, float damping):
+    m_position(position),
+    m_velocity(velocity),
+    m_acceleration(Vector3D()),
+    m_forces(forces),
+    m_inverseMass(1 / mass),
+    m_damping(damping),
+    m_g(g),
+    m_gravityForce(Vector3D(0, -m_g, 0)),
+    m_lastIntegrationTime(0)
+{
 }
 
 Particle::Particle(): 

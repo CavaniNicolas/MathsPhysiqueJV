@@ -1,26 +1,26 @@
 set(MP_EXE_NAME MathsPhysique)
 
 set(SOURCES
-        main.cpp
-        "PhysicsEngine/Particle.cpp"
-        "PhysicsEngine/Vector3D.cpp"
-        "PhysicsEngine/Scene.cpp"
-        "PhysicsEngine/GameEngine.cpp"
-        "PhysicsEngine/Projectile.cpp"
-        "PhysicsEngine/Bullet.cpp"
-        "PhysicsEngine/Fireball.cpp"
-        "PhysicsEngine/Laser.cpp"
+    main.cpp
+    PhysicsEngine/Bullet.cpp
+    PhysicsEngine/Fireball.cpp
+    PhysicsEngine/GameEngine.cpp
+    PhysicsEngine/Laser.cpp
+    PhysicsEngine/Particle.cpp
+    PhysicsEngine/Projectile.cpp
+    PhysicsEngine/Scene.cpp
+    PhysicsEngine/Vector3D.cpp
 )
 
 set(HEADERS
-        "PhysicsEngine/Particle.hpp"
-        "PhysicsEngine/Vector3D.hpp"
-        "PhysicsEngine/Scene.hpp"
-        "PhysicsEngine/GameEngine.hpp"
-        "PhysicsEngine/Projectile.hpp"
-        "PhysicsEngine/Fireball.hpp"
-        "PhysicsEngine/Bullet.hpp"
-        "PhysicsEngine/Laser.hpp"
+    PhysicsEngine/Bullet.hpp
+    PhysicsEngine/GameEngine.hpp
+    PhysicsEngine/Laser.hpp
+    PhysicsEngine/Projectile.hpp
+    PhysicsEngine/Particle.hpp
+    PhysicsEngine/Fireball.hpp
+    PhysicsEngine/Scene.hpp
+    PhysicsEngine/Vector3D.hpp
 )
 
 add_executable(${MP_EXE_NAME} ${SOURCES} ${HEADERS})

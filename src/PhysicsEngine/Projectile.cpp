@@ -1,25 +1,32 @@
 #include "Projectile.hpp"
 
-Projectile::Projectile() : Particle() {
-	m_damage = 0;
-	m_radius = 1;
-	m_speedFactor = 1;
-}
+Projectile::Projectile(float damage, float radius, float speedFactor):
+    Particle(),
+    m_damage(damage),
+    m_radius(radius),
+    m_speedFactor(speedFactor)
+{}
+
+Projectile::Projectile():
+    Particle(),
+    m_damage(0),
+    m_radius(1),
+    m_speedFactor(1)
+{}
 
 Projectile::Projectile(Vector3D initialPosition, Vector3D direction, float speedFactor, float mass,
-	float damage, float radius, float g, float damping) :
-	Particle(initialPosition, Vector3D(direction.normalize() * speedFactor), { }, mass, g, damping)
-{
-	m_speedFactor = speedFactor;
-	m_damage = damage;
-	m_direction = direction;
-	m_radius = radius;
-}
+        float damage, float radius, float g, float damping):
+    Particle::Particle(initialPosition, Vector3D(direction.normalize() * speedFactor), { }, mass, g, damping),
+    m_speedFactor(speedFactor),
+    m_damage(damage),
+    m_direction(direction),
+    m_radius(radius)
+{}
 
 
-Projectile::Projectile(const Projectile& other) : 
-	Projectile(other.getPosition(), other.getDirection(), other.getSpeedFactor(), other.getMass(), other.getDamage(), other.getRadius(), other.getG(), other.getDamping()) 
-{ }
+Projectile::Projectile(const Projectile& other):
+    Projectile::Projectile(other.getPosition(), other.getDirection(), other.getSpeedFactor(), other.getMass(), other.getDamage(), other.getRadius(), other.getG(), other.getDamping())
+{}
 
 float Projectile::getDamage() const {
 	return m_damage;

@@ -8,9 +8,9 @@ class Particle
 {
 private:
 	float m_inverseMass;
-	float m_damping;
-	float m_g;
-	Vector3D m_gravityForce;
+    float m_damping;
+    float m_g;
+    Vector3D m_gravityForce;
 
 	Vector3D m_position;
 	Vector3D m_velocity;

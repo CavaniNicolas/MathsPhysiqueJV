@@ -1,8 +1,9 @@
+
 #include "Scene.hpp"
 
-Scene::Scene(std::vector<std::shared_ptr<Particle>> particles) {
-	m_particles = particles;
-}
+Scene::Scene(std::vector<std::shared_ptr<Particle>> particles):
+    m_particles(particles)
+{}
 
 Scene::Scene(std::vector<std::shared_ptr<Projectile>> projectiles)
 {
