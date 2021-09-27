@@ -13,6 +13,7 @@ set(SOURCES
         Vector3D.cpp
         Render/IndexBuffer.cpp
         Render/Renderer.cpp
+        Render/VertexArray.cpp
         Render/VertexBuffer.cpp
 )
 
@@ -20,7 +21,9 @@ set(HEADERS
         Vector3D.hpp
         Render/IndexBuffer.hpp
         Render/Renderer.hpp
+        Render/VertexArray.hpp
         Render/VertexBuffer.hpp
+        Render/VertexBufferLayout.hpp
 )
 
 #add_definitions(

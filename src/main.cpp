@@ -14,6 +14,7 @@
 
 #include <Render/IndexBuffer.hpp>
 #include <Render/Renderer.hpp>
+#include <Render/VertexArray.hpp>
 #include <Render/VertexBuffer.hpp>
 
 struct ShaderProgramSource
@@ -160,18 +161,14 @@ int main()
             2, 3, 0
         };
 
-        // bind the vertex array object
-        unsigned int vao;
-        GLCall(glGenVertexArrays(1, &vao));
-        GLCall(glBindVertexArray(vao));
-
+        // create (and bind) the vertex array object
+        VertexArray va;
         // create (and bind) the vertex buffer
         VertexBuffer vb(positions, 6 * 2 * sizeof(float));
 
-        // specify the vertex layout
-        GLCall(glEnableVertexAttribArray(0));
-        // index 0 of the vertex array will be bound to the currently bound GL_ARRAY_BUFFER (it links the buffer with the vao)
-        GLCall(glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(float), 0));
+        VertexBufferLayout layout;
+        layout.push<float>(2);
+        va.addBuffer(vb, layout);
 
         // create (and bind) the index buffer
         IndexBuffer ib(indices, 6);
@@ -191,10 +188,10 @@ int main()
         GLCall(glUniform4f(location, 1.0f, 1.0f, 0.0f, 1.0f));
 
         // unbounds everything
-        GLCall(glBindVertexArray(0));
+        va.unbind();
         GLCall(glUseProgram(0));
-        GLCall(glBindBuffer(GL_ARRAY_BUFFER, 0));
-        GLCall(glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0));
+        vb.unbind();
+        ib.unbind();
 
         float r = 0.0f;
         float increment = 0.05f;
@@ -210,7 +207,7 @@ int main()
             GLCall(glUniform4f(location, r, 0.3f, 0.8f, 1.0f));
 
             // bind the vertex array (same as binding the buffer and seting up its layout)
-            GLCall(glBindVertexArray(vao));
+            va.bind();
             // bind the index buffer
             ib.bind();
 
