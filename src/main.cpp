@@ -79,6 +79,9 @@ int main()
             2, 3, 0
         };
 
+        GLCall(glEnable(GL_BLEND));
+        GLCall(glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA));
+
         // create (and bind) the vertex array object
         VertexArray va;
         // create (and bind) the vertex buffer
