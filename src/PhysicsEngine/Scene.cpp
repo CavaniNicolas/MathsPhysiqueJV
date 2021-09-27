@@ -4,22 +4,23 @@ Scene::Scene(std::vector<std::shared_ptr<Particle>> particles) {
 	m_particles = particles;
 }
 
-Scene::Scene(std::vector<std::shared_ptr<Projectile>> projectiles) {
-	for (std::shared_ptr<Projectile> projectile : projectiles) {
+Scene::Scene(std::vector<std::shared_ptr<Projectile>> projectiles)
+{
+    for (auto const& projectile : projectiles) {
 		m_particles.push_back(projectile);
 	}
 }
 
 Scene::Scene(const Scene& other) {
 	std::vector<Particle> otherParticles = other.getParticles();
-	for (Particle particle : otherParticles) {
+    for (auto const& particle : otherParticles) {
 		m_particles.push_back(std::shared_ptr<Particle>(new Particle(particle)));
 	}
 }
 
 Scene& Scene::operator=(const Scene& other) {
 	std::vector<Particle> otherParticles = other.getParticles();
-	for (Particle particle : otherParticles) {
+    for (auto const& particle : otherParticles) {
 		m_particles.push_back(std::shared_ptr<Particle>(new Particle(particle)));
 	}
 	return *this;
@@ -27,7 +28,7 @@ Scene& Scene::operator=(const Scene& other) {
 
 std::vector<Particle> Scene::getParticles() const {
 	std::vector<Particle> ret;
-	for (std::shared_ptr<Particle> particle : m_particles) {
+    for (auto const& particle : m_particles) {
 		ret.push_back(*particle);
 	}
 	return ret;
