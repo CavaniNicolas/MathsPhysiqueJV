@@ -17,7 +17,7 @@ set(SOURCES
         Render/Texture.cpp
         Render/VertexArray.cpp
         Render/VertexBuffer.cpp
-        stb_image/stb_image.cpp
+        vendor/stb_image/stb_image.cpp
 )
 
 set(HEADERS
@@ -29,7 +29,7 @@ set(HEADERS
         Render/VertexArray.hpp
         Render/VertexBuffer.hpp
         Render/VertexBufferLayout.hpp
-        stb_image/stb_image.h
+        vendor/stb_image/stb_image.h
 )
 
 #add_definitions(
@@ -51,6 +51,7 @@ target_include_directories(${MP_EXE_NAME} PUBLIC
         ${CMAKE_CURRENT_SOURCE_DIR}
         ${OPENGL_INCLUDE_DIRS}
         ${MP_INC_DIRS}
+        "vendor"
     >
 )
 

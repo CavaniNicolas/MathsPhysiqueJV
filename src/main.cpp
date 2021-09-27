@@ -13,6 +13,9 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 
+// Include imgui
+#include <imgui/imgui.h>
+
 #include <Render/IndexBuffer.hpp>
 #include <Render/Renderer.hpp>
 #include <Render/Shader.hpp>
