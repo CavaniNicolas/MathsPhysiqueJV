@@ -8,7 +8,7 @@
 #include "PhysicsEngine/GameEngine.hpp"
 
 
-void startEngineWithParticle(Particle* particle, float duration) {
+void startEngineWithParticle(std::shared_ptr<Particle> particle, float duration) {
 	Scene scene = Scene({ particle });
 	GameEngine gameEngine = GameEngine(scene);
 
@@ -30,7 +30,7 @@ void startEngineWithParticle(Particle* particle, float duration) {
 }
 
 int main() {
-	Projectile* projectile;
+	std::shared_ptr<Projectile> projectile;
 
 	while (1) {
 		std::cout << "There's 3 projectile types you can shoot. Which one do you want to use ?" << std::endl;
@@ -42,13 +42,13 @@ int main() {
 		std::cin >> projectileType;
 		std::transform(projectileType.begin(), projectileType.end(), projectileType.begin(), tolower);
 		if (projectileType == "laser") {
-			projectile = new Laser();
+			projectile = std::shared_ptr<Projectile>(new Laser());
 		}
 		else if (projectileType == "bullet") {
-			projectile = new Bullet();
+			projectile = std::shared_ptr<Projectile>(new Bullet());
 		}
 		else if (projectileType == "fireball") {
-			projectile = new Fireball();
+			projectile = std::shared_ptr<Projectile>(new Fireball());
 		}
 		else {
 			std::cerr << "This is not a valid type of projectile, please try again." << std::endl;
