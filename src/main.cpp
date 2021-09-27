@@ -9,6 +9,10 @@
 // Include GLFW
 #include <GLFW/glfw3.h>
 
+// Include glm
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+
 #include <Render/IndexBuffer.hpp>
 #include <Render/Renderer.hpp>
 #include <Render/Shader.hpp>
@@ -34,7 +38,7 @@ int main()
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
     // Open a window and create its OpenGL context
-    window = glfwCreateWindow(1024, 768, "Moteur Physique", NULL, NULL);
+    window = glfwCreateWindow(960, 540, "Moteur Physique", NULL, NULL);
     if( window == NULL ){
         fprintf( stderr, "Failed to open GLFW window. If you have an Intel GPU, they are not 3.3 compatible. Try the 2.1 version of the tutorials.\n" );
         getchar();
@@ -68,10 +72,10 @@ int main()
         // each line here is a vertex (a vertex is a point that can contain position, texture coordinates, normals, colors ...)
         // here we have got "vertex position"
         float positions[] = {
-            -0.5f, -0.5f, 0.0f, 0.0f, // 0
-             0.5f, -0.5f, 1.0f, 0.0f, // 1
-             0.5f,  0.5f, 1.0f, 1.0f, // 2
-            -0.5f,  0.5f, 0.0f, 1.0f  // 3
+            100.0f, 100.0f, 0.0f, 0.0f, // 0
+            200.0f, 100.0f, 1.0f, 0.0f, // 1
+            200.0f, 200.0f, 1.0f, 1.0f, // 2
+            100.0f, 200.0f, 0.0f, 1.0f  // 3
         };
 
         unsigned int indices[] = {
@@ -95,10 +99,20 @@ int main()
         // create (and bind) the index buffer
         IndexBuffer ib(indices, 6);
 
+        // set minimum left and right and maximum left and right values on the screen
+        glm::mat4 proj = glm::ortho(0.0f, 960.0f, 0.0f, 540.0f, -1.0f, 1.0f);
+
+//        // back to values in -1.0f, 1.0f screen and print them
+//        glm::vec4 vp(100.0f, 100.0f, 0.0f, 1.0f);
+//        glm::vec4 results = proj * vp;
+//        std::cout << results[0] << " " << results[1] << " " << results[2] << " " << results[3] << std::endl;
+
         Shader shader("res/shaders/basic.shader");
         shader.bind();
         // set the uniform values
         shader.setUniforms4f("u_Color", 1.0f, 1.0f, 0.0f, 1.0f);
+        // give the proj matrix to the shader
+        shader.setUniformsMat4f("u_MVP", proj);
 
         Texture texture("res/textures/fire_texture.jpg");
         texture.bind(); // bind parameter is 0 by default
