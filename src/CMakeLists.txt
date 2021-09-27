@@ -17,6 +17,16 @@ set(SOURCES
         Render/Texture.cpp
         Render/VertexArray.cpp
         Render/VertexBuffer.cpp
+
+        vendor/imgui/
+        vendor/imgui/imgui.cpp
+        vendor/imgui/imgui_demo.cpp
+        vendor/imgui/imgui_draw.cpp
+        vendor/imgui/imgui_impl_glfw.cpp
+        vendor/imgui/imgui_impl_opengl3.cpp
+        vendor/imgui/imgui_tables.cpp
+        vendor/imgui/imgui_widgets.cpp
+
         vendor/stb_image/stb_image.cpp
 )
 

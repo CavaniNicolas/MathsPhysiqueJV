@@ -15,6 +15,8 @@
 
 // Include imgui
 #include <imgui/imgui.h>
+#include "imgui/imgui_impl_glfw.h"
+#include "imgui/imgui_impl_opengl3.h"
 
 #include <Render/IndexBuffer.hpp>
 #include <Render/Renderer.hpp>
@@ -106,18 +108,11 @@ int main()
         glm::mat4 proj = glm::ortho(0.0f, 960.0f, 0.0f, 540.0f, -1.0f, 1.0f);
         // moving the camera to the right (actually moving everything to the left)
         glm::mat4 view = glm::translate(glm::mat4(1.0f), glm::vec3(-100, 0, 0));
-        // moving the model up right
-        glm::mat4 model = glm::translate(glm::mat4(1.0f), glm::vec3(200, 200, 0));
-
-        // model view projection matrix
-        glm::mat4 mvp = proj * view * model;
 
         Shader shader("res/shaders/basic.shader");
         shader.bind();
         // set the uniform values
         shader.setUniforms4f("u_Color", 1.0f, 1.0f, 0.0f, 1.0f);
-        // give the proj matrix to the shader
-        shader.setUniformsMat4f("u_MVP", mvp);
 
         Texture texture("res/textures/fire_texture.jpg");
         texture.bind(); // bind parameter is 0 by default
@@ -131,6 +126,22 @@ int main()
 
         Renderer renderer;
 
+        // GL 3.0 + GLSL 130
+        const char* glsl_version = "#version 130";
+
+        // Setup ImGui binding
+        ImGui::CreateContext();
+
+        // Setup Dear ImGui style
+        ImGui::StyleColorsDark();
+        //ImGui::StyleColorsClassic();
+
+        // Setup Platform/Renderer backends
+        ImGui_ImplGlfw_InitForOpenGL(window, true);
+        ImGui_ImplOpenGL3_Init(glsl_version);
+
+        glm::vec3 translation(200, 200, 0);
+
         float r = 0.0f;
         float increment = 0.05f;
 
@@ -140,9 +151,21 @@ int main()
             // Render Here
             renderer.clear();
 
+            // Start the Dear ImGui frame
+            ImGui_ImplOpenGL3_NewFrame();
+            ImGui_ImplGlfw_NewFrame();
+            ImGui::NewFrame();
+
+            // moving the model up right
+            glm::mat4 model = glm::translate(glm::mat4(1.0f), translation);
+            // model view projection matrix
+            glm::mat4 mvp = proj * view * model;
+
             // bind the shader and set the uniform values
             shader.bind();
             shader.setUniforms4f("u_Color", r, 0.3f, 0.8f, 1.0f);
+            // give the proj matrix to the shader
+            shader.setUniformsMat4f("u_MVP", mvp);
 
             renderer.draw(va, ib, shader);
 
@@ -156,6 +179,18 @@ int main()
 
             r += increment;
 
+            // Show a simple window that we create ourselves. We use a Begin/End pair to create a named window.
+            {
+                ImGui::Begin("Hello, world!"); // Create a window called "Hello, world!" and append into it.
+                ImGui::SliderFloat3("translation", &translation.x, 0.0f, 960.0f); // Edit translation.x using a slider from 0.0f to 960.0f
+                ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
+                ImGui::End();
+            }
+
+            // Rendering imgui
+            ImGui::Render();
+            ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+
             // Swap buffers
             glfwSwapBuffers(window);
             glfwPollEvents();
@@ -163,6 +198,11 @@ int main()
         } // Check if the ESC key was pressed or the window was closed
 
     }
+
+    // Cleanup imgui
+    ImGui_ImplOpenGL3_Shutdown();
+    ImGui_ImplGlfw_Shutdown();
+    ImGui::DestroyContext();
 
     // Close OpenGL window and terminate GLFW
     glfwTerminate();
