@@ -77,16 +77,22 @@ int main()
         // each line here is a vertex (a vertex is a point that can contain position, texture coordinates, normals, colors ...)
         // here we have got "vertex position"
         float positions[] =
-        {//     COORDINATES     /  TexCoord  //
-            -50.0f, -50.0f, 0.0f, 0.0f, 0.0f, // 0
-             50.0f, -50.0f, 0.0f, 1.0f, 0.0f, // 1
-             50.0f,  50.0f, 0.0f, 1.0f, 1.0f, // 2
-            -50.0f,  50.0f, 0.0f, 0.0f, 1.0f  // 3
+        {//     COORDINATES      /  TexCoord  //
+            -50.0f, 0.0f,  50.0f, 0.0f, 0.0f, // 0
+            -50.0f, 0.0f, -50.0f, 5.0f, 0.0f, // 1
+             50.0f, 0.0f, -50.0f, 0.0f, 0.0f, // 2
+             50.0f, 0.0f,  50.0f, 5.0f, 0.0f, // 3
+             0.0f,  80.0f, 0.0f,  2.5f, 5.0f  // 4
         };
 
         unsigned int indices[] = {
             0, 1, 2,
-            2, 3, 0
+            2, 3, 0,
+            0, 2, 3,
+            0, 1, 4,
+            1, 2, 4,
+            2, 3, 4,
+            3, 0, 4
         };
 
         GLCall(glEnable(GL_BLEND));
@@ -95,7 +101,7 @@ int main()
         // create (and bind) the vertex array object
         VertexArray va;
         // create (and bind) the vertex buffer
-        VertexBuffer vb(positions, 5 * 4 * sizeof(float));
+        VertexBuffer vb(positions, 5 * 5 * sizeof(float));
 
         VertexBufferLayout layout;
         layout.push<float>(3);
@@ -153,10 +159,18 @@ int main()
         float r = 0.0f;
         float increment = 0.05f;
 
+        // Variables that help the rotation of the pyramid
+        float rotation = 0.0f;
+        double prevTime = glfwGetTime();
+
+        // Enables the depth buffer (to properly render texture on 3d objects) (this implies to clear GL_DEPTH_BUFFER_BIT in Renderer::clear();)
+        GLCall(glEnable(GL_DEPTH_TEST));
+
         while( glfwGetKey(window, GLFW_KEY_ESCAPE ) != GLFW_PRESS &&
                glfwWindowShouldClose(window) == 0 )
         {
             // Render Here
+            // Clean the back buffer and depth buffer
             renderer.clear();
 
             // Start the Dear ImGui frame
@@ -164,8 +178,18 @@ int main()
             ImGui_ImplGlfw_NewFrame();
             ImGui::NewFrame();
 
+            // Simple timer for the rotation
+            double crntTime = glfwGetTime();
+            if (crntTime - prevTime >= 1 / 144)
+            {
+                rotation += 0.5f;
+                prevTime = crntTime;
+            }
+
             // moving the model up right
             glm::mat4 model = glm::translate(glm::mat4(1.0f), translation);
+            // rotate the model
+            model = glm::rotate(model, glm::radians(rotation), glm::vec3(0.0f, 1.0f, 0.0f));
             // model view projection matrix
             glm::mat4 mvp = proj * view * model;
 
