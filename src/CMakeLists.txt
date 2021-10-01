@@ -11,6 +11,7 @@ set(MP_LINK_LIBS
 set(SOURCES
         main.cpp
         Vector3D.cpp
+        Render/Camera.cpp
         Render/IndexBuffer.cpp
         Render/Renderer.cpp
         Render/Shader.cpp
@@ -32,6 +33,7 @@ set(SOURCES
 
 set(HEADERS
         Vector3D.hpp
+        Render/Camera.hpp
         Render/IndexBuffer.hpp
         Render/Renderer.hpp
         Render/Shader.hpp

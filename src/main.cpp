@@ -18,6 +18,7 @@
 #include "imgui/imgui_impl_glfw.h"
 #include "imgui/imgui_impl_opengl3.h"
 
+#include <Render/Camera.hpp>
 #include <Render/IndexBuffer.hpp>
 #include <Render/Renderer.hpp>
 #include <Render/Shader.hpp>
@@ -77,18 +78,17 @@ int main()
         // each line here is a vertex (a vertex is a point that can contain position, texture coordinates, normals, colors ...)
         // here we have got "vertex position"
         float positions[] =
-        {//     COORDINATES      /  TexCoord  //
-            -50.0f, 0.0f,  50.0f, 0.0f, 0.0f, // 0
-            -50.0f, 0.0f, -50.0f, 5.0f, 0.0f, // 1
-             50.0f, 0.0f, -50.0f, 0.0f, 0.0f, // 2
-             50.0f, 0.0f,  50.0f, 5.0f, 0.0f, // 3
-             0.0f,  80.0f, 0.0f,  2.5f, 5.0f  // 4
+        {//     COORDINATES   /  TexCoord  //
+            -5.0f, 0.0f,  5.0f, 0.0f, 0.0f, // 0
+            -5.0f, 0.0f, -5.0f, 5.0f, 0.0f, // 1
+             5.0f, 0.0f, -5.0f, 0.0f, 0.0f, // 2
+             5.0f, 0.0f,  5.0f, 5.0f, 0.0f, // 3
+             0.0f, 8.0f,  0.0f,  2.5f, 5.0f  // 4
         };
 
         unsigned int indices[] = {
             0, 1, 2,
             2, 3, 0,
-            0, 2, 3,
             0, 1, 4,
             1, 2, 4,
             2, 3, 4,
@@ -111,17 +111,6 @@ int main()
         // create (and bind) the index buffer
         IndexBuffer ib(indices, sizeof(indices)/sizeof(int));
 //        std::cout << sizeof(indices)/sizeof(int) << std::endl;
-
-//        // set minimum left and right and maximum left and right values on the screen (and z axis too)
-//        // ortho projection has that objects along side the z axis will always be the same size
-//        glm::mat4 proj = glm::ortho(0.0f, 960.0f, 0.0f, 540.0f, -100.0f, 100.0f);
-
-        // set the field of view, the aspect ratio of the screen and the closest and furthest distance of objects that will be rendered
-        // perspective projection has that objects further away from the camera along side the z axis will appear smaller
-        glm::mat4 proj = glm::perspective(glm::radians(45.0f), (float)960 / 540, 0.1f, 200.0f);
-
-        // moving the camera to the right (actually moving everything to the left)
-        glm::mat4 view = glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, -0.5f, -90.0f));
 
         Shader shader("res/shaders/basic.shader");
         shader.bind();
@@ -154,14 +143,9 @@ int main()
         ImGui_ImplGlfw_InitForOpenGL(window, true);
         ImGui_ImplOpenGL3_Init(glsl_version);
 
-        glm::vec3 translation(0, 0, 0);
+        float cameraAngle = 45.0f;
 
-        float r = 0.0f;
-        float increment = 0.05f;
-
-        // Variables that help the rotation of the pyramid
-        float rotation = 0.0f;
-        double prevTime = glfwGetTime();
+        Camera camera(960, 540, glm::vec3(0.0f, 0.0f, 20.0f));
 
         // Enables the depth buffer (to properly render texture on 3d objects) (this implies to clear GL_DEPTH_BUFFER_BIT in Renderer::clear();)
         GLCall(glEnable(GL_DEPTH_TEST));
@@ -178,43 +162,24 @@ int main()
             ImGui_ImplGlfw_NewFrame();
             ImGui::NewFrame();
 
-            // Simple timer for the rotation
-            double crntTime = glfwGetTime();
-            if (crntTime - prevTime >= 1 / 144)
-            {
-                rotation += 0.5f;
-                prevTime = crntTime;
-            }
-
-            // moving the model up right
-            glm::mat4 model = glm::translate(glm::mat4(1.0f), translation);
-            // rotate the model
-            model = glm::rotate(model, glm::radians(rotation), glm::vec3(0.0f, 1.0f, 0.0f));
-            // model view projection matrix
-            glm::mat4 mvp = proj * view * model;
-
-            // bind the shader and set the uniform values
+            // bind the shader
             shader.bind();
-            shader.setUniforms4f("u_Color", r, 0.3f, 0.8f, 1.0f);
-            // give the proj matrix to the shader
-            shader.setUniformsMat4f("u_MVP", mvp);
 
+            // handle inputs to move the camera
+            camera.handleInputs(window);
+            // Updates and exports the camera matrix to the Vertex Shader
+            camera.update(cameraAngle, 0.1f, 100.0f, shader, "u_MVP");
+
+            // bind everything and call drawElements
             renderer.draw(va, ib, shader);
 
             // Draw whats on the currently bound buffer
             GLCall(glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr)); // unsigned is important !
 
-            if (r > 1.0f)
-                increment = -0.05f;
-            else if (r < 0.0f)
-                increment = 0.05f;
-
-            r += increment;
-
             // Show a simple window that we create ourselves. We use a Begin/End pair to create a named window.
             {
                 ImGui::Begin("Hello, world!"); // Create a window called "Hello, world!" and append into it.
-                ImGui::SliderFloat3("translation", &translation.x, -100.0f, 100.0f); // Edit translation.x using a slider from -100.0f to 100.0f
+                ImGui::SliderFloat("cameraAngle", &cameraAngle, 0.0f, 90.0f); // Edit translation.x using a slider from -100.0f to 100.0f
                 ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
                 ImGui::End();
             }
