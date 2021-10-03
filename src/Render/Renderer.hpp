@@ -1,11 +1,13 @@
-
 #pragma once
 
 #include <GL/glew.h>
 
+#include "Camera.hpp"
 #include "IndexBuffer.hpp"
 #include "VertexArray.hpp"
 #include "Shader.hpp"
+#include "Render/RenderedMesh.hpp"
+
 
 // MSVC macro to break the program
 #define ASSERT(x) if (!(x)) __debugbreak();
@@ -23,4 +25,5 @@ class Renderer
 public:
     void clear() const;
     void draw(VertexArray& va, const IndexBuffer& ib, const Shader& shader) const;
+    void draw(Shader& shader, Camera& camera, RenderedMesh& rendMesh) const;
 };

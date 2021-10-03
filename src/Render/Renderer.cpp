@@ -37,3 +37,22 @@ void Renderer::draw(VertexArray &va, const IndexBuffer &ib, const Shader &shader
     // Draw whats on the currently bound buffer
     GLCall(glDrawElements(GL_TRIANGLES, ib.getCount(), GL_UNSIGNED_INT, nullptr)); // unsigned is important !
 }
+
+void Renderer::draw(Shader& shader, Camera& camera, RenderedMesh& rendMesh) const
+{
+    // bind the shader
+    shader.bind();
+    // bind the vertex array (same as binding the buffer and seting up its layout)
+    rendMesh.bind();
+
+    // set the uniform values
+//    shader.setUniforms4f("u_Color", 1.0f, 1.0f, 0.0f, 1.0f);
+    shader.setUniforms1i("u_Texture", 0);
+
+    const char* uniform = "u_MVP";
+    // Exports the camera matrix to the Vertex Shader
+    shader.setUniformsMat4f(uniform, camera.getView() * camera.getProj());
+
+    // Draw whats on the currently bound buffer
+    GLCall(glDrawElements(GL_TRIANGLES, rendMesh.getIndexBuffer().getCount(), GL_UNSIGNED_INT, nullptr)); // unsigned is important !
+}

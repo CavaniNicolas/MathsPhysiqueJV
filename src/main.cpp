@@ -19,12 +19,10 @@
 #include "imgui/imgui_impl_opengl3.h"
 
 #include <Render/Camera.hpp>
-#include <Render/IndexBuffer.hpp>
+#include <Render/Mesh.hpp>
+#include <Render/RenderedMesh.hpp>
 #include <Render/Renderer.hpp>
 #include <Render/Shader.hpp>
-#include <Render/Texture.hpp>
-#include <Render/VertexArray.hpp>
-#include <Render/VertexBuffer.hpp>
 
 
 int main()
@@ -71,9 +69,12 @@ int main()
     glfwSetInputMode(window, GLFW_STICKY_KEYS, GL_TRUE);
 
     // Dark blue background
-    GLCall(glClearColor(0.0f, 0.0f, 0.4f, 0.0f));
+    GLCall(glClearColor(0.0f, 0.0f, 0.4f, 0.0f)); //1.0f for the last one maybe
 
     {
+
+        GLCall(glEnable(GL_BLEND));
+        GLCall(glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA));
 
         // each line here is a vertex (a vertex is a point that can contain position, texture coordinates, normals, colors ...)
         // here we have got "vertex position"
@@ -95,37 +96,23 @@ int main()
             3, 0, 4
         };
 
-        GLCall(glEnable(GL_BLEND));
-        GLCall(glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA));
+        // Vertices coordinates
+        Vertex vertices[] =
+        { //              COORDINATES           /           TexCoord    //
+            Vertex{glm::vec3(-5.0f, 0.0f,  5.0f), glm::vec2( 0.0f, 0.0f)},
+            Vertex{glm::vec3(-5.0f, 0.0f, -5.0f), glm::vec2( 5.0f, 0.0f)},
+            Vertex{glm::vec3( 5.0f, 0.0f, -5.0f), glm::vec2( 0.0f, 0.0f)},
+            Vertex{glm::vec3( 5.0f, 0.0f,  5.0f), glm::vec2( 5.0f, 0.0f)},
+            Vertex{glm::vec3( 0.0f, 8.0f,  0.0f), glm::vec2( 2.5f, 5.0f)}
+        };
 
-        // create (and bind) the vertex array object
-        VertexArray va;
-        // create (and bind) the vertex buffer
-        VertexBuffer vb(positions, 5 * 5 * sizeof(float));
+        // Store mesh data in vectors for the mesh
+        std::vector<Vertex> verts(vertices, vertices + sizeof(vertices) / sizeof(Vertex));
 
-        VertexBufferLayout layout;
-        layout.push<float>(3);
-        layout.push<float>(2);
-        va.addBuffer(vb, layout);
-
-        // create (and bind) the index buffer
-        IndexBuffer ib(indices, sizeof(indices)/sizeof(int));
-//        std::cout << sizeof(indices)/sizeof(int) << std::endl;
+        Mesh pyramidMesh(verts, indices);
+        RenderedMesh pyramid(pyramidMesh, "res/textures/fire_texture.jpg");
 
         Shader shader("res/shaders/basic.shader");
-        shader.bind();
-        // set the uniform values
-        shader.setUniforms4f("u_Color", 1.0f, 1.0f, 0.0f, 1.0f);
-
-        Texture texture("res/textures/fire_texture.jpg");
-        texture.bind(); // bind parameter is 0 by default
-        shader.setUniforms1i("u_Texture", 0);
-
-        // unbounds everything
-        va.unbind();
-        vb.unbind();
-        ib.unbind();
-        shader.unbind();
 
         Renderer renderer;
 
@@ -167,14 +154,12 @@ int main()
 
             // handle inputs to move the camera
             camera.handleInputs(window);
-            // Updates and exports the camera matrix to the Vertex Shader
-            camera.update(cameraAngle, 0.1f, 100.0f, shader, "u_MVP");
+            // Update the camera matrices view and proj
+            camera.update(cameraAngle, 0.1f, 100.0f);
 
             // bind everything and call drawElements
-            renderer.draw(va, ib, shader);
-
-            // Draw whats on the currently bound buffer
-            GLCall(glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr)); // unsigned is important !
+            // renderer.draw(shader, scene); // how it will be in the end (scene will contain camera and list of meshes)
+            renderer.draw(shader, camera, pyramid);
 
             // Show a simple window that we create ourselves. We use a Begin/End pair to create a named window.
             {

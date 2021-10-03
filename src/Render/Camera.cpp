@@ -22,10 +22,10 @@ Camera::Camera(int width, int height, glm::vec3 position):
     m_sensitivity(100.0f)
 {}
 
-void Camera::update(float FOVdeg, float nearPlane, float farPlane, Shader& shader, const char* uniform)
+void Camera::update(float FOVdeg, float nearPlane, float farPlane)
 {
     // Makes camera look in the right direction from the right position
-    glm::mat4 view = glm::lookAt(m_position, m_position + m_orientation, m_up);
+    m_view = glm::lookAt(m_position, m_position + m_orientation, m_up);
 
 //    // set minimum left and right and maximum left and right values on the screen (and z axis too)
 //    // ortho projection has that objects along side the z axis will always be the same size
@@ -33,10 +33,7 @@ void Camera::update(float FOVdeg, float nearPlane, float farPlane, Shader& shade
 
     // set the field of view, the aspect ratio of the screen and the closest and furthest distance of objects that will be rendered
     // perspective projection has that objects further away from the camera along side the z axis will appear smaller
-    glm::mat4 proj = glm::perspective(glm::radians(FOVdeg), (float)m_width / m_height, nearPlane, farPlane);
-
-    // Exports the camera matrix to the Vertex Shader
-    shader.setUniformsMat4f(uniform, proj * view);
+    m_proj = glm::perspective(glm::radians(FOVdeg), (float)m_width / m_height, nearPlane, farPlane);
 }
 
 void Camera::handleInputs(GLFWwindow* window)
@@ -121,4 +118,14 @@ void Camera::handleInputs(GLFWwindow* window)
         // Makes sure the next time the camera looks around it doesn't jump
         m_firstClick = true;
     }
+}
+
+glm::mat4 Camera::getView()
+{
+    return m_view;
+}
+
+glm::mat4 Camera::getProj()
+{
+    return m_proj;
 }

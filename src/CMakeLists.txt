@@ -13,6 +13,8 @@ set(SOURCES
         Vector3D.cpp
         Render/Camera.cpp
         Render/IndexBuffer.cpp
+        Render/Mesh.cpp
+        Render/RenderedMesh.cpp
         Render/Renderer.cpp
         Render/Shader.cpp
         Render/Texture.cpp
@@ -35,6 +37,8 @@ set(HEADERS
         Vector3D.hpp
         Render/Camera.hpp
         Render/IndexBuffer.hpp
+        Render/Mesh.hpp
+        Render/RenderedMesh.hpp
         Render/Renderer.hpp
         Render/Shader.hpp
         Render/Texture.hpp
