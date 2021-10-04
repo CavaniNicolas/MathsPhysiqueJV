@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Particle.hpp"
+#include <memory>
 
 class ParticleForceGenerator {
 private:
@@ -8,5 +9,5 @@ private:
 public:
 	ParticleForceGenerator() = default;
 	~ParticleForceGenerator() = default;
-	virtual void updateForce(Particle* particle, float duration) = 0;
+	virtual void updateForce(std::shared_ptr<Particle> particle, float duration) = 0;
 };

@@ -1,7 +1,6 @@
 #pragma once
 
 #include "ParticleForceGenerator.hpp"
-#include <memory>
 
 class ParticleForceRegistry {
 private:

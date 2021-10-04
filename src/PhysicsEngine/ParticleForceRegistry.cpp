@@ -6,7 +6,7 @@ ParticleForceRegistry::~ParticleForceRegistry() {
 	m_registry.clear();
 }
 
-void ParticleForceRegistry::addEntry(Particle* particle, ParticleForceGenerator* forceGenerator) {
+void ParticleForceRegistry::addEntry(std::shared_ptr<Particle> particle, std::shared_ptr<ParticleForceGenerator> forceGenerator) {
 	m_registry.push_back({ particle, forceGenerator });
 }
 
@@ -20,7 +20,7 @@ ParticleForceRegistry::Registry ParticleForceRegistry::getRegistry() {
 }
 
 void ParticleForceRegistry::updateForce(float duration) {
-	for (ParticleForceEntry entry : m_registry) {
+	for (const auto& entry : m_registry) {
 		entry.forceGenerator->updateForce(entry.particle, duration);
 	}
 }
