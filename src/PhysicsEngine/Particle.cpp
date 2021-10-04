@@ -21,8 +21,7 @@ Particle::Particle(Vector3D position, Vector3D velocity, std::vector<Vector3D> f
     m_inverseMass(1 / mass),
     m_damping(damping),
     m_g(g),
-    m_gravityForce(Vector3D(0, -m_g, 0)),
-    m_lastIntegrationTime(0)
+    m_gravityForce(Vector3D(0, -m_g, 0))
 {
 }
 
@@ -119,37 +118,24 @@ void Particle::setForces(std::vector<Vector3D> forces) {
 	m_forces = forces;
 }
 
-void Particle::integrate() {
-	if (m_lastIntegrationTime != 0) {
-		clock_t currentTime = clock();
-	
-        float deltaT = (float)(currentTime - m_lastIntegrationTime) / CLOCKS_PER_SEC;
+void Particle::integrate(float deltaT) {
+	//Position update
+    float powTerm = 0.5 * pow(deltaT, 2);
+	m_position += m_velocity * deltaT + m_acceleration * powTerm;
 
-		//Position update
-        float powTerm = 0.5 * pow(deltaT, 2);
-        m_position.setCoord(m_position.getX() + deltaT * m_velocity.getX() + powTerm * m_acceleration.getX(),
-                            m_position.getY() + deltaT * m_velocity.getY() + powTerm * m_acceleration.getY(),
-                            m_position.getZ() + deltaT * m_velocity.getZ() + powTerm * m_acceleration.getZ());
-
-		//Resulting acceleration calculation
-		Vector3D forcesSum = Vector3D();
-		for (Vector3D force : m_forces) {
-			forcesSum += force;
-		}
-		forcesSum *= m_inverseMass;
-		forcesSum += m_gravityForce;
-
-		setAcceleration(forcesSum);
-
-		//Velocity update
-		m_velocity.setCoord(m_velocity.getX() * pow(m_damping, deltaT) + deltaT * m_acceleration.getX(),
-							m_velocity.getY() * pow(m_damping, deltaT) + deltaT * m_acceleration.getY(),
-							m_velocity.getZ() * pow(m_damping, deltaT) + deltaT * m_acceleration.getZ());
-		m_lastIntegrationTime = currentTime;
+	//Resulting acceleration calculation
+	Vector3D forcesSum = Vector3D();
+	for (Vector3D force : m_forces) {
+		forcesSum += force;
 	}
-	else {
-		m_lastIntegrationTime = clock();
-	}
+	forcesSum *= m_inverseMass;
+	forcesSum += m_gravityForce;
+
+	m_acceleration = forcesSum;
+
+	//Velocity update
+	m_velocity *= pow(m_damping, deltaT);
+	m_velocity += m_acceleration * deltaT;
 }
 
 std::ostream& operator<<(std::ostream& out, Particle const& particle) {

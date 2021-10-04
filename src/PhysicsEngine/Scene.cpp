@@ -52,10 +52,10 @@ void Scene::addParticle(std::shared_ptr<Particle> particle) {
 	m_particles.push_back(particle);
 }
 
-void Scene::integrateAll() {
+void Scene::integrateAll(float deltaT) {
 	//m_particlesMutex.lock();
 	for (std::shared_ptr<Particle> particle : m_particles) {
-		particle->integrate();
+		particle->integrate(deltaT);
 	}
 	//m_particlesMutex.unlock();
 }

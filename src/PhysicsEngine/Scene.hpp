@@ -30,5 +30,5 @@ public:
 	void setParticles(std::vector<std::shared_ptr<Particle>> particles);
 	void addParticle(std::shared_ptr<Particle> particle);
 
-	void integrateAll();
+	void integrateAll(float deltaT);
 };
