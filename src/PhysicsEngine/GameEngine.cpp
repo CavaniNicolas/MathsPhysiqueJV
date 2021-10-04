@@ -38,26 +38,20 @@ void GameEngine::gameLoop() {
 
 	float timeBetweenFrames = 1 / (static_cast<float>(m_desiredFrameRate));
 
-	float desiredEndTime = static_cast<float>(clock()) / CLOCKS_PER_SEC + timeBetweenFrames;
+	float lastIntegrationTime = static_cast<float>(clock()) / CLOCKS_PER_SEC;
 
+	//Calculate deltaT
 	while (!m_stop) {
 		if (m_running) {
-			m_scene.integrateAll();
+			float deltaT = static_cast<float>(clock()) / CLOCKS_PER_SEC - lastIntegrationTime;
+			m_scene.integrateAll(deltaT);
 			//std::cout << m_scene.getParticles()[0] << std::endl;
 
-			float endTime = static_cast<float>(clock()) / CLOCKS_PER_SEC;
-			if (endTime < desiredEndTime) {
-				float milliSecToWait = (desiredEndTime - endTime) * 1000;
-				Sleep(milliSecToWait);
-				desiredEndTime += timeBetweenFrames;
+			if (deltaT > timeBetweenFrames) {
+				std::cerr << "WARNING : too many particles to respect the desired frame rate" << std::endl;
 			}
-			else {
-				std::cerr << "WARNING : too many particles to respect the desired frame rate (" << endTime - desiredEndTime << "s late)" << std::endl;
-				desiredEndTime = endTime + timeBetweenFrames;
-			}
-		}
-		else {
-			desiredEndTime = static_cast<float>(clock()) / CLOCKS_PER_SEC + timeBetweenFrames;
+
+			lastIntegrationTime = static_cast<float>(clock()) / CLOCKS_PER_SEC;
 		}
 	}
 }

@@ -17,8 +17,6 @@ private:
 	Vector3D m_acceleration;
 	std::vector<Vector3D> m_forces;
 
-	clock_t m_lastIntegrationTime;
-
 public:
 	//Constructors
 	//Particle(Vector3D position, Vector3D velocity, Vector3D acceleration, float mass = 1, float g = 10, float damping = 0.999);
@@ -49,7 +47,7 @@ public:
 	void addForce(Vector3D force);
 	void setForces(std::vector<Vector3D> forces);
 	
-	virtual void integrate();
+	virtual void integrate(float deltaT);
 
 	friend std::ostream& operator<<(std::ostream& out, Particle const& particle);
 };
