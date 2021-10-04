@@ -10,6 +10,8 @@ set(SOURCES
     PhysicsEngine/Projectile.cpp
     PhysicsEngine/Scene.cpp
     PhysicsEngine/Vector3D.cpp
+    PhysicsEngine/ParticleForceGenerator.cpp
+    PhysicsEngine/ParticleForceRegistry.cpp
 )
 
 set(HEADERS
@@ -21,6 +23,8 @@ set(HEADERS
     PhysicsEngine/Fireball.hpp
     PhysicsEngine/Scene.hpp
     PhysicsEngine/Vector3D.hpp
+    PhysicsEngine/ParticleForceGenerator.hpp
+    PhysicsEngine/ParticleForceRegistry.hpp
 )
 
 add_executable(${MP_EXE_NAME} ${SOURCES} ${HEADERS})
