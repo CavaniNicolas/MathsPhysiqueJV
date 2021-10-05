@@ -2,28 +2,28 @@
 
 #include <GL/glew.h>
 
-#include "Camera.hpp"
-#include "IndexBuffer.hpp"
-#include "VertexArray.hpp"
-#include "Shader.hpp"
+#include "Render/Camera.hpp"
+#include "Render/IndexBuffer.hpp"
 #include "Render/RenderedMesh.hpp"
-
+#include "Render/Shader.hpp"
+#include "Render/VertexArray.hpp"
 
 // MSVC macro to break the program
-#define ASSERT(x) if (!(x)) __debugbreak();
+#define ASSERT(x)  // if (!(x)) __debugbreak();
 
-// macro to wrap opengl functions to assert errors without having to wrap the functions ourselves
-#define GLCall(x) GLClearError();\
-    x;\
-    ASSERT(GLLogCall(#x, __FILE__, __LINE__))
+// macro to wrap opengl functions to assert errors without having to wrap the
+// functions ourselves
+#define GLCall(x) \
+  GLClearError(); \
+  x;              \
+  ASSERT(GLLogCall(#x, __FILE__, __LINE__))
 
 void GLClearError();
 bool GLLogCall(const char* function, const char* file, int line);
 
-class Renderer
-{
-public:
-    void clear() const;
-    void draw(VertexArray& va, const IndexBuffer& ib, const Shader& shader) const;
-    void draw(Shader& shader, Camera& camera, RenderedMesh& rendMesh) const;
+class Renderer {
+ public:
+  void clear() const;
+  void draw(VertexArray& va, const IndexBuffer& ib, const Shader& shader) const;
+  void draw(Shader& shader, Camera& camera, RenderedMesh& rendMesh) const;
 };

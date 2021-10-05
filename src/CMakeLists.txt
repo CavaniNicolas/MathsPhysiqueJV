@@ -20,6 +20,7 @@ set(SOURCES
         Render/Texture.cpp
         Render/VertexArray.cpp
         Render/VertexBuffer.cpp
+        Render/VertexBufferLayout.cpp
 
         vendor/imgui/
         vendor/imgui/imgui.cpp
@@ -70,5 +71,6 @@ target_include_directories(${MP_EXE_NAME} PUBLIC
         "vendor"
     >
 )
+target_compile_definitions(${MP_EXE_NAME} PRIVATE -DRESOURCE_PATH="${CMAKE_SOURCE_DIR}/res/")
 
 message("{MP_INC_DIRS} ${MP_INC_DIRS}")

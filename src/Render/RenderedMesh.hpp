@@ -25,7 +25,7 @@ private:
 public:
     RenderedMesh(Mesh mesh, std::string textureFilepath);
 
-    void transalte(glm::vec3 translation);
+    void translate(glm::vec3 translation);
     void rotate(float rotation, glm::vec3 axis);
 
     void bind() const;
