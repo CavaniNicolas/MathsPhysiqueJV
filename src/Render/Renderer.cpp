@@ -51,7 +51,7 @@ void Renderer::draw(Shader& shader, Camera& camera, RenderedMesh& rendMesh) cons
 
     const char* uniform = "u_MVP";
     // Exports the camera matrix to the Vertex Shader
-    // AILLE AILLE AILLLE CARAMBAR C'est projection * vue * model !!!!
+    // mvp = proj * view * model !
     shader.setUniformsMat4f(uniform, camera.getProj() * camera.getView() /* * rendMesh.getModel() */);
 
     // Draw whats on the currently bound buffer

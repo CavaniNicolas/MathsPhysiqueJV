@@ -5,14 +5,8 @@
 #include "Render/RenderedMesh.hpp"
 
 RenderedMesh::RenderedMesh(Mesh mesh, std::string textureFilepath)
-    // TU UTILISES DES CONSTRUCTEURS PAR RECOPIE PAS BIENNNNNNNNN
-    // Tu crees un buffer dont un glGenBuffer,
-    // tu le donnes a m_vb avec la copie (Pareil pour m_va, m_ib et m_texture)
-    // Et tu appelles le deleter de celui que tu as construit donc glDelete et
-    // bam c'est nullllllllllllllll
     : m_va(),
       m_vb(mesh.getVertices()),
-      // tu lui donne que "1" dans count x))))
       m_ib(mesh.getIndices().data(), mesh.getIndices().size()),
       m_layout(),
       m_texture(textureFilepath),
