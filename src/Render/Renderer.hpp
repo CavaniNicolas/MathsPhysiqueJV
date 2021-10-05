@@ -8,8 +8,8 @@
 #include "Render/Shader.hpp"
 #include "Render/VertexArray.hpp"
 
-// MSVC macro to break the program
-#define ASSERT(x)  // if (!(x)) __debugbreak();
+// MSVC macro to break the program (windows only)
+#define ASSERT(x) if (!(x)) __debugbreak();
 
 // macro to wrap opengl functions to assert errors without having to wrap the
 // functions ourselves
