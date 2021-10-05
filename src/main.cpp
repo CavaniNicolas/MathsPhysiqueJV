@@ -88,7 +88,7 @@ int main() {
     };
 
     std::vector<unsigned int> indices = {0, 1, 2, 2, 3, 0, 0, 1, 4,
-                                         1, 2, 4, 2, 3, 4, 3, 0, 4};
+                                         1, 2, 5, 2, 3, 6, 3, 0, 7};
 
     // Vertices coordinates
 
@@ -97,9 +97,14 @@ int main() {
         //              COORDINATES           /           TexCoord    //
         Vertex{glm::vec3(-5.0f, 0.0f, 5.0f), glm::vec2(0.0f, 0.0f)},
         Vertex{glm::vec3(-5.0f, 0.0f, -5.0f), glm::vec2(5.0f, 0.0f)},
-        Vertex{glm::vec3(5.0f, 0.0f, -5.0f), glm::vec2(0.0f, 0.0f)},
-        Vertex{glm::vec3(5.0f, 0.0f, 5.0f), glm::vec2(5.0f, 0.0f)},
-        Vertex{glm::vec3(0.0f, 8.0f, 0.0f), glm::vec2(2.5f, 5.0f)}};
+        Vertex{glm::vec3(5.0f, 0.0f, -5.0f), glm::vec2(0.0f, 5.0f)},
+        Vertex{glm::vec3(5.0f, 0.0f, 5.0f), glm::vec2(5.0f, 5.0f)},
+
+        Vertex{glm::vec3(0.0f, 8.0f, 0.0f), glm::vec2(2.5f, -3.8f)},
+        Vertex{glm::vec3(0.0f, 8.0f, 0.0f), glm::vec2(-3.8f, 2.5f)},
+        Vertex{glm::vec3(0.0f, 8.0f, 0.0f), glm::vec2(2.5f, 8.8f)},
+        Vertex{glm::vec3(0.0f, 8.0f, 0.0f), glm::vec2(8.8f, 2.5f)}
+    };
 
     Mesh pyramidMesh(verts, indices);
     RenderedMesh pyramid(
