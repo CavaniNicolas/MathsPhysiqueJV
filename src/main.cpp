@@ -110,6 +110,23 @@ int main() {
     RenderedMesh pyramid(
         pyramidMesh, std::string(RESOURCE_PATH) + "textures/fire_texture.jpg");
 
+
+
+    // Store mesh data in vectors for the mesh
+    std::vector<Vertex> vertsPlan = {
+        //              COORDINATES           /           TexCoord    //
+        Vertex{glm::vec3(-5.0f, -1.0f, 5.0f), glm::vec2(0.0f, 0.0f)},
+        Vertex{glm::vec3(-5.0f, -1.0f, -5.0f), glm::vec2(5.0f, 0.0f)},
+        Vertex{glm::vec3(5.0f, -1.0f, -5.0f), glm::vec2(0.0f, 5.0f)},
+        Vertex{glm::vec3(5.0f, -1.0f, 5.0f), glm::vec2(5.0f, 5.0f)}};
+
+    std::vector<unsigned int> indicesPlan = {0, 1, 2, 2, 3, 0};
+
+    Mesh planMesh(vertsPlan, indicesPlan);
+    RenderedMesh plan(
+        planMesh, std::string(RESOURCE_PATH) + "textures/fire_texture.jpg");
+
+
     Shader shader(std::string(RESOURCE_PATH) + "shaders/basic.shader");
 
     Renderer renderer;
@@ -159,6 +176,7 @@ int main() {
       // renderer.draw(shader, scene); // how it will be in the end (scene will
       // contain camera and list of meshes)
       renderer.draw(shader, camera, pyramid);
+      renderer.draw(shader, camera, plan);
 
       // Show a simple window that we create ourselves. We use a Begin/End pair
       // to create a named window.
