@@ -95,20 +95,19 @@ int main() {
     // Store mesh data in vectors for the mesh
     std::vector<Vertex> verts = {
         //              COORDINATES           /           TexCoord    //
-        Vertex{glm::vec3(-5.0f, 0.0f,  5.0f), glm::vec2(0.0f, 0.0f)},
-        Vertex{glm::vec3( 5.0f, 0.0f,  5.0f), glm::vec2(1.0f, 0.0f)},
-        Vertex{glm::vec3( 5.0f, 0.0f, -5.0f), glm::vec2(1.0f, 1.0f)},
-        Vertex{glm::vec3(-5.0f, 0.0f, -5.0f), glm::vec2(0.0f, 1.0f)},
+        Vertex{glm::vec3(-5.0f, 0.0f,  5.0f), glm::vec2(0.32f, 0.32f)},
+        Vertex{glm::vec3( 5.0f, 0.0f,  5.0f), glm::vec2(0.69f, 0.32f)},
+        Vertex{glm::vec3( 5.0f, 0.0f, -5.0f), glm::vec2(0.69f, 0.69f)},
+        Vertex{glm::vec3(-5.0f, 0.0f, -5.0f), glm::vec2(0.32f, 0.69f)},
 
-        Vertex{glm::vec3(0.0f, 8.0f, 0.0f), glm::vec2(0.5f, -1.8f)},
-        Vertex{glm::vec3(0.0f, 8.0f, 0.0f), glm::vec2(1.8f, 0.5f)},
-        Vertex{glm::vec3(0.0f, 8.0f, 0.0f), glm::vec2(0.5f, 1.8f)},
-        Vertex{glm::vec3(0.0f, 8.0f, 0.0f), glm::vec2(-1.8f, 0.5f)}
-    };
+        Vertex{glm::vec3(0.0f, 8.0f, 0.0f), glm::vec2(0.5f, 0.0f)},
+        Vertex{glm::vec3(0.0f, 8.0f, 0.0f), glm::vec2(1.0f, 0.5f)},
+        Vertex{glm::vec3(0.0f, 8.0f, 0.0f), glm::vec2(0.5f, 1.0f)},
+        Vertex{glm::vec3(0.0f, 8.0f, 0.0f), glm::vec2(0.0f, 0.5f)}};
 
     Mesh pyramidMesh(verts, indices);
     RenderedMesh pyramid(
-        pyramidMesh, std::string(RESOURCE_PATH) + "textures/fire_texture.jpg");
+        pyramidMesh, std::string(RESOURCE_PATH) + "textures/fire_texture_pyramid.png");
 
 
 
