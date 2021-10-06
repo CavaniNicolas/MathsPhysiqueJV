@@ -68,8 +68,8 @@ int main() {
   // Ensure we can capture the escape key being pressed below
   glfwSetInputMode(window, GLFW_STICKY_KEYS, GL_TRUE);
 
-  // Dark blue background
-  GLCall(glClearColor(0.0f, 0.0f, 0.4f, 0.0f));  // 1.0f for the last one maybe
+  // Light grey background
+  GLCall(glClearColor(0.8f, 0.8f, 0.8f, 0.0f));  // 1.0f for the last one maybe
 
   {
     GLCall(glEnable(GL_BLEND));
@@ -95,15 +95,15 @@ int main() {
     // Store mesh data in vectors for the mesh
     std::vector<Vertex> verts = {
         //              COORDINATES           /           TexCoord    //
-        Vertex{glm::vec3(-5.0f, 0.0f, 5.0f), glm::vec2(0.0f, 0.0f)},
-        Vertex{glm::vec3(-5.0f, 0.0f, -5.0f), glm::vec2(5.0f, 0.0f)},
-        Vertex{glm::vec3(5.0f, 0.0f, -5.0f), glm::vec2(0.0f, 5.0f)},
-        Vertex{glm::vec3(5.0f, 0.0f, 5.0f), glm::vec2(5.0f, 5.0f)},
+        Vertex{glm::vec3(-5.0f, 0.0f,  5.0f), glm::vec2(0.0f, 0.0f)},
+        Vertex{glm::vec3( 5.0f, 0.0f,  5.0f), glm::vec2(1.0f, 0.0f)},
+        Vertex{glm::vec3( 5.0f, 0.0f, -5.0f), glm::vec2(1.0f, 1.0f)},
+        Vertex{glm::vec3(-5.0f, 0.0f, -5.0f), glm::vec2(0.0f, 1.0f)},
 
-        Vertex{glm::vec3(0.0f, 8.0f, 0.0f), glm::vec2(2.5f, -3.8f)},
-        Vertex{glm::vec3(0.0f, 8.0f, 0.0f), glm::vec2(-3.8f, 2.5f)},
-        Vertex{glm::vec3(0.0f, 8.0f, 0.0f), glm::vec2(2.5f, 8.8f)},
-        Vertex{glm::vec3(0.0f, 8.0f, 0.0f), glm::vec2(8.8f, 2.5f)}
+        Vertex{glm::vec3(0.0f, 8.0f, 0.0f), glm::vec2(0.5f, -1.8f)},
+        Vertex{glm::vec3(0.0f, 8.0f, 0.0f), glm::vec2(1.8f, 0.5f)},
+        Vertex{glm::vec3(0.0f, 8.0f, 0.0f), glm::vec2(0.5f, 1.8f)},
+        Vertex{glm::vec3(0.0f, 8.0f, 0.0f), glm::vec2(-1.8f, 0.5f)}
     };
 
     Mesh pyramidMesh(verts, indices);
@@ -116,15 +116,15 @@ int main() {
     std::vector<Vertex> vertsPlan = {
         //              COORDINATES           /           TexCoord    //
         Vertex{glm::vec3(-5.0f, -1.0f, 5.0f), glm::vec2(0.0f, 0.0f)},
-        Vertex{glm::vec3(-5.0f, -1.0f, -5.0f), glm::vec2(5.0f, 0.0f)},
-        Vertex{glm::vec3(5.0f, -1.0f, -5.0f), glm::vec2(0.0f, 5.0f)},
-        Vertex{glm::vec3(5.0f, -1.0f, 5.0f), glm::vec2(5.0f, 5.0f)}};
+        Vertex{glm::vec3(-5.0f, -1.0f, -5.0f), glm::vec2(1.0f, 0.0f)},
+        Vertex{glm::vec3(5.0f, -1.0f, -5.0f), glm::vec2(1.0f, 1.0f)},
+        Vertex{glm::vec3(5.0f, -1.0f, 5.0f), glm::vec2(0.0f, 1.0f)}};
 
     std::vector<unsigned int> indicesPlan = {0, 1, 2, 2, 3, 0};
 
     Mesh planMesh(vertsPlan, indicesPlan);
     RenderedMesh plan(
-        planMesh, std::string(RESOURCE_PATH) + "textures/fire_texture.jpg");
+        planMesh, std::string(RESOURCE_PATH) + "textures/gril_texture.png");
 
 
     Shader shader(std::string(RESOURCE_PATH) + "shaders/basic.shader");
