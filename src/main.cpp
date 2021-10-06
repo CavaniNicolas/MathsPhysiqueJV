@@ -152,6 +152,9 @@ int main() {
     // implies to clear GL_DEPTH_BUFFER_BIT in Renderer::clear();)
     GLCall(glEnable(GL_DEPTH_TEST));
 
+    // Variable that help the rotation of the pyramid
+    double prevTime = glfwGetTime();
+
     while (glfwGetKey(window, GLFW_KEY_ESCAPE) != GLFW_PRESS &&
            glfwWindowShouldClose(window) == 0) {
       // Render Here
@@ -165,6 +168,15 @@ int main() {
 
       // bind the shader
       shader.bind();
+
+      // Simple timer for the rotation
+      double crntTime = glfwGetTime();
+      if (crntTime - prevTime >= 1 / 144)
+      {
+          pyramid.rotate(0.5f, glm::vec3(0.0f, 1.0f, 0.0f));
+          plan.rotate(-0.5f, glm::vec3(0.0f, 1.0f, 0.0f));
+          prevTime = crntTime;
+      }
 
       // handle inputs to move the camera
       camera.handleInputs(window);
