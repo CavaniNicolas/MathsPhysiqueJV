@@ -34,4 +34,6 @@ public:
     VertexArray& getVertexArray();
     VertexBuffer& getVertexBuffer();
     IndexBuffer& getIndexBuffer();
+
+    glm::mat4 getModel() const;
 };

@@ -49,3 +49,5 @@ VertexArray& RenderedMesh::getVertexArray() { return m_va; }
 VertexBuffer& RenderedMesh::getVertexBuffer() { return m_vb; }
 
 IndexBuffer& RenderedMesh::getIndexBuffer() { return m_ib; }
+
+glm::mat4 RenderedMesh::getModel() const { return m_model; }
