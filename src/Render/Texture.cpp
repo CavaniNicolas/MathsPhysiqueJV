@@ -1,16 +1,12 @@
 
-#include <stb_image/stb_image.h>
-
-#include "Renderer.hpp"
 #include "Texture.hpp"
 
+#include "Renderer.hpp"
+
+#include <stb_image/stb_image.h>
+
 Texture::Texture(const std::string& path):
-    m_rendererID(0),
-    m_filepath(path),
-    m_localBuffer(nullptr),
-    m_width(0),
-    m_height(0),
-    m_bpp(0)
+  m_rendererID(0), m_filepath(path), m_localBuffer(nullptr), m_width(0), m_height(0), m_bpp(0)
 {
     stbi_set_flip_vertically_on_load(1);
     m_localBuffer = stbi_load(path.c_str(), &m_width, &m_height, &m_bpp, 4);
@@ -27,7 +23,7 @@ Texture::Texture(const std::string& path):
     GLCall(glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, m_width, m_height, 0, GL_RGBA, GL_UNSIGNED_BYTE, m_localBuffer));
     GLCall(glBindTexture(GL_TEXTURE_2D, 0));
 
-    if (m_localBuffer)
+    if(m_localBuffer)
         stbi_image_free(m_localBuffer);
 }
 

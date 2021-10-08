@@ -5,10 +5,10 @@
 
 class VertexArray
 {
-private:
+  private:
     unsigned int m_rendererID;
 
-public:
+  public:
     VertexArray();
     ~VertexArray();
 

@@ -1,13 +1,13 @@
 #pragma once
 
+#include "Shader.hpp"
+
 #include <GLFW/glfw3.h>
 #include <glm/glm.hpp>
 
-#include "Shader.hpp"
-
 class Camera
 {
-private:
+  private:
     // Stores the main vectors of the camera
     glm::vec3 m_position;
     glm::vec3 m_orientation;
@@ -27,7 +27,7 @@ private:
     glm::mat4 m_view;
     glm::mat4 m_proj;
 
-public:
+  public:
     // Camera constructor to set up initial values
     Camera(int width, int height, glm::vec3 position);
 
