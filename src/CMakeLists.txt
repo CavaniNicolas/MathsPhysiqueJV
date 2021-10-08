@@ -1,5 +1,4 @@
 
-
 set(MP_EXE_NAME MathsPhysique)
 
 set(MP_LINK_LIBS
@@ -9,44 +8,62 @@ set(MP_LINK_LIBS
 )
 
 set(SOURCES
-        main.cpp
-        Vector3D.cpp
-        Render/Camera.cpp
-        Render/IndexBuffer.cpp
-        Render/Mesh.cpp
-        Render/RenderedMesh.cpp
-        Render/Renderer.cpp
-        Render/Shader.cpp
-        Render/Texture.cpp
-        Render/VertexArray.cpp
-        Render/VertexBuffer.cpp
-        Render/VertexBufferLayout.cpp
+    main.cpp
 
-        vendor/imgui/
-        vendor/imgui/imgui.cpp
-        vendor/imgui/imgui_demo.cpp
-        vendor/imgui/imgui_draw.cpp
-        vendor/imgui/imgui_impl_glfw.cpp
-        vendor/imgui/imgui_impl_opengl3.cpp
-        vendor/imgui/imgui_tables.cpp
-        vendor/imgui/imgui_widgets.cpp
+    PhysicsEngine/Bullet.cpp
+    PhysicsEngine/Fireball.cpp
+    PhysicsEngine/GameEngine.cpp
+    PhysicsEngine/Laser.cpp
+    PhysicsEngine/Particle.cpp
+    PhysicsEngine/Projectile.cpp
+    PhysicsEngine/Scene.cpp
+    PhysicsEngine/Vector3D.cpp
 
-        vendor/stb_image/stb_image.cpp
+    Render/Camera.cpp
+    Render/IndexBuffer.cpp
+    Render/Mesh.cpp
+    Render/RenderedMesh.cpp
+    Render/Renderer.cpp
+    Render/Shader.cpp
+    Render/Texture.cpp
+    Render/VertexArray.cpp
+    Render/VertexBuffer.cpp
+    Render/VertexBufferLayout.cpp
+
+    vendor/imgui/
+    vendor/imgui/imgui.cpp
+    vendor/imgui/imgui_demo.cpp
+    vendor/imgui/imgui_draw.cpp
+    vendor/imgui/imgui_impl_glfw.cpp
+    vendor/imgui/imgui_impl_opengl3.cpp
+    vendor/imgui/imgui_tables.cpp
+    vendor/imgui/imgui_widgets.cpp
+
+    vendor/stb_image/stb_image.cpp
 )
 
 set(HEADERS
-        Vector3D.hpp
-        Render/Camera.hpp
-        Render/IndexBuffer.hpp
-        Render/Mesh.hpp
-        Render/RenderedMesh.hpp
-        Render/Renderer.hpp
-        Render/Shader.hpp
-        Render/Texture.hpp
-        Render/VertexArray.hpp
-        Render/VertexBuffer.hpp
-        Render/VertexBufferLayout.hpp
-        vendor/stb_image/stb_image.h
+    PhysicsEngine/Bullet.hpp
+    PhysicsEngine/GameEngine.hpp
+    PhysicsEngine/Laser.hpp
+    PhysicsEngine/Projectile.hpp
+    PhysicsEngine/Particle.hpp
+    PhysicsEngine/Fireball.hpp
+    PhysicsEngine/Scene.hpp
+    PhysicsEngine/Vector3D.hpp
+
+    Render/Camera.hpp
+    Render/IndexBuffer.hpp
+    Render/Mesh.hpp
+    Render/RenderedMesh.hpp
+    Render/Renderer.hpp
+    Render/Shader.hpp
+    Render/Texture.hpp
+    Render/VertexArray.hpp
+    Render/VertexBuffer.hpp
+    Render/VertexBufferLayout.hpp
+
+    vendor/stb_image/stb_image.h
 )
 
 #add_definitions(
