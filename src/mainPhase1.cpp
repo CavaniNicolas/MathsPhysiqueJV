@@ -35,7 +35,7 @@ void startEngineWithParticle(std::shared_ptr<Particle> particle, float duration)
     gameEngine.stop();
 }
 
-int main2()
+int main()
 {
     std::shared_ptr<Projectile> projectile;
 
