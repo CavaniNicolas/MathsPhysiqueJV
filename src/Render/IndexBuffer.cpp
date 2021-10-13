@@ -1,6 +1,5 @@
 
 #include "Render/IndexBuffer.hpp"
-
 #include "Render/Renderer.hpp"
 
 IndexBuffer::IndexBuffer(const unsigned int* data, unsigned int count): m_count(count)

@@ -1,14 +1,14 @@
 #pragma once
 
+#include <glm/glm.hpp>
+#include <string>
+
 #include "IndexBuffer.hpp"
 #include "Mesh.hpp"
 #include "Texture.hpp"
 #include "VertexArray.hpp"
 #include "VertexBuffer.hpp"
 #include "VertexBufferLayout.hpp"
-
-#include <glm/glm.hpp>
-#include <string>
 
 class RenderedMesh
 {

@@ -10,15 +10,17 @@
 #include <glm/gtc/matrix_transform.hpp>
 
 // Include imgui
+#include <imgui/imgui.h>
+#include <imgui/imgui_impl_glfw.h>
+#include <imgui/imgui_impl_opengl3.h>
+
+#include <iostream>
+
 #include <Render/Camera.hpp>
 #include <Render/Mesh.hpp>
 #include <Render/RenderedMesh.hpp>
 #include <Render/Renderer.hpp>
 #include <Render/Shader.hpp>
-#include <imgui/imgui.h>
-#include <imgui/imgui_impl_glfw.h>
-#include <imgui/imgui_impl_opengl3.h>
-#include <iostream>
 
 int main()
 {

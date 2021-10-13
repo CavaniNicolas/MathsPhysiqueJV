@@ -1,3 +1,4 @@
+
 #include "Projectile.hpp"
 
 Projectile::Projectile(float damage, float radius, float speedFactor):

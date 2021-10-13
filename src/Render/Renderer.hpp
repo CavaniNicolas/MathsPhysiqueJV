@@ -1,12 +1,12 @@
 #pragma once
 
+#include <GL/glew.h>
+
 #include "Render/Camera.hpp"
 #include "Render/IndexBuffer.hpp"
 #include "Render/RenderedMesh.hpp"
 #include "Render/Shader.hpp"
 #include "Render/VertexArray.hpp"
-
-#include <GL/glew.h>
 
 // MSVC macro to break the program (windows only)
 #define ASSERT(x) \

@@ -1,6 +1,7 @@
-#include "GameEngine.hpp"
 
 #include <Windows.h>
+
+#include "GameEngine.hpp"
 
 GameEngine::GameEngine(Scene scene, int desiredFrameRate):
   m_scene(scene), m_desiredFrameRate(desiredFrameRate), m_running(false), m_stop(false)

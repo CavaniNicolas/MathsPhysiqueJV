@@ -1,3 +1,4 @@
+
 #include "Fireball.hpp"
 
 Fireball::Fireball(): Projectile()

@@ -1,8 +1,8 @@
 #pragma once
 
-#include "Scene.hpp"
-
 #include <thread>
+
+#include "Scene.hpp"
 
 class GameEngine
 {

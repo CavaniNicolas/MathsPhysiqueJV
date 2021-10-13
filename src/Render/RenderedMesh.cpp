@@ -1,8 +1,8 @@
 
 // Include glm
-#include "Render/RenderedMesh.hpp"
-
 #include <glm/gtc/matrix_transform.hpp>
+
+#include "Render/RenderedMesh.hpp"
 
 RenderedMesh::RenderedMesh(Mesh mesh, std::string textureFilepath):
   m_va(),

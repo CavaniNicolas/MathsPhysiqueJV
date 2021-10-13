@@ -1,7 +1,7 @@
 
-#include "Renderer.hpp"
-
 #include <iostream>
+
+#include "Renderer.hpp"
 
 void GLClearError()
 {

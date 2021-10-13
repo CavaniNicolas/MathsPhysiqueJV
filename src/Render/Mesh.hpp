@@ -1,8 +1,8 @@
 #pragma once
 
-#include "VertexBuffer.hpp"
-
 #include <vector>
+
+#include "VertexBuffer.hpp"
 
 class Mesh
 {

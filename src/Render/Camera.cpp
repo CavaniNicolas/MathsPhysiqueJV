@@ -1,11 +1,11 @@
 
-#include "Camera.hpp"
-
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 #include <glm/gtx/rotate_vector.hpp>
 #include <glm/gtx/vector_angle.hpp>
 #include <iostream>
+
+#include "Camera.hpp"
 
 Camera::Camera(int width, int height, glm::vec3 position):
   m_width(width),
