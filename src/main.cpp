@@ -46,7 +46,6 @@ int main()
     std::vector<unsigned int> indices = {0, 1, 2, 2, 3, 0, 0, 1, 4, 1, 2, 5, 2, 3, 6, 3, 0, 7};
 
     Mesh pyramidMesh(verts, indices);
-    RenderedMesh pyramid(pyramidMesh, std::string(RESOURCE_PATH) + "textures/fire_texture_pyramid.png");
 
     // Store mesh data in vectors for the mesh
     std::vector<Vertex> vertsPlan = {//              COORDINATES           /           TexCoord //
@@ -58,96 +57,99 @@ int main()
     std::vector<unsigned int> indicesPlan = {0, 1, 2, 2, 3, 0};
 
     Mesh planMesh(vertsPlan, indicesPlan);
-    RenderedMesh plan(planMesh, std::string(RESOURCE_PATH) + "textures/gril_texture.png");
 
-    Shader shader(std::string(RESOURCE_PATH) + "shaders/basic.shader");
-
-    Renderer renderer;
-
-    // GL 3.0 + GLSL 130
-    const char* glsl_version = "#version 130";
-
-    // Setup ImGui binding
-    ImGui::CreateContext();
-
-    // Setup Dear ImGui style
-    ImGui::StyleColorsDark();
-    // ImGui::StyleColorsClassic();
-
-    // Setup Platform/Renderer backends
-    ImGui_ImplGlfw_InitForOpenGL(window.getWindow(), true);
-    ImGui_ImplOpenGL3_Init(glsl_version);
-
-    float cameraAngle = 45.0f;
-
-    Camera camera(960, 540, glm::vec3(0.0f, 0.0f, 20.0f));
-
-    // Enables the depth buffer (to properly render texture on 3d objects) (this
-    // implies to clear GL_DEPTH_BUFFER_BIT in Renderer::clear();)
-    GLCall(glEnable(GL_DEPTH_TEST));
-
-    // Variable that help the rotation of the pyramid
-    double prevTime = glfwGetTime();
-
-    while(!window.isBeingClosed())
     {
-        // Render Here
-        // Clean the back buffer and depth buffer
-        renderer.clear();
+        RenderedMesh pyramid(pyramidMesh, std::string(RESOURCE_PATH) + "textures/fire_texture_pyramid.png");
+        RenderedMesh plan(planMesh, std::string(RESOURCE_PATH) + "textures/gril_texture.png");
 
-        // Start the Dear ImGui frame
-        ImGui_ImplOpenGL3_NewFrame();
-        ImGui_ImplGlfw_NewFrame();
-        ImGui::NewFrame();
+        Shader shader(std::string(RESOURCE_PATH) + "shaders/basic.shader");
 
-        // bind the shader
-        shader.bind();
+        Renderer renderer;
 
-        // Simple timer for the rotation
-        double crntTime = glfwGetTime();
-        if(crntTime - prevTime >= 1 / 144)
+        // GL 3.0 + GLSL 130
+        const char* glsl_version = "#version 130";
+
+        // Setup ImGui binding
+        ImGui::CreateContext();
+
+        // Setup Dear ImGui style
+        ImGui::StyleColorsDark();
+        // ImGui::StyleColorsClassic();
+
+        // Setup Platform/Renderer backends
+        ImGui_ImplGlfw_InitForOpenGL(window.getWindow(), true);
+        ImGui_ImplOpenGL3_Init(glsl_version);
+
+        float cameraAngle = 45.0f;
+
+        Camera camera(960, 540, glm::vec3(0.0f, 0.0f, 20.0f));
+
+        // Enables the depth buffer (to properly render texture on 3d objects) (this
+        // implies to clear GL_DEPTH_BUFFER_BIT in Renderer::clear();)
+        GLCall(glEnable(GL_DEPTH_TEST));
+
+        // Variable that help the rotation of the pyramid
+        double prevTime = glfwGetTime();
+
+        while(!window.isBeingClosed())
         {
-            pyramid.rotate(0.5f, glm::vec3(0.0f, 1.0f, 0.0f));
-            plan.rotate(-0.5f, glm::vec3(0.0f, 1.0f, 0.0f));
-            prevTime = crntTime;
-        }
+            // Render Here
+            // Clean the back buffer and depth buffer
+            renderer.clear();
 
-        // handle inputs to move the camera
-        camera.handleInputs(window.getWindow());
-        // Update the camera matrices view and proj
-        camera.update(cameraAngle, 0.1f, 10000.0f);
+            // Start the Dear ImGui frame
+            ImGui_ImplOpenGL3_NewFrame();
+            ImGui_ImplGlfw_NewFrame();
+            ImGui::NewFrame();
 
-        // bind everything and call drawElements
-        // renderer.draw(shader, scene); // how it will be in the end (scene will
-        // contain camera and list of meshes)
-        renderer.draw(shader, camera, pyramid);
-        renderer.draw(shader, camera, plan);
+            // bind the shader
+            shader.bind();
 
-        // Show a simple window that we create ourselves. We use a Begin/End pair
-        // to create a named window.
-        {
-            ImGui::Begin("Hello, world!"); // Create a window called "Hello,
-                                           // world!" and append into it.
-            ImGui::SliderFloat("cameraAngle",
-                               &cameraAngle,
-                               0.0f,
-                               90.0f); // Edit translation.x using a slider from -100.0f to 100.0f
-            ImGui::Text("Application average %.3f ms/frame (%.1f FPS)",
-                        1000.0f / ImGui::GetIO().Framerate,
-                        ImGui::GetIO().Framerate);
-            ImGui::End();
-        }
+            // Simple timer for the rotation
+            double crntTime = glfwGetTime();
+            if(crntTime - prevTime >= 1 / 144)
+            {
+                pyramid.rotate(0.5f, glm::vec3(0.0f, 1.0f, 0.0f));
+                plan.rotate(-0.5f, glm::vec3(0.0f, 1.0f, 0.0f));
+                prevTime = crntTime;
+            }
 
-        // Rendering imgui
-        ImGui::Render();
-        ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+            // handle inputs to move the camera
+            camera.handleInputs(window.getWindow());
+            // Update the camera matrices view and proj
+            camera.update(cameraAngle, 0.1f, 10000.0f);
 
-        // Swap buffers
-        glfwSwapBuffers(window.getWindow());
-        glfwPollEvents();
+            // bind everything and call drawElements
+            // renderer.draw(shader, scene); // how it will be in the end (scene will
+            // contain camera and list of meshes)
+            renderer.draw(shader, camera, pyramid);
+            renderer.draw(shader, camera, plan);
 
-    } // Check if the ESC key was pressed or the window was closed
+            // Show a simple window that we create ourselves. We use a Begin/End pair
+            // to create a named window.
+            {
+                ImGui::Begin("Hello, world!"); // Create a window called "Hello,
+                                               // world!" and append into it.
+                ImGui::SliderFloat("cameraAngle",
+                                   &cameraAngle,
+                                   0.0f,
+                                   90.0f); // Edit translation.x using a slider from -100.0f to 100.0f
+                ImGui::Text("Application average %.3f ms/frame (%.1f FPS)",
+                            1000.0f / ImGui::GetIO().Framerate,
+                            ImGui::GetIO().Framerate);
+                ImGui::End();
+            }
 
+            // Rendering imgui
+            ImGui::Render();
+            ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+
+            // Swap buffers
+            glfwSwapBuffers(window.getWindow());
+            glfwPollEvents();
+
+        } // Check if the ESC key was pressed or the window was closed
+    }
     // Cleanup imgui
     ImGui_ImplOpenGL3_Shutdown();
     ImGui_ImplGlfw_Shutdown();
