@@ -29,6 +29,7 @@ set(SOURCES
     Render/VertexArray.cpp
     Render/VertexBuffer.cpp
     Render/VertexBufferLayout.cpp
+    Render/Window.cpp
 
     vendor/imgui/
     vendor/imgui/imgui.cpp
@@ -62,6 +63,7 @@ set(HEADERS
     Render/VertexArray.hpp
     Render/VertexBuffer.hpp
     Render/VertexBufferLayout.hpp
+    Render/Window.hpp
 
     vendor/stb_image/stb_image.h
 )

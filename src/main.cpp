@@ -21,60 +21,15 @@
 #include <Render/RenderedMesh.hpp>
 #include <Render/Renderer.hpp>
 #include <Render/Shader.hpp>
+#include <Render/Window.hpp>
 
 int main()
 {
-    // Initialise GLFW
-    if(!glfwInit())
+    Window window(960, 540, "Moteur Physique");
+    if(!window.init())
     {
-        fprintf(stderr, "Failed to initialize GLFW\n");
-        getchar();
         return -1;
     }
-
-    GLFWwindow* window;
-
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 6);
-    glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-
-    // Open a window and create its OpenGL context
-    window = glfwCreateWindow(960, 540, "Moteur Physique", NULL, NULL);
-    if(window == NULL)
-    {
-        fprintf(stderr,
-                "Failed to open GLFW window. If you have an Intel GPU, they are "
-                "not 3.3 compatible. Try the 2.1 version of the tutorials.\n");
-        getchar();
-        glfwTerminate();
-        return -1;
-    }
-
-    glfwMakeContextCurrent(window);
-
-    glfwSetWindowPos(window, 450, 100);
-
-    glfwSwapInterval(1);
-
-    // Initialize GLEW (important to be after glfwMakeContextCurrent() )
-    if(glewInit() != GLEW_OK)
-    {
-        fprintf(stderr, "Failed to initialize GLEW\n");
-        getchar();
-        glfwTerminate();
-        return -1;
-    }
-
-    std::cout << glGetString(GL_VERSION) << std::endl;
-
-    // Ensure we can capture the escape key being pressed below
-    glfwSetInputMode(window, GLFW_STICKY_KEYS, GL_TRUE);
-
-    // Light grey background
-    GLCall(glClearColor(0.8f, 0.8f, 0.8f, 0.0f)); // 1.0f for the last one maybe
-
-    GLCall(glEnable(GL_BLEND));
-    GLCall(glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA));
 
     // Store mesh data in vectors for the mesh
     std::vector<Vertex> verts = {//              COORDINATES           /           TexCoord    //
@@ -120,7 +75,7 @@ int main()
     // ImGui::StyleColorsClassic();
 
     // Setup Platform/Renderer backends
-    ImGui_ImplGlfw_InitForOpenGL(window, true);
+    ImGui_ImplGlfw_InitForOpenGL(window.getWindow(), true);
     ImGui_ImplOpenGL3_Init(glsl_version);
 
     float cameraAngle = 45.0f;
@@ -134,7 +89,7 @@ int main()
     // Variable that help the rotation of the pyramid
     double prevTime = glfwGetTime();
 
-    while(glfwGetKey(window, GLFW_KEY_ESCAPE) != GLFW_PRESS && glfwWindowShouldClose(window) == 0)
+    while(!window.isBeingClosed())
     {
         // Render Here
         // Clean the back buffer and depth buffer
@@ -158,7 +113,7 @@ int main()
         }
 
         // handle inputs to move the camera
-        camera.handleInputs(window);
+        camera.handleInputs(window.getWindow());
         // Update the camera matrices view and proj
         camera.update(cameraAngle, 0.1f, 10000.0f);
 
@@ -188,7 +143,7 @@ int main()
         ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 
         // Swap buffers
-        glfwSwapBuffers(window);
+        glfwSwapBuffers(window.getWindow());
         glfwPollEvents();
 
     } // Check if the ESC key was pressed or the window was closed
@@ -198,8 +153,7 @@ int main()
     ImGui_ImplGlfw_Shutdown();
     ImGui::DestroyContext();
 
-    // Close OpenGL window and terminate GLFW
-    glfwTerminate();
+    window.terminate();
 
     return 0;
 }
