@@ -12,7 +12,8 @@ set(SOURCES
     PhysicsEngine/Vector3D.cpp
     PhysicsEngine/ParticleForceGenerator.cpp
     PhysicsEngine/ParticleForceRegistry.cpp
-)
+    PhysicsEngine/ParticleBuoyancy.cpp
+    PhysicsEngine/ParticleAnchoredSpring.hpp)
 
 set(HEADERS
     PhysicsEngine/Bullet.hpp
@@ -25,7 +26,8 @@ set(HEADERS
     PhysicsEngine/Vector3D.hpp
     PhysicsEngine/ParticleForceGenerator.hpp
     PhysicsEngine/ParticleForceRegistry.hpp
-)
+    PhysicsEngine/ParticleBuoyancy.hpp 
+    PhysicsEngine/ParticleAnchoredSpring.hpp)
 
 add_executable(${MP_EXE_NAME} ${SOURCES} ${HEADERS})
 
