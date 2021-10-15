@@ -13,24 +13,21 @@
 //{
 //}
 
-Particle::Particle(Vector3D position, Vector3D velocity, std::vector<Vector3D> forces, float mass, float g, float damping):
+Particle::Particle(Vector3D position, Vector3D velocity, float mass, float g, float damping) :
     m_position(position),
     m_velocity(velocity),
     m_acceleration(Vector3D()),
-    m_forces(forces),
     m_inverseMass(1 / mass),
-    m_damping(damping),
-    m_g(g),
-    m_gravityForce(Vector3D(0, -m_g, 0))
-{
-}
+	m_g(g),
+    m_damping(damping)
+{}
 
 Particle::Particle(): 
 	Particle::Particle(Vector3D(), Vector3D())
 {}
 
-Particle::Particle(const Particle& other): 
-    Particle::Particle(other.m_position, other.m_velocity, other.m_forces, other.getMass(), other.m_g, other.m_damping)
+Particle::Particle(const Particle& other) :
+	Particle::Particle(other.m_position, other.m_velocity, other.getMass(), other.getG(), other.m_damping)
 {}
 
 //Assignation
@@ -40,9 +37,8 @@ Particle& Particle::operator=(const Particle& other) {
         m_velocity = other.m_velocity;
         m_acceleration = other.m_acceleration;
         m_inverseMass = other.m_inverseMass;
-		m_damping = other.m_damping;
 		m_g = other.m_g;
-		m_gravityForce = other.m_gravityForce;
+		m_damping = other.m_damping;
     }
 	return *this;
 }
@@ -55,12 +51,12 @@ float Particle::getMass() const {
 	return 1 / m_inverseMass;
 }
 
-float Particle::getDamping() const {
-	return m_damping;
-}
-
 float Particle::getG() const {
 	return m_g;
+}
+
+float Particle::getDamping() const {
+	return m_damping;
 }
 
 Vector3D Particle::getPosition() const {
@@ -75,10 +71,6 @@ Vector3D Particle::getAcceleration() const {
 	return m_acceleration;
 }
 
-std::vector<Vector3D> Particle::getForces() const {
-	return m_forces;
-}
-
 void Particle::setInverseMass(float inverseMass) {
 	m_inverseMass = inverseMass;
 }
@@ -87,13 +79,12 @@ void Particle::setMass(float mass) {
 	m_inverseMass = 1 / mass;
 }
 
-void Particle::setDamping(float damping) {
-	m_damping = damping;
-}
-
 void Particle::setG(float g) {
 	m_g = g;
-	m_gravityForce = Vector3D(0, -m_g, 0);
+}
+
+void Particle::setDamping(float damping) {
+	m_damping = damping;
 }
 
 void Particle::setPosition(Vector3D position) {
@@ -108,32 +99,11 @@ void Particle::setAcceleration(Vector3D acceleration) {
 	m_acceleration = acceleration;
 }
 
-void Particle::addForce(Vector3D force) {
-	m_forces.push_back(force);
+void Particle::integratePosition(float deltaT) {
+	m_position += m_velocity * deltaT + m_acceleration * 0.5 * pow(deltaT, 2);
 }
 
-// TO CHECK
-void Particle::setForces(std::vector<Vector3D> forces) {
-	m_forces.clear();
-	m_forces = forces;
-}
-
-void Particle::integrate(float deltaT) {
-	//Position update
-    float powTerm = 0.5 * pow(deltaT, 2);
-	m_position += m_velocity * deltaT + m_acceleration * powTerm;
-
-	//Resulting acceleration calculation
-	Vector3D forcesSum = Vector3D();
-	for (Vector3D force : m_forces) {
-		forcesSum += force;
-	}
-	forcesSum *= m_inverseMass;
-	forcesSum += m_gravityForce;
-
-	m_acceleration = forcesSum;
-
-	//Velocity update
+void Particle::integrateVelocity(float deltaT) {
 	m_velocity *= pow(m_damping, deltaT);
 	m_velocity += m_acceleration * deltaT;
 }

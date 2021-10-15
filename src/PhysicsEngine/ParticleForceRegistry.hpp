@@ -13,8 +13,7 @@ private:
 	Registry m_registry;
 public:
 	//Constructors
-	ParticleForceRegistry() = default;
-	ParticleForceRegistry(Registry registry);
+	ParticleForceRegistry(Registry registry = {});
 	//Destructor
 	~ParticleForceRegistry();
 

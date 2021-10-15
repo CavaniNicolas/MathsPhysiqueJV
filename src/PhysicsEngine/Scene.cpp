@@ -1,11 +1,13 @@
 
 #include "Scene.hpp"
 
-Scene::Scene(std::vector<std::shared_ptr<Particle>> particles):
+Scene::Scene(std::vector<std::shared_ptr<Particle>> particles, ParticleForceRegistry forcesRegistry) :
+	m_forcesRegistry(forcesRegistry),
     m_particles(particles)
 {}
 
-Scene::Scene(std::vector<std::shared_ptr<Projectile>> projectiles)
+Scene::Scene(std::vector<std::shared_ptr<Projectile>> projectiles, ParticleForceRegistry forcesRegistry) :
+	m_forcesRegistry(forcesRegistry) 
 {
     for (auto const& projectile : projectiles) {
 		m_particles.push_back(projectile);
@@ -52,10 +54,16 @@ void Scene::addParticle(std::shared_ptr<Particle> particle) {
 	m_particles.push_back(particle);
 }
 
+void Scene::addForce(std::shared_ptr<Particle> particle, std::shared_ptr<ParticleForceGenerator> forceGenerator) {
+	m_forcesRegistry.addEntry(particle, forceGenerator);
+}
+
 void Scene::integrateAll(float deltaT) {
-	//m_particlesMutex.lock();
 	for (std::shared_ptr<Particle> particle : m_particles) {
-		particle->integrate(deltaT);
+		particle->integratePosition(deltaT);
 	}
-	//m_particlesMutex.unlock();
+	m_forcesRegistry.updateForce(deltaT);
+	for (std::shared_ptr<Particle> particle : m_particles) {
+		particle->integrateVelocity(deltaT);
+	}
 }
