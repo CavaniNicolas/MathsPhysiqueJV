@@ -1,3 +1,0 @@
-D:/Cours/UQAC/MathsPhysique/mathsphysique/CMakeFiles/ALL_BUILD.dir
-D:/Cours/UQAC/MathsPhysique/mathsphysique/CMakeFiles/ZERO_CHECK.dir
-D:/Cours/UQAC/MathsPhysique/mathsphysique/src/CMakeFiles/MathsPhysique.dir
