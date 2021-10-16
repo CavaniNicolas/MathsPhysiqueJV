@@ -3,13 +3,13 @@
 
 Scene::Scene(std::vector<std::shared_ptr<Particle>> particles): m_particles(particles) {}
 
-Scene::Scene(std::vector<std::shared_ptr<Projectile>> projectiles)
-{
-    for(auto const& projectile: projectiles)
-    {
-        m_particles.push_back(projectile);
-    }
-}
+// Scene::Scene(std::vector<std::shared_ptr<Projectile>> projectiles)
+//{
+//     for(auto const& projectile: projectiles)
+//     {
+//         m_particles.push_back(projectile);
+//     }
+// }
 
 Scene::Scene(const Scene& other)
 {
