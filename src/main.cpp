@@ -15,6 +15,10 @@
 #include <imgui/imgui_impl_opengl3.h>
 
 #include <iostream>
+#include <Windows.h>
+
+#include "PhysicsEngine/Fireball.hpp"
+#include "PhysicsEngine/GameEngine.hpp"
 
 #include <Render/Camera.hpp>
 #include <Render/Mesh.hpp>
@@ -91,6 +95,16 @@ int main()
         // Variable that help the rotation of the pyramid
         double prevTime = glfwGetTime();
 
+        std::shared_ptr<Projectile> projectile;
+        projectile = std::shared_ptr<Projectile>(new Fireball());
+        projectile->setPosition(Vector3D());
+        projectile->setDirection(Vector3D(1.0f, 0.0f, 0.0f));
+        float duration = 5.0f;
+        Scene scene = Scene({projectile});
+        GameEngine gameEngine = GameEngine(scene);
+
+        //        pyramid.scale(glm::vec3(0.5f, 0.5f, 0.5f));
+
         while(!window.isBeingClosed())
         {
             // Render Here
@@ -110,9 +124,15 @@ int main()
             if(crntTime - prevTime >= 1 / 144)
             {
                 pyramid.rotate(0.5f, glm::vec3(0.0f, 1.0f, 0.0f));
-                plan.rotate(-0.5f, glm::vec3(0.0f, 1.0f, 0.0f));
+                //                plan.rotate(-0.5f, glm::vec3(0.0f, 1.0f, 0.0f));
                 prevTime = crntTime;
             }
+            pyramid.translate(glm::vec3(gameEngine.getParticles()[0].getPosition().getX(),
+                                        gameEngine.getParticles()[0].getPosition().getY(),
+                                        gameEngine.getParticles()[0].getPosition().getZ()));
+            //            pyramid.scale(glm::vec3(0.9f, 0.9f, 0.9f));
+
+            //            std::cout << gameEngine.getParticles()[0] << std::endl;
 
             // handle inputs to move the camera
             camera.handleInputs(window.getWindow());
@@ -134,6 +154,15 @@ int main()
                                    &cameraAngle,
                                    0.0f,
                                    90.0f); // Edit translation.x using a slider from -100.0f to 100.0f
+                if(ImGui::Button("Run Simulation"))
+                {
+                    gameEngine.run();
+                }
+                if(ImGui::Button("Pause Simulation"))
+                {
+                    gameEngine.pause();
+                }
+
                 ImGui::Text("Application average %.3f ms/frame (%.1f FPS)",
                             1000.0f / ImGui::GetIO().Framerate,
                             ImGui::GetIO().Framerate);
