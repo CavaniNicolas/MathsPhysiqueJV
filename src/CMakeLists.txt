@@ -13,7 +13,8 @@ set(SOURCES
     PhysicsEngine/ParticleForceGenerator.cpp
     PhysicsEngine/ParticleForceRegistry.cpp
     PhysicsEngine/ParticleBuoyancy.cpp
-    PhysicsEngine/ParticleAnchoredSpring.hpp)
+    PhysicsEngine/ParticleAnchoredSpring.cpp
+    PhysicsEngine/ParticleDrag.cpp)
 
 set(HEADERS
     PhysicsEngine/Bullet.hpp
@@ -27,9 +28,10 @@ set(HEADERS
     PhysicsEngine/ParticleForceGenerator.hpp
     PhysicsEngine/ParticleForceRegistry.hpp
     PhysicsEngine/ParticleBuoyancy.hpp 
-    PhysicsEngine/ParticleAnchoredSpring.hpp)
+    PhysicsEngine/ParticleAnchoredSpring.hpp
+    PhysicsEngine/ParticleDrag.hpp)
 
-add_executable(${MP_EXE_NAME} ${SOURCES} ${HEADERS})
+add_executable(${MP_EXE_NAME} ${SOURCES} ${HEADERS} "PhysicsEngine/ParticleBungeeSpring.hpp" "PhysicsEngine/ParticleBungeeSpring.cpp")
 
 #target_link_libraries(${MP_EXE_NAME} PRIVATE
 #    # libs
