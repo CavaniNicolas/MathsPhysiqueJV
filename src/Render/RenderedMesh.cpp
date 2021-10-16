@@ -4,13 +4,20 @@
 
 #include "Render/RenderedMesh.hpp"
 
-RenderedMesh::RenderedMesh(Mesh mesh, std::string textureFilepath):
+RenderedMesh::RenderedMesh(
+  Mesh mesh, std::string textureFilepath, glm::vec3 origin, glm::vec3 position, glm::vec3 rotation, glm::vec3 scale):
   m_va(),
   m_vb(mesh.getVertices()),
   m_ib(mesh.getIndices().data(), mesh.getIndices().size()),
   m_layout(),
   m_texture(textureFilepath),
-  m_model(glm::mat4(1.0f))
+
+  m_model(glm::mat4(1.0f)),
+
+  m_origin(origin),
+  m_position(position),
+  m_rotation(rotation),
+  m_scale(scale)
 {
     m_layout.push<float>(3);
     m_layout.push<float>(2);
@@ -25,16 +32,52 @@ RenderedMesh::RenderedMesh(Mesh mesh, std::string textureFilepath):
     m_va.unbind();
 }
 
+// update the model matrix using rotation, position, and scale.
+// needs to be called every frame because the model matrix is what is being displayed
+void RenderedMesh::updateModelMatrix()
+{
+    m_model = glm::mat4(1.f);
+    translate(m_origin);
+
+    rotate(glm::radians(m_rotation.x), glm::vec3(1.0f, 0.0f, 0.0f));
+    rotate(glm::radians(m_rotation.y), glm::vec3(0.0f, 1.0f, 0.0f));
+    rotate(glm::radians(m_rotation.z), glm::vec3(0.0f, 0.0f, 1.0f));
+
+    translate(m_position - m_origin);
+    scale(m_scale);
+}
+
 void RenderedMesh::translate(glm::vec3 translation)
 {
     // translate the model
-    m_model = glm::translate(glm::mat4(1.0f), translation);
+    m_model = glm::translate(m_model, translation);
 }
 
 void RenderedMesh::rotate(float rotation, glm::vec3 axis)
 {
     // rotate the model
     m_model = glm::rotate(m_model, glm::radians(rotation), axis);
+}
+
+void RenderedMesh::scale(glm::vec3 scale)
+{
+    // scale the model
+    m_model = glm::scale(m_model, scale);
+}
+
+void RenderedMesh::setPosition(glm::vec3 position)
+{
+    m_position = position;
+}
+
+void RenderedMesh::setRotation(glm::vec3 rotation)
+{
+    m_rotation = rotation;
+}
+
+void RenderedMesh::setScale(glm::vec3 scale)
+{
+    m_scale = scale;
 }
 
 void RenderedMesh::bind() const
