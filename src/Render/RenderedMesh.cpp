@@ -39,9 +39,9 @@ void RenderedMesh::updateModelMatrix()
     m_model = glm::mat4(1.f);
     translate(m_origin);
 
-    rotate(glm::radians(m_rotation.x), glm::vec3(1.0f, 0.0f, 0.0f));
-    rotate(glm::radians(m_rotation.y), glm::vec3(0.0f, 1.0f, 0.0f));
-    rotate(glm::radians(m_rotation.z), glm::vec3(0.0f, 0.0f, 1.0f));
+    rotate(m_rotation.x, glm::vec3(1.0f, 0.0f, 0.0f));
+    rotate(m_rotation.y, glm::vec3(0.0f, 1.0f, 0.0f));
+    rotate(m_rotation.z, glm::vec3(0.0f, 0.0f, 1.0f));
 
     translate(m_position - m_origin);
     scale(m_scale);
@@ -73,6 +73,13 @@ void RenderedMesh::setPosition(glm::vec3 position)
 void RenderedMesh::setRotation(glm::vec3 rotation)
 {
     m_rotation = rotation;
+}
+
+void RenderedMesh::addRotation(glm::vec3 rotation)
+{
+    m_rotation.x = fmod(m_rotation.x + rotation.x, 360);
+    m_rotation.y = fmod(m_rotation.y + rotation.y, 360);
+    m_rotation.z = fmod(m_rotation.z + rotation.z, 360);
 }
 
 void RenderedMesh::setScale(glm::vec3 scale)

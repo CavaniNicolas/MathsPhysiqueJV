@@ -43,6 +43,7 @@ class RenderedMesh
 
     void setPosition(glm::vec3 position);
     void setRotation(glm::vec3 rotation);
+    void addRotation(glm::vec3 rotation);
     void setScale(glm::vec3 scale);
 
     void bind() const;

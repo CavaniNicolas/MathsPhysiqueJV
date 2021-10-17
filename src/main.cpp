@@ -85,8 +85,6 @@ int main()
         // divide the pyramid scale by 2
         pyramid.setScale(glm::vec3(0.5f, 0.5f, 0.5f));
 
-        pyramid.setRotation(glm::vec3(0.0f, 0.5f, 0.0f));
-
         while(!window.isBeingClosed())
         {
             // Render Here
@@ -103,10 +101,9 @@ int main()
             double crntTime = glfwGetTime();
             if(crntTime - prevTime >= 1 / 144)
             {
-                pyramid.updateModelMatrix();
+                pyramid.addRotation(glm::vec3(0.0f, 0.5f, 0.0f));
 
-                //                 // without updateModelMatrix, this used to work fine :(
-                //                pyramid.rotate(0.5f, glm::vec3(0.0f, 1.0f, 0.0f));
+                pyramid.updateModelMatrix();
 
                 plan.rotate(-0.5f, glm::vec3(0.0f, 1.0f, 0.0f));
                 prevTime = crntTime;
