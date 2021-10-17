@@ -117,7 +117,7 @@ int main()
                                  gameEngine.getParticles()[0].getPosition().getZ()});
 
             // handle inputs to move the camera
-            camera.handleInputs(window.getWindow());
+            camera.handleInputs(window);
             // Update the camera matrices view and proj
             camera.update(0.1f, 10000.0f);
 

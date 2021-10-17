@@ -1,9 +1,9 @@
 #pragma once
 
-#include <GLFW/glfw3.h>
 #include <glm/glm.hpp>
 
 #include "Shader.hpp"
+#include "Window.hpp"
 
 class Camera
 {
@@ -36,7 +36,7 @@ class Camera
     // Updates and exports the camera matrix to the Vertex Shader
     void update(float nearPlane, float farPlane);
     // Handles camera inputs
-    void handleInputs(GLFWwindow* window);
+    void handleInputs(Window window);
 
     glm::mat4 getView();
     glm::mat4 getProj();

@@ -40,8 +40,10 @@ void Camera::update(float nearPlane, float farPlane)
     m_proj = glm::perspective(glm::radians(m_FOVdeg), (float)m_width / m_height, nearPlane, farPlane);
 }
 
-void Camera::handleInputs(GLFWwindow* window)
+void Camera::handleInputs(Window myWindow)
 {
+    GLFWwindow* window = myWindow.getWindow();
+
     // Handle key inputs
     if(glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
     {
