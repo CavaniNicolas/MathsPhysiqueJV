@@ -62,6 +62,10 @@ bool Window::init()
     GLCall(glEnable(GL_BLEND));
     GLCall(glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA));
 
+    // Enables the depth buffer (to properly render texture on 3d objects) (this
+    // implies to clear GL_DEPTH_BUFFER_BIT in Renderer::clear();)
+    GLCall(glEnable(GL_DEPTH_TEST));
+
     return true;
 }
 

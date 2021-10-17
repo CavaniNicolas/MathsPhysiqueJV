@@ -31,6 +31,8 @@ int main()
         return -1;
     }
 
+    UserInterface ui(window);
+
     // Store mesh data in vectors for the mesh
     std::vector<Vertex> verts = {//              COORDINATES           /           TexCoord    //
                                  Vertex{glm::vec3(-5.0f, 0.0f, 5.0f), glm::vec2(0.32f, 0.32f)},
@@ -58,16 +60,7 @@ int main()
 
     Mesh planMesh(vertsPlan, indicesPlan);
 
-    UserInterface ui(window);
-
     Camera camera(960, 540, glm::vec3(0.0f, 0.0f, 20.0f));
-
-    // Enables the depth buffer (to properly render texture on 3d objects) (this
-    // implies to clear GL_DEPTH_BUFFER_BIT in Renderer::clear();)
-    GLCall(glEnable(GL_DEPTH_TEST));
-
-    // Variable that help the rotation of the pyramid
-    double prevTime = glfwGetTime();
 
     // create a projectile
     std::shared_ptr<Projectile> projectile;
@@ -78,6 +71,9 @@ int main()
     Scene scene = Scene({projectile});
     GameEngine gameEngine = GameEngine(scene);
 
+    // Variable that help the rotation of the pyramid
+    double prevTime = glfwGetTime();
+
     {
         RenderedMesh pyramid(pyramidMesh, std::string(RESOURCE_PATH) + "textures/fire_texture_pyramid.png");
         RenderedMesh plan(planMesh, std::string(RESOURCE_PATH) + "textures/gril_texture.png");
@@ -86,7 +82,7 @@ int main()
 
         Renderer renderer;
 
-        // divide by 2 the pyramid size
+        // divide the pyramid scale by 2
         pyramid.setScale(glm::vec3(0.5f, 0.5f, 0.5f));
 
         pyramid.setRotation(glm::vec3(0.0f, 0.5f, 0.0f));
