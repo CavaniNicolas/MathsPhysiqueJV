@@ -67,7 +67,6 @@ int main()
     projectile = std::shared_ptr<Projectile>(new Fireball());
     projectile->setPosition(Vector3D());
     projectile->setDirection(Vector3D(1.0f, 0.0f, 0.0f));
-    float duration = 5.0f;
     Scene scene = Scene({projectile});
     GameEngine gameEngine = GameEngine(scene);
 
