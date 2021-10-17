@@ -1,3 +1,4 @@
+#pragma once
 
 // Include GLEW (important to be first)
 #include <GL/glew.h>
