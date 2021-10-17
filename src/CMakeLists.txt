@@ -26,6 +26,7 @@ set(SOURCES
     Render/Renderer.cpp
     Render/Shader.cpp
     Render/Texture.cpp
+    Render/UserInterface.cpp
     Render/VertexArray.cpp
     Render/VertexBuffer.cpp
     Render/VertexBufferLayout.cpp
@@ -60,6 +61,7 @@ set(HEADERS
     Render/Renderer.hpp
     Render/Shader.hpp
     Render/Texture.hpp
+    Render/UserInterface.hpp
     Render/VertexArray.hpp
     Render/VertexBuffer.hpp
     Render/VertexBufferLayout.hpp

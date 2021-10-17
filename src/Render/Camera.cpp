@@ -17,12 +17,14 @@ Camera::Camera(int width, int height, glm::vec3 position):
 
   m_firstClick(true),
 
+  m_FOVdeg(45.0f),
+
   m_speed(0.1f),
   m_sensitivity(100.0f)
 {
 }
 
-void Camera::update(float FOVdeg, float nearPlane, float farPlane)
+void Camera::update(float nearPlane, float farPlane)
 {
     // Makes camera look in the right direction from the right position
     m_view = glm::lookAt(m_position, m_position + m_orientation, m_up);
@@ -35,7 +37,7 @@ void Camera::update(float FOVdeg, float nearPlane, float farPlane)
     // set the field of view, the aspect ratio of the screen and the closest and furthest distance of objects that will
     // be rendered perspective projection has that objects further away from the camera along side the z axis will
     // appear smaller
-    m_proj = glm::perspective(glm::radians(FOVdeg), (float)m_width / m_height, nearPlane, farPlane);
+    m_proj = glm::perspective(glm::radians(m_FOVdeg), (float)m_width / m_height, nearPlane, farPlane);
 }
 
 void Camera::handleInputs(GLFWwindow* window)

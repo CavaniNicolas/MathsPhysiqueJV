@@ -20,6 +20,8 @@ class Camera
     int m_width;
     int m_height;
 
+    float m_FOVdeg;
+
     // Adjust the speed of the camera and it's sensitivity when looking around
     float m_speed;
     float m_sensitivity;
@@ -32,10 +34,19 @@ class Camera
     Camera(int width, int height, glm::vec3 position);
 
     // Updates and exports the camera matrix to the Vertex Shader
-    void update(float FOVdeg, float nearPlane, float farPlane);
+    void update(float nearPlane, float farPlane);
     // Handles camera inputs
     void handleInputs(GLFWwindow* window);
 
     glm::mat4 getView();
     glm::mat4 getProj();
+
+    float getFOVdeg() const
+    {
+        return m_FOVdeg;
+    }
+    void setFOVdeg(float FOVdeg)
+    {
+        m_FOVdeg = FOVdeg;
+    }
 };
