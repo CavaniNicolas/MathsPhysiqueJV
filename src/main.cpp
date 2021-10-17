@@ -60,7 +60,7 @@ int main()
 
     Mesh planMesh(vertsPlan, indicesPlan);
 
-    Camera camera(960, 540, glm::vec3(0.0f, 0.0f, 20.0f));
+    Camera camera(960, 540, glm::vec3(0.0f, 15.0f, 80.0f));
 
     // create a projectile
     std::shared_ptr<Projectile> projectile;
@@ -81,6 +81,9 @@ int main()
         Shader shader(std::string(RESOURCE_PATH) + "shaders/basic.shader");
 
         Renderer renderer;
+
+        // multiplay the plan scale by 5
+        plan.setScale(glm::vec3(5.0f, 5.0f, 5.0f));
 
         // divide the pyramid scale by 2
         pyramid.setScale(glm::vec3(0.5f, 0.5f, 0.5f));
@@ -104,8 +107,8 @@ int main()
                 pyramid.addRotation(glm::vec3(0.0f, 0.5f, 0.0f));
 
                 pyramid.updateModelMatrix();
+                plan.updateModelMatrix();
 
-                plan.rotate(-0.5f, glm::vec3(0.0f, 1.0f, 0.0f));
                 prevTime = crntTime;
             }
 
