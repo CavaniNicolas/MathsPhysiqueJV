@@ -15,7 +15,6 @@ class Scene
   public:
     // Constructors
     Scene(std::vector<std::shared_ptr<Particle>> particles = {});
-    //    Scene(std::vector<std::shared_ptr<Projectile>> projectiles);
     Scene(const Scene& other);
 
     // Assignation
