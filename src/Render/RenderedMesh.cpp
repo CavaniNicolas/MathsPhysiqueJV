@@ -4,8 +4,12 @@
 
 #include "Render/RenderedMesh.hpp"
 
-RenderedMesh::RenderedMesh(
-  Mesh mesh, std::string textureFilepath, glm::vec3 origin, glm::vec3 position, glm::vec3 rotation, glm::vec3 scale):
+RenderedMesh::RenderedMesh(Mesh mesh,
+                           std::string textureFilepath,
+                           const glm::vec3 origin,
+                           const glm::vec3 position,
+                           const glm::vec3 rotation,
+                           const glm::vec3 scale):
   m_va(),
   m_vb(mesh.getVertices()),
   m_ib(mesh.getIndices().data(), mesh.getIndices().size()),
@@ -56,42 +60,42 @@ void RenderedMesh::updateModelMatrix()
     m_model = t2 * scale * rotation * translation;
 }
 
-void RenderedMesh::translate(glm::vec3 translation)
+void RenderedMesh::translate(const glm::vec3 translation)
 {
     // translate the model
     m_model = glm::translate(m_model, translation);
 }
 
-void RenderedMesh::rotate(float rotation, glm::vec3 axis)
+void RenderedMesh::rotate(float rotation, const glm::vec3 axis)
 {
     // rotate the model
     m_model = glm::rotate(m_model, glm::radians(rotation), axis);
 }
 
-void RenderedMesh::scale(glm::vec3 scale)
+void RenderedMesh::scale(const glm::vec3 scale)
 {
     // scale the model
     m_model = glm::scale(m_model, scale);
 }
 
-void RenderedMesh::setPosition(glm::vec3 position)
+void RenderedMesh::setPosition(const glm::vec3 position)
 {
     m_position = position;
 }
 
-void RenderedMesh::setRotation(glm::vec3 rotation)
+void RenderedMesh::setRotation(const glm::vec3 rotation)
 {
     m_rotation = rotation;
 }
 
-void RenderedMesh::addRotation(glm::vec3 rotation)
+void RenderedMesh::addRotation(const glm::vec3 rotation)
 {
     m_rotation.x = fmod(m_rotation.x + rotation.x, 360);
     m_rotation.y = fmod(m_rotation.y + rotation.y, 360);
     m_rotation.z = fmod(m_rotation.z + rotation.z, 360);
 }
 
-void RenderedMesh::setScale(glm::vec3 scale)
+void RenderedMesh::setScale(const glm::vec3 scale)
 {
     m_scale = scale;
 }

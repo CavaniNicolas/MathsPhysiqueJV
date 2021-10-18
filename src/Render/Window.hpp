@@ -22,7 +22,7 @@ class Window
     bool init();
     bool isBeingClosed();
 
-    GLFWwindow* getWindow()
+    GLFWwindow* getWindow() const
     {
         return m_window;
     }

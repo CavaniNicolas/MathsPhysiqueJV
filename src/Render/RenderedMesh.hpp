@@ -30,21 +30,21 @@ class RenderedMesh
   public:
     RenderedMesh(Mesh mesh,
                  std::string textureFilepath,
-                 glm::vec3 origin = glm::vec3(0.f),
-                 glm::vec3 position = glm::vec3(0.f),
-                 glm::vec3 rotation = glm::vec3(0.f),
-                 glm::vec3 scale = glm::vec3(1.f));
+                 const glm::vec3 origin = glm::vec3(0.f),
+                 const glm::vec3 position = glm::vec3(0.f),
+                 const glm::vec3 rotation = glm::vec3(0.f),
+                 const glm::vec3 scale = glm::vec3(1.f));
 
     void updateModelMatrix();
 
-    void translate(glm::vec3 translation);
-    void rotate(float rotation, glm::vec3 axis);
-    void scale(glm::vec3 scale);
+    void translate(const glm::vec3 translation);
+    void rotate(float rotation, const glm::vec3 axis);
+    void scale(const glm::vec3 scale);
 
-    void setPosition(glm::vec3 position);
-    void setRotation(glm::vec3 rotation);
-    void addRotation(glm::vec3 rotation);
-    void setScale(glm::vec3 scale);
+    void setPosition(const glm::vec3 position);
+    void setRotation(const glm::vec3 rotation);
+    void addRotation(const glm::vec3 rotation);
+    void setScale(const glm::vec3 scale);
 
     void bind() const;
     void unbind() const;
