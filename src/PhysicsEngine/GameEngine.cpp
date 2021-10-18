@@ -1,5 +1,7 @@
 
-#include <Windows.h>
+#include <chrono>
+//#include <ratio>
+//#include <thread>
 
 #include "GameEngine.hpp"
 
@@ -31,11 +33,14 @@ std::vector<Particle> GameEngine::getParticles() const
     return m_scene.getParticles();
 }
 
+#include <iostream>
+
 void GameEngine::gameLoop()
 {
-    float timeBetweenFrames = 1 / (static_cast<float>(m_desiredFrameRate));
+    std::chrono::microseconds timeBetweenFrames(static_cast<int>(1000000 / (static_cast<float>(m_desiredFrameRate))));
 
-    float desiredEndTime = static_cast<float>(clock()) / CLOCKS_PER_SEC + timeBetweenFrames;
+    // make this a member attribute
+    auto desiredEndTime = std::chrono::high_resolution_clock::now() + timeBetweenFrames;
 
     while(!m_stop)
     {
@@ -44,23 +49,26 @@ void GameEngine::gameLoop()
             m_scene.integrateAll();
             // std::cout << m_scene.getParticles()[0] << std::endl;
 
-            float endTime = static_cast<float>(clock()) / CLOCKS_PER_SEC;
+            const auto endTime = std::chrono::high_resolution_clock::now();
             if(endTime < desiredEndTime)
             {
-                float milliSecToWait = (desiredEndTime - endTime) * 1000;
-                Sleep(milliSecToWait);
+                auto microSecToWait = std::chrono::duration_cast<std::chrono::microseconds>(desiredEndTime - endTime);
+                std::cout << microSecToWait.count() << std::endl;
+                std::this_thread::sleep_for(microSecToWait);
                 desiredEndTime += timeBetweenFrames;
             }
             else
             {
                 std::cerr << "WARNING : too many particles to respect the desired frame rate ("
-                          << endTime - desiredEndTime << "s late)" << std::endl;
+                          << std::chrono::duration_cast<std::chrono::microseconds>(endTime - desiredEndTime).count()
+                          << " us late)" << std::endl;
                 desiredEndTime = endTime + timeBetweenFrames;
             }
         }
         else
         {
-            desiredEndTime = static_cast<float>(clock()) / CLOCKS_PER_SEC + timeBetweenFrames;
+            // have this somewhere else (when unpausing for example)
+            desiredEndTime = std::chrono::high_resolution_clock::now() + timeBetweenFrames;
         }
     }
 }
