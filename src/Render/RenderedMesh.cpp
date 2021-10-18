@@ -37,14 +37,23 @@ RenderedMesh::RenderedMesh(
 void RenderedMesh::updateModelMatrix()
 {
     m_model = glm::mat4(1.f);
-    translate(m_origin);
+    translate(-m_origin);
+    glm::mat4 translation = m_model;
 
+    m_model = glm::mat4(1.f);
     rotate(m_rotation.x, glm::vec3(1.0f, 0.0f, 0.0f));
     rotate(m_rotation.y, glm::vec3(0.0f, 1.0f, 0.0f));
     rotate(m_rotation.z, glm::vec3(0.0f, 0.0f, 1.0f));
+    glm::mat4 rotation = m_model;
 
-    translate(m_position - m_origin);
+    m_model = glm::mat4(1.f);
     scale(m_scale);
+    glm::mat4 scale = m_model;
+
+    m_model = glm::mat4(1.f);
+    translate(m_position + m_origin);
+    glm::mat4 t2 = m_model;
+    m_model = t2 * scale * rotation * translation;
 }
 
 void RenderedMesh::translate(glm::vec3 translation)
