@@ -10,7 +10,6 @@
 #include <glm/gtc/matrix_transform.hpp>
 
 #include <iostream>
-#include <Windows.h>
 
 #include "PhysicsEngine/Fireball.hpp"
 #include "PhysicsEngine/GameEngine.hpp"
