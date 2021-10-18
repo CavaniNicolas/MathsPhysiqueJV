@@ -78,6 +78,8 @@ set(HEADERS
 #    -D_CRT_SECURE_NO_WARNINGS
 #)
 
+set(IMGUI_COMPILE_FLAGS
+      "-DIMGUI_USE_GLEW -DIMGUI_USE_GLFW_BINDING")
 add_executable(${MP_EXE_NAME} ${SOURCES} ${HEADERS})
 
 target_link_libraries(${MP_EXE_NAME}
@@ -90,8 +92,9 @@ target_include_directories(${MP_EXE_NAME} PUBLIC
         ${OPENGL_INCLUDE_DIRS}
         ${MP_INC_DIRS}
         "vendor"
+        "vendor/imgui"
     >
 )
-target_compile_definitions(${MP_EXE_NAME} PRIVATE -DRESOURCE_PATH="${CMAKE_SOURCE_DIR}/res/")
+target_compile_definitions(${MP_EXE_NAME} PRIVATE -DRESOURCE_PATH="${CMAKE_SOURCE_DIR}/res/" ${IMGUI_COMPILE_FLAGS})
 
 message("{MP_INC_DIRS} ${MP_INC_DIRS}")
