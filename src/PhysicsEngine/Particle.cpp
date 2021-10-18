@@ -1,4 +1,6 @@
 
+#include <cmath>
+
 #include "Particle.hpp"
 
 //// Constructors
@@ -148,7 +150,7 @@ void Particle::integrate()
         float deltaT = (float)(currentTime - m_lastIntegrationTime) / CLOCKS_PER_SEC;
 
         // Position update
-        float powTerm = 0.5 * pow(deltaT, 2);
+        float powTerm = 0.5 * std::pow(deltaT, 2);
         m_position.setCoord(m_position.getX() + deltaT * m_velocity.getX() + powTerm * m_acceleration.getX(),
                             m_position.getY() + deltaT * m_velocity.getY() + powTerm * m_acceleration.getY(),
                             m_position.getZ() + deltaT * m_velocity.getZ() + powTerm * m_acceleration.getZ());
