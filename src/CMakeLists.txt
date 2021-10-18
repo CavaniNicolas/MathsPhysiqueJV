@@ -15,6 +15,12 @@ set(SOURCES
     PhysicsEngine/GameEngine.cpp
     PhysicsEngine/Laser.cpp
     PhysicsEngine/Particle.cpp
+    PhysicsEngine/ParticleAnchoredSpring.cpp
+    PhysicsEngine/ParticleBungeeSpring.cpp
+    PhysicsEngine/ParticleBuoyancy.cpp
+    PhysicsEngine/ParticleDrag.cpp
+    PhysicsEngine/ParticleForceGenerator.cpp
+    PhysicsEngine/ParticleForceRegistry.cpp
     PhysicsEngine/Projectile.cpp
     PhysicsEngine/Scene.cpp
     PhysicsEngine/Vector3D.cpp
@@ -50,6 +56,12 @@ set(HEADERS
     PhysicsEngine/Laser.hpp
     PhysicsEngine/Projectile.hpp
     PhysicsEngine/Particle.hpp
+    PhysicsEngine/ParticleAnchoredSpring.hpp
+    PhysicsEngine/ParticleBungeeSpring.hpp
+    PhysicsEngine/ParticleBuoyancy.hpp
+    PhysicsEngine/ParticleDrag.hpp
+    PhysicsEngine/ParticleForceGenerator.hpp
+    PhysicsEngine/ParticleForceRegistry.hpp
     PhysicsEngine/Fireball.hpp
     PhysicsEngine/Scene.hpp
     PhysicsEngine/Vector3D.hpp

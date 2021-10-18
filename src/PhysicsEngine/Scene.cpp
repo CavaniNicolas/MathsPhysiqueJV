@@ -1,7 +1,10 @@
 
 #include "Scene.hpp"
 
-Scene::Scene(std::vector<std::shared_ptr<Particle>> particles): m_particles(particles) {}
+Scene::Scene(std::vector<std::shared_ptr<Particle>> particles, ParticleForceRegistry forcesRegistry):
+  m_forcesRegistry(forcesRegistry), m_particles(particles)
+{
+}
 
 Scene::Scene(const Scene& other)
 {
@@ -51,12 +54,20 @@ void Scene::addParticle(std::shared_ptr<Particle> particle)
     m_particles.push_back(particle);
 }
 
-void Scene::integrateAll()
+void Scene::addForce(std::shared_ptr<Particle> particle, std::shared_ptr<ParticleForceGenerator> forceGenerator)
 {
-    // m_particlesMutex.lock();
+    m_forcesRegistry.addEntry(particle, forceGenerator);
+}
+
+void Scene::integrateAll(float deltaT)
+{
     for(std::shared_ptr<Particle> particle: m_particles)
     {
-        particle->integrate();
+        particle->integratePosition(deltaT);
     }
-    // m_particlesMutex.unlock();
+    m_forcesRegistry.updateForce(deltaT);
+    for(std::shared_ptr<Particle> particle: m_particles)
+    {
+        particle->integrateVelocity(deltaT);
+    }
 }

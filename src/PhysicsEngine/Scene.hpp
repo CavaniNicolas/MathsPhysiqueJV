@@ -4,17 +4,18 @@
 #include <vector>
 //#include <mutex>
 #include "Projectile.hpp"
+#include "ParticleForceRegistry.hpp"
 
 class Scene
 {
   private:
     std::vector<std::shared_ptr<Particle>> m_particles;
 
-    // std::mutex m_particlesMutex;
+    ParticleForceRegistry m_forcesRegistry;
 
   public:
     // Constructors
-    Scene(std::vector<std::shared_ptr<Particle>> particles = {});
+    Scene(std::vector<std::shared_ptr<Particle>> particles = {}, ParticleForceRegistry forcesRegistry = {});
     Scene(const Scene& other);
 
     // Assignation
@@ -27,6 +28,7 @@ class Scene
     // Setters
     void setParticles(std::vector<std::shared_ptr<Particle>> particles);
     void addParticle(std::shared_ptr<Particle> particle);
+    void addForce(std::shared_ptr<Particle> particle, std::shared_ptr<ParticleForceGenerator> forceGenerator);
 
-    void integrateAll();
+    void integrateAll(float deltaT);
 };

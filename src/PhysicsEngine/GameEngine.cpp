@@ -3,7 +3,7 @@
 //#include <ratio>
 //#include <thread>
 
-#include "GameEngine.hpp"
+#include "PhysicsEngine/GameEngine.hpp"
 
 GameEngine::GameEngine(Scene scene, int desiredFrameRate):
   m_scene(scene), m_desiredFrameRate(desiredFrameRate), m_running(false), m_stop(false)
@@ -33,42 +33,63 @@ std::vector<Particle> GameEngine::getParticles() const
     return m_scene.getParticles();
 }
 
-#include <iostream>
+//#include <iostream>
+// void GameEngine::gameLoop()
+//{
+//    std::chrono::microseconds timeBetweenFrames(static_cast<int>(1000000 / (static_cast<float>(m_desiredFrameRate))));
+
+//    // make this a member attribute
+//    auto lastIntegrationTime = std::chrono::high_resolution_clock::now();
+
+//    // Calculate deltaT
+//    while(!m_stop)
+//    {
+//        if(m_running)
+//        {
+//            auto deltaT = std::chrono::high_resolution_clock::now() - lastIntegrationTime;
+//            float lala = (float)(deltaT.count() / 1000000);
+//            m_scene.integrateAll(lala);
+//            //            std::cout << m_scene.getParticles()[0] << std::endl;
+
+//            if(deltaT > timeBetweenFrames)
+//            {
+//                std::cerr << "WARNING : too many particles to respect the desired frame rate" << std::endl;
+//            }
+
+//            lastIntegrationTime = std::chrono::high_resolution_clock::now();
+//        }
+//        else
+//        {
+//            lastIntegrationTime = std::chrono::high_resolution_clock::now();
+//        }
+//    }
+//}
 
 void GameEngine::gameLoop()
 {
-    std::chrono::microseconds timeBetweenFrames(static_cast<int>(1000000 / (static_cast<float>(m_desiredFrameRate))));
+    float timeBetweenFrames = 1 / (static_cast<float>(m_desiredFrameRate));
 
-    // make this a member attribute
-    auto desiredEndTime = std::chrono::high_resolution_clock::now() + timeBetweenFrames;
+    float lastIntegrationTime = static_cast<float>(clock()) / CLOCKS_PER_SEC;
 
+    // Calculate deltaT
     while(!m_stop)
     {
         if(m_running)
         {
-            m_scene.integrateAll();
-            // std::cout << m_scene.getParticles()[0] << std::endl;
+            float deltaT = static_cast<float>(clock()) / CLOCKS_PER_SEC - lastIntegrationTime;
+            m_scene.integrateAll(deltaT);
+            //            std::cout << m_scene.getParticles()[0] << std::endl;
 
-            const auto endTime = std::chrono::high_resolution_clock::now();
-            if(endTime < desiredEndTime)
+            if(deltaT > timeBetweenFrames)
             {
-                auto microSecToWait = std::chrono::duration_cast<std::chrono::microseconds>(desiredEndTime - endTime);
-                std::cout << microSecToWait.count() << std::endl;
-                std::this_thread::sleep_for(microSecToWait);
-                desiredEndTime += timeBetweenFrames;
+                std::cerr << "WARNING : too many particles to respect the desired frame rate" << std::endl;
             }
-            else
-            {
-                std::cerr << "WARNING : too many particles to respect the desired frame rate ("
-                          << std::chrono::duration_cast<std::chrono::microseconds>(endTime - desiredEndTime).count()
-                          << " us late)" << std::endl;
-                desiredEndTime = endTime + timeBetweenFrames;
-            }
+
+            lastIntegrationTime = static_cast<float>(clock()) / CLOCKS_PER_SEC;
         }
         else
         {
-            // have this somewhere else (when unpausing for example)
-            desiredEndTime = std::chrono::high_resolution_clock::now() + timeBetweenFrames;
+            lastIntegrationTime = static_cast<float>(clock()) / CLOCKS_PER_SEC;
         }
     }
 }

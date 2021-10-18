@@ -16,7 +16,7 @@ Projectile::Projectile(Vector3D initialPosition,
                        float radius,
                        float g,
                        float damping):
-  Particle::Particle(initialPosition, Vector3D(direction.normalize() * speedFactor), {}, mass, g, damping),
+  Particle::Particle(initialPosition, Vector3D(direction.normalize() * speedFactor), mass, g, damping),
   m_speedFactor(speedFactor),
   m_damage(damage),
   m_direction(direction),

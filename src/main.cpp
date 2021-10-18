@@ -63,9 +63,7 @@ int main()
 
     // create a projectile
     std::shared_ptr<Projectile> projectile;
-    projectile = std::shared_ptr<Projectile>(new Fireball());
-    projectile->setPosition(Vector3D());
-    projectile->setDirection(Vector3D(1.0f, 0.0f, 0.0f));
+    projectile = std::make_shared<Fireball>(Vector3D(), Vector3D(1, 0, 0), 1, 1);
     Scene scene = Scene({projectile});
     GameEngine gameEngine = GameEngine(scene);
 
