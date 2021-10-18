@@ -1,5 +1,5 @@
 
-#include "Projectile.hpp"
+#include "PhysicsEngine/Projectile.hpp"
 
 Projectile::Projectile(float damage, float radius, float speedFactor):
   Particle(), m_damage(damage), m_radius(radius), m_speedFactor(speedFactor)

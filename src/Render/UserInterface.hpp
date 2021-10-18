@@ -2,8 +2,8 @@
 
 #include <PhysicsEngine/GameEngine.hpp>
 
-#include "Camera.hpp"
-#include "Window.hpp"
+#include "Render/Camera.hpp"
+#include "Render/Window.hpp"
 
 class UserInterface
 {

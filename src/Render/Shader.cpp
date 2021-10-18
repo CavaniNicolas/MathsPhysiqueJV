@@ -3,8 +3,8 @@
 #include <iostream>
 #include <sstream>
 
-#include "Renderer.hpp"
-#include "Shader.hpp"
+#include "Render/Renderer.hpp"
+#include "Render/Shader.hpp"
 
 Shader::Shader(const std::string& filepath): m_filepath(filepath)
 {

@@ -3,7 +3,7 @@
 #include <iostream>
 #include <regex>
 
-#include "Vector3D.hpp"
+#include "PhysicsEngine/Vector3D.hpp"
 
 // Constructors
 Vector3D::Vector3D(float x, float y, float z)

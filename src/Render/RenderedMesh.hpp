@@ -3,12 +3,12 @@
 #include <glm/glm.hpp>
 #include <string>
 
-#include "IndexBuffer.hpp"
-#include "Mesh.hpp"
-#include "Texture.hpp"
-#include "VertexArray.hpp"
-#include "VertexBuffer.hpp"
-#include "VertexBufferLayout.hpp"
+#include "Render/IndexBuffer.hpp"
+#include "Render/Mesh.hpp"
+#include "Render/Texture.hpp"
+#include "Render/VertexArray.hpp"
+#include "Render/VertexBuffer.hpp"
+#include "Render/VertexBufferLayout.hpp"
 
 class RenderedMesh
 {

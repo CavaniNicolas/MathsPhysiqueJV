@@ -5,7 +5,7 @@
 #include <glm/gtx/vector_angle.hpp>
 #include <iostream>
 
-#include "Camera.hpp"
+#include "Render/Camera.hpp"
 
 Camera::Camera(int width, int height, glm::vec3 position):
   m_width(width),

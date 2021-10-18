@@ -1,7 +1,7 @@
 
 #include <cmath>
 
-#include "Particle.hpp"
+#include "PhysicsEngine/Particle.hpp"
 
 //// Constructors
 Particle::Particle(Vector3D position, Vector3D velocity, float mass, float g, float damping):

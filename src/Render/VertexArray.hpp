@@ -1,7 +1,7 @@
 #pragma once
 
-#include "VertexBuffer.hpp"
-#include "VertexBufferLayout.hpp"
+#include "Render/VertexBuffer.hpp"
+#include "Render/VertexBufferLayout.hpp"
 
 class VertexArray
 {

@@ -2,7 +2,7 @@
 
 #include <vector>
 
-#include "VertexBuffer.hpp"
+#include "Render/VertexBuffer.hpp"
 
 class Mesh
 {

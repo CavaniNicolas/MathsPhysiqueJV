@@ -2,7 +2,7 @@
 
 #include <thread>
 
-#include "Scene.hpp"
+#include "PhysicsEngine/Scene.hpp"
 
 class GameEngine
 {

@@ -1,8 +1,8 @@
 
 #include <iostream>
 
-#include "Renderer.hpp"
-#include "Window.hpp"
+#include "Render/Renderer.hpp"
+#include "Render/Window.hpp"
 
 Window::Window(int width, int height, const char* windowName):
   m_width(width), m_height(height), m_windowName(windowName)

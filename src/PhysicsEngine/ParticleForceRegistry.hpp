@@ -1,29 +1,31 @@
 #pragma once
 
-#include "ParticleForceGenerator.hpp"
+#include "PhysicsEngine/ParticleForceGenerator.hpp"
 
-class ParticleForceRegistry {
-private:
-	struct ParticleForceEntry {
-		std::shared_ptr<Particle> particle;
-		std::shared_ptr<ParticleForceGenerator> forceGenerator;
-	};
+class ParticleForceRegistry
+{
+  private:
+    struct ParticleForceEntry
+    {
+        std::shared_ptr<Particle> particle;
+        std::shared_ptr<ParticleForceGenerator> forceGenerator;
+    };
 
-	using Registry = std::vector<ParticleForceEntry>;
-	Registry m_registry;
-public:
-	//Constructors
-	ParticleForceRegistry(Registry registry = {});
-	//Destructor
-	~ParticleForceRegistry();
+    using Registry = std::vector<ParticleForceEntry>;
+    Registry m_registry;
 
-	//Setters
-	void addEntry(std::shared_ptr<Particle> particle, std::shared_ptr<ParticleForceGenerator> forceGenerator);
-	void setRegistry(Registry newRegistry);
+  public:
+    // Constructors
+    ParticleForceRegistry(Registry registry = {});
+    // Destructor
+    ~ParticleForceRegistry();
 
-	//Getters
-	Registry getRegistry();
+    // Setters
+    void addEntry(std::shared_ptr<Particle> particle, std::shared_ptr<ParticleForceGenerator> forceGenerator);
+    void setRegistry(Registry newRegistry);
 
-	void updateForce(float duration);
+    // Getters
+    Registry getRegistry();
 
+    void updateForce(float duration);
 };

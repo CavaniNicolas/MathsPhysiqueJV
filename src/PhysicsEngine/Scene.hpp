@@ -3,8 +3,9 @@
 #include <memory>
 #include <vector>
 //#include <mutex>
-#include "Projectile.hpp"
-#include "ParticleForceRegistry.hpp"
+
+#include "PhysicsEngine/Projectile.hpp"
+#include "PhysicsEngine/ParticleForceRegistry.hpp"
 
 class Scene
 {

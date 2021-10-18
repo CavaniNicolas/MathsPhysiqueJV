@@ -1,8 +1,8 @@
 
 #include <stb_image/stb_image.h>
 
-#include "Renderer.hpp"
-#include "Texture.hpp"
+#include "Render/Renderer.hpp"
+#include "Render/Texture.hpp"
 
 Texture::Texture(const std::string& path):
   m_rendererID(0), m_filepath(path), m_localBuffer(nullptr), m_width(0), m_height(0), m_bpp(0)

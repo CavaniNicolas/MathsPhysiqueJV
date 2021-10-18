@@ -1,5 +1,5 @@
 
-#include "Scene.hpp"
+#include "PhysicsEngine/Scene.hpp"
 
 Scene::Scene(std::vector<std::shared_ptr<Particle>> particles, ParticleForceRegistry forcesRegistry):
   m_forcesRegistry(forcesRegistry), m_particles(particles)

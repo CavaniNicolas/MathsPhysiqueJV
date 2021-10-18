@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Particle.hpp"
+#include "PhysicsEngine/Particle.hpp"
 
 class Projectile : public Particle
 {

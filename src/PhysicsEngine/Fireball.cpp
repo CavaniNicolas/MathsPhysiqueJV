@@ -1,5 +1,5 @@
 
-#include "Fireball.hpp"
+#include "PhysicsEngine/Fireball.hpp"
 
 Fireball::Fireball(): Projectile()
 {
