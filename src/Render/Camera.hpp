@@ -38,6 +38,8 @@ class Camera
     // Handles camera inputs
     void handleInputs(Window window);
 
+    void setSize(int width, int height);
+
     glm::mat4 getView();
     glm::mat4 getProj();
 

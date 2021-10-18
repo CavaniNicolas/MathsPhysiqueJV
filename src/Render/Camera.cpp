@@ -127,6 +127,12 @@ void Camera::handleInputs(Window myWindow)
     }
 }
 
+void Camera::setSize(int width, int height)
+{
+    m_width = width;
+    m_height = height;
+}
+
 glm::mat4 Camera::getView()
 {
     return m_view;

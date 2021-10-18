@@ -117,6 +117,16 @@ int main()
 
             // handle inputs to move the camera
             camera.handleInputs(window);
+
+            // fix the camera dimensions if the window gets resized
+            {
+                int width, height;
+                glfwGetWindowSize(window.getWindow(), &width, &height);
+                // Update the camera matrices view and proj
+                camera.setSize(width, height);
+                glViewport(0, 0, width, height);
+            }
+
             // Update the camera matrices view and proj
             camera.update(0.1f, 10000.0f);
 
