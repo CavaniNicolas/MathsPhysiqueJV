@@ -22,6 +22,11 @@ class Shader
     Shader(const std::string& filepath);
     ~Shader();
 
+    // We dont want to be able to copy as we simply handle it using an int
+    // for the moment, and not a memory address to the actual opengl object
+    Shader(const Shader&) = delete;
+    Shader& operator=(const Shader&) = delete;
+
     void bind() const;
     void unbind() const;
 
