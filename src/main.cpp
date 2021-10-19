@@ -70,6 +70,9 @@ int main()
     // Variable that help the rotation of the pyramid
     double prevTime = glfwGetTime();
 
+    // Variable that help the Particle position printing
+    double prevTimeParticlePrint = prevTime;
+
     {
         RenderedMesh pyramid(pyramidMesh, std::string(RESOURCE_PATH) + "textures/fire_texture_pyramid.png");
         RenderedMesh plan(planMesh, std::string(RESOURCE_PATH) + "textures/gril_texture.png");
@@ -106,6 +109,14 @@ int main()
                 plan.updateModelMatrix();
 
                 prevTime = crntTime;
+            }
+
+            // Simple timer for the Particle position printing
+            double crntTimeParticlePrint = glfwGetTime();
+            if(crntTimeParticlePrint - prevTimeParticlePrint >= 1)
+            {
+                std::cout << gameEngine.getParticles()[0] << std::endl;
+                prevTimeParticlePrint = crntTimeParticlePrint;
             }
 
             // get the actual particle position to set it to the pyramid

@@ -1,7 +1,8 @@
 
 #include <chrono>
-//#include <ratio>
-//#include <thread>
+#include <ratio>
+
+#include <iostream>
 
 #include "PhysicsEngine/GameEngine.hpp"
 
@@ -33,25 +34,28 @@ std::vector<Particle> GameEngine::getParticles() const
     return m_scene.getParticles();
 }
 
-//#include <iostream>
 // void GameEngine::gameLoop()
 //{
-//    std::chrono::microseconds timeBetweenFrames(static_cast<int>(1000000 / (static_cast<float>(m_desiredFrameRate))));
+//     using namespace std::literals::chrono_literals;
 
-//    // make this a member attribute
+//    // time in microseconds
+//    std::chrono::duration<float, std::micro> timeBetweenFrames(
+//      static_cast<int>(1000000 / (static_cast<float>(m_desiredFrameRate))));
+
+//    std::cout << "timebetweenFrames " << timeBetweenFrames.count() / 1000000 << " s" << std::endl;
+
 //    auto lastIntegrationTime = std::chrono::high_resolution_clock::now();
 
-//    // Calculate deltaT
 //    while(!m_stop)
 //    {
 //        if(m_running)
 //        {
-//            auto deltaT = std::chrono::high_resolution_clock::now() - lastIntegrationTime;
-//            float lala = (float)(deltaT.count() / 1000000);
-//            m_scene.integrateAll(lala);
-//            //            std::cout << m_scene.getParticles()[0] << std::endl;
+//            std::chrono::duration<float> deltaT = std::chrono::high_resolution_clock::now() - lastIntegrationTime;
 
-//            if(deltaT > timeBetweenFrames)
+//            // integrateAll takes seconds as parameter
+//            m_scene.integrateAll(deltaT.count());
+
+//            if(deltaT.count() > timeBetweenFrames.count())
 //            {
 //                std::cerr << "WARNING : too many particles to respect the desired frame rate" << std::endl;
 //            }
