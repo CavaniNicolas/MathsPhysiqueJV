@@ -17,8 +17,11 @@ class ParticleForceRegistry
   public:
     // Constructors
     ParticleForceRegistry(Registry registry = {});
+    ParticleForceRegistry(const ParticleForceRegistry& other);
     // Destructor
     ~ParticleForceRegistry();
+
+    ParticleForceRegistry& operator=(const ParticleForceRegistry& other);
 
     // Setters
     void addEntry(std::shared_ptr<Particle> particle, std::shared_ptr<ParticleForceGenerator> forceGenerator);
