@@ -16,7 +16,8 @@ class Scene
 
   public:
     // Constructors
-    Scene(std::vector<std::shared_ptr<Particle>> particles = {}, ParticleForceRegistry forcesRegistry = {});
+    Scene(std::vector<std::shared_ptr<Particle>> particles = {},
+          ParticleForceRegistry forcesRegistry = ParticleForceRegistry());
     Scene(const Scene& other);
 
     // Assignation

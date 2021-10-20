@@ -8,20 +8,14 @@ Scene::Scene(std::vector<std::shared_ptr<Particle>> particles, ParticleForceRegi
 
 Scene::Scene(const Scene& other)
 {
-    std::vector<Particle> otherParticles = other.getParticles();
-    for(auto const& particle: otherParticles)
-    {
-        m_particles.push_back(std::shared_ptr<Particle>(new Particle(particle)));
-    }
+    m_particles = other.m_particles;
+    m_forcesRegistry = other.m_forcesRegistry;
 }
 
 Scene& Scene::operator=(const Scene& other)
 {
-    std::vector<Particle> otherParticles = other.getParticles();
-    for(auto const& particle: otherParticles)
-    {
-        m_particles.push_back(std::shared_ptr<Particle>(new Particle(particle)));
-    }
+    m_particles = other.m_particles;
+    m_forcesRegistry = other.m_forcesRegistry;
     return *this;
 }
 
