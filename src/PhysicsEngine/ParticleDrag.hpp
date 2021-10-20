@@ -11,5 +11,5 @@ class ParticleDrag : public ParticleForceGenerator
 
   public:
     ParticleDrag(float k1, float k2);
-    void UpdateForce(std::shared_ptr<Particle> particle, float duration);
+    void updateForce(std::shared_ptr<Particle> particle, float duration);
 };
