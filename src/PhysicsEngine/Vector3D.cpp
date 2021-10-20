@@ -147,7 +147,8 @@ float Vector3D::getNorm() const
 Vector3D Vector3D::normalize() const
 {
     float norm = getNorm();
-    if (norm == 0) {
+    if(norm == 0)
+    {
         return Vector3D();
     }
     else

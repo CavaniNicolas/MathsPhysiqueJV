@@ -72,8 +72,7 @@ int main()
     Scene scene = Scene({projectile});
 
     std::shared_ptr<ParticleGravity> partGravity = std::make_shared<ParticleGravity>();
-    std::shared_ptr<ParticleAnchoredSpring> anchor =
-      std::make_shared<ParticleAnchoredSpring>(Vector3D(0, 0, 0), 30, 5);
+    std::shared_ptr<ParticleAnchoredSpring> anchor = std::make_shared<ParticleAnchoredSpring>(Vector3D(0, 0, 0), 30, 5);
     std::shared_ptr<ParticleDrag> drag = std::make_shared<ParticleDrag>(0.25, 0);
 
     scene.addForce(projectile, partGravity);
