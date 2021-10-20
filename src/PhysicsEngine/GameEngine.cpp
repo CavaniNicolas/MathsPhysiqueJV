@@ -28,7 +28,7 @@ GameEngine::~GameEngine()
 //	return m_scene.getParticlesSynchronized();
 // }
 
-std::vector<Particle> GameEngine::getParticles() const
+std::vector<std::shared_ptr<Particle>> GameEngine::getParticles() const
 {
     return m_scene.getParticles();
 }

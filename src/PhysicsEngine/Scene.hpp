@@ -24,7 +24,7 @@ class Scene
     Scene& operator=(const Scene& other);
 
     // Getters
-    std::vector<Particle> getParticles() const;
+    std::vector<std::shared_ptr<Particle>> getParticles() const;
     // std::vector<Particle> getParticlesSynchronized();
 
     // Setters

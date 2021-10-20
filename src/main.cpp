@@ -109,9 +109,9 @@ int main()
             }
 
             // get the actual particle position to set it to the pyramid
-            pyramid.setPosition({gameEngine.getParticles()[0].getPosition().getX(),
-                                 gameEngine.getParticles()[0].getPosition().getY(),
-                                 gameEngine.getParticles()[0].getPosition().getZ()});
+            pyramid.setPosition({gameEngine.getParticles()[0]->getPosition().getX(),
+                                 gameEngine.getParticles()[0]->getPosition().getY(),
+                                 gameEngine.getParticles()[0]->getPosition().getZ()});
 
             // handle inputs to move the camera
             camera.handleInputs(window);

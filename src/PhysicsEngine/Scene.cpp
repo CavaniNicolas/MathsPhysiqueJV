@@ -19,14 +19,9 @@ Scene& Scene::operator=(const Scene& other)
     return *this;
 }
 
-std::vector<Particle> Scene::getParticles() const
+std::vector<std::shared_ptr<Particle>> Scene::getParticles() const
 {
-    std::vector<Particle> ret;
-    for(auto const& particle: m_particles)
-    {
-        ret.push_back(*particle);
-    }
-    return ret;
+    return m_particles;
 }
 
 // std::vector<Particle> Scene::getParticlesSynchronized() {
