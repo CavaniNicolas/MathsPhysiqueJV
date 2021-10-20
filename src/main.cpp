@@ -14,6 +14,10 @@
 #include "PhysicsEngine/Fireball.hpp"
 #include "PhysicsEngine/GameEngine.hpp"
 
+#include "PhysicsEngine/ParticleGravity.hpp"
+#include "PhysicsEngine/ParticleForceRegistry.hpp"
+#include "PhysicsEngine/ParticleAnchoredSpring.hpp"
+
 #include <Render/Camera.hpp>
 #include <Render/Mesh.hpp>
 #include <Render/RenderedMesh.hpp>
@@ -65,6 +69,11 @@ int main()
     std::shared_ptr<Projectile> projectile;
     projectile = std::make_shared<Fireball>(Vector3D(), Vector3D(1, 0, 0), 1, 1);
     Scene scene = Scene({projectile});
+
+    std::shared_ptr<ParticleGravity> partGravity = std::make_shared<ParticleGravity>();
+
+    scene.addForce(projectile, partGravity);
+
     GameEngine gameEngine = GameEngine(scene);
 
     // Variable that help the rotation of the pyramid
