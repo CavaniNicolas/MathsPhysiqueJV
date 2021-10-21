@@ -9,7 +9,7 @@ set(MP_LINK_LIBS
 
 set(SOURCES
     main.cpp
-
+    
     PhysicsEngine/Bullet.cpp
     PhysicsEngine/Fireball.cpp
     PhysicsEngine/GameEngine.cpp
@@ -19,12 +19,12 @@ set(SOURCES
     PhysicsEngine/ParticleBungeeSpring.cpp
     PhysicsEngine/ParticleBuoyancy.cpp
     PhysicsEngine/ParticleDrag.cpp
-    PhysicsEngine/ParticleForceGenerator.cpp
     PhysicsEngine/ParticleForceRegistry.cpp
     PhysicsEngine/Projectile.cpp
     PhysicsEngine/Scene.cpp
     PhysicsEngine/Vector3D.cpp
 
+    #Graphic interface
     Render/Camera.cpp
     Render/IndexBuffer.cpp
     Render/Mesh.cpp
@@ -46,12 +46,13 @@ set(SOURCES
     vendor/imgui/imgui_impl_opengl3.cpp
     vendor/imgui/imgui_tables.cpp
     vendor/imgui/imgui_widgets.cpp
-
     vendor/stb_image/stb_image.cpp
+
+    #Collisions
     PhysicsEngine/ParticleContact.cpp
     PhysicsEngine/ParticleContactResolver.cpp
     PhysicsEngine/ParticleLink.cpp
-    PhysicsEngine/ParticleCable.cpp)
+    PhysicsEngine/ParticleCable.cpp 
 
 set(HEADERS
     PhysicsEngine/Bullet.hpp
@@ -69,6 +70,7 @@ set(HEADERS
     PhysicsEngine/Scene.hpp
     PhysicsEngine/Vector3D.hpp
 
+    #Graphic interface
     Render/Camera.hpp
     Render/IndexBuffer.hpp
     Render/Mesh.hpp
@@ -83,11 +85,12 @@ set(HEADERS
     Render/Window.hpp
 
     vendor/stb_image/stb_image.h
+
     PhysicsEngine/ParticleContact.hpp
     PhysicsEngine/ParticleContactResolver.hpp
     PhysicsEngine/ParticleContactGenerator.hpp
     PhysicsEngine/ParticleLink.hpp
-    PhysicsEngine/ParticleCable.hpp)
+    PhysicsEngine/ParticleCable.hpp
 
 #add_definitions(
 #    -DTW_STATIC

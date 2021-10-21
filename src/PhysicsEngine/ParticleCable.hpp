@@ -4,7 +4,7 @@
 
 class ParticleCable : public ParticleLink
 {
-  private:
+  public:
 
     // a contact will be generated if the distance
     // between particles is larger than maxlength
@@ -12,8 +12,6 @@ class ParticleCable : public ParticleLink
 
     // bounciness of the cable
     float m_restitution;
-
-  public:
 
     ParticleCable(std::shared_ptr<Particle> particleA,
                   std::shared_ptr<Particle> particleB,
