@@ -11,6 +11,8 @@
 
 #include <iostream>
 
+#include "API/ParticleMeshRegistry.hpp"
+
 #include "PhysicsEngine/Fireball.hpp"
 #include "PhysicsEngine/GameEngine.hpp"
 #include "PhysicsEngine/ParticleAnchoredSpring.hpp"
@@ -96,8 +98,11 @@ int main()
     double prevTimeParticlePrint = prevTime;
 
     {
-        RenderedMesh pyramid(pyramidMesh, std::string(RESOURCE_PATH) + "textures/fire_texture_pyramid.png");
-        RenderedMesh pyramid2(pyramidMesh, std::string(RESOURCE_PATH) + "textures/fire_texture_pyramid.png");
+        std::shared_ptr<RenderedMesh> pyramid =
+          std::make_shared<RenderedMesh>(pyramidMesh, std::string(RESOURCE_PATH) + "textures/fire_texture_pyramid.png");
+
+        std::shared_ptr<RenderedMesh> pyramid2 =
+          std::make_shared<RenderedMesh>(pyramidMesh, std::string(RESOURCE_PATH) + "textures/fire_texture_pyramid.png");
 
         RenderedMesh plan(planMesh, std::string(RESOURCE_PATH) + "textures/gril_texture.png");
 
@@ -105,12 +110,15 @@ int main()
 
         Renderer renderer;
 
+        ParticleMeshRegistry::addEntry(projectile, pyramid);
+        ParticleMeshRegistry::addEntry(projectile2, pyramid2);
+
         // multiplay the plan scale by 5
         plan.setScale(glm::vec3(5.0f, 5.0f, 5.0f));
 
         // divide the pyramid scale by 2
-        pyramid.setScale(glm::vec3(0.5f, 0.5f, 0.5f));
-        pyramid2.setScale(glm::vec3(0.5f, 0.5f, 0.5f));
+        pyramid->setScale(glm::vec3(0.5f, 0.5f, 0.5f));
+        pyramid2->setScale(glm::vec3(0.5f, 0.5f, 0.5f));
 
         auto startTime = std::chrono::high_resolution_clock::now();
 
@@ -130,14 +138,11 @@ int main()
             double crntTime = glfwGetTime();
             if(crntTime - prevTime >= 1 / 144)
             {
-                pyramid.addRotation(glm::vec3(0.0f, 0.5f, 0.0f));
-
-                pyramid.updateModelMatrix();
-                pyramid2.updateModelMatrix();
-                plan.updateModelMatrix();
-
+                pyramid->addRotation(glm::vec3(0.0f, 0.5f, 0.0f));
                 prevTime = crntTime;
             }
+
+            plan.updateModelMatrix();
 
             // Simple timer for the Particle position printing
             double crntTimeParticlePrint = glfwGetTime();
@@ -147,15 +152,8 @@ int main()
                 prevTimeParticlePrint = crntTimeParticlePrint;
             }
 
-            // get the actual particle position to set it to the pyramid
-            pyramid.setPosition({gameEngine.getParticles()[0]->getPosition().getX(),
-                                 gameEngine.getParticles()[0]->getPosition().getY(),
-                                 gameEngine.getParticles()[0]->getPosition().getZ()});
-
-            // get the actual particle position to set it to the pyramid
-            pyramid2.setPosition({gameEngine.getParticles()[1]->getPosition().getX(),
-                                  gameEngine.getParticles()[1]->getPosition().getY(),
-                                  gameEngine.getParticles()[1]->getPosition().getZ()});
+            // get the actual particles positions to set it to the corresponding renderedMeshes
+            ParticleMeshRegistry::updateMeshPosition();
 
             // handle inputs to move the camera
             camera.handleInputs(window);
@@ -175,9 +173,10 @@ int main()
             // bind everything and call drawElements
             // renderer.draw(shader, scene); // how it will be in the end (scene will
             // contain camera and list of meshes)
-            renderer.draw(shader, camera, pyramid);
-            renderer.draw(shader, camera, pyramid2);
             renderer.draw(shader, camera, plan);
+
+            // draw all particles
+            ParticleMeshRegistry::drawAllParticles(renderer, shader, camera);
 
             // RenderUI
             ui.render(gameEngine, camera);

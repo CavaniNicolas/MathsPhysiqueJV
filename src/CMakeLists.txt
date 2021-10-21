@@ -10,6 +10,8 @@ set(MP_LINK_LIBS
 set(SOURCES
     main.cpp
 
+    API/ParticleMeshRegistry.cpp
+
     PhysicsEngine/Bullet.cpp
     PhysicsEngine/Fireball.cpp
     PhysicsEngine/GameEngine.cpp
@@ -53,6 +55,8 @@ set(SOURCES
 )
 
 set(HEADERS
+    API/ParticleMeshRegistry.hpp
+
     PhysicsEngine/Bullet.hpp
     PhysicsEngine/GameEngine.hpp
     PhysicsEngine/Laser.hpp
