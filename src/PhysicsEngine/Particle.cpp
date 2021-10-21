@@ -109,6 +109,8 @@ void Particle::setAcceleration(Vector3D acceleration)
 void Particle::integratePosition(float deltaT)
 {
     m_position += m_velocity * deltaT + m_acceleration * 0.5 * pow(deltaT, 2);
+    // set acceleration to (0,0,0)
+    setAcceleration(Vector3D());
 }
 
 void Particle::integrateVelocity(float deltaT)

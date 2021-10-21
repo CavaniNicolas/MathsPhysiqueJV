@@ -146,7 +146,15 @@ float Vector3D::getNorm() const
 
 Vector3D Vector3D::normalize() const
 {
-    return *this / getNorm();
+    float norm = getNorm();
+    if(norm == 0)
+    {
+        return Vector3D();
+    }
+    else
+    {
+        return *this / getNorm();
+    }
 }
 
 Vector3D Vector3D::getVectorInput()

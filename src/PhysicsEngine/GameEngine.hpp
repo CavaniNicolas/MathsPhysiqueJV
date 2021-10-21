@@ -25,7 +25,7 @@ class GameEngine
 
     // std::vector<Particle> getParticlesSynchronized();
 
-    std::vector<Particle> getParticles() const;
+    std::vector<std::shared_ptr<Particle>> getParticles() const;
 
     void gameLoop();
 

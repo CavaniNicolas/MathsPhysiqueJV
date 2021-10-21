@@ -14,6 +14,11 @@
 #include "PhysicsEngine/Fireball.hpp"
 #include "PhysicsEngine/GameEngine.hpp"
 
+#include "PhysicsEngine/ParticleGravity.hpp"
+#include "PhysicsEngine/ParticleForceRegistry.hpp"
+#include "PhysicsEngine/ParticleAnchoredSpring.hpp"
+#include "PhysicsEngine/ParticleDrag.hpp"
+
 #include <Render/Camera.hpp>
 #include <Render/Mesh.hpp>
 #include <Render/RenderedMesh.hpp>
@@ -65,6 +70,15 @@ int main()
     std::shared_ptr<Projectile> projectile;
     projectile = std::make_shared<Fireball>(Vector3D(), Vector3D(1, 0, 0), 1, 1);
     Scene scene = Scene({projectile});
+
+    std::shared_ptr<ParticleGravity> partGravity = std::make_shared<ParticleGravity>();
+    std::shared_ptr<ParticleAnchoredSpring> anchor = std::make_shared<ParticleAnchoredSpring>(Vector3D(0, 0, 0), 30, 5);
+    std::shared_ptr<ParticleDrag> drag = std::make_shared<ParticleDrag>(0.25, 0);
+
+    scene.addForce(projectile, partGravity);
+    scene.addForce(projectile, anchor);
+    scene.addForce(projectile, drag);
+
     GameEngine gameEngine = GameEngine(scene);
 
     // Variable that help the rotation of the pyramid
@@ -117,14 +131,14 @@ int main()
             double crntTimeParticlePrint = glfwGetTime();
             if(crntTimeParticlePrint - prevTimeParticlePrint >= 1)
             {
-                std::cout << gameEngine.getParticles()[0] << std::endl;
+                std::cout << *gameEngine.getParticles()[0] << std::endl;
                 prevTimeParticlePrint = crntTimeParticlePrint;
             }
 
             // get the actual particle position to set it to the pyramid
-            pyramid.setPosition({gameEngine.getParticles()[0].getPosition().getX(),
-                                 gameEngine.getParticles()[0].getPosition().getY(),
-                                 gameEngine.getParticles()[0].getPosition().getZ()});
+            pyramid.setPosition({gameEngine.getParticles()[0]->getPosition().getX(),
+                                 gameEngine.getParticles()[0]->getPosition().getY(),
+                                 gameEngine.getParticles()[0]->getPosition().getZ()});
 
             // handle inputs to move the camera
             camera.handleInputs(window);

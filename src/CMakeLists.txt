@@ -21,6 +21,7 @@ set(SOURCES
     PhysicsEngine/ParticleDrag.cpp
     PhysicsEngine/ParticleForceGenerator.cpp
     PhysicsEngine/ParticleForceRegistry.cpp
+    PhysicsEngine/ParticleGravity.cpp
     PhysicsEngine/Projectile.cpp
     PhysicsEngine/Scene.cpp
     PhysicsEngine/Vector3D.cpp
@@ -62,6 +63,7 @@ set(HEADERS
     PhysicsEngine/ParticleDrag.hpp
     PhysicsEngine/ParticleForceGenerator.hpp
     PhysicsEngine/ParticleForceRegistry.hpp
+    PhysicsEngine/ParticleGravity.hpp
     PhysicsEngine/Fireball.hpp
     PhysicsEngine/Scene.hpp
     PhysicsEngine/Vector3D.hpp

@@ -8,6 +8,17 @@ ParticleForceRegistry::~ParticleForceRegistry()
     m_registry.clear();
 }
 
+ParticleForceRegistry::ParticleForceRegistry(const ParticleForceRegistry& other)
+{
+    m_registry = other.m_registry;
+}
+
+ParticleForceRegistry& ParticleForceRegistry::operator=(const ParticleForceRegistry& other)
+{
+    m_registry = other.m_registry;
+    return *this;
+}
+
 void ParticleForceRegistry::addEntry(std::shared_ptr<Particle> particle,
                                      std::shared_ptr<ParticleForceGenerator> forceGenerator)
 {
