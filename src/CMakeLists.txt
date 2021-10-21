@@ -8,7 +8,7 @@ set(MP_LINK_LIBS
 )
 
 set(SOURCES
-    main.cpp
+    apps/main.cpp
 
     API/ParticleMeshRegistry.cpp
 
