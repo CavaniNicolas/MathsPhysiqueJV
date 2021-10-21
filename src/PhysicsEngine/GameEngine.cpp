@@ -1,6 +1,7 @@
 
 #include <chrono>
 #include <ratio>
+#include <thread>
 
 #include <iostream>
 
@@ -34,66 +35,58 @@ std::vector<Particle> GameEngine::getParticles() const
     return m_scene.getParticles();
 }
 
-// void GameEngine::gameLoop()
-//{
-//     using namespace std::literals::chrono_literals;
-
-//    // time in microseconds
-//    std::chrono::duration<float, std::micro> timeBetweenFrames(
-//      static_cast<int>(1000000 / (static_cast<float>(m_desiredFrameRate))));
-
-//    std::cout << "timebetweenFrames " << timeBetweenFrames.count() / 1000000 << " s" << std::endl;
-
-//    auto lastIntegrationTime = std::chrono::high_resolution_clock::now();
-
-//    while(!m_stop)
-//    {
-//        if(m_running)
-//        {
-//            std::chrono::duration<float> deltaT = std::chrono::high_resolution_clock::now() - lastIntegrationTime;
-
-//            // integrateAll takes seconds as parameter
-//            m_scene.integrateAll(deltaT.count());
-
-//            if(deltaT.count() > timeBetweenFrames.count())
-//            {
-//                std::cerr << "WARNING : too many particles to respect the desired frame rate" << std::endl;
-//            }
-
-//            lastIntegrationTime = std::chrono::high_resolution_clock::now();
-//        }
-//        else
-//        {
-//            lastIntegrationTime = std::chrono::high_resolution_clock::now();
-//        }
-//    }
-//}
-
 void GameEngine::gameLoop()
 {
-    float timeBetweenFrames = 1 / (static_cast<float>(m_desiredFrameRate));
+    // timeBetweenFrames in MICROSECONDS
+    float timeBetweenFrames(static_cast<int>(1000000 / (static_cast<float>(m_desiredFrameRate))));
 
-    float lastIntegrationTime = static_cast<float>(clock()) / CLOCKS_PER_SEC;
+    auto lastIntegrationTime = std::chrono::high_resolution_clock::now();
+    //    std::cout << "timeBetweenFrames : " << timeBetweenFrames << " us" << std::endl;
+    //    std::cout << "timeBetweenFrames : " << timeBetweenFrames / 1000000 << " s" << std::endl;
 
-    // Calculate deltaT
+    // Variable to help with the debug print
+    auto lastDebugTime = std::chrono::high_resolution_clock::now();
+
     while(!m_stop)
     {
         if(m_running)
         {
-            float deltaT = static_cast<float>(clock()) / CLOCKS_PER_SEC - lastIntegrationTime;
-            m_scene.integrateAll(deltaT);
-            //            std::cout << m_scene.getParticles()[0] << std::endl;
+            // determine delta Time
+            auto deltaT = std::chrono::high_resolution_clock::now() - lastIntegrationTime;
 
-            if(deltaT > timeBetweenFrames)
+            // cast delta Time into MICROSECONDS
+            auto deltaTCastUS = std::chrono::duration_cast<std::chrono::microseconds>(deltaT);
+            // Integrate all particles, delta time given is in SECONDS
+            m_scene.integrateAll(float(deltaTCastUS.count() / 1000000.0f));
+
+            // reset lastIntegrationTime
+            lastIntegrationTime = std::chrono::high_resolution_clock::now();
+
+            // without sleep_for... particle moves VERY slowly !!
+            // my guess is : we need to wait so it doesnt integrate too much with deltaT = 0 but im not convinced
+            using namespace std::literals::chrono_literals;
+            std::this_thread::sleep_for(1us);
+
+            //            // Print Debug info every seconds
+            //            auto deltaTDebug = std::chrono::high_resolution_clock::now() - lastDebugTime;
+            //            auto deltaTDebugCastUS = std::chrono::duration_cast<std::chrono::microseconds>(deltaTDebug);
+            //            if(deltaTDebugCastUS.count() > 1000000)
+            //            {
+            //                std::cout << "deltaT: " << deltaTCastUS.count() << " us" << std::endl
+            //                          << "deltaT: " << float(deltaTCastUS.count() / 1000000.0f) << " s" << std::endl
+            //                          << std::endl;
+            //                lastDebugTime = std::chrono::high_resolution_clock::now();
+            //            }
+
+            // if integration takes too long, print warning
+            if(deltaTCastUS.count() > timeBetweenFrames)
             {
                 std::cerr << "WARNING : too many particles to respect the desired frame rate" << std::endl;
             }
-
-            lastIntegrationTime = static_cast<float>(clock()) / CLOCKS_PER_SEC;
         }
         else
         {
-            lastIntegrationTime = static_cast<float>(clock()) / CLOCKS_PER_SEC;
+            lastIntegrationTime = std::chrono::high_resolution_clock::now();
         }
     }
 }
