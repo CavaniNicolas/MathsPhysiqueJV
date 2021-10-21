@@ -11,7 +11,7 @@ Scene::Scene(std::vector<std::shared_ptr<Particle>> particles,
   m_maxContactsPerIteration(maxContactsPerIteration)
 {
     m_contactResolver = ParticleContactResolver();
-    m_contactArray = std::make_shared<std::vector<std::shared_ptr<ParticleContact>>>();
+    m_contactArray = {};
 }
 
 Scene::Scene(const Scene& other)
@@ -21,7 +21,7 @@ Scene::Scene(const Scene& other)
     m_contactGenerators = other.m_contactGenerators;
     m_maxContactsPerIteration = other.m_maxContactsPerIteration;
     m_contactResolver = ParticleContactResolver();
-    m_contactArray = std::make_shared<std::vector<std::shared_ptr<ParticleContact>>>();
+    m_contactArray = {};
 }
 
 Scene& Scene::operator=(const Scene& other)
@@ -87,5 +87,5 @@ void Scene::integrateAll(float deltaT)
     m_contactResolver.resolveContacts(m_contactArray);
     //We processed every contact, we can now clear the contact 
     //array to fill it once again during the next iteration
-    m_contactArray->clear();
+    m_contactArray.clear();
 }

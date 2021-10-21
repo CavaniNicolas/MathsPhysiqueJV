@@ -89,7 +89,7 @@ Vector3D WallContactGenerator::calculateNormal() const {
     return normal;  
  }
 
-unsigned int WallContactGenerator::addContact(std::shared_ptr<std::vector<std::shared_ptr<ParticleContact>>> contacts,
+unsigned int WallContactGenerator::addContact(std::vector<std::shared_ptr<ParticleContact>>& contacts,
                                               unsigned int limit) const
 {
     float penetration = calculatePenetration();
@@ -97,7 +97,7 @@ unsigned int WallContactGenerator::addContact(std::shared_ptr<std::vector<std::s
     if (penetration > 0) {
         if(limit >= 1)
         {
-            contacts->push_back(
+            contacts.push_back(
               std::make_shared<ParticleContact>(m_particle, nullptr, m_restitution, penetration, calculateNormal()));
             return 1;
         }

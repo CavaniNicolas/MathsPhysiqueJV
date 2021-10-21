@@ -18,7 +18,7 @@ class WallContactGenerator : public ParticleContactGenerator
 
     WallContactGenerator(std::shared_ptr<Particle> particle, WallPlan wallPlan,float restitution, float coordinates, float thickness);
 
-    unsigned int addContact(std::shared_ptr<std::vector<std::shared_ptr<ParticleContact>>> contacts,
+    unsigned int addContact(std::vector<std::shared_ptr<ParticleContact>>& contacts,
                             unsigned int limit) const;
 
     float calculatePenetration() const;
