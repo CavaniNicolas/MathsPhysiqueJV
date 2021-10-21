@@ -4,7 +4,8 @@
 #include "PhysicsEngine/Particle.hpp"
 
 //// Constructors
-Particle::Particle(Vector3D position, Vector3D velocity, float mass, float g, float damping):
+Particle::Particle(Vector3D position, Vector3D velocity, float radius, float mass, float g, float damping):
+  m_radius(radius),
   m_position(position),
   m_velocity(velocity),
   m_acceleration(Vector3D()),
@@ -17,7 +18,7 @@ Particle::Particle(Vector3D position, Vector3D velocity, float mass, float g, fl
 Particle::Particle(): Particle::Particle(Vector3D(), Vector3D()) {}
 
 Particle::Particle(const Particle& other):
-  Particle::Particle(other.m_position, other.m_velocity, other.getMass(), other.getG(), other.m_damping)
+  Particle::Particle(other.m_position, other.m_velocity, other.getRadius(), other.getMass(), other.getG(), other.m_damping)
 {
 }
 
@@ -26,6 +27,7 @@ Particle& Particle::operator=(const Particle& other)
 {
     if(this != &other)
     {
+        m_radius = other.m_radius;
         m_position = other.m_position;
         m_velocity = other.m_velocity;
         m_acceleration = other.m_acceleration;
@@ -71,6 +73,14 @@ Vector3D Particle::getAcceleration() const
     return m_acceleration;
 }
 
+float Particle::getDeltaT() const {
+    return m_deltaT;
+}
+
+float Particle::getRadius() const {
+    return m_radius;
+}
+
 void Particle::setInverseMass(float inverseMass)
 {
     m_inverseMass = inverseMass;
@@ -106,6 +116,14 @@ void Particle::setAcceleration(Vector3D acceleration)
     m_acceleration = acceleration;
 }
 
+void Particle::setRadius(float radius) {
+    m_radius = radius;
+}
+
+float Particle::calculateVolume() {
+    return (4 / 3) * M_PI * std::pow(m_radius, 3);
+}
+
 void Particle::integratePosition(float deltaT)
 {
     m_position += m_velocity * deltaT + m_acceleration * 0.5 * pow(deltaT, 2);
@@ -115,6 +133,7 @@ void Particle::integrateVelocity(float deltaT)
 {
     m_velocity *= pow(m_damping, deltaT);
     m_velocity += m_acceleration * deltaT;
+    m_deltaT = deltaT;
 }
 
 std::ostream& operator<<(std::ostream& out, Particle const& particle)

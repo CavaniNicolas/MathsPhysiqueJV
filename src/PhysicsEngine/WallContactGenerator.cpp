@@ -10,48 +10,56 @@ WallContactGenerator::WallContactGenerator(std::shared_ptr<Particle> particle, W
 float WallContactGenerator::calculatePenetration() const{
     float wallcenterdistance;
     float penetration = 0;
+    float particleRadius = m_particle->getRadius();
     switch(m_wallPlan)
     {
         case x:
             wallcenterdistance = m_particle->getPosition().getX() - m_coordinates;
-            if(std::abs(wallcenterdistance) < m_thickness / 2) {
+            if(std::abs(wallcenterdistance) - particleRadius < m_thickness / 2)
+            {
                 //contact with the wall
                 if (wallcenterdistance > 0) {
-                    penetration = std::abs(m_coordinates + m_thickness / 2 - m_particle->getPosition().getX());
+                    penetration =
+                      std::abs(m_coordinates + m_thickness / 2 - m_particle->getPosition().getX()) + particleRadius;
                 }
                 else
                 {
-                    penetration = std::abs(m_coordinates - m_thickness / 2 - m_particle->getPosition().getX());
+                    penetration =
+                      std::abs(m_coordinates - m_thickness / 2 - m_particle->getPosition().getX()) + particleRadius;
                 }
             }
             break;
         case y:
             wallcenterdistance = m_particle->getPosition().getY() - m_coordinates;
-            if(std::abs(wallcenterdistance) < m_thickness / 2)
+            if(std::abs(wallcenterdistance) - particleRadius < m_thickness / 2)
             {
                 // contact with the wall
                 if(wallcenterdistance > 0)
                 {
-                    penetration = std::abs(m_coordinates + m_thickness / 2 - m_particle->getPosition().getY());
+                    penetration =
+                      std::abs(m_coordinates + m_thickness / 2 - m_particle->getPosition().getY()) + particleRadius;
                 }
                 else
                 {
-                    penetration = std::abs(m_coordinates - m_thickness / 2 - m_particle->getPosition().getY());
+                    penetration =
+                      std::abs(m_coordinates - m_thickness / 2 - m_particle->getPosition().getY()) + particleRadius;
                 }
             }
             break;
         case z:
             wallcenterdistance = m_particle->getPosition().getZ() - m_coordinates;
-            if(std::abs(wallcenterdistance) < m_thickness / 2)
+            if(std::abs(wallcenterdistance) - particleRadius < m_thickness / 2)
             {
                 // contact with the wall
                 if(wallcenterdistance > 0)
                 {
-                    penetration = std::abs(m_coordinates + m_thickness / 2 - m_particle->getPosition().getZ());
+                    penetration =
+                      std::abs(m_coordinates + m_thickness / 2 - m_particle->getPosition().getZ()) + particleRadius;
                 }
                 else
                 {
-                    penetration = std::abs(m_coordinates - m_thickness / 2 - m_particle->getPosition().getZ());
+                    penetration =
+                      std::abs(m_coordinates - m_thickness / 2 - m_particle->getPosition().getZ()) + particleRadius;
                 }
             }
             break;
