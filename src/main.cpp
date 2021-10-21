@@ -13,11 +13,10 @@
 
 #include "PhysicsEngine/Fireball.hpp"
 #include "PhysicsEngine/GameEngine.hpp"
-
-#include "PhysicsEngine/ParticleGravity.hpp"
-#include "PhysicsEngine/ParticleForceRegistry.hpp"
 #include "PhysicsEngine/ParticleAnchoredSpring.hpp"
 #include "PhysicsEngine/ParticleDrag.hpp"
+#include "PhysicsEngine/ParticleForceRegistry.hpp"
+#include "PhysicsEngine/ParticleGravity.hpp"
 #include "PhysicsEngine/ParticleSpring.hpp"
 
 #include <Render/Camera.hpp>
