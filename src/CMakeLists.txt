@@ -51,6 +51,7 @@ set(SOURCES
     PhysicsEngine/ParticleContact.cpp
     PhysicsEngine/ParticleContactResolver.cpp
     PhysicsEngine/ParticleLink.cpp
+    PhysicsEngine/ParticleCable.cpp)
 
 set(HEADERS
     PhysicsEngine/Bullet.hpp
@@ -86,6 +87,7 @@ set(HEADERS
     PhysicsEngine/ParticleContactResolver.hpp
     PhysicsEngine/ParticleContactGenerator.hpp
     PhysicsEngine/ParticleLink.hpp
+    PhysicsEngine/ParticleCable.hpp)
 
 #add_definitions(
 #    -DTW_STATIC
