@@ -18,7 +18,7 @@ class GameEngine
     int m_desiredFrameRate;
 
   public:
-    GameEngine(Scene scene, int desiredFrameRate = 60);
+    GameEngine(const Scene& scene, int desiredFrameRate = 60);
     GameEngine(const GameEngine& other);
     GameEngine();
     ~GameEngine();

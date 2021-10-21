@@ -21,7 +21,7 @@
 #include "PhysicsEngine/ParticleDrag.hpp"
 #include "PhysicsEngine/ParticleForceRegistry.hpp"
 #include "PhysicsEngine/ParticleGravity.hpp"
-#include "PhysicsEngine/ParticleSpring.hpp"*
+#include "PhysicsEngine/ParticleSpring.hpp"
 
 #include "PhysicsEngine/WallContactGenerator.hpp"
 
@@ -74,10 +74,10 @@ int main()
 
     // create a projectile
     std::shared_ptr<Particle> particle;
-    particle = std::make_shared<Particle>(Vector3D(0,10,0), Vector3D());
+    particle = std::make_shared<Particle>(Vector3D(0, 10, 0), Vector3D());
 
-    //std::shared_ptr<Projectile> projectile2;
-    //projectile2 = std::make_shared<Fireball>(Vector3D(0, 6, 0), Vector3D(1, 0, 0), 1, 1);
+    // std::shared_ptr<Projectile> projectile2;
+    // projectile2 = std::make_shared<Fireball>(Vector3D(0, 6, 0), Vector3D(1, 0, 0), 1, 1);
 
     Scene scene = Scene({particle});
 

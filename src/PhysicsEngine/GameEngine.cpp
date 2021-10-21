@@ -7,7 +7,7 @@
 
 #include "PhysicsEngine/GameEngine.hpp"
 
-GameEngine::GameEngine(Scene scene, int desiredFrameRate):
+GameEngine::GameEngine(const Scene& scene, int desiredFrameRate):
   m_scene(scene), m_desiredFrameRate(desiredFrameRate), m_running(false), m_stop(false)
 {
     m_gameLoopThread = std::thread([this] { gameLoop(); });
