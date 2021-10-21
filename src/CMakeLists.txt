@@ -90,6 +90,14 @@ set(HEADERS
     vendor/stb_image/stb_image.h
 )
 
+set(SOURCES_DEBUG
+    PhysicsEngine/DebugUtils/ParticlePrinter.cpp
+)
+
+set(HEADERS_DEBUG
+    PhysicsEngine/DebugUtils/ParticlePrinter.hpp
+)
+
 #add_definitions(
 #    -DTW_STATIC
 #    -DTW_NO_LIB_PRAGMA
@@ -100,7 +108,7 @@ set(HEADERS
 
 set(IMGUI_COMPILE_FLAGS
       "-DIMGUI_USE_GLEW -DIMGUI_USE_GLFW_BINDING")
-add_executable(${MP_EXE_NAME} ${SOURCES} ${HEADERS})
+add_executable(${MP_EXE_NAME} ${SOURCES} ${HEADERS} ${SOURCES_DEBUG} ${HEADERS_DEBUG})
 
 target_link_libraries(${MP_EXE_NAME}
     ${MP_LINK_LIBS}

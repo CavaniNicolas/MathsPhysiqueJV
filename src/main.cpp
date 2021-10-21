@@ -13,6 +13,8 @@
 
 #include "API/ParticleMeshRegistry.hpp"
 
+#include "PhysicsEngine/DebugUtils/ParticlePrinter.hpp"
+
 #include "PhysicsEngine/Fireball.hpp"
 #include "PhysicsEngine/GameEngine.hpp"
 #include "PhysicsEngine/ParticleAnchoredSpring.hpp"
@@ -94,6 +96,9 @@ int main()
     // Variable that help the rotation of the pyramid
     double prevTime = glfwGetTime();
 
+    // Singleton to help debug and print Particle every 2 seconds
+    ParticlePrinter::setParticle(projectile);
+
     {
         std::shared_ptr<RenderedMesh> pyramid =
           std::make_shared<RenderedMesh>(pyramidMesh, std::string(RESOURCE_PATH) + "textures/fire_texture_pyramid.png");
@@ -140,6 +145,8 @@ int main()
             }
 
             plan.updateModelMatrix();
+
+            ParticlePrinter::debugPrint();
 
             // get the actual particles positions to set it to the corresponding renderedMeshes
             ParticleMeshRegistry::updateMeshPosition();
