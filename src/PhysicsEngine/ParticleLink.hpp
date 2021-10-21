@@ -4,7 +4,7 @@
 
 class ParticleLink : public ParticleContactGenerator
 {
-  private:
+  protected:
 	// Linked particles
     std::vector<std::shared_ptr<Particle>> m_particle;
 
