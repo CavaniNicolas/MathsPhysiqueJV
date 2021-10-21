@@ -50,6 +50,7 @@ set(SOURCES
     vendor/stb_image/stb_image.cpp
     PhysicsEngine/ParticleContact.cpp
     PhysicsEngine/ParticleContactResolver.cpp
+    PhysicsEngine/ParticleLink.cpp
 
 set(HEADERS
     PhysicsEngine/Bullet.hpp
@@ -84,6 +85,7 @@ set(HEADERS
     PhysicsEngine/ParticleContact.hpp
     PhysicsEngine/ParticleContactResolver.hpp
     PhysicsEngine/ParticleContactGenerator.hpp
+    PhysicsEngine/ParticleLink.hpp
 
 #add_definitions(
 #    -DTW_STATIC
