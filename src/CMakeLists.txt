@@ -53,6 +53,7 @@ set(SOURCES
     PhysicsEngine/ParticleContactResolver.cpp
     PhysicsEngine/ParticleLink.cpp
     PhysicsEngine/ParticleCable.cpp 
+    PhysicsEngine/ParticleRod.cpp
 
 set(HEADERS
     PhysicsEngine/Bullet.hpp
@@ -86,11 +87,13 @@ set(HEADERS
 
     vendor/stb_image/stb_image.h
 
+    #Collision
     PhysicsEngine/ParticleContact.hpp
     PhysicsEngine/ParticleContactResolver.hpp
     PhysicsEngine/ParticleContactGenerator.hpp
     PhysicsEngine/ParticleLink.hpp
     PhysicsEngine/ParticleCable.hpp
+    PhysicsEngine/ParticleRod.hpp
 
 #add_definitions(
 #    -DTW_STATIC
