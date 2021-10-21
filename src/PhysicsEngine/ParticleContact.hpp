@@ -42,6 +42,23 @@ class ParticleContact
     void resolve(float duration);
 
 	//Return the separationVelocity of the particles
-    float calculateSeparatingVelocity();
+    float calculateSeparatingVelocity() const;
 
+	friend bool operator==(const std::shared_ptr<ParticleContact> c1, const std::shared_ptr<ParticleContact> c2);
+    friend bool operator!=(const std::shared_ptr<ParticleContact> c1, const std::shared_ptr<ParticleContact> c2);
+
+    friend bool operator<(const std::shared_ptr<ParticleContact> c1, const std::shared_ptr<ParticleContact> c2);
+    friend bool operator>(const std::shared_ptr<ParticleContact> c1, const std::shared_ptr<ParticleContact> c2);
+
+    friend bool operator<=(const std::shared_ptr<ParticleContact> c1, const std::shared_ptr<ParticleContact> c2);
+    friend bool operator>=(const std::shared_ptr<ParticleContact> c1, const std::shared_ptr<ParticleContact> c2);
+
+    // This is a required structure to tell the priority queue how to compare ParticleContact
+    struct HighestSeparatingVelocity
+    {
+        bool operator()(const std::shared_ptr<ParticleContact> c1, const std::shared_ptr<ParticleContact> c2)
+        {
+            return c1 >= c2;
+        }
+    };
 };

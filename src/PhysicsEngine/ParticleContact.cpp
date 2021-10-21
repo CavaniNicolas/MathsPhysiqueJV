@@ -37,10 +37,11 @@ void ParticleContact::resolveInterpenetration()
     float m2 = m_particle[1]->getMass();
 
     delta_p1 = m_contactNormal * m_penetration * (m2 / (m1 + m2));
-    delta_p2 = m_contactNormal * m_penetration * (m1 / (m1 + m2));
+    delta_p2 = m_contactNormal * m_penetration * -(m1 / (m1 + m2));
 
     m_particle[0]->setPosition(p1 + delta_p1);
     m_particle[1]->setPosition(p2 + delta_p2);
+    //Est-ce qu'il faudrait plutôt mettre p1/2 - delta_p1/2 ?
 }
 
 // Resolve velocity and interpenetration
@@ -50,7 +51,8 @@ void ParticleContact::resolve(float duration) {
 }
 
 // Return the separationVelocity of the particles
-float ParticleContact::calculateSeparatingVelocity() {
+float ParticleContact::calculateSeparatingVelocity() const
+{
     if (m_particle[1]) 
     {
         Vector3D v_A = m_particle[0]->getVelocity();
@@ -62,4 +64,34 @@ float ParticleContact::calculateSeparatingVelocity() {
         Vector3D v_A = m_particle[0]->getVelocity();
         return (v_A).scalarProduct(m_contactNormal.normalize());
     }
+}
+
+bool operator==(const std::shared_ptr<ParticleContact> c1, const std::shared_ptr<ParticleContact> c2)
+{
+    return c1->calculateSeparatingVelocity() == c2->calculateSeparatingVelocity();
+}
+
+bool operator!=(const std::shared_ptr<ParticleContact> c1, const std::shared_ptr<ParticleContact> c2)
+{
+    return c1->calculateSeparatingVelocity() != c2->calculateSeparatingVelocity();
+}
+
+bool operator<(const std::shared_ptr<ParticleContact> c1, const std::shared_ptr<ParticleContact> c2)
+{
+    return c1->calculateSeparatingVelocity() < c2->calculateSeparatingVelocity();
+}
+
+bool operator>(const std::shared_ptr<ParticleContact> c1, const std::shared_ptr<ParticleContact> c2)
+{
+    return c1->calculateSeparatingVelocity() > c2->calculateSeparatingVelocity();
+}
+
+bool operator<=(const std::shared_ptr<ParticleContact> c1, const std::shared_ptr<ParticleContact> c2)
+{
+    return c1->calculateSeparatingVelocity() <= c2->calculateSeparatingVelocity();
+}
+
+bool operator>=(const std::shared_ptr<ParticleContact> c1, const std::shared_ptr<ParticleContact> c2)
+{
+    return c1->calculateSeparatingVelocity() >= c2->calculateSeparatingVelocity();
 }

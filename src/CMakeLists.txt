@@ -48,7 +48,7 @@ set(SOURCES
     vendor/imgui/imgui_widgets.cpp
 
     vendor/stb_image/stb_image.cpp
- "PhysicsEngine/ParticleContact.cpp")
+    PhysicsEngine/ParticleContact.cpp
 
 set(HEADERS
     PhysicsEngine/Bullet.hpp
@@ -80,7 +80,7 @@ set(HEADERS
     Render/Window.hpp
 
     vendor/stb_image/stb_image.h
- "PhysicsEngine/ParticleContact.hpp")
+    PhysicsEngine/ParticleContact.hpp
 
 #add_definitions(
 #    -DTW_STATIC
