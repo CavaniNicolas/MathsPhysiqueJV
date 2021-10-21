@@ -121,20 +121,6 @@ int main()
                 prevTimeParticlePrint = crntTimeParticlePrint;
             }
 
-            auto lastTime = std::chrono::high_resolution_clock::now();
-            auto durationDelta = lastTime - startTime;
-            auto durationDeltaCast = std::chrono::duration_cast<std::chrono::seconds>(durationDelta);
-
-            //            if(durationDelta.count() / 1000000 > 1000)
-            //            if(durationDeltaCast.count() >= 1)
-            //            {
-            //                std::cout << "1 seconde"
-            //                          << "durationDelta.count() : " << durationDelta.count() << std::endl
-            //                          << "durationDeltaCast.count() : " << durationDeltaCast.count() << std::endl
-            //                          << std::endl;
-            //                startTime = std::chrono::high_resolution_clock::now();
-            //            }
-
             // get the actual particle position to set it to the pyramid
             pyramid.setPosition({gameEngine.getParticles()[0].getPosition().getX(),
                                  gameEngine.getParticles()[0].getPosition().getY(),
