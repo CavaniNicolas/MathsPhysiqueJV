@@ -73,16 +73,16 @@ Vector3D WallContactGenerator::calculateNormal() const {
     switch(m_wallPlan)
     {
         case x: 
-            normal = m_particle->getPosition() - Vector3D(m_coordinates, m_particle->getPosition().getY(), m_particle->getPosition().getZ()).normalize();
+            normal = (m_particle->getPosition() - Vector3D(m_coordinates, m_particle->getPosition().getY(), m_particle->getPosition().getZ())).normalize();
             break;
         case y:
             normal =
-              m_particle->getPosition() -
-              Vector3D(m_particle->getPosition().getX(), m_coordinates, m_particle->getPosition().getZ()).normalize();
+              (m_particle->getPosition() -
+              Vector3D(m_particle->getPosition().getX(), m_coordinates, m_particle->getPosition().getZ())).normalize();
             break;
         case z:
-            normal = m_particle->getPosition() -
-                     Vector3D(m_particle->getPosition().getX(), m_particle->getPosition().getY(), m_coordinates).normalize();
+            normal = (m_particle->getPosition() -
+                     Vector3D(m_particle->getPosition().getX(), m_particle->getPosition().getY(), m_coordinates)).normalize();
             break;
         default: break;
     }

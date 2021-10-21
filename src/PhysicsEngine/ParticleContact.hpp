@@ -39,10 +39,10 @@ class ParticleContact
 	~ParticleContact();
 
 	//Resolve velocity and interpenetration
-    void resolve(float duration);
+    void resolve();
 
 	//Return the separationVelocity of the particles
-    float calculateSeparatingVelocity() const;
+    float calculateSeparatingVelocity();
 
 	friend bool operator==(const std::shared_ptr<ParticleContact> c1, const std::shared_ptr<ParticleContact> c2);
     friend bool operator!=(const std::shared_ptr<ParticleContact> c1, const std::shared_ptr<ParticleContact> c2);

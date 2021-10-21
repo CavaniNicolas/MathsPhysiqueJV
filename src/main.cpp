@@ -21,7 +21,9 @@
 #include "PhysicsEngine/ParticleDrag.hpp"
 #include "PhysicsEngine/ParticleForceRegistry.hpp"
 #include "PhysicsEngine/ParticleGravity.hpp"
-#include "PhysicsEngine/ParticleSpring.hpp"
+#include "PhysicsEngine/ParticleSpring.hpp"*
+
+#include "PhysicsEngine/WallContactGenerator.hpp"
 
 #include <Render/Camera.hpp>
 #include <Render/Mesh.hpp>
@@ -71,25 +73,32 @@ int main()
     Camera camera(960, 540, glm::vec3(0.0f, 15.0f, 80.0f));
 
     // create a projectile
-    std::shared_ptr<Projectile> projectile;
-    projectile = std::make_shared<Fireball>(Vector3D(), Vector3D(1, 0, 0), 1, 1);
+    std::shared_ptr<Particle> particle;
+    particle = std::make_shared<Particle>(Vector3D(0,10,0), Vector3D());
 
-    std::shared_ptr<Projectile> projectile2;
-    projectile2 = std::make_shared<Fireball>(Vector3D(0, 6, 0), Vector3D(1, 0, 0), 1, 1);
+    //std::shared_ptr<Projectile> projectile2;
+    //projectile2 = std::make_shared<Fireball>(Vector3D(0, 6, 0), Vector3D(1, 0, 0), 1, 1);
 
-    Scene scene = Scene({projectile, projectile2});
+    Scene scene = Scene({particle});
 
     std::shared_ptr<ParticleGravity> partGravity = std::make_shared<ParticleGravity>();
-    std::shared_ptr<ParticleAnchoredSpring> anchor = std::make_shared<ParticleAnchoredSpring>(Vector3D(0, 0, 0), 30, 5);
+    /*std::shared_ptr<ParticleAnchoredSpring> anchor = std::make_shared<ParticleAnchoredSpring>(Vector3D(0, 0, 0), 30,
+    5);
     std::shared_ptr<ParticleDrag> drag = std::make_shared<ParticleDrag>(0.25, 0);
 
     std::shared_ptr<ParticleSpring> spring = std::make_shared<ParticleSpring>(projectile, 30, 5);
 
-    scene.addForce(projectile, partGravity);
     scene.addForce(projectile, anchor);
     scene.addForce(projectile, drag);
 
-    scene.addForce(projectile2, spring);
+    scene.addForce(projectile2, spring);*/
+
+    scene.addForce(particle, partGravity);
+
+    std::shared_ptr<WallContactGenerator> wall =
+      std::make_shared<WallContactGenerator>(particle, WallContactGenerator::y, 1, 0, 3);
+
+    scene.addContactGenerator(wall);
 
     GameEngine gameEngine = GameEngine(scene);
 
@@ -97,7 +106,7 @@ int main()
     double prevTime = glfwGetTime();
 
     // Singleton to help debug and print Particle every 2 seconds
-    ParticlePrinter::setParticle(projectile);
+    ParticlePrinter::setParticle(particle);
 
     {
         std::shared_ptr<RenderedMesh> pyramid =
@@ -112,8 +121,7 @@ int main()
 
         Renderer renderer;
 
-        ParticleMeshRegistry::addEntry(projectile, pyramid);
-        ParticleMeshRegistry::addEntry(projectile2, pyramid2);
+        ParticleMeshRegistry::addEntry(particle, pyramid);
 
         // multiplay the plan scale by 5
         plan.setScale(glm::vec3(5.0f, 5.0f, 5.0f));

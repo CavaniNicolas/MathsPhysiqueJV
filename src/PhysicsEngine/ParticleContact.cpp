@@ -37,7 +37,9 @@ void ParticleContact::resolveVelocity() {
 
         if(y_accel == m_particle[0]->getG())
         {
+            std::cout << "The y acceleration is only caused by gravity" << std::endl;
             if (v1.getY() <= y_accel * m_particle[0]->getDeltaT()) {
+                std::cout << "The particle is resting in y coordinate" << std::endl;
                 restingParticle = true;
             }
         }
@@ -88,13 +90,13 @@ void ParticleContact::resolveInterpenetration()
 }
 
 // Resolve velocity and interpenetration
-void ParticleContact::resolve(float duration) {
-    resolveVelocity();
+void ParticleContact::resolve() {
     resolveInterpenetration();
+    resolveVelocity();
 }
 
 // Return the separationVelocity of the particles
-float ParticleContact::calculateSeparatingVelocity() const
+float ParticleContact::calculateSeparatingVelocity()
 {
     if (m_particle[1] != nullptr) 
     {
