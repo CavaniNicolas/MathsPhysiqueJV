@@ -18,6 +18,7 @@
 #include "PhysicsEngine/ParticleForceRegistry.hpp"
 #include "PhysicsEngine/ParticleAnchoredSpring.hpp"
 #include "PhysicsEngine/ParticleDrag.hpp"
+#include "PhysicsEngine/ParticleSpring.hpp"
 
 #include <Render/Camera.hpp>
 #include <Render/Mesh.hpp>
@@ -69,15 +70,23 @@ int main()
     // create a projectile
     std::shared_ptr<Projectile> projectile;
     projectile = std::make_shared<Fireball>(Vector3D(), Vector3D(1, 0, 0), 1, 1);
-    Scene scene = Scene({projectile});
+
+    std::shared_ptr<Projectile> projectile2;
+    projectile2 = std::make_shared<Fireball>(Vector3D(0, 6, 0), Vector3D(1, 0, 0), 1, 1);
+
+    Scene scene = Scene({projectile, projectile2});
 
     std::shared_ptr<ParticleGravity> partGravity = std::make_shared<ParticleGravity>();
     std::shared_ptr<ParticleAnchoredSpring> anchor = std::make_shared<ParticleAnchoredSpring>(Vector3D(0, 0, 0), 30, 5);
     std::shared_ptr<ParticleDrag> drag = std::make_shared<ParticleDrag>(0.25, 0);
 
+    std::shared_ptr<ParticleSpring> spring = std::make_shared<ParticleSpring>(projectile, 30, 5);
+
     scene.addForce(projectile, partGravity);
     scene.addForce(projectile, anchor);
     scene.addForce(projectile, drag);
+
+    scene.addForce(projectile2, spring);
 
     GameEngine gameEngine = GameEngine(scene);
 
@@ -89,6 +98,8 @@ int main()
 
     {
         RenderedMesh pyramid(pyramidMesh, std::string(RESOURCE_PATH) + "textures/fire_texture_pyramid.png");
+        RenderedMesh pyramid2(pyramidMesh, std::string(RESOURCE_PATH) + "textures/fire_texture_pyramid.png");
+
         RenderedMesh plan(planMesh, std::string(RESOURCE_PATH) + "textures/gril_texture.png");
 
         Shader shader(std::string(RESOURCE_PATH) + "shaders/basic.shader");
@@ -100,6 +111,7 @@ int main()
 
         // divide the pyramid scale by 2
         pyramid.setScale(glm::vec3(0.5f, 0.5f, 0.5f));
+        pyramid2.setScale(glm::vec3(0.5f, 0.5f, 0.5f));
 
         auto startTime = std::chrono::high_resolution_clock::now();
 
@@ -122,6 +134,7 @@ int main()
                 pyramid.addRotation(glm::vec3(0.0f, 0.5f, 0.0f));
 
                 pyramid.updateModelMatrix();
+                pyramid2.updateModelMatrix();
                 plan.updateModelMatrix();
 
                 prevTime = crntTime;
@@ -139,6 +152,11 @@ int main()
             pyramid.setPosition({gameEngine.getParticles()[0]->getPosition().getX(),
                                  gameEngine.getParticles()[0]->getPosition().getY(),
                                  gameEngine.getParticles()[0]->getPosition().getZ()});
+
+            // get the actual particle position to set it to the pyramid
+            pyramid2.setPosition({gameEngine.getParticles()[1]->getPosition().getX(),
+                                  gameEngine.getParticles()[1]->getPosition().getY(),
+                                  gameEngine.getParticles()[1]->getPosition().getZ()});
 
             // handle inputs to move the camera
             camera.handleInputs(window);
@@ -159,6 +177,7 @@ int main()
             // renderer.draw(shader, scene); // how it will be in the end (scene will
             // contain camera and list of meshes)
             renderer.draw(shader, camera, pyramid);
+            renderer.draw(shader, camera, pyramid2);
             renderer.draw(shader, camera, plan);
 
             // RenderUI
