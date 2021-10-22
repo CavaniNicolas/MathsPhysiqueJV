@@ -1,36 +1,32 @@
 
-// Include GLEW (important to be first)
-#include <GL/glew.h>
-
-// Include GLFW
-#include <GLFW/glfw3.h>
-
 // Include glm
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 
 #include <iostream>
 
-#include "API/ParticleMeshRegistry.hpp"
+// Include API between PhysicsEngine and Render libs
+#include <API/ParticleMeshRegistry.hpp>
+#include <API/UserInterface.hpp>
 
-#include "PhysicsEngine/DebugUtils/ParticlePrinter.hpp"
+// Include PhysicsEngine library
+#include <PhysicsEngine/DebugUtils/ParticlePrinter.hpp>
 
-#include "PhysicsEngine/Fireball.hpp"
-#include "PhysicsEngine/GameEngine.hpp"
-#include "PhysicsEngine/ParticleAnchoredSpring.hpp"
-#include "PhysicsEngine/ParticleDrag.hpp"
-#include "PhysicsEngine/ParticleForceRegistry.hpp"
-#include "PhysicsEngine/ParticleGravity.hpp"
-#include "PhysicsEngine/ParticleSpring.hpp"
+#include <PhysicsEngine/Fireball.hpp>
+#include <PhysicsEngine/GameEngine.hpp>
+#include <PhysicsEngine/ParticleAnchoredSpring.hpp>
+#include <PhysicsEngine/ParticleDrag.hpp>
+#include <PhysicsEngine/ParticleForceRegistry.hpp>
+#include <PhysicsEngine/ParticleGravity.hpp>
+#include <PhysicsEngine/ParticleSpring.hpp>
+#include <PhysicsEngine/WallContactGenerator.hpp>
 
-#include "PhysicsEngine/WallContactGenerator.hpp"
-
+// Include Render lib which uses opengl
 #include <Render/Camera.hpp>
 #include <Render/Mesh.hpp>
 #include <Render/RenderedMesh.hpp>
 #include <Render/Renderer.hpp>
 #include <Render/Shader.hpp>
-#include <Render/UserInterface.hpp>
 #include <Render/Window.hpp>
 
 int main()
