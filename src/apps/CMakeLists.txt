@@ -29,3 +29,19 @@ mp_add_executable(${MP_MAIN_NAME}
     LINKS ${MP_APPS_LINKS}
     INCLUDE_DIRS ${MP_APPS_INCDIRS}
 )
+
+##############################
+### Test Spring Executable ###
+##############################
+
+set(MP_TestSpring_NAME TestSpring)
+
+set(MP_TestSpring_SOURCES
+    testSpring.cpp
+)
+
+mp_add_executable(${MP_TestSpring_NAME}
+    SOURCE ${MP_TestSpring_SOURCES}
+    LINKS ${MP_APPS_LINKS}
+    INCLUDE_DIRS ${MP_APPS_INCDIRS}
+)
