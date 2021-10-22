@@ -57,10 +57,10 @@ int main()
 
     // Store mesh data in vectors for the mesh
     std::vector<Vertex> vertsPlan = {//              COORDINATES           /           TexCoord //
-                                     Vertex{glm::vec3(-5.0f, -1.0f, 5.0f), glm::vec2(0.0f, 0.0f)},
-                                     Vertex{glm::vec3(-5.0f, -1.0f, -5.0f), glm::vec2(1.0f, 0.0f)},
-                                     Vertex{glm::vec3(5.0f, -1.0f, -5.0f), glm::vec2(1.0f, 1.0f)},
-                                     Vertex{glm::vec3(5.0f, -1.0f, 5.0f), glm::vec2(0.0f, 1.0f)}};
+                                     Vertex{glm::vec3(-5.0f, 0.0f, 5.0f), glm::vec2(0.0f, 0.0f)},
+                                     Vertex{glm::vec3(-5.0f, 0.0f, -5.0f), glm::vec2(1.0f, 0.0f)},
+                                     Vertex{glm::vec3(5.0f, 0.0f, -5.0f), glm::vec2(1.0f, 1.0f)},
+                                     Vertex{glm::vec3(5.0f, 0.0f, 5.0f), glm::vec2(0.0f, 1.0f)}};
 
     std::vector<unsigned int> indicesPlan = {0, 1, 2, 2, 3, 0};
 
@@ -81,7 +81,7 @@ int main()
 
     // create a floor the particle will bounce on
     std::shared_ptr<WallContactGenerator> floor =
-      std::make_shared<WallContactGenerator>(particle, WallContactGenerator::y, 1, 0, 3);
+      std::make_shared<WallContactGenerator>(particle, WallContactGenerator::y, 1, -2, 2);
 
     scene.addContactGenerator(floor);
 
