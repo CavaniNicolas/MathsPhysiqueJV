@@ -16,7 +16,7 @@ class Scene
 
     ParticleForceRegistry m_forcesRegistry;
 
-    std::shared_ptr<std::vector<std::shared_ptr<ParticleContact>>> m_contactArray;
+    std::vector<std::shared_ptr<ParticleContact>> m_contactArray;
     ParticleContactResolver m_contactResolver;
     std::vector<std::shared_ptr<ParticleContactGenerator>> m_contactGenerators;
     int m_maxContactsPerIteration;
