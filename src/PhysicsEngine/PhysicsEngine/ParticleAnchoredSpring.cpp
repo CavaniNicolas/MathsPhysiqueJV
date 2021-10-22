@@ -12,5 +12,11 @@ void ParticleAnchoredSpring::updateForce(std::shared_ptr<Particle> particle, flo
 
     Vector3D force = d.normalize() * -m_k * (d.getNorm() - m_restLength);
 
+    if (d.getNorm() - m_restLength != 0) {
+        if (particle->isResting()) {
+            particle->setResting(false);
+        }
+    }
+
     particle->setAcceleration(particle->getAcceleration() + force * particle->getInverseMass());
 }

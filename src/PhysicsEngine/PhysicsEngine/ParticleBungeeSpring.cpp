@@ -13,5 +13,10 @@ void ParticleBungeeSpring::UpdateForce(std::shared_ptr<Particle> particle, float
     {
         Vector3D force = d.normalize() * -m_k * (d.getNorm() - m_restLength);
         particle->setAcceleration(particle->getAcceleration() + force * particle->getInverseMass());
+
+        if(particle->isResting())
+        {
+            particle->setResting(false);
+        }
     }
 }
