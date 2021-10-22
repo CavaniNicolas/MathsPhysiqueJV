@@ -68,33 +68,22 @@ int main()
 
     Camera camera(960, 540, glm::vec3(0.0f, 15.0f, 80.0f));
 
-    // create a projectile
+    // create a particle
     std::shared_ptr<Particle> particle;
     particle = std::make_shared<Particle>(Vector3D(0, 10, 0), Vector3D());
-
-    // std::shared_ptr<Projectile> projectile2;
-    // projectile2 = std::make_shared<Fireball>(Vector3D(0, 6, 0), Vector3D(1, 0, 0), 1, 1);
 
     Scene scene = Scene({particle});
 
     std::shared_ptr<ParticleGravity> partGravity = std::make_shared<ParticleGravity>();
-    /*std::shared_ptr<ParticleAnchoredSpring> anchor = std::make_shared<ParticleAnchoredSpring>(Vector3D(0, 0, 0), 30,
-    5);
-    std::shared_ptr<ParticleDrag> drag = std::make_shared<ParticleDrag>(0.25, 0);
 
-    std::shared_ptr<ParticleSpring> spring = std::make_shared<ParticleSpring>(projectile, 30, 5);
-
-    scene.addForce(projectile, anchor);
-    scene.addForce(projectile, drag);
-
-    scene.addForce(projectile2, spring);*/
-
+    // particle will fall due to gravity
     scene.addForce(particle, partGravity);
 
-    std::shared_ptr<WallContactGenerator> wall =
+    // create a floor the particle will bounce on
+    std::shared_ptr<WallContactGenerator> floor =
       std::make_shared<WallContactGenerator>(particle, WallContactGenerator::y, 1, 0, 3);
 
-    scene.addContactGenerator(wall);
+    scene.addContactGenerator(floor);
 
     GameEngine gameEngine = GameEngine(scene);
 
@@ -106,9 +95,6 @@ int main()
 
     {
         std::shared_ptr<RenderedMesh> pyramid =
-          std::make_shared<RenderedMesh>(pyramidMesh, std::string(RESOURCE_PATH) + "textures/fire_texture_pyramid.png");
-
-        std::shared_ptr<RenderedMesh> pyramid2 =
           std::make_shared<RenderedMesh>(pyramidMesh, std::string(RESOURCE_PATH) + "textures/fire_texture_pyramid.png");
 
         RenderedMesh plan(planMesh, std::string(RESOURCE_PATH) + "textures/gril_texture.png");
@@ -124,7 +110,6 @@ int main()
 
         // divide the pyramid scale by 2
         pyramid->setScale(glm::vec3(0.5f, 0.5f, 0.5f));
-        pyramid2->setScale(glm::vec3(0.5f, 0.5f, 0.5f));
 
         auto startTime = std::chrono::high_resolution_clock::now();
 
