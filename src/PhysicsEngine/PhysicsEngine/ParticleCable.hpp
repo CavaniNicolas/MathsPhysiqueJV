@@ -19,6 +19,6 @@ class ParticleCable : public ParticleLink
                   float restitution);
 
     // Fill ParticleContact with information from particles and contact generator
-    unsigned int addContact(std::vector<std::shared_ptr<ParticleContact>>& contacts,
+    virtual unsigned int addContact(std::vector<std::shared_ptr<ParticleContact>>& contacts,
                             unsigned int limit) const;
 };

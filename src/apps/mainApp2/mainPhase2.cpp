@@ -20,6 +20,8 @@
 #include <PhysicsEngine/ParticleGravity.hpp>
 #include <PhysicsEngine/ParticleSpring.hpp>
 #include <PhysicsEngine/WallContactGenerator.hpp>
+#include <PhysicsEngine/ParticleRod.hpp>
+#include <PhysicsEngine/ParticleCable.hpp>
 
 // Include Render lib which uses opengl
 #include <Render/Camera.hpp>
@@ -72,20 +74,30 @@ int main()
     std::shared_ptr<Particle> particle;
     particle = std::make_shared<Particle>(Vector3D(0, 20, 0), Vector3D());
 
-    Scene scene = Scene({particle});
+    // create a particle
+    std::shared_ptr<Particle> particle2;
+    particle2 = std::make_shared<Particle>(Vector3D(50, 20, 0), Vector3D());
+
+    Scene scene = Scene({particle, particle2});
 
     std::shared_ptr<ParticleGravity> partGravity = std::make_shared<ParticleGravity>();
-    std::shared_ptr<ParticleDrag> partDrag = std::make_shared<ParticleDrag>(.1, .05);
+    //std::shared_ptr<ParticleDrag> partDrag = std::make_shared<ParticleDrag>(.1, .05);
 
     // particle will fall due to gravity
     scene.addForce(particle, partGravity);
-    scene.addForce(particle, partDrag);
+    scene.addForce(particle2, partGravity);
+   // scene.addForce(particle, partDrag);
 
     // create a floor the particle will bounce on
     std::shared_ptr<WallContactGenerator> floor =
       std::make_shared<WallContactGenerator>(particle, WallContactGenerator::y, .25, -2, 2);
+    
+
+    //create a rod between the particles
+    std::shared_ptr<ParticleCable> cable = std::make_shared<ParticleCable>(particle, particle2, 50, 1);
 
     scene.addContactGenerator(floor);
+    scene.addContactGenerator(cable);
 
     GameEngine gameEngine = GameEngine(scene);
 
@@ -98,6 +110,8 @@ int main()
     {
         std::shared_ptr<RenderedMesh> pyramid =
           std::make_shared<RenderedMesh>(pyramidMesh, std::string(RESOURCE_PATH) + "textures/fire_texture_pyramid.png");
+        std::shared_ptr<RenderedMesh> pyramid2 =
+          std::make_shared<RenderedMesh>(pyramidMesh, std::string(RESOURCE_PATH) + "textures/fire_texture_pyramid.png");
 
         RenderedMesh plan(planMesh, std::string(RESOURCE_PATH) + "textures/gril_texture.png");
 
@@ -106,12 +120,14 @@ int main()
         Renderer renderer;
 
         ParticleMeshRegistry::addEntry(particle, pyramid);
+        ParticleMeshRegistry::addEntry(particle2, pyramid2);
 
         // multiplay the plan scale by 5
         plan.setScale(glm::vec3(5.0f, 5.0f, 5.0f));
 
         // divide the pyramid scale by 2
         pyramid->setScale(glm::vec3(0.5f, 0.5f, 0.5f));
+        pyramid2->setScale(glm::vec3(0.5f, 0.5f, 0.5f));
 
         auto startTime = std::chrono::high_resolution_clock::now();
 

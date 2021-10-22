@@ -190,3 +190,8 @@ std::ostream& operator<<(std::ostream& out, Vector3D const& vector)
     out << "(" << vector.m_x << ", " << vector.m_y << ", " << vector.m_z << ")";
     return out;
 }
+
+bool operator==(const Vector3D v1, const Vector3D v2)
+{
+    return (v1.m_x == v2.m_x && v1.m_y == v2.m_y && v1.m_z == v2.m_z);
+}

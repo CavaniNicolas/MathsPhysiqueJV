@@ -41,9 +41,12 @@ void ParticleContact::resolveVelocity() {
         Vector3D newVelocity = velocity - m_contactNormal * k * inv_m;
 
         bool restingParticle = false;
-        if(newVelocity.getY() < 8 * m_restitution || m_restitution == 0)
-        {
-            restingParticle = true;
+        if (accel == Vector3D(0, m_particle[0]->getG(), 0)) {
+            if(newVelocity.getY() < 8 * m_restitution || m_restitution == 0)
+            {
+                std::cout << "Particle is resting" << std::endl;
+                restingParticle = true;
+            }
         }
 
         if(restingParticle)
