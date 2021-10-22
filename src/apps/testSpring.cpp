@@ -108,8 +108,8 @@ int main()
 
         Renderer renderer;
 
-        ParticleMeshRegistry::addEntry(particle, pyramid);
-        ParticleMeshRegistry::addEntry(projectile, pyramid2);
+        ParticleMeshRegistry::addEntry(projectile, pyramid);
+        ParticleMeshRegistry::addEntry(particle, pyramid2);
 
         // multiplay the plan scale by 5
         plan.setScale(glm::vec3(5.0f, 5.0f, 5.0f));
