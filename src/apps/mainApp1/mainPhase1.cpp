@@ -23,10 +23,10 @@ void startEngineWithParticle(std::shared_ptr<Particle> particle, float duration)
 
     while(time < simulationEndTime)
     {
-        std::vector<Particle> particles = gameEngine.getParticles();
-        for(Particle particle: particles)
+        std::vector<std::shared_ptr<Particle>> particles = gameEngine.getParticles();
+        for(auto const& particle: particles)
         {
-            std::cout << particle << std::endl;
+            std::cout << *particle << std::endl;
         }
         Sleep(1000);
         time = static_cast<float>(clock()) / CLOCKS_PER_SEC;
