@@ -22,10 +22,15 @@ set(MP_MAIN1_NAME mainPhase1)
 
 set(MP_MAIN1_SOURCES
     mainApp1/mainPhase1.cpp
+    mainApp1/UserInterface.cpp
+)
+
+set(MP_MAIN1_HEADERS
+    mainApp1/UserInterface.hpp
 )
 
 mp_add_executable(${MP_MAIN1_NAME}
-    SOURCE ${MP_MAIN1_SOURCES}
+    SOURCE ${MP_MAIN1_SOURCES} ${MP_MAIN1_HEADERS}
     LINKS ${MP_APPS_LINKS}
     INCLUDE_DIRS ${MP_APPS_INCDIRS}
 )

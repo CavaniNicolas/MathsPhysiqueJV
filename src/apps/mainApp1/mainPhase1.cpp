@@ -1,112 +1,181 @@
 
-#include "PhysicsEngine/Bullet.hpp"
-#include "PhysicsEngine/Fireball.hpp"
-#include "PhysicsEngine/GameEngine.hpp"
-#include "PhysicsEngine/Laser.hpp"
+// Include glm
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
 
-#include <Windows.h>
-#include <algorithm>
 #include <iostream>
-#include <stdio.h>
-#include <stdlib.h>
-#include <string>
 
-void startEngineWithParticle(std::shared_ptr<Particle> particle, float duration)
-{
-    Scene scene = Scene({particle});
-    GameEngine gameEngine = GameEngine(scene);
+#include "mainApp1/UserInterface.hpp"
 
-    gameEngine.run();
+// Include API between PhysicsEngine and Render libs
+#include <API/ParticleMeshRegistry.hpp>
 
-    float time = static_cast<float>(clock()) / CLOCKS_PER_SEC;
-    float simulationEndTime = time + duration;
+// Include PhysicsEngine library
+#include <PhysicsEngine/DebugUtils/ParticlePrinter.hpp>
 
-    while(time < simulationEndTime)
-    {
-        std::vector<std::shared_ptr<Particle>> particles = gameEngine.getParticles();
-        for(auto const& particle: particles)
-        {
-            std::cout << *particle << std::endl;
-        }
-        Sleep(1000);
-        time = static_cast<float>(clock()) / CLOCKS_PER_SEC;
-    }
+#include <PhysicsEngine/Bullet.hpp>
+#include <PhysicsEngine/Fireball.hpp>
+#include <PhysicsEngine/Laser.hpp>
+#include <PhysicsEngine/GameEngine.hpp>
+#include <PhysicsEngine/ParticleAnchoredSpring.hpp>
+#include <PhysicsEngine/ParticleDrag.hpp>
+#include <PhysicsEngine/ParticleForceRegistry.hpp>
+#include <PhysicsEngine/ParticleGravity.hpp>
+#include <PhysicsEngine/ParticleSpring.hpp>
+#include <PhysicsEngine/WallContactGenerator.hpp>
 
-    gameEngine.stop();
-}
+// Include Render lib which uses opengl
+#include <Render/Camera.hpp>
+#include <Render/Mesh.hpp>
+#include <Render/RenderedMesh.hpp>
+#include <Render/Renderer.hpp>
+#include <Render/Shader.hpp>
+#include <Render/Window.hpp>
 
 int main()
 {
-    std::shared_ptr<Projectile> projectile;
-
-    while(1)
+    Window window(960, 540, "Moteur Physique");
+    if(!window.init())
     {
-        std::cout << "There's 3 projectile types you can shoot. Which one do you want to use ?" << std::endl;
-        std::cout << "- fireball (slow, negative gravity)" << std::endl;
-        std::cout << "- bullet (fast, high gravity)" << std::endl;
-        std::cout << "- laser (super fast, no gravity)" << std::endl;
-        std::string projectileType;
-        std::cout << "Your choice: ";
-        std::cin >> projectileType;
-        std::transform(projectileType.begin(), projectileType.end(), projectileType.begin(), tolower);
-        if(projectileType == "laser")
-        {
-            projectile = std::shared_ptr<Projectile>(new Laser());
-        }
-        else if(projectileType == "bullet")
-        {
-            projectile = std::shared_ptr<Projectile>(new Bullet());
-        }
-        else if(projectileType == "fireball")
-        {
-            projectile = std::shared_ptr<Projectile>(new Fireball());
-        }
-        else
-        {
-            std::cerr << "This is not a valid type of projectile, please try again." << std::endl;
-            continue;
-        }
-
-        std::cout << "Chose your initial position (example: (10,-2,6.5) ): ";
-        Vector3D initialPosition = Vector3D::getVectorInput();
-        projectile->setPosition(initialPosition);
-
-        std::cout << "Chose the direction of your shoot (example: (10,-2,6.5) ): ";
-        Vector3D direction = Vector3D::getVectorInput();
-        projectile->setDirection(direction);
-
-        std::cout << "Chose the simulation duration (in seconds): ";
-        std::string timeStr;
-
-        float duration;
-        while(1)
-        {
-            try
-            {
-                std::cin >> timeStr;
-
-                duration = std::stof(timeStr);
-
-                if(duration <= 1)
-                {
-                    std::cout << "Please enter a time greater than 1 second, "
-                                 "otherwise you won't see any print"
-                              << std::endl;
-                    std::cout << "Your new choice: ";
-                }
-                else
-                {
-                    // We have a valid duration
-                    break;
-                }
-            }
-            catch(std::invalid_argument)
-            {
-                std::cout << "Please enter a float value (for example 10, or 9.6)" << std::endl;
-                std::cout << "Your new choice: ";
-            }
-        }
-
-        startEngineWithParticle(projectile, duration);
+        return -1;
     }
+
+    UserInterface ui(window);
+
+    // Store mesh data in vectors for the mesh
+    std::vector<Vertex> verts = {//              COORDINATES           /           TexCoord    //
+                                 Vertex{glm::vec3(-5.0f, 0.0f, 5.0f), glm::vec2(0.32f, 0.32f)},
+                                 Vertex{glm::vec3(5.0f, 0.0f, 5.0f), glm::vec2(0.69f, 0.32f)},
+                                 Vertex{glm::vec3(5.0f, 0.0f, -5.0f), glm::vec2(0.69f, 0.69f)},
+                                 Vertex{glm::vec3(-5.0f, 0.0f, -5.0f), glm::vec2(0.32f, 0.69f)},
+
+                                 Vertex{glm::vec3(0.0f, 8.0f, 0.0f), glm::vec2(0.5f, 0.0f)},
+                                 Vertex{glm::vec3(0.0f, 8.0f, 0.0f), glm::vec2(1.0f, 0.5f)},
+                                 Vertex{glm::vec3(0.0f, 8.0f, 0.0f), glm::vec2(0.5f, 1.0f)},
+                                 Vertex{glm::vec3(0.0f, 8.0f, 0.0f), glm::vec2(0.0f, 0.5f)}};
+
+    std::vector<unsigned int> indices = {0, 1, 2, 2, 3, 0, 0, 1, 4, 1, 2, 5, 2, 3, 6, 3, 0, 7};
+
+    Mesh pyramidMesh(verts, indices);
+
+    // Store mesh data in vectors for the mesh
+    std::vector<Vertex> vertsPlan = {//              COORDINATES           /           TexCoord //
+                                     Vertex{glm::vec3(-5.0f, 0.0f, 5.0f), glm::vec2(0.0f, 0.0f)},
+                                     Vertex{glm::vec3(-5.0f, 0.0f, -5.0f), glm::vec2(5.0f, 0.0f)},
+                                     Vertex{glm::vec3(5.0f, 0.0f, -5.0f), glm::vec2(5.0f, 5.0f)},
+                                     Vertex{glm::vec3(5.0f, 0.0f, 5.0f), glm::vec2(0.0f, 5.0f)}};
+
+    std::vector<unsigned int> indicesPlan = {0, 1, 2, 2, 3, 0};
+
+    Mesh planMesh(vertsPlan, indicesPlan);
+
+    Camera camera(960, 540, glm::vec3(0.0f, 15.0f, 80.0f));
+
+    // create a particle
+    std::shared_ptr<Fireball> fireball = std::make_shared<Fireball>(Vector3D(0, 0, 0), Vector3D(1, 0, -1), 1, 1);
+
+    Scene scene = Scene({fireball});
+
+    std::shared_ptr<ParticleGravity> partGravity = std::make_shared<ParticleGravity>();
+    std::shared_ptr<ParticleDrag> partDrag = std::make_shared<ParticleDrag>(0.25f, 0.0f);
+
+    // link forces to fireball
+    scene.addForce(fireball, partGravity);
+    scene.addForce(fireball, partDrag);
+
+    GameEngine gameEngine = GameEngine(scene);
+
+    // Variable that help the rotation of the pyramid
+    double prevTime = glfwGetTime();
+
+    // Singleton to help debug and print Particle every 2 seconds
+    ParticlePrinter::setParticle(fireball);
+
+    {
+        std::shared_ptr<RenderedMesh> pyramid =
+          std::make_shared<RenderedMesh>(pyramidMesh, std::string(RESOURCE_PATH) + "textures/fire_texture_pyramid.png");
+
+        RenderedMesh plan(planMesh, std::string(RESOURCE_PATH) + "textures/gril_texture.png");
+
+        Shader shader(std::string(RESOURCE_PATH) + "shaders/basic.shader");
+
+        Renderer renderer;
+
+        ParticleMeshRegistry::addEntry(fireball, pyramid);
+
+        // multiplay the plan scale by 5
+        plan.setScale(glm::vec3(5.0f, 5.0f, 5.0f));
+
+        // divide the pyramid scale by 2
+        pyramid->setScale(glm::vec3(0.5f, 0.5f, 0.5f));
+        plan.setScale(glm::vec3(50.0f, 50.0f, 50.0f));
+
+        auto startTime = std::chrono::high_resolution_clock::now();
+
+        while(!window.isBeingClosed())
+        {
+            // Render Here
+            // Clean the back buffer and depth buffer
+            renderer.clear();
+
+            // Start UI
+            ui.start();
+
+            // bind the shader
+            shader.bind();
+
+            // Simple timer for the rotation
+            double crntTime = glfwGetTime();
+            if(crntTime - prevTime >= 1 / 144)
+            {
+                pyramid->addRotation(glm::vec3(0.0f, 0.5f, 0.0f));
+                prevTime = crntTime;
+            }
+
+            plan.updateModelMatrix();
+
+            ParticlePrinter::debugPrint();
+
+            // get the actual particles positions to set it to the corresponding renderedMeshes
+            ParticleMeshRegistry::updateMeshPosition();
+
+            // handle inputs to move the camera
+            camera.handleInputs(window);
+
+            // fix the camera dimensions if the window gets resized
+            {
+                int width, height;
+                glfwGetWindowSize(window.getWindow(), &width, &height);
+                // Update the camera matrices view and proj
+                camera.setSize(width, height);
+                glViewport(0, 0, width, height);
+            }
+
+            // Update the camera matrices view and proj
+            camera.update(0.1f, 10000.0f);
+
+            // bind everything and call drawElements
+            // renderer.draw(shader, scene); // how it will be in the end (scene will
+            // contain camera and list of meshes)
+            renderer.draw(shader, camera, plan);
+
+            // draw all particles
+            ParticleMeshRegistry::drawAllParticles(renderer, shader, camera);
+
+            // RenderUI
+            ui.render(gameEngine, camera);
+
+            // Swap buffers
+            glfwSwapBuffers(window.getWindow());
+            glfwPollEvents();
+
+        } // Check if the ESC key was pressed or the window was closed
+    }
+
+    // Destroy UI
+    ui.terminate();
+
+    window.terminate();
+
+    return 0;
 }
