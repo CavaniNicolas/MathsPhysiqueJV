@@ -8,6 +8,8 @@ project(MathsPhysique
 
 find_package(OpenGL REQUIRED)
 
+include(cmake/MathsPhysiqueHelper.cmake)
+
 add_subdirectory(thirdparty)
 
 add_subdirectory(src)

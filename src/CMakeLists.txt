@@ -1,6 +1,4 @@
 
-set(MP_EXE_NAME MathsPhysique)
-
 # build libs (order is important)
 add_subdirectory(vendor)
 add_subdirectory(PhysicsEngine)

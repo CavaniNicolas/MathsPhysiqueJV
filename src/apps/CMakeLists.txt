@@ -1,22 +1,31 @@
 
-set(SOURCES
-    main.cpp
-)
+##########################
+### COMMON TO ALL APPS ###
+##########################
 
-set(HEADERS
-)
-
-add_executable(${MP_EXE_NAME} ${SOURCES} ${HEADERS})
-
-target_link_libraries(${MP_EXE_NAME}
+set(MP_APPS_LINKS
     VendorLib
     PhysicsEngineLib
     RenderLib
     APILib
 )
 
-target_include_directories(${MP_EXE_NAME} PUBLIC
+set(MP_APPS_INCDIRS
     ${CMAKE_CURRENT_SOURCE_DIR}
 )
 
-target_compile_definitions(${MP_EXE_NAME} PRIVATE -DRESOURCE_PATH="${CMAKE_SOURCE_DIR}/res/" ${IMGUI_COMPILE_FLAGS})
+#######################
+### Main Executable ###
+#######################
+
+set(MP_MAIN_NAME MathsPhysique)
+
+set(MP_MAIN_SOURCES
+    main.cpp
+)
+
+mp_add_executable(${MP_MAIN_NAME}
+    SOURCE ${MP_MAIN_SOURCES}
+    LINKS ${MP_APPS_LINKS}
+    INCLUDE_DIRS ${MP_APPS_INCDIRS}
+)
