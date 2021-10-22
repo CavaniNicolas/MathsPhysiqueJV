@@ -43,14 +43,13 @@ void UserInterface::render(GameEngine& gameEngine, Camera& camera) const
 {
     float cameraAngle = camera.getFOVdeg();
 
-    // Show a simple window that we create ourselves. We use a Begin/End pair
-    // to create a named window.
-    ImGui::Begin("Hello, world!"); // Create a window called "Hello,
-                                   // world!" and append into it.
-    ImGui::SliderFloat("cameraAngle",
-                       &cameraAngle,
-                       0.0f,
-                       90.0f); // Edit translation.x using a slider from -100.0f to 100.0f
+    // Use a Begin/End pair to create a named window. create a window and append into it
+    ImGui::Begin("Scene Editor");
+
+    // Edit translation.x using a slider from 0.0f to 90.0f
+    ImGui::SliderFloat("cameraAngle", &cameraAngle, 0.0f, 90.0f);
+
+    // Buttons to run and pause the simulation
     if(ImGui::Button("Run Simulation"))
     {
         gameEngine.run();
@@ -60,10 +59,12 @@ void UserInterface::render(GameEngine& gameEngine, Camera& camera) const
         gameEngine.pause();
     }
 
+    // Display framerate
     ImGui::Text(
       "Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
     ImGui::End();
 
+    // actually set what has been modified using imgui
     camera.setFOVdeg(cameraAngle);
 
     // Rendering imgui
