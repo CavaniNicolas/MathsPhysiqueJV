@@ -40,6 +40,10 @@ void ParticleForceRegistry::updateForce(float duration)
 {
     for(const auto& entry: m_registry)
     {
-        entry.forceGenerator->updateForce(entry.particle, duration);
+        // creates a shared_ptr that manages the referenced object by the weak_ptr
+        std::shared_ptr<ParticleForceGenerator> forceGenerator = entry.forceGenerator.lock();
+        std::shared_ptr<Particle> particle = entry.particle.lock();
+
+        forceGenerator->updateForce(particle, duration);
     }
 }
