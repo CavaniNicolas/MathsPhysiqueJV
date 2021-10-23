@@ -7,7 +7,7 @@
 
 #include "PhysicsEngine/GameEngine.hpp"
 
-GameEngine::GameEngine(const Scene& scene, int desiredFrameRate):
+GameEngine::GameEngine(std::shared_ptr<Scene> scene, int desiredFrameRate):
   m_scene(scene), m_desiredFrameRate(desiredFrameRate), m_running(false), m_stop(false)
 {
     m_gameLoopThread = std::thread([this] { gameLoop(); });
@@ -15,7 +15,7 @@ GameEngine::GameEngine(const Scene& scene, int desiredFrameRate):
 
 GameEngine::GameEngine(const GameEngine& other): GameEngine(other.m_scene, other.m_desiredFrameRate) {}
 
-GameEngine::GameEngine(): GameEngine(Scene(), 60)
+GameEngine::GameEngine(): GameEngine(std::make_shared<Scene>(), 60)
 {
     m_gameLoopThread = std::thread([this] { gameLoop(); });
 }
@@ -32,7 +32,7 @@ GameEngine::~GameEngine()
 
 std::vector<std::shared_ptr<Particle>> GameEngine::getParticles() const
 {
-    return m_scene.getParticles();
+    return m_scene->getParticles();
 }
 
 void GameEngine::gameLoop()
@@ -57,7 +57,7 @@ void GameEngine::gameLoop()
             // cast delta Time into MICROSECONDS
             auto deltaTCastUS = std::chrono::duration_cast<std::chrono::microseconds>(deltaT);
             // Integrate all particles, delta time given is in SECONDS
-            m_scene.integrateAll(float(deltaTCastUS.count() / 1000000.0f));
+            m_scene->integrateAll(float(deltaTCastUS.count() / 1000000.0f));
 
             // reset lastIntegrationTime
             lastIntegrationTime = std::chrono::high_resolution_clock::now();

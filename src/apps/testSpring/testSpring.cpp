@@ -73,7 +73,9 @@ int main()
     std::shared_ptr<Projectile> projectile;
     projectile = std::make_shared<Fireball>(Vector3D(0, 0, 0), Vector3D(1, 1, 1), 1, 1);
 
-    Scene scene = Scene({particle, projectile});
+    std::shared_ptr<Scene> scene = std::make_shared<Scene>();
+    scene->addParticle(particle);
+    scene->addParticle(projectile);
 
     std::shared_ptr<ParticleGravity> partGravity = std::make_shared<ParticleGravity>();
     std::shared_ptr<ParticleAnchoredSpring> anchor = std::make_shared<ParticleAnchoredSpring>(Vector3D(0, 0, 0), 30, 5);
@@ -81,11 +83,11 @@ int main()
 
     std::shared_ptr<ParticleSpring> spring = std::make_shared<ParticleSpring>(projectile, 30, 5);
 
-    scene.addForce(projectile, partGravity);
-    scene.addForce(projectile, anchor);
-    scene.addForce(projectile, drag);
+    scene->addForce(projectile, partGravity);
+    scene->addForce(projectile, anchor);
+    scene->addForce(projectile, drag);
 
-    scene.addForce(particle, spring);
+    scene->addForce(particle, spring);
 
     GameEngine gameEngine = GameEngine(scene);
 

@@ -74,14 +74,15 @@ int main()
     // create a particle
     std::shared_ptr<Fireball> fireball = std::make_shared<Fireball>(Vector3D(0, 0, 0), Vector3D(1, 0, -1), 1, 1);
 
-    Scene scene = Scene({fireball});
+    std::shared_ptr<Scene> scene = std::make_shared<Scene>();
+    scene->addParticle(fireball);
 
     std::shared_ptr<ParticleGravity> partGravity = std::make_shared<ParticleGravity>();
     std::shared_ptr<ParticleDrag> partDrag = std::make_shared<ParticleDrag>(0.25f, 0.0f);
 
     // link forces to fireball
-    scene.addForce(fireball, partGravity);
-    scene.addForce(fireball, partDrag);
+    scene->addForce(fireball, partGravity);
+    scene->addForce(fireball, partDrag);
 
     GameEngine gameEngine = GameEngine(scene);
 

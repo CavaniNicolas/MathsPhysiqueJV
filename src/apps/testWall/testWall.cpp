@@ -72,18 +72,19 @@ int main()
     std::shared_ptr<Particle> particle;
     particle = std::make_shared<Particle>(Vector3D(0, 10, 0), Vector3D());
 
-    Scene scene = Scene({particle});
+    std::shared_ptr<Scene> scene = std::make_shared<Scene>();
+    scene->addParticle(particle);
 
     std::shared_ptr<ParticleGravity> partGravity = std::make_shared<ParticleGravity>();
 
     // particle will fall due to gravity
-    scene.addForce(particle, partGravity);
+    scene->addForce(particle, partGravity);
 
     // create a floor the particle will bounce on
     std::shared_ptr<WallContactGenerator> floor =
       std::make_shared<WallContactGenerator>(particle, WallContactGenerator::y, 1, -2, 2);
 
-    scene.addContactGenerator(floor);
+    scene->addContactGenerator(floor);
 
     GameEngine gameEngine = GameEngine(scene);
 

@@ -7,7 +7,7 @@
 class GameEngine
 {
   private:
-    Scene m_scene;
+    std::shared_ptr<Scene> m_scene;
 
     // true if we calculate the particles' information
     bool m_running;
@@ -18,7 +18,7 @@ class GameEngine
     int m_desiredFrameRate;
 
   public:
-    GameEngine(const Scene& scene, int desiredFrameRate = 60);
+    GameEngine(std::shared_ptr<Scene> scene, int desiredFrameRate = 60);
     GameEngine(const GameEngine& other);
     GameEngine();
     ~GameEngine();
@@ -32,4 +32,9 @@ class GameEngine
     void run();
     void pause();
     void stop();
+
+    std::shared_ptr<Scene> getScene() const
+    {
+        return m_scene;
+    }
 };
