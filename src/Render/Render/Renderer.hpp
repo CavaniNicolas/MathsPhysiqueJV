@@ -23,6 +23,9 @@
 void GLClearError();
 bool GLLogCall(const char* function, const char* file, int line);
 
+namespace render
+{
+
 class Renderer
 {
   public:
@@ -30,3 +33,5 @@ class Renderer
     void draw(VertexArray& va, const IndexBuffer& ib, const Shader& shader) const;
     void draw(Shader& shader, Camera& camera, RenderedMesh& rendMesh) const;
 };
+
+} // namespace render

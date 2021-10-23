@@ -1,5 +1,8 @@
 #pragma once
 
+namespace render
+{
+
 class IndexBuffer
 {
   private:
@@ -24,3 +27,5 @@ class IndexBuffer
         return m_count;
     }
 };
+
+} // namespace render

@@ -4,6 +4,9 @@
 #include "Render/Renderer.hpp"
 #include "Render/Window.hpp"
 
+namespace render
+{
+
 Window::Window(int width, int height, const char* windowName):
   m_width(width), m_height(height), m_windowName(windowName)
 {
@@ -80,3 +83,5 @@ void Window::terminate()
     // Close OpenGL window and terminate GLFW
     glfwTerminate();
 }
+
+} // namespace render

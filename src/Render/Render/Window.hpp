@@ -6,6 +6,9 @@
 // Include GLFW
 #include <GLFW/glfw3.h>
 
+namespace render
+{
+
 class Window
 {
   private:
@@ -29,3 +32,5 @@ class Window
 
     void terminate();
 };
+
+} // namespace render

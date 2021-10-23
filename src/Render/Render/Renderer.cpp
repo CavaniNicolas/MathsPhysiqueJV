@@ -21,6 +21,9 @@ bool GLLogCall(const char* function, const char* file, int line)
     return true;
 }
 
+namespace render
+{
+
 void Renderer::clear() const
 {
     GLCall(glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT));
@@ -59,3 +62,5 @@ void Renderer::draw(Shader& shader, Camera& camera, RenderedMesh& rendMesh) cons
     GLCall(glDrawElements(
       GL_TRIANGLES, rendMesh.getIndexBuffer().getCount(), GL_UNSIGNED_INT, nullptr)); // unsigned is important !
 }
+
+} // namespace render

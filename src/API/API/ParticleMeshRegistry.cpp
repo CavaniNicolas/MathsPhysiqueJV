@@ -8,7 +8,8 @@ ParticleMeshRegistry& ParticleMeshRegistry::get()
     return instance;
 }
 
-void ParticleMeshRegistry::addEntryI(std::shared_ptr<Particle> particle, std::shared_ptr<RenderedMesh> renderedMesh)
+void ParticleMeshRegistry::addEntryI(std::shared_ptr<Particle> particle,
+                                     std::shared_ptr<render::RenderedMesh> renderedMesh)
 {
     m_registry.push_back({particle, renderedMesh});
 }
@@ -30,7 +31,9 @@ void ParticleMeshRegistry::updateMeshPositionI()
     }
 }
 
-void ParticleMeshRegistry::drawAllParticlesI(Renderer& renderer, Shader& shader, Camera& camera) const
+void ParticleMeshRegistry::drawAllParticlesI(render::Renderer& renderer,
+                                             render::Shader& shader,
+                                             render::Camera& camera) const
 {
     for(auto const& entry: m_registry)
     {

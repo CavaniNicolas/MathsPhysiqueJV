@@ -4,6 +4,9 @@
 #include <string>
 #include <unordered_map>
 
+namespace render
+{
+
 struct ShaderProgramSource
 {
     std::string VertexSource;
@@ -42,3 +45,5 @@ class Shader
 
     int getUniformLocation(const std::string& name);
 };
+
+} // namespace render

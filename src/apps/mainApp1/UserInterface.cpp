@@ -15,7 +15,7 @@
 
 #include "mainApp1/UserInterface.hpp"
 
-UserInterface::UserInterface(Window window)
+UserInterface::UserInterface(render::Window window)
 {
     // GL 3.0 + GLSL 130
     const char* glsl_version = "#version 130";
@@ -148,21 +148,21 @@ void showProjectileCreation(GameEngine& gameEngine)
         {
             // NOT GOOD, CREATE A PROPER CLASS
             // Store mesh data in vectors for the mesh
-            std::vector<Vertex> verts = {//              COORDINATES           /           TexCoord    //
-                                         Vertex{glm::vec3(-5.0f, 0.0f, 5.0f), glm::vec2(0.32f, 0.32f)},
-                                         Vertex{glm::vec3(5.0f, 0.0f, 5.0f), glm::vec2(0.69f, 0.32f)},
-                                         Vertex{glm::vec3(5.0f, 0.0f, -5.0f), glm::vec2(0.69f, 0.69f)},
-                                         Vertex{glm::vec3(-5.0f, 0.0f, -5.0f), glm::vec2(0.32f, 0.69f)},
+            std::vector<render::Vertex> verts = {//              COORDINATES           /           TexCoord    //
+                                                 render::Vertex{glm::vec3(-5.0f, 0.0f, 5.0f), glm::vec2(0.32f, 0.32f)},
+                                                 render::Vertex{glm::vec3(5.0f, 0.0f, 5.0f), glm::vec2(0.69f, 0.32f)},
+                                                 render::Vertex{glm::vec3(5.0f, 0.0f, -5.0f), glm::vec2(0.69f, 0.69f)},
+                                                 render::Vertex{glm::vec3(-5.0f, 0.0f, -5.0f), glm::vec2(0.32f, 0.69f)},
 
-                                         Vertex{glm::vec3(0.0f, 8.0f, 0.0f), glm::vec2(0.5f, 0.0f)},
-                                         Vertex{glm::vec3(0.0f, 8.0f, 0.0f), glm::vec2(1.0f, 0.5f)},
-                                         Vertex{glm::vec3(0.0f, 8.0f, 0.0f), glm::vec2(0.5f, 1.0f)},
-                                         Vertex{glm::vec3(0.0f, 8.0f, 0.0f), glm::vec2(0.0f, 0.5f)}};
+                                                 render::Vertex{glm::vec3(0.0f, 8.0f, 0.0f), glm::vec2(0.5f, 0.0f)},
+                                                 render::Vertex{glm::vec3(0.0f, 8.0f, 0.0f), glm::vec2(1.0f, 0.5f)},
+                                                 render::Vertex{glm::vec3(0.0f, 8.0f, 0.0f), glm::vec2(0.5f, 1.0f)},
+                                                 render::Vertex{glm::vec3(0.0f, 8.0f, 0.0f), glm::vec2(0.0f, 0.5f)}};
             std::vector<unsigned int> indices = {0, 1, 2, 2, 3, 0, 0, 1, 4, 1, 2, 5, 2, 3, 6, 3, 0, 7};
-            Mesh pyramidMesh(verts, indices);
+            render::Mesh pyramidMesh(verts, indices);
 
             // Create the RenderedMesh
-            std::shared_ptr<RenderedMesh> pyramid = std::make_shared<RenderedMesh>(
+            std::shared_ptr<render::RenderedMesh> pyramid = std::make_shared<render::RenderedMesh>(
               pyramidMesh, std::string(RESOURCE_PATH) + "textures/fire_texture_pyramid.png");
 
             std::shared_ptr<Projectile> projectile;
@@ -188,7 +188,7 @@ void showProjectileCreation(GameEngine& gameEngine)
     }
 }
 
-void UserInterface::render(GameEngine& gameEngine, Camera& camera) const
+void UserInterface::render(GameEngine& gameEngine, render::Camera& camera) const
 {
     float cameraAngle = camera.getFOVdeg();
 

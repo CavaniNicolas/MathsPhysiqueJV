@@ -16,7 +16,7 @@ class ParticleMeshRegistry
 
     static ParticleMeshRegistry& get();
 
-    static void addEntry(std::shared_ptr<Particle> particle, std::shared_ptr<RenderedMesh> renderedMesh)
+    static void addEntry(std::shared_ptr<Particle> particle, std::shared_ptr<render::RenderedMesh> renderedMesh)
     {
         get().addEntryI(particle, renderedMesh);
     }
@@ -25,7 +25,7 @@ class ParticleMeshRegistry
     {
         get().updateMeshPositionI();
     }
-    static void drawAllParticles(Renderer& renderer, Shader& shader, Camera& camera)
+    static void drawAllParticles(render::Renderer& renderer, render::Shader& shader, render::Camera& camera)
     {
         get().drawAllParticlesI(renderer, shader, camera);
     }
@@ -34,14 +34,14 @@ class ParticleMeshRegistry
     struct ParticleMeshEntry
     {
         std::shared_ptr<Particle> particle;
-        std::shared_ptr<RenderedMesh> renderedMesh;
+        std::shared_ptr<render::RenderedMesh> renderedMesh;
     };
 
     std::vector<ParticleMeshEntry> m_registry;
 
-    void addEntryI(std::shared_ptr<Particle> particle, std::shared_ptr<RenderedMesh> renderedMesh);
+    void addEntryI(std::shared_ptr<Particle> particle, std::shared_ptr<render::RenderedMesh> renderedMesh);
     void updateMeshPositionI();
-    void drawAllParticlesI(Renderer& renderer, Shader& shader, Camera& camera) const;
+    void drawAllParticlesI(render::Renderer& renderer, render::Shader& shader, render::Camera& camera) const;
 
     ParticleMeshRegistry() {}
 };

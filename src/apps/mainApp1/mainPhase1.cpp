@@ -36,7 +36,7 @@
 
 int main()
 {
-    Window window(960, 540, "Moteur Physique");
+    render::Window window(960, 540, "Moteur Physique");
     if(!window.init())
     {
         return -1;
@@ -45,33 +45,33 @@ int main()
     UserInterface ui(window);
 
     // Store mesh data in vectors for the mesh
-    std::vector<Vertex> verts = {//              COORDINATES           /           TexCoord    //
-                                 Vertex{glm::vec3(-5.0f, 0.0f, 5.0f), glm::vec2(0.32f, 0.32f)},
-                                 Vertex{glm::vec3(5.0f, 0.0f, 5.0f), glm::vec2(0.69f, 0.32f)},
-                                 Vertex{glm::vec3(5.0f, 0.0f, -5.0f), glm::vec2(0.69f, 0.69f)},
-                                 Vertex{glm::vec3(-5.0f, 0.0f, -5.0f), glm::vec2(0.32f, 0.69f)},
+    std::vector<render::Vertex> verts = {//              COORDINATES           /           TexCoord    //
+                                         render::Vertex{glm::vec3(-5.0f, 0.0f, 5.0f), glm::vec2(0.32f, 0.32f)},
+                                         render::Vertex{glm::vec3(5.0f, 0.0f, 5.0f), glm::vec2(0.69f, 0.32f)},
+                                         render::Vertex{glm::vec3(5.0f, 0.0f, -5.0f), glm::vec2(0.69f, 0.69f)},
+                                         render::Vertex{glm::vec3(-5.0f, 0.0f, -5.0f), glm::vec2(0.32f, 0.69f)},
 
-                                 Vertex{glm::vec3(0.0f, 8.0f, 0.0f), glm::vec2(0.5f, 0.0f)},
-                                 Vertex{glm::vec3(0.0f, 8.0f, 0.0f), glm::vec2(1.0f, 0.5f)},
-                                 Vertex{glm::vec3(0.0f, 8.0f, 0.0f), glm::vec2(0.5f, 1.0f)},
-                                 Vertex{glm::vec3(0.0f, 8.0f, 0.0f), glm::vec2(0.0f, 0.5f)}};
+                                         render::Vertex{glm::vec3(0.0f, 8.0f, 0.0f), glm::vec2(0.5f, 0.0f)},
+                                         render::Vertex{glm::vec3(0.0f, 8.0f, 0.0f), glm::vec2(1.0f, 0.5f)},
+                                         render::Vertex{glm::vec3(0.0f, 8.0f, 0.0f), glm::vec2(0.5f, 1.0f)},
+                                         render::Vertex{glm::vec3(0.0f, 8.0f, 0.0f), glm::vec2(0.0f, 0.5f)}};
 
     std::vector<unsigned int> indices = {0, 1, 2, 2, 3, 0, 0, 1, 4, 1, 2, 5, 2, 3, 6, 3, 0, 7};
 
-    Mesh pyramidMesh(verts, indices);
+    render::Mesh pyramidMesh(verts, indices);
 
     // Store mesh data in vectors for the mesh
-    std::vector<Vertex> vertsPlan = {//              COORDINATES           /           TexCoord //
-                                     Vertex{glm::vec3(-5.0f, 0.0f, 5.0f), glm::vec2(0.0f, 0.0f)},
-                                     Vertex{glm::vec3(-5.0f, 0.0f, -5.0f), glm::vec2(5.0f, 0.0f)},
-                                     Vertex{glm::vec3(5.0f, 0.0f, -5.0f), glm::vec2(5.0f, 5.0f)},
-                                     Vertex{glm::vec3(5.0f, 0.0f, 5.0f), glm::vec2(0.0f, 5.0f)}};
+    std::vector<render::Vertex> vertsPlan = {//              COORDINATES           /           TexCoord //
+                                             render::Vertex{glm::vec3(-5.0f, 0.0f, 5.0f), glm::vec2(0.0f, 0.0f)},
+                                             render::Vertex{glm::vec3(-5.0f, 0.0f, -5.0f), glm::vec2(5.0f, 0.0f)},
+                                             render::Vertex{glm::vec3(5.0f, 0.0f, -5.0f), glm::vec2(5.0f, 5.0f)},
+                                             render::Vertex{glm::vec3(5.0f, 0.0f, 5.0f), glm::vec2(0.0f, 5.0f)}};
 
     std::vector<unsigned int> indicesPlan = {0, 1, 2, 2, 3, 0};
 
-    Mesh planMesh(vertsPlan, indicesPlan);
+    render::Mesh planMesh(vertsPlan, indicesPlan);
 
-    Camera camera(960, 540, glm::vec3(0.0f, 15.0f, 80.0f));
+    render::Camera camera(960, 540, glm::vec3(0.0f, 15.0f, 80.0f));
 
     // create a particle
     std::shared_ptr<Fireball> fireball = std::make_shared<Fireball>(Vector3D(0, 0, 0), Vector3D(1, 0, -1), 1, 1);
@@ -95,14 +95,14 @@ int main()
     ParticlePrinter::setParticle(fireball);
 
     {
-        std::shared_ptr<RenderedMesh> pyramid =
-          std::make_shared<RenderedMesh>(pyramidMesh, std::string(RESOURCE_PATH) + "textures/fire_texture_pyramid.png");
+        std::shared_ptr<render::RenderedMesh> pyramid = std::make_shared<render::RenderedMesh>(
+          pyramidMesh, std::string(RESOURCE_PATH) + "textures/fire_texture_pyramid.png");
 
-        RenderedMesh plan(planMesh, std::string(RESOURCE_PATH) + "textures/gril_texture.png");
+        render::RenderedMesh plan(planMesh, std::string(RESOURCE_PATH) + "textures/gril_texture.png");
 
-        Shader shader(std::string(RESOURCE_PATH) + "shaders/basic.shader");
+        render::Shader shader(std::string(RESOURCE_PATH) + "shaders/basic.shader");
 
-        Renderer renderer;
+        render::Renderer renderer;
 
         ParticleMeshRegistry::addEntry(fireball, pyramid);
 

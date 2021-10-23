@@ -8,9 +8,9 @@
 class UserInterface
 {
   public:
-    UserInterface(Window window);
+    UserInterface(render::Window window);
 
     void start() const;
     void terminate() const;
-    void render(GameEngine& gameEngine, Camera& camera) const;
+    void render(GameEngine& gameEngine, render::Camera& camera) const;
 };
