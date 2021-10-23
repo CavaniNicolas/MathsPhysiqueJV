@@ -23,7 +23,8 @@ class Particle
 
   public:
     // Constructors
-    Particle(Vector3D position, Vector3D velocity, float radius = 1, float mass = 1, float g = 10, float damping = 0.999);
+    Particle(
+      Vector3D position, Vector3D velocity, float radius = 1, float mass = 1, float g = 10, float damping = 0.999);
     Particle();
     Particle(const Particle& other);
 

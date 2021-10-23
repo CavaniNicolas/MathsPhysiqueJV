@@ -22,7 +22,6 @@ class Scene
     int m_maxContactsPerIteration;
 
   public:
-
     // Constructors
     Scene(std::vector<std::shared_ptr<Particle>> particles = {},
           ParticleForceRegistry forcesRegistry = ParticleForceRegistry(),

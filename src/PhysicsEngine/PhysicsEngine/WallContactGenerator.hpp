@@ -7,7 +7,9 @@ class WallContactGenerator : public ParticleContactGenerator
   public:
     enum WallPlan
     {
-        x, y, z
+        x,
+        y,
+        z
     };
 
     WallPlan m_wallPlan;
@@ -16,10 +18,10 @@ class WallContactGenerator : public ParticleContactGenerator
     std::shared_ptr<Particle> m_particle;
     float m_restitution;
 
-    WallContactGenerator(std::shared_ptr<Particle> particle, WallPlan wallPlan,float restitution, float coordinates, float thickness);
+    WallContactGenerator(
+      std::shared_ptr<Particle> particle, WallPlan wallPlan, float restitution, float coordinates, float thickness);
 
-    unsigned int addContact(std::vector<std::shared_ptr<ParticleContact>>& contacts,
-                            unsigned int limit) const;
+    unsigned int addContact(std::vector<std::shared_ptr<ParticleContact>>& contacts, unsigned int limit) const;
 
     float calculatePenetration() const;
 
