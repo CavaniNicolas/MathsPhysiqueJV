@@ -62,30 +62,32 @@ void Scene::addForce(std::shared_ptr<Particle> particle, std::shared_ptr<Particl
     m_forcesRegistry.addEntry(particle, forceGenerator);
 }
 
-void Scene::addContactGenerator(std::shared_ptr<ParticleContactGenerator> contactGenerator) {
+void Scene::addContactGenerator(std::shared_ptr<ParticleContactGenerator> contactGenerator)
+{
     m_contactGenerators.push_back(contactGenerator);
 }
 
 void Scene::integrateAll(float deltaT)
 {
-    //We move the particles
-    for(std::shared_ptr<Particle> particle: m_particles)
+    // We move the particles
+    for(auto& particle: m_particles)
     {
         particle->integratePosition(deltaT);
     }
     m_forcesRegistry.updateForce(deltaT);
-    for(std::shared_ptr<Particle> particle: m_particles)
+    for(auto& particle: m_particles)
     {
         particle->integrateVelocity(deltaT);
     }
 
-    //We check for contacts
-    for (auto& contactGenerator : m_contactGenerators) {
+    // We check for contacts
+    for(auto& contactGenerator: m_contactGenerators)
+    {
         contactGenerator->addContact(m_contactArray, m_maxContactsPerIteration);
     }
-    //We resolve the found contacts
+    // We resolve the found contacts
     m_contactResolver.resolveContacts(m_contactArray);
-    //We processed every contact, we can now clear the contact 
-    //array to fill it once again during the next iteration
+    // We processed every contact, we can now clear the contact
+    // array to fill it once again during the next iteration
     m_contactArray.clear();
 }
