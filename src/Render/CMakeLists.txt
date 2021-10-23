@@ -7,6 +7,7 @@ set(SOURCES
     Render/Mesh.cpp
     Render/RenderedMesh.cpp
     Render/Renderer.cpp
+    Render/Scene.cpp
     Render/Shader.cpp
     Render/Texture.cpp
     Render/VertexArray.cpp
@@ -21,6 +22,7 @@ set(HEADERS
     Render/Mesh.hpp
     Render/RenderedMesh.hpp
     Render/Renderer.hpp
+    Render/Scene.hpp
     Render/Shader.hpp
     Render/Texture.hpp
     Render/VertexArray.hpp

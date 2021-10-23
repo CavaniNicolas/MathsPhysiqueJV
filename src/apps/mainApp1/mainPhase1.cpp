@@ -22,6 +22,7 @@
 #include <PhysicsEngine/ParticleForceRegistry.hpp>
 #include <PhysicsEngine/ParticleGravity.hpp>
 #include <PhysicsEngine/ParticleSpring.hpp>
+#include <PhysicsEngine/Scene.hpp>
 #include <PhysicsEngine/WallContactGenerator.hpp>
 
 // Include Render lib which uses opengl
@@ -29,6 +30,7 @@
 #include <Render/Mesh.hpp>
 #include <Render/RenderedMesh.hpp>
 #include <Render/Renderer.hpp>
+#include <Render/Scene.hpp>
 #include <Render/Shader.hpp>
 #include <Render/Window.hpp>
 
