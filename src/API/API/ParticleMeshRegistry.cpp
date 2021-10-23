@@ -17,15 +17,16 @@ void ParticleMeshRegistry::updateMeshPositionI()
 {
     for(auto const& entry: m_registry)
     {
-        // creates a shared_ptr that manages the referenced object by the weak_ptr
-        std::shared_ptr<RenderedMesh> renderedMesh = entry.renderedMesh.lock();
-        std::shared_ptr<Particle> particle = entry.particle.lock();
+        //        // creates a shared_ptr that manages the referenced object by the weak_ptr
+        //        std::shared_ptr<RenderedMesh> renderedMesh = entry.renderedMesh.lock();
+        //        std::shared_ptr<Particle> particle = entry.particle.lock();
 
         // get the actual particle position to set it to the renderedMesh
-        renderedMesh->setPosition(
-          {particle->getPosition().getX(), particle->getPosition().getY(), particle->getPosition().getZ()});
+        entry.renderedMesh->setPosition({entry.particle->getPosition().getX(),
+                                         entry.particle->getPosition().getY(),
+                                         entry.particle->getPosition().getZ()});
 
-        renderedMesh->updateModelMatrix();
+        entry.renderedMesh->updateModelMatrix();
     }
 }
 
@@ -33,9 +34,9 @@ void ParticleMeshRegistry::drawAllParticlesI(Renderer& renderer, Shader& shader,
 {
     for(auto const& entry: m_registry)
     {
-        // creates a shared_ptr that manages the referenced object by the weak_ptr
-        std::shared_ptr<RenderedMesh> renderedMesh = entry.renderedMesh.lock();
+        //        // creates a shared_ptr that manages the referenced object by the weak_ptr
+        //        std::shared_ptr<RenderedMesh> renderedMesh = entry.renderedMesh.lock();
 
-        renderer.draw(shader, camera, *renderedMesh);
+        renderer.draw(shader, camera, *entry.renderedMesh);
     }
 }

@@ -33,8 +33,8 @@ class ParticleMeshRegistry
   private:
     struct ParticleMeshEntry
     {
-        std::weak_ptr<Particle> particle;
-        std::weak_ptr<RenderedMesh> renderedMesh;
+        std::shared_ptr<Particle> particle;
+        std::shared_ptr<RenderedMesh> renderedMesh;
     };
 
     std::vector<ParticleMeshEntry> m_registry;
