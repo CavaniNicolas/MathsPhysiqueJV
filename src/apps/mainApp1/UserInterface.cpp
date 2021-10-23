@@ -80,20 +80,15 @@ void showProjectileCreation(GameEngine& gameEngine)
             ImGui::TableNextRow();
 
             ImGui::TableSetColumnIndex(0);
-            ImGui::Text("Position X");
-            ImGui::TableSetColumnIndex(1);
-            ImGui::Text("Position Y");
-            ImGui::TableSetColumnIndex(2);
-            ImGui::Text("Position Z");
+            ImGui::Text("Position");
 
             ImGui::TableNextRow();
             ImGui::TableSetColumnIndex(0);
-            ImGui::InputInt("", &xP);
-
+            ImGui::InputInt("X", &xP);
             ImGui::TableSetColumnIndex(1);
-            ImGui::InputInt("", &yP);
+            ImGui::InputInt("Y", &yP);
             ImGui::TableSetColumnIndex(2);
-            ImGui::InputInt("", &zP);
+            ImGui::InputInt("Z", &zP);
             ImGui::SameLine();
             HelpMarker("You can apply arithmetic operators +,*,/ on numerical values.\n"
                        "  e.g. [ 100 ], input \'*2\', result becomes [ 200 ]\n"
@@ -108,20 +103,15 @@ void showProjectileCreation(GameEngine& gameEngine)
             ImGui::TableNextRow();
 
             ImGui::TableSetColumnIndex(0);
-            ImGui::Text("Direction X");
-            ImGui::TableSetColumnIndex(1);
-            ImGui::Text("Direction Y");
-            ImGui::TableSetColumnIndex(2);
-            ImGui::Text("Direction Z");
+            ImGui::Text("Direction");
 
             ImGui::TableNextRow();
             ImGui::TableSetColumnIndex(0);
-            ImGui::InputInt("", &xD);
-
+            ImGui::InputInt("X", &xD);
             ImGui::TableSetColumnIndex(1);
-            ImGui::InputInt("", &yD);
+            ImGui::InputInt("Y", &yD);
             ImGui::TableSetColumnIndex(2);
-            ImGui::InputInt("", &zD);
+            ImGui::InputInt("Z", &zD);
             ImGui::SameLine();
             HelpMarker("You can apply arithmetic operators +,*,/ on numerical values.\n"
                        "  e.g. [ 100 ], input \'*2\', result becomes [ 200 ]\n"
