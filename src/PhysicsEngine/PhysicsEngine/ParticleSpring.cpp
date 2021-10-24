@@ -13,5 +13,13 @@ void ParticleSpring::updateForce(std::shared_ptr<Particle> particle, float durat
 
     Vector3D force = springLength.normalize() * -m_k * (springLength.getNorm() - m_restLength);
 
+    if(springLength.getNorm() - m_restLength != 0)
+    {
+        if(particle->isResting())
+        {
+            particle->setResting(false);
+        }
+    }
+
     particle->setAcceleration(particle->getAcceleration() + force * particle->getInverseMass());
 }

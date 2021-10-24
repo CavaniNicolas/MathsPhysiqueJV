@@ -30,27 +30,31 @@ void ParticleContact::resolveVelocity() {
     else
     {
         //TO CHECK
-        Vector3D v1 = m_particle[0]->getVelocity();
+        Vector3D velocity = m_particle[0]->getVelocity();
 
-        float y_accel = m_particle[0]->getAcceleration().getY();
+        Vector3D accel = m_particle[0]->getAcceleration();
+        
+        float inv_m = m_particle[0]->getInverseMass();
+        float k = ((velocity * (m_restitution + 1)).scalarProduct(m_contactNormal)) / inv_m;
+
+
+        Vector3D newVelocity = velocity - m_contactNormal * k * inv_m;
+
         bool restingParticle = false;
-
-        if(y_accel == m_particle[0]->getG())
-        {
-            std::cout << "The y acceleration is only caused by gravity" << std::endl;
-            if (v1.getY() <= y_accel * m_particle[0]->getDeltaT()) {
-                std::cout << "The particle is resting in y coordinate" << std::endl;
+        if (accel == Vector3D(0, m_particle[0]->getG(), 0)) {
+            if(newVelocity.getY() < 8 * m_restitution || m_restitution == 0)
+            {
+                std::cout << "Particle is resting" << std::endl;
                 restingParticle = true;
             }
         }
 
-        float inv_m1 = m_particle[0]->getInverseMass();
-        float k = ((v1 * (m_restitution + 1)).scalarProduct(m_contactNormal)) / inv_m1;
-
-        Vector3D newVelocity = v1 - m_contactNormal * k * inv_m1;
         if(restingParticle)
         {
             newVelocity.setY(0);
+            accel.setY(0);
+            m_particle[0]->setAcceleration(accel);
+            m_particle[0]->setResting(true);
         }
         m_particle[0]->setVelocity(newVelocity);
 

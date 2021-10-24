@@ -1,8 +1,8 @@
 #pragma once
 
-#include "ParticleLink.hpp"
+#include "PhysicsEngine/ParticleLink.hpp"
 
-class ParticleRod : ParticleLink
+class ParticleRod : public ParticleLink
 {
   public:
 	// a contact will be generated if the distance
@@ -13,7 +13,6 @@ class ParticleRod : ParticleLink
 
 	// Fill ParticleContact with information from particles and contact generator.
 	// Contact is different wether the distance is shorter or greater than the length.
-    unsigned int addContact(std::vector<std::shared_ptr<ParticleContact>>& contacts,
-                            unsigned int limit) const;
+    unsigned int addContact(std::vector<std::shared_ptr<ParticleContact>>& contacts, unsigned int limit) const;
 
 };

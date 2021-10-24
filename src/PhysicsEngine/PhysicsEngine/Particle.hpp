@@ -20,6 +20,7 @@ class Particle
     Vector3D m_acceleration;
 
     float m_deltaT;
+    bool m_resting;
 
   public:
     // Constructors
@@ -39,6 +40,7 @@ class Particle
     Vector3D getAcceleration() const;
     float getDeltaT() const;
     float getRadius() const;
+    bool isResting() const;
 
     void setInverseMass(float inverseMass);
     void setMass(float mass);
@@ -48,6 +50,7 @@ class Particle
     void setVelocity(Vector3D velocity);
     void setAcceleration(Vector3D acceleration);
     void setRadius(float radius);
+    void setResting(bool resting);
 
     float calculateVolume();
 

@@ -62,6 +62,12 @@ void Scene::addForce(std::shared_ptr<Particle> particle, std::shared_ptr<Particl
     m_forcesRegistry.addEntry(particle, forceGenerator);
 }
 
+void Scene::addForce(std::shared_ptr<ParticleForceGenerator> forceGenerator) {
+    for (auto& particle : m_particles) {
+        m_forcesRegistry.addEntry(particle, forceGenerator);
+    }
+}
+
 void Scene::addContactGenerator(std::shared_ptr<ParticleContactGenerator> contactGenerator) {
     m_contactGenerators.push_back(contactGenerator);
 }

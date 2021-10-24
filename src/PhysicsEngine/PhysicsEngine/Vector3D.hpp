@@ -46,6 +46,8 @@ class Vector3D
     Vector3D operator^(const float scalar) const;
     Vector3D& operator^=(const float scalar);
 
+    friend bool operator==(const Vector3D v1, const Vector3D v2);
+
     // Other methods
     float getNorm() const;
     Vector3D normalize() const;

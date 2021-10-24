@@ -24,11 +24,21 @@ void ParticleBuoyancy::updateForce(std::shared_ptr<Particle> particle, float dur
     {
         // The particle is partially submerged
         force.setY(submergedQuantity * m_volume * m_liquidDensity);
+
+        if(particle->isResting())
+        {
+            particle->setResting(false);
+        }
     }
     else
     {
         // The particle is totally submerged
         force.setY(m_volume * m_liquidDensity);
+
+        if(particle->isResting())
+        {
+            particle->setResting(false);
+        }
     }
     particle->setAcceleration(particle->getAcceleration() + force * particle->getInverseMass());
 }

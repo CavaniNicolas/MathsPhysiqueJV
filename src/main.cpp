@@ -1,34 +1,36 @@
 
+// Include GLEW (important to be first)
+#include <GL/glew.h>
+
+// Include GLFW
+#include <GLFW/glfw3.h>
+
 // Include glm
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 
 #include <iostream>
 
-// Include API between PhysicsEngine and Render libs
-#include <API/ParticleMeshRegistry.hpp>
-#include <API/UserInterface.hpp>
+#include "API/ParticleMeshRegistry.hpp"
 
-// Include PhysicsEngine library
-#include <PhysicsEngine/DebugUtils/ParticlePrinter.hpp>
+#include "PhysicsEngine/DebugUtils/ParticlePrinter.hpp"
 
-#include <PhysicsEngine/Fireball.hpp>
-#include <PhysicsEngine/GameEngine.hpp>
-#include <PhysicsEngine/ParticleAnchoredSpring.hpp>
-#include <PhysicsEngine/ParticleDrag.hpp>
-#include <PhysicsEngine/ParticleForceRegistry.hpp>
-#include <PhysicsEngine/ParticleGravity.hpp>
-#include <PhysicsEngine/ParticleSpring.hpp>
-#include <PhysicsEngine/WallContactGenerator.hpp>
-#include <PhysicsEngine/ParticleRod.hpp>
-#include <PhysicsEngine/ParticleCable.hpp>
+#include "PhysicsEngine/Fireball.hpp"
+#include "PhysicsEngine/GameEngine.hpp"
+#include "PhysicsEngine/ParticleAnchoredSpring.hpp"
+#include "PhysicsEngine/ParticleDrag.hpp"
+#include "PhysicsEngine/ParticleForceRegistry.hpp"
+#include "PhysicsEngine/ParticleGravity.hpp"
+#include "PhysicsEngine/ParticleSpring.hpp"
 
-// Include Render lib which uses opengl
+#include "PhysicsEngine/WallContactGenerator.hpp"
+
 #include <Render/Camera.hpp>
 #include <Render/Mesh.hpp>
 #include <Render/RenderedMesh.hpp>
 #include <Render/Renderer.hpp>
 #include <Render/Shader.hpp>
+#include <Render/UserInterface.hpp>
 #include <Render/Window.hpp>
 
 int main()
@@ -59,10 +61,10 @@ int main()
 
     // Store mesh data in vectors for the mesh
     std::vector<Vertex> vertsPlan = {//              COORDINATES           /           TexCoord //
-                                     Vertex{glm::vec3(-5.0f, 0.0f, 5.0f), glm::vec2(0.0f, 0.0f)},
-                                     Vertex{glm::vec3(-5.0f, 0.0f, -5.0f), glm::vec2(1.0f, 0.0f)},
-                                     Vertex{glm::vec3(5.0f, 0.0f, -5.0f), glm::vec2(1.0f, 1.0f)},
-                                     Vertex{glm::vec3(5.0f, 0.0f, 5.0f), glm::vec2(0.0f, 1.0f)}};
+                                     Vertex{glm::vec3(-5.0f, -1.0f, 5.0f), glm::vec2(0.0f, 0.0f)},
+                                     Vertex{glm::vec3(-5.0f, -1.0f, -5.0f), glm::vec2(1.0f, 0.0f)},
+                                     Vertex{glm::vec3(5.0f, -1.0f, -5.0f), glm::vec2(1.0f, 1.0f)},
+                                     Vertex{glm::vec3(5.0f, -1.0f, 5.0f), glm::vec2(0.0f, 1.0f)}};
 
     std::vector<unsigned int> indicesPlan = {0, 1, 2, 2, 3, 0};
 
@@ -70,33 +72,33 @@ int main()
 
     Camera camera(960, 540, glm::vec3(0.0f, 15.0f, 80.0f));
 
-    std::vector<std::shared_ptr<Particle>> particles;
+    // create a projectile
+    std::shared_ptr<Particle> particle;
+    particle = std::make_shared<Particle>(Vector3D(0, 10, 0), Vector3D());
 
-    // create a particle
-    particles.push_back(std::make_shared<Particle>(Vector3D(0, 20, 0), Vector3D(10,10,0)));
+    // std::shared_ptr<Projectile> projectile2;
+    // projectile2 = std::make_shared<Fireball>(Vector3D(0, 6, 0), Vector3D(1, 0, 0), 1, 1);
 
-    // create a particle
-    particles.push_back(std::make_shared<Particle>(Vector3D(50, 20, 0), Vector3D()));
-
-    Scene scene = Scene(particles);
+    Scene scene = Scene({particle});
 
     std::shared_ptr<ParticleGravity> partGravity = std::make_shared<ParticleGravity>();
-    //std::shared_ptr<ParticleDrag> partDrag = std::make_shared<ParticleDrag>(.1, .05);
+    /*std::shared_ptr<ParticleAnchoredSpring> anchor = std::make_shared<ParticleAnchoredSpring>(Vector3D(0, 0, 0), 30,
+    5);
+    std::shared_ptr<ParticleDrag> drag = std::make_shared<ParticleDrag>(0.25, 0);
 
-    // particle will fall due to gravity
-    scene.addForce(partGravity);
-    //scene.addForce(particle, partDrag);
+    std::shared_ptr<ParticleSpring> spring = std::make_shared<ParticleSpring>(projectile, 30, 5);
 
-    // create a floor the particle will bounce on
-    std::shared_ptr<WallContactGenerator> floor =
-      std::make_shared<WallContactGenerator>(particles[0], WallContactGenerator::y, 0, 0, 2);
-    
+    scene.addForce(projectile, anchor);
+    scene.addForce(projectile, drag);
 
-    //create a rod between the particles
-    std::shared_ptr<ParticleRod> rod = std::make_shared<ParticleRod>(particles[0], particles[1], 50);
+    scene.addForce(projectile2, spring);*/
 
-    scene.addContactGenerator(floor);
-    scene.addContactGenerator(rod);
+    scene.addForce(particle, partGravity);
+
+    std::shared_ptr<WallContactGenerator> wall =
+      std::make_shared<WallContactGenerator>(particle, WallContactGenerator::y, 1, 0, 3);
+
+    scene.addContactGenerator(wall);
 
     GameEngine gameEngine = GameEngine(scene);
 
@@ -104,11 +106,12 @@ int main()
     double prevTime = glfwGetTime();
 
     // Singleton to help debug and print Particle every 2 seconds
-    ParticlePrinter::setParticle(particles[0]);
+    ParticlePrinter::setParticle(particle);
 
     {
         std::shared_ptr<RenderedMesh> pyramid =
           std::make_shared<RenderedMesh>(pyramidMesh, std::string(RESOURCE_PATH) + "textures/fire_texture_pyramid.png");
+
         std::shared_ptr<RenderedMesh> pyramid2 =
           std::make_shared<RenderedMesh>(pyramidMesh, std::string(RESOURCE_PATH) + "textures/fire_texture_pyramid.png");
 
@@ -118,8 +121,7 @@ int main()
 
         Renderer renderer;
 
-        ParticleMeshRegistry::addEntry(particles[0], pyramid);
-        ParticleMeshRegistry::addEntry(particles[1], pyramid2);
+        ParticleMeshRegistry::addEntry(particle, pyramid);
 
         // multiplay the plan scale by 5
         plan.setScale(glm::vec3(5.0f, 5.0f, 5.0f));

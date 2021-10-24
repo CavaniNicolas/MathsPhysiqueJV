@@ -1,6 +1,6 @@
 #pragma once
 
-#include "ParticleContactGenerator.hpp"
+#include "PhysicsEngine/ParticleContactGenerator.hpp"
 
 class WallContactGenerator : public ParticleContactGenerator
 {
@@ -13,15 +13,24 @@ class WallContactGenerator : public ParticleContactGenerator
     WallPlan m_wallPlan;
     float m_coordinates;
     float m_thickness;
-    std::shared_ptr<Particle> m_particle;
+    std::vector<std::shared_ptr<Particle>> m_particles;
     float m_restitution;
 
-    WallContactGenerator(std::shared_ptr<Particle> particle, WallPlan wallPlan,float restitution, float coordinates, float thickness);
+    WallContactGenerator(std::shared_ptr<Particle> particle,
+                         WallPlan wallPlan,
+                         float restitution,
+                         float coordinates,
+                         float thickness);
 
-    unsigned int addContact(std::vector<std::shared_ptr<ParticleContact>>& contacts,
-                            unsigned int limit) const;
+    WallContactGenerator(std::vector<std::shared_ptr<Particle>> particles,
+                         WallPlan wallPlan,
+                         float restitution,
+                         float coordinates,
+                         float thickness);
 
-    float calculatePenetration() const;
+    unsigned int addContact(std::vector<std::shared_ptr<ParticleContact>>& contacts, unsigned int limit) const;
 
-    Vector3D calculateNormal() const;
+    float calculatePenetration(std::shared_ptr<Particle> particle) const;
+
+    Vector3D calculateNormal(std::shared_ptr<Particle> particle) const;
 };
