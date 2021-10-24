@@ -23,6 +23,11 @@ class Scene
         return m_camera;
     }
 
+    std::vector<std::shared_ptr<RenderedMesh>> getRenderedMeshes()
+    {
+        return m_renderedMeshes;
+    }
+
   private:
     std::vector<std::shared_ptr<RenderedMesh>> m_renderedMeshes;
     std::shared_ptr<Camera> m_camera;
