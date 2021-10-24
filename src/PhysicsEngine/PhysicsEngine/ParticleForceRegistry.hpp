@@ -30,5 +30,7 @@ class ParticleForceRegistry
     // Getters
     Registry getRegistry();
 
-    void updateForce(float duration);
+    unsigned int updateForce(float duration,
+                             std::vector<std::shared_ptr<ParticleContact>>& contacts,
+                             unsigned int limit);
 };

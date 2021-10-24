@@ -1,7 +1,10 @@
 
 #include "PhysicsEngine/ParticleGravity.hpp"
 
-void ParticleGravity::updateForce(std::shared_ptr<Particle> particle, float duration)
+unsigned int ParticleGravity::updateForce(std::shared_ptr<Particle> particle,
+                                  float duration,
+                                  std::vector<std::shared_ptr<ParticleContact>>& contacts,
+                                  unsigned int limit)
 {
     if(!particle->isResting())
     {
@@ -11,4 +14,5 @@ void ParticleGravity::updateForce(std::shared_ptr<Particle> particle, float dura
         //    particle->setAcceleration(particle->getAcceleration() + force * particle->getInverseMass());
         particle->setAcceleration(particle->getAcceleration() + gravity);
     }
+    return 0;
 }

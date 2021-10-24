@@ -4,7 +4,10 @@
 
 ParticleDrag::ParticleDrag(float k1, float k2): m_k1(k1), m_k2(k2) {}
 
-void ParticleDrag::updateForce(std::shared_ptr<Particle> particle, float duration)
+unsigned int ParticleDrag::updateForce(std::shared_ptr<Particle> particle,
+                                       float duration,
+                                       std::vector<std::shared_ptr<ParticleContact>>& contacts,
+                                       unsigned int limit)
 {
     if(!particle->isResting())
     {
@@ -13,4 +16,5 @@ void ParticleDrag::updateForce(std::shared_ptr<Particle> particle, float duratio
 
         particle->setAcceleration(particle->getAcceleration() + dragForce * particle->getInverseMass());
     }
+    return 0;
 }

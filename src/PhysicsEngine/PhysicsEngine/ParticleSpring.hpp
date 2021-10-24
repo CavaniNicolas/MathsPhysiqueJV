@@ -4,7 +4,7 @@
 
 class ParticleSpring : public ParticleForceGenerator
 {
-  private:
+  protected:
     // other anchor
     std::shared_ptr<Particle> m_otherParticle;
 
@@ -17,5 +17,8 @@ class ParticleSpring : public ParticleForceGenerator
     ParticleSpring(std::shared_ptr<Particle> otherParticle, float k, float restLength);
 
     // apply Hook's law based on particles position
-    void updateForce(std::shared_ptr<Particle> particle, float duration);
+    virtual unsigned int updateForce(std::shared_ptr<Particle> particle,
+                             float duration,
+                             std::vector<std::shared_ptr<ParticleContact>>& contacts,
+                             unsigned int limit);
 };

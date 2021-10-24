@@ -8,7 +8,6 @@
 void ParticleContactResolver::resolveContacts(std::vector<std::shared_ptr<ParticleContact>>& contactArray)
 {
     unsigned int maxIteration = 2 * contactArray.size();
-
     std::priority_queue<std::shared_ptr<ParticleContact>, std::vector<std::shared_ptr<ParticleContact>>, ParticleContact::HighestSeparatingVelocity> queue(contactArray.begin(), contactArray.end());
 
     unsigned int iterationNb = 0;

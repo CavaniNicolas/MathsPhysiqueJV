@@ -58,7 +58,7 @@ class ParticleContact
     {
         bool operator()(const std::shared_ptr<ParticleContact> c1, const std::shared_ptr<ParticleContact> c2)
         {
-            return c1 >= c2;
+            return c1 > c2;
         }
     };
 };

@@ -74,12 +74,13 @@ void Scene::addContactGenerator(std::shared_ptr<ParticleContactGenerator> contac
 
 void Scene::integrateAll(float deltaT)
 {
+    unsigned int contacts = m_maxContactsPerIteration;
     //We move the particles
     for(std::shared_ptr<Particle> particle: m_particles)
     {
         particle->integratePosition(deltaT);
     }
-    m_forcesRegistry.updateForce(deltaT);
+    contacts -= m_forcesRegistry.updateForce(deltaT, m_contactArray, contacts);
     for(std::shared_ptr<Particle> particle: m_particles)
     {
         particle->integrateVelocity(deltaT);
@@ -87,7 +88,7 @@ void Scene::integrateAll(float deltaT)
 
     //We check for contacts
     for (auto& contactGenerator : m_contactGenerators) {
-        contactGenerator->addContact(m_contactArray, m_maxContactsPerIteration);
+        contacts -= contactGenerator->addContact(m_contactArray, contacts);
     }
     //We resolve the found contacts
     m_contactResolver.resolveContacts(m_contactArray);

@@ -18,10 +18,9 @@
 #include <PhysicsEngine/ParticleDrag.hpp>
 #include <PhysicsEngine/ParticleForceRegistry.hpp>
 #include <PhysicsEngine/ParticleGravity.hpp>
-#include <PhysicsEngine/ParticleSpring.hpp>
 #include <PhysicsEngine/WallContactGenerator.hpp>
 #include <PhysicsEngine/ParticleRod.hpp>
-#include <PhysicsEngine/ParticleCable.hpp>
+#include <PhysicsEngine/CableSpring.hpp>
 
 // Include Render lib which uses opengl
 #include <Render/Camera.hpp>
@@ -73,19 +72,24 @@ int main()
     std::vector<std::shared_ptr<Particle>> particles;
 
     // create a particle
-    particles.push_back(std::make_shared<Particle>(Vector3D(0, 20, 0), Vector3D(10,10,0)));
+    particles.push_back(std::make_shared<Particle>(Vector3D(-20, 20, 0), Vector3D(-40, 20, 0)));
 
     // create a particle
-    particles.push_back(std::make_shared<Particle>(Vector3D(50, 20, 0), Vector3D()));
+    particles.push_back(std::make_shared<Particle>(Vector3D(20, 20, 0), Vector3D(40, 20, 0)));
 
     Scene scene = Scene(particles);
 
-    std::shared_ptr<ParticleGravity> partGravity = std::make_shared<ParticleGravity>();
-    //std::shared_ptr<ParticleDrag> partDrag = std::make_shared<ParticleDrag>(.1, .05);
-
     // particle will fall due to gravity
+    std::shared_ptr<ParticleGravity> partGravity = std::make_shared<ParticleGravity>();
     scene.addForce(partGravity);
-    //scene.addForce(particle, partDrag);
+
+    //Ressort classique
+    //std::shared_ptr<ParticleSpring> spring = std::make_shared<ParticleSpring>(particles[1], 10, 25);
+    //scene.addForce(particles[0], spring);
+
+    //Ressort avec une limite d'élasticité
+    std::shared_ptr<CableSpring> cableSpring = std::make_shared<CableSpring>(particles[1], 3, 25, 55, 0);
+    scene.addForce(particles[0], cableSpring);
 
     // create a floor the particle will bounce on
     std::shared_ptr<WallContactGenerator> floor =
@@ -93,10 +97,10 @@ int main()
     
 
     //create a rod between the particles
-    std::shared_ptr<ParticleRod> rod = std::make_shared<ParticleRod>(particles[0], particles[1], 50);
+    //std::shared_ptr<ParticleRod> rod = std::make_shared<ParticleRod>(particles[0], particles[1], 50);
 
     scene.addContactGenerator(floor);
-    scene.addContactGenerator(rod);
+    //scene.addContactGenerator(rod);
 
     GameEngine gameEngine = GameEngine(scene);
 
