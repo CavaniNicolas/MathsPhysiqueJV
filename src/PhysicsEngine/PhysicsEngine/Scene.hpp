@@ -40,7 +40,12 @@ class Scene
     // Setters
     void setParticles(std::vector<std::shared_ptr<Particle>> particles);
     void addParticle(std::shared_ptr<Particle> particle);
+
+    //Add a force to a specific particle
     void addForce(std::shared_ptr<Particle> particle, std::shared_ptr<ParticleForceGenerator> forceGenerator);
+    
+    //Add a force to each particle currently in the scene
+    void addForce(std::shared_ptr<ParticleForceGenerator> forceGenerator);
     void addContactGenerator(std::shared_ptr<ParticleContactGenerator> contactGenerator);
 
     void integrateAll(float deltaT);

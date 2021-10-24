@@ -70,33 +70,32 @@ int main()
 
     Camera camera(960, 540, glm::vec3(0.0f, 15.0f, 80.0f));
 
-    // create a particle
-    std::shared_ptr<Particle> particle;
-    particle = std::make_shared<Particle>(Vector3D(0, 20, 0), Vector3D(10,10,0));
+    std::vector<std::shared_ptr<Particle>> particles;
 
     // create a particle
-    std::shared_ptr<Particle> particle2;
-    particle2 = std::make_shared<Particle>(Vector3D(50, 20, 0), Vector3D());
+    particles.push_back(std::make_shared<Particle>(Vector3D(0, 20, 0), Vector3D(10,10,0)));
 
-    Scene scene = Scene({particle, particle2});
+    // create a particle
+    particles.push_back(std::make_shared<Particle>(Vector3D(50, 20, 0), Vector3D()));
+
+    Scene scene = Scene(particles);
 
     std::shared_ptr<ParticleGravity> partGravity = std::make_shared<ParticleGravity>();
     //std::shared_ptr<ParticleDrag> partDrag = std::make_shared<ParticleDrag>(.1, .05);
 
     // particle will fall due to gravity
-    scene.addForce(particle, partGravity);
-    scene.addForce(particle2, partGravity);
-   // scene.addForce(particle, partDrag);
+    scene.addForce(partGravity);
+    //scene.addForce(particle, partDrag);
 
     // create a floor the particle will bounce on
-    //std::shared_ptr<WallContactGenerator> floor =
-    //  std::make_shared<WallContactGenerator>({particle, particle2}, WallContactGenerator::y, 0, 0, 2);
+    std::shared_ptr<WallContactGenerator> floor =
+      std::make_shared<WallContactGenerator>(particles[0], WallContactGenerator::y, 0, 0, 2);
     
 
     //create a rod between the particles
-    std::shared_ptr<ParticleRod> rod = std::make_shared<ParticleRod>(particle, particle2, 50);
+    std::shared_ptr<ParticleRod> rod = std::make_shared<ParticleRod>(particles[0], particles[1], 50);
 
-    //scene.addContactGenerator(floor);
+    scene.addContactGenerator(floor);
     scene.addContactGenerator(rod);
 
     GameEngine gameEngine = GameEngine(scene);
@@ -105,7 +104,7 @@ int main()
     double prevTime = glfwGetTime();
 
     // Singleton to help debug and print Particle every 2 seconds
-    ParticlePrinter::setParticle(particle);
+    ParticlePrinter::setParticle(particles[0]);
 
     {
         std::shared_ptr<RenderedMesh> pyramid =
@@ -119,8 +118,8 @@ int main()
 
         Renderer renderer;
 
-        ParticleMeshRegistry::addEntry(particle, pyramid);
-        ParticleMeshRegistry::addEntry(particle2, pyramid2);
+        ParticleMeshRegistry::addEntry(particles[0], pyramid);
+        ParticleMeshRegistry::addEntry(particles[1], pyramid2);
 
         // multiplay the plan scale by 5
         plan.setScale(glm::vec3(5.0f, 5.0f, 5.0f));
