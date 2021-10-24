@@ -23,12 +23,12 @@ class Scene
         return m_camera;
     }
 
-    void updateCamera(Window& window);
-    void updateRenderedMeshes();
-
   private:
     std::vector<std::shared_ptr<RenderedMesh>> m_renderedMeshes;
     std::shared_ptr<Camera> m_camera;
+
+    void updateCamera(Window& window);
+    void updateRenderedMeshes();
 };
 
 } // namespace render

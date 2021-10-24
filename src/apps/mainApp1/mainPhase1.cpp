@@ -142,8 +142,7 @@ int main()
             // get the actual particles positions to set it to the corresponding renderedMeshes
             ParticleMeshRegistry::updateMeshPosition();
 
-            sceneRender.updateRenderedMeshes();
-            sceneRender.updateCamera(window);
+            sceneRender.update(window);
 
             // bind everything and call drawElements
             // renderer.draw(shader, scene); // how it will be in the end (scene will
