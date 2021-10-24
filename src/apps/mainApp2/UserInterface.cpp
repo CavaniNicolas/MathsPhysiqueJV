@@ -7,6 +7,7 @@
 #include "PhysicsEngine/CableSpring.hpp"
 #include "PhysicsEngine/WallContactGenerator.hpp"
 #include "PhysicsEngine/ParticleGravity.hpp"
+#include "PhysicsEngine/ParticleDrag.hpp"
 
 #include "mainApp2/UserInterface.hpp"
 
@@ -64,13 +65,15 @@ void UserInterface::HelpMarker(const char* desc) const
 
 void UserInterface::showProjectileCreation(api::ScenesAPI& scenesAPI) const
 {
-    if(ImGui::TreeNode("Projectile Creation"))
+    if(ImGui::TreeNode("Blob creation"))
     {
         static int particlesNb = 1;
         static float springConstant = 1;
         static float restLength = 15;
         static float elasticityLimitLength = 30;
         static float restitutionCoef = 0;
+        static float k1 = 0;
+        static float k2 = 0;
 
         // Table with the number of particles
         if(ImGui::BeginTable("ParticlesNb", 1))
@@ -164,6 +167,27 @@ void UserInterface::showProjectileCreation(api::ScenesAPI& scenesAPI) const
             ImGui::EndTable();
         }
 
+        // Table with the drag coefficients
+        if(ImGui::BeginTable("Drag coefficients", 2))
+        {
+            ImGui::TableNextRow();
+
+            ImGui::TableSetColumnIndex(0);
+            ImGui::Text("Restitution coefficient");
+            ImGui::TableNextRow();
+            ImGui::TableSetColumnIndex(0);
+            ImGui::InputFloat("k1", &k1);
+            ImGui::TableSetColumnIndex(1);
+            ImGui::InputFloat("k2", &k2);
+            ImGui::SameLine();
+            HelpMarker("Here you can determine how the particles will be "
+                       "slowed down lineary (with k1) and quadratically (with k2)."
+                       "You should keep the values between 0 and 1"
+                       "if you want the particles to keep moving");
+
+            ImGui::EndTable();
+        }
+
         // Button to create a projectile with the selected position and direction
         if(ImGui::Button("Create blob"))
         {
@@ -188,6 +212,9 @@ void UserInterface::showProjectileCreation(api::ScenesAPI& scenesAPI) const
                 particles.push_back(currentParticle);
             }
 
+            //We get the sceneEngine
+            std::shared_ptr<Scene> sceneEngine = scenesAPI.getSceneEngine();
+
             //We add a cable spring between all of our particles
             int firstIndex = 1;
             for (auto& particle : particles) {
@@ -195,7 +222,7 @@ void UserInterface::showProjectileCreation(api::ScenesAPI& scenesAPI) const
                 std::shared_ptr<CableSpring> cableSpring = std::make_shared<CableSpring>(
                   particle, springConstant, restLength, elasticityLimitLength, restitutionCoef);
                 for (int index = firstIndex; index < particlesNb; index++) {
-                    scenesAPI.m_sceneEngine->addForce(particles[index], cableSpring);
+                    sceneEngine->addForce(particles[index], cableSpring);
                 }
                 //We increase the starting index to avoid creating cablesprings twice
                 firstIndex++;
@@ -203,12 +230,16 @@ void UserInterface::showProjectileCreation(api::ScenesAPI& scenesAPI) const
 
             //We add the gravity to all of our particles
             std::shared_ptr<ParticleGravity> gravity = std::make_shared<ParticleGravity>();
-            scenesAPI.m_sceneEngine->addForce(gravity);
+            sceneEngine->addForce(gravity);
+
+            //We add drag to all of our particles
+            std::shared_ptr<ParticleDrag> drag = std::make_shared<ParticleDrag>(k1, k2);
+            sceneEngine->addForce(drag);
 
             //We add a wall to all of our particles, representing the floor at y = 0
             std::shared_ptr<WallContactGenerator> wall =
               std::make_shared<WallContactGenerator>(particles, WallContactGenerator::y, 0.5, -1, 2);
-            scenesAPI.m_sceneEngine->addContactGenerator(wall);
+            sceneEngine->addContactGenerator(wall);
         }
         ImGui::TreePop();
     }
@@ -253,7 +284,7 @@ void UserInterface::render(GameEngine& gameEngine, api::ScenesAPI& scenesAPI, re
 }
 
 void UserInterface::moveBlob(api::ScenesAPI& scenesAPI) {
-    std::vector<std::shared_ptr<Particle>> particles = scenesAPI.m_sceneEngine->getParticles();
+    std::vector<std::shared_ptr<Particle>> particles = scenesAPI.getSceneEngine()->getParticles();
 
     if (particles.size() > 0) {
         std::shared_ptr<Particle> firstParticle = particles[0];

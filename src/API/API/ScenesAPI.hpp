@@ -22,9 +22,11 @@ class ScenesAPI
     void addParticle(std::shared_ptr<Particle> particle, std::shared_ptr<render::RenderedMesh> renderedMesh);
     void addParticleDefault(std::shared_ptr<Particle> particle);
 
-    std::shared_ptr<Scene> m_sceneEngine;
+    std::shared_ptr<Scene> getSceneEngine();
 
   private:
+
+    std::shared_ptr<Scene> m_sceneEngine;
     
     std::shared_ptr<render::Scene> m_sceneRender;
 
