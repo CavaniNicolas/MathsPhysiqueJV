@@ -27,3 +27,5 @@ target_link_libraries(${MP_API_LIB_NAME}
 target_include_directories(${MP_API_LIB_NAME} PUBLIC
     ${CMAKE_CURRENT_SOURCE_DIR}
 )
+
+target_compile_definitions(${MP_API_LIB_NAME} PRIVATE -DRESOURCE_PATH="${CMAKE_SOURCE_DIR}/res/" ${IMGUI_COMPILE_FLAGS})

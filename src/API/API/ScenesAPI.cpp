@@ -1,6 +1,8 @@
 
 #include "API/ScenesAPI.hpp"
 
+#include "Render/Mesh/Pyramid.hpp"
+
 namespace api
 {
 
@@ -19,6 +21,17 @@ void ScenesAPI::updateMeshPosition()
 void ScenesAPI::addParticle(std::shared_ptr<Particle> particle, std::shared_ptr<render::RenderedMesh> renderedMesh)
 {
     m_partMeshReg.addEntry(particle, renderedMesh);
+}
+
+// add a particle to the engine Scene and link a default renderedMesh to it
+void ScenesAPI::addParticleDefault(std::shared_ptr<Particle> particle)
+{
+    std::shared_ptr<render::RenderedMesh> pyramid = std::make_shared<render::RenderedMesh>(
+      render::mesh::Pyramid::getMesh(), std::string(RESOURCE_PATH) + render::mesh::Pyramid::getTexturePath());
+
+    m_sceneRender->addRenderedMesh(pyramid);
+
+    addParticle(particle, pyramid);
 }
 
 } // namespace api

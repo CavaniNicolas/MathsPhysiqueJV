@@ -87,8 +87,8 @@ int main()
 
         api::ScenesAPI scenesAPI(sceneEngine, sceneRender);
 
-        scenesAPI.addParticle(fireball, pyramid);
-        //        scenesAPI.addParticleDefault(fireball);
+        //        scenesAPI.addParticle(fireball, pyramid);
+        scenesAPI.addParticleDefault(fireball);
 
         // scale the renderedMeshes
         pyramid->setScale(glm::vec3(0.5f, 0.5f, 0.5f));
