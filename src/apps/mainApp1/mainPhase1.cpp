@@ -8,7 +8,7 @@
 #include "mainApp1/UserInterface.hpp"
 
 // Include API between PhysicsEngine and Render libs
-#include <API/ParticleMeshRegistry.hpp>
+#include <API/ScenesAPI.hpp>
 
 // Include PhysicsEngine library
 #include <PhysicsEngine/DebugUtils/ParticlePrinter.hpp>
@@ -109,8 +109,9 @@ int main()
         sceneRender->addRenderedMesh(pyramid);
         sceneRender->addRenderedMesh(plan);
 
-        api::ParticleMeshRegistry partMeshReg;
-        partMeshReg.addEntry(fireball, pyramid);
+        api::ScenesAPI scenesAPI(sceneEngine, sceneRender);
+
+        scenesAPI.addParticle(fireball, pyramid);
 
         // scale the renderedMeshes
         pyramid->setScale(glm::vec3(0.5f, 0.5f, 0.5f));
@@ -141,7 +142,7 @@ int main()
             ParticlePrinter::debugPrint();
 
             // get the actual particles positions to set it to the corresponding renderedMeshes
-            partMeshReg.updateMeshPosition();
+            scenesAPI.updateMeshPosition();
 
             sceneRender->update(window);
 
