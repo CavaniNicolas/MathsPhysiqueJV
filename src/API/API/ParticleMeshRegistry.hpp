@@ -17,6 +17,10 @@ class ParticleMeshRegistry
     void addEntry(std::shared_ptr<Particle> particle, std::shared_ptr<render::RenderedMesh> renderedMesh);
 
     void updateMeshPosition();
+    int getSize() const
+    {
+        return m_registry.size();
+    }
 
   private:
     struct ParticleMeshEntry
