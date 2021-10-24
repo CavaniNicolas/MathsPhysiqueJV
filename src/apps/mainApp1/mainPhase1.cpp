@@ -109,7 +109,7 @@ int main()
         sceneRender.addRenderedMesh(pyramid);
         sceneRender.addRenderedMesh(plan);
 
-        ParticleMeshRegistry partMeshReg;
+        api::ParticleMeshRegistry partMeshReg;
         partMeshReg.addEntry(fireball, pyramid);
 
         // scale the renderedMeshes

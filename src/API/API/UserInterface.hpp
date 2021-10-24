@@ -5,6 +5,9 @@
 #include <Render/Camera.hpp>
 #include <Render/Window.hpp>
 
+namespace api
+{
+
 class UserInterface
 {
   public:
@@ -14,3 +17,5 @@ class UserInterface
     void terminate() const;
     void render(GameEngine& gameEngine, render::Camera& camera) const;
 };
+
+} // namespace api

@@ -6,6 +6,9 @@
 
 #include "API/UserInterface.hpp"
 
+namespace api
+{
+
 UserInterface::UserInterface(render::Window window)
 {
     // GL 3.0 + GLSL 130
@@ -71,3 +74,5 @@ void UserInterface::render(GameEngine& gameEngine, render::Camera& camera) const
     ImGui::Render();
     ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 }
+
+} // namespace api

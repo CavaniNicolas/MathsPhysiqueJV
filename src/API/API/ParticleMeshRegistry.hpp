@@ -8,6 +8,9 @@
 #include <Render/Renderer.hpp>
 #include <Render/Shader.hpp>
 
+namespace api
+{
+
 class ParticleMeshRegistry
 {
   public:
@@ -24,3 +27,5 @@ class ParticleMeshRegistry
 
     std::vector<ParticleMeshEntry> m_registry;
 };
+
+} // namespace api

@@ -1,6 +1,9 @@
 
 #include "API/ParticleMeshRegistry.hpp"
 
+namespace api
+{
+
 void ParticleMeshRegistry::addEntry(std::shared_ptr<Particle> particle,
                                     std::shared_ptr<render::RenderedMesh> renderedMesh)
 {
@@ -20,3 +23,5 @@ void ParticleMeshRegistry::updateMeshPosition()
           {particle->getPosition().getX(), particle->getPosition().getY(), particle->getPosition().getZ()});
     }
 }
+
+} // namespace api
