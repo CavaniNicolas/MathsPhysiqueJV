@@ -5,6 +5,7 @@
 #include "Render/Camera.hpp"
 #include "Render/IndexBuffer.hpp"
 #include "Render/RenderedMesh.hpp"
+#include "Render/Scene.hpp"
 #include "Render/Shader.hpp"
 #include "Render/VertexArray.hpp"
 
@@ -32,6 +33,7 @@ class Renderer
     void clear() const;
     void draw(VertexArray& va, const IndexBuffer& ib, const Shader& shader) const;
     void draw(Shader& shader, Camera& camera, RenderedMesh& rendMesh) const;
+    void draw(Shader& shader, Scene& scene) const;
 };
 
 } // namespace render

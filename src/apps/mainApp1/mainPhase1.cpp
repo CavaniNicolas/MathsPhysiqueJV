@@ -145,12 +145,7 @@ int main()
             sceneRender.update(window);
 
             // bind everything and call drawElements
-            // renderer.draw(shader, scene); // how it will be in the end (scene will
-            // contain camera and list of meshes)
-            renderer.draw(shader, *camera, *plan);
-
-            // draw all particles
-            ParticleMeshRegistry::drawAllParticles(renderer, shader, *camera);
+            renderer.draw(shader, sceneRender);
 
             // RenderUI
             ui.render(gameEngine, *camera);
