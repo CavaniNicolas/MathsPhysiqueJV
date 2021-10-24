@@ -35,8 +35,9 @@ float WallContactGenerator::calculatePenetration(std::shared_ptr<Particle> parti
             wallcenterdistance = particle->getPosition().getX() - m_coordinates;
             if(std::abs(wallcenterdistance) - particleRadius < m_thickness / 2)
             {
-                //contact with the wall
-                if (wallcenterdistance > 0) {
+                // contact with the wall
+                if(wallcenterdistance > 0)
+                {
                     penetration =
                       std::abs(m_coordinates + m_thickness / 2 - particle->getPosition().getX()) + particleRadius;
                 }
@@ -105,8 +106,8 @@ Vector3D WallContactGenerator::calculateNormal(std::shared_ptr<Particle> particl
             break;
         default: break;
     }
-    return normal;  
- }
+    return normal;
+}
 
 unsigned int WallContactGenerator::addContact(std::vector<std::shared_ptr<ParticleContact>>& contacts,
                                               unsigned int limit) const

@@ -35,50 +35,55 @@ mp_add_executable(${MP_MAIN1_NAME}
     INCLUDE_DIRS ${MP_APPS_INCDIRS}
 )
 
-##############################
-### Main Executable Phase2 ###
-##############################
+###############################
+#### Main Executable Phase2 ###
+###############################
 
 set(MP_MAIN2_NAME mainPhase2)
 
 set(MP_MAIN2_SOURCES
     mainApp2/mainPhase2.cpp
+    mainApp2/UserInterface.cpp
+)
+
+set(MP_MAIN2_HEADERS
+    mainApp2/UserInterface.hpp
 )
 
 mp_add_executable(${MP_MAIN2_NAME}
-    SOURCE ${MP_MAIN2_SOURCES}
+    SOURCE ${MP_MAIN2_SOURCES} ${MP_MAIN2_HEADERS}
     LINKS ${MP_APPS_LINKS}
     INCLUDE_DIRS ${MP_APPS_INCDIRS}
 )
 
-##############################
-### Test Spring Executable ###
-##############################
+###############################
+#### Test Spring Executable ###
+###############################
 
-set(MP_TestSpring_NAME TestSpring)
+#set(MP_TestSpring_NAME TestSpring)
 
-set(MP_TestSpring_SOURCES
-    testSpring/testSpring.cpp
-)
+#set(MP_TestSpring_SOURCES
+#    testSpring/testSpring.cpp
+#)
 
-mp_add_executable(${MP_TestSpring_NAME}
-    SOURCE ${MP_TestSpring_SOURCES}
-    LINKS ${MP_APPS_LINKS}
-    INCLUDE_DIRS ${MP_APPS_INCDIRS}
-)
+#mp_add_executable(${MP_TestSpring_NAME}
+#    SOURCE ${MP_TestSpring_SOURCES}
+#    LINKS ${MP_APPS_LINKS}
+#    INCLUDE_DIRS ${MP_APPS_INCDIRS}
+#)
 
-##############################
-###  Test Wall Executable  ###
-##############################
+###############################
+####  Test Wall Executable  ###
+###############################
 
-set(MP_TestWall_NAME TestWall)
+#set(MP_TestWall_NAME TestWall)
 
-set(MP_TestWall_SOURCES
-    testWall/testWall.cpp
-)
+#set(MP_TestWall_SOURCES
+#    testWall/testWall.cpp
+#)
 
-mp_add_executable(${MP_TestWall_NAME}
-    SOURCE ${MP_TestWall_SOURCES}
-    LINKS ${MP_APPS_LINKS}
-    INCLUDE_DIRS ${MP_APPS_INCDIRS}
-)
+#mp_add_executable(${MP_TestWall_NAME}
+#    SOURCE ${MP_TestWall_SOURCES}
+#    LINKS ${MP_APPS_LINKS}
+#    INCLUDE_DIRS ${MP_APPS_INCDIRS}
+#)

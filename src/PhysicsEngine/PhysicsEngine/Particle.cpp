@@ -19,7 +19,8 @@ Particle::Particle(Vector3D position, Vector3D velocity, float radius, float mas
 Particle::Particle(): Particle::Particle(Vector3D(), Vector3D()) {}
 
 Particle::Particle(const Particle& other):
-  Particle::Particle(other.m_position, other.m_velocity, other.getRadius(), other.getMass(), other.getG(), other.m_damping)
+  Particle::Particle(
+    other.m_position, other.m_velocity, other.getRadius(), other.getMass(), other.getG(), other.m_damping)
 {
 }
 
@@ -75,11 +76,13 @@ Vector3D Particle::getAcceleration() const
     return m_acceleration;
 }
 
-float Particle::getDeltaT() const {
+float Particle::getDeltaT() const
+{
     return m_deltaT;
 }
 
-float Particle::getRadius() const {
+float Particle::getRadius() const
+{
     return m_radius;
 }
 
@@ -122,7 +125,8 @@ void Particle::setAcceleration(Vector3D acceleration)
     m_acceleration = acceleration;
 }
 
-void Particle::setRadius(float radius) {
+void Particle::setRadius(float radius)
+{
     m_radius = radius;
 }
 

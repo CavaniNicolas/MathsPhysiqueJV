@@ -4,9 +4,14 @@
 #include <imgui/imgui_impl_glfw.h>
 #include <imgui/imgui_impl_opengl3.h>
 
+#include <PhysicsEngine/Projectile.hpp>
+#include <PhysicsEngine/Bullet.hpp>
+#include <PhysicsEngine/Fireball.hpp>
+#include <PhysicsEngine/Laser.hpp>
+
 #include "mainApp1/UserInterface.hpp"
 
-UserInterface::UserInterface(Window window)
+UserInterface::UserInterface(render::Window window)
 {
     // GL 3.0 + GLSL 130
     const char* glsl_version = "#version 130";
@@ -40,7 +45,7 @@ void UserInterface::terminate() const
 }
 
 // Helper to display a little (?) mark which shows a tooltip when hovered.
-static void HelpMarker(const char* desc)
+void UserInterface::HelpMarker(const char* desc) const
 {
     ImGui::TextDisabled("(?)");
     if(ImGui::IsItemHovered())
@@ -53,7 +58,7 @@ static void HelpMarker(const char* desc)
     }
 }
 
-void showProjectileCreation(GameEngine& gameEngine)
+void UserInterface::showProjectileCreation(api::ScenesAPI& scenesAPI) const
 {
     if(ImGui::TreeNode("Projectile Creation"))
     {
@@ -71,20 +76,15 @@ void showProjectileCreation(GameEngine& gameEngine)
             ImGui::TableNextRow();
 
             ImGui::TableSetColumnIndex(0);
-            ImGui::Text("Position X");
-            ImGui::TableSetColumnIndex(1);
-            ImGui::Text("Position Y");
-            ImGui::TableSetColumnIndex(2);
-            ImGui::Text("Position Z");
+            ImGui::Text("Position");
 
             ImGui::TableNextRow();
             ImGui::TableSetColumnIndex(0);
-            ImGui::InputInt("", &xP);
-
+            ImGui::InputInt("X", &xP);
             ImGui::TableSetColumnIndex(1);
-            ImGui::InputInt("", &yP);
+            ImGui::InputInt("Y", &yP);
             ImGui::TableSetColumnIndex(2);
-            ImGui::InputInt("", &zP);
+            ImGui::InputInt("Z", &zP);
             ImGui::SameLine();
             HelpMarker("You can apply arithmetic operators +,*,/ on numerical values.\n"
                        "  e.g. [ 100 ], input \'*2\', result becomes [ 200 ]\n"
@@ -99,20 +99,15 @@ void showProjectileCreation(GameEngine& gameEngine)
             ImGui::TableNextRow();
 
             ImGui::TableSetColumnIndex(0);
-            ImGui::Text("Direction X");
-            ImGui::TableSetColumnIndex(1);
-            ImGui::Text("Direction Y");
-            ImGui::TableSetColumnIndex(2);
-            ImGui::Text("Direction Z");
+            ImGui::Text("Direction");
 
             ImGui::TableNextRow();
             ImGui::TableSetColumnIndex(0);
-            ImGui::InputInt("", &xD);
-
+            ImGui::InputInt("X", &xD);
             ImGui::TableSetColumnIndex(1);
-            ImGui::InputInt("", &yD);
+            ImGui::InputInt("Y", &yD);
             ImGui::TableSetColumnIndex(2);
-            ImGui::InputInt("", &zD);
+            ImGui::InputInt("Z", &zD);
             ImGui::SameLine();
             HelpMarker("You can apply arithmetic operators +,*,/ on numerical values.\n"
                        "  e.g. [ 100 ], input \'*2\', result becomes [ 200 ]\n"
@@ -147,27 +142,29 @@ void showProjectileCreation(GameEngine& gameEngine)
         // Button to create a projectile with the selected position and direction
         if(ImGui::Button("Create Projectile"))
         {
+            std::shared_ptr<Projectile> projectile;
+
+            // Create the Projectile
             if(item_current_idx == 0)
             {
-                //        gameEngine.getScene().addParticle(std::make_shared<Bullet>(Vector3D(xP, yP, zP), Vector3D(xD,
-                //        yD, zD), 1, 1);
+                projectile = std::make_shared<Bullet>(Vector3D(xP, yP, zP), Vector3D(xD, yD, zD), 1, 1);
             }
             if(item_current_idx == 1)
             {
-                //        gameEngine.getScene().addParticle(std::make_shared<Fireball>(Vector3D(xP, yP, zP),
-                //        Vector3D(xD, yD, zD), 1, 1);
+                projectile = std::make_shared<Fireball>(Vector3D(xP, yP, zP), Vector3D(xD, yD, zD), 1, 1);
             }
             if(item_current_idx == 2)
             {
-                //        gameEngine.getScene().addParticle(std::make_shared<Laser>(Vector3D(xP, yP, zP), Vector3D(xD,
-                //        yD, zD), 1, 1);
+                projectile = std::make_shared<Laser>(Vector3D(xP, yP, zP), Vector3D(xD, yD, zD), 1, 1);
             }
+
+            scenesAPI.addParticleDefault(projectile);
         }
         ImGui::TreePop();
     }
 }
 
-void UserInterface::render(GameEngine& gameEngine, Camera& camera) const
+void UserInterface::render(GameEngine& gameEngine, api::ScenesAPI& scenesAPI, render::Camera& camera) const
 {
     float cameraAngle = camera.getFOVdeg();
 
@@ -177,7 +174,7 @@ void UserInterface::render(GameEngine& gameEngine, Camera& camera) const
     // Edit translation.x using a slider from 0.0f to 90.0f
     ImGui::SliderFloat("cameraAngle", &cameraAngle, 0.0f, 90.0f);
 
-    showProjectileCreation(gameEngine);
+    showProjectileCreation(scenesAPI);
 
     // Buttons to run and pause the simulation
     if(ImGui::Button("Run Simulation"))

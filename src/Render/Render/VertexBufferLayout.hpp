@@ -3,6 +3,9 @@
 #include <GL/glew.h>
 #include <vector>
 
+namespace render
+{
+
 struct VertexBufferElement
 {
     unsigned int type;
@@ -43,3 +46,5 @@ class VertexBufferLayout
         return m_stride;
     }
 };
+
+} // namespace render

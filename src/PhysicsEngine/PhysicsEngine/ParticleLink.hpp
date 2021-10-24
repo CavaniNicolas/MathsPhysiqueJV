@@ -5,15 +5,14 @@
 class ParticleLink : public ParticleContactGenerator
 {
   protected:
-	// Linked particles
+    // Linked particles
     std::vector<std::shared_ptr<Particle>> m_particle;
 
   public:
-
     ParticleLink(std::shared_ptr<Particle> particleA, std::shared_ptr<Particle> particleB);
     ~ParticleLink();
 
-	// return the length of the link
+    // return the length of the link
     float currentLength() const;
 
 	// Take a pointer to an array of contact and the number of contact left to be generated

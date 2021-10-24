@@ -7,6 +7,9 @@
 
 #include "Render/Camera.hpp"
 
+namespace render
+{
+
 Camera::Camera(int width, int height, glm::vec3 position):
   m_width(width),
   m_height(height),
@@ -142,3 +145,5 @@ glm::mat4 Camera::getProj()
 {
     return m_proj;
 }
+
+} // namespace render

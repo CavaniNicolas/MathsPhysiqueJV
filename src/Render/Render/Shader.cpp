@@ -6,6 +6,9 @@
 #include "Render/Renderer.hpp"
 #include "Render/Shader.hpp"
 
+namespace render
+{
+
 Shader::Shader(const std::string& filepath): m_filepath(filepath)
 {
     ShaderProgramSource source = parseShader(filepath);
@@ -149,3 +152,5 @@ int Shader::getUniformLocation(const std::string& name)
 
     return location;
 }
+
+} // namespace render

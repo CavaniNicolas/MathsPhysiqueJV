@@ -6,7 +6,10 @@
 
 #include "API/UserInterface.hpp"
 
-UserInterface::UserInterface(Window window)
+namespace api
+{
+
+UserInterface::UserInterface(render::Window window)
 {
     // GL 3.0 + GLSL 130
     const char* glsl_version = "#version 130";
@@ -39,7 +42,7 @@ void UserInterface::terminate() const
     ImGui::DestroyContext();
 }
 
-void UserInterface::render(GameEngine& gameEngine, Camera& camera) const
+void UserInterface::render(GameEngine& gameEngine, render::Camera& camera) const
 {
     float cameraAngle = camera.getFOVdeg();
 
@@ -71,3 +74,5 @@ void UserInterface::render(GameEngine& gameEngine, Camera& camera) const
     ImGui::Render();
     ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 }
+
+} // namespace api

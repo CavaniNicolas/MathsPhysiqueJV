@@ -4,6 +4,9 @@
 
 #include "Render/VertexBuffer.hpp"
 
+namespace render
+{
+
 class Mesh
 {
   private:
@@ -17,3 +20,5 @@ class Mesh
 
     const std::vector<unsigned int>& getIndices() const;
 };
+
+} // namespace render

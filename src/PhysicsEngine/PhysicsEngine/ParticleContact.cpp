@@ -4,16 +4,22 @@ ParticleContact::ParticleContact(std::shared_ptr<Particle> particleA,
                                  std::shared_ptr<Particle> particleB,
                                  float restitution,
                                  float penetration,
-                                 Vector3D contactNormal) :
-    m_particle({particleA, particleB}), m_restitution(restitution), m_penetration(penetration), m_contactNormal(contactNormal)
-{}
+                                 Vector3D contactNormal):
+  m_particle({particleA, particleB}),
+  m_restitution(restitution),
+  m_penetration(penetration),
+  m_contactNormal(contactNormal)
+{
+}
 
-ParticleContact ::~ParticleContact() {
+ParticleContact ::~ParticleContact()
+{
     m_particle.clear();
 }
 
 // Handle impulse for this collision
-void ParticleContact::resolveVelocity() {
+void ParticleContact::resolveVelocity()
+{
     if(m_particle[1] != nullptr)
     {
         Vector3D v1 = m_particle[0]->getVelocity();
@@ -40,7 +46,10 @@ void ParticleContact::resolveVelocity() {
         Vector3D newVelocity = velocity - m_contactNormal * k * inv_m;
 
         bool restingParticle = false;
-        if (accel == Vector3D(0, m_particle[0]->getG(), 0)) {
+        if (accel == Vector3D(0, -m_particle[0]->getG(), 0)) {
+            std::cout << "y accel only created by gravity" << std::endl;
+            std::cout << "newVelocity.y = " << newVelocity.getY() << std::endl;
+            std::cout << "8 * m_restitution = " << 8 * m_restitution << std::endl;
             if(newVelocity.getY() < 8 * m_restitution || m_restitution == 0)
             {
                 restingParticle = true;
@@ -55,8 +64,6 @@ void ParticleContact::resolveVelocity() {
             m_particle[0]->setResting(true);
         }
         m_particle[0]->setVelocity(newVelocity);
-
-        
     }
 }
 
@@ -77,7 +84,7 @@ void ParticleContact::resolveInterpenetration()
 
         m_particle[0]->setPosition(p1 + delta_p1);
         m_particle[1]->setPosition(p2 + delta_p2);
-        // Est-ce qu'il faudrait plutôt mettre p1/2 - delta_p1/2 ?
+        // Est-ce qu'il faudrait plutï¿½t mettre p1/2 - delta_p1/2 ?
     }
     else
     {
@@ -91,7 +98,8 @@ void ParticleContact::resolveInterpenetration()
 }
 
 // Resolve velocity and interpenetration
-void ParticleContact::resolve() {
+void ParticleContact::resolve()
+{
     resolveInterpenetration();
     resolveVelocity();
 }
@@ -99,7 +107,7 @@ void ParticleContact::resolve() {
 // Return the separationVelocity of the particles
 float ParticleContact::calculateSeparatingVelocity()
 {
-    if (m_particle[1] != nullptr) 
+    if(m_particle[1] != nullptr)
     {
         Vector3D v_A = m_particle[0]->getVelocity();
         Vector3D v_B = m_particle[1]->getVelocity();

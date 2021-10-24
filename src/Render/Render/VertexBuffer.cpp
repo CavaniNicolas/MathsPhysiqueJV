@@ -3,6 +3,9 @@
 
 #include "Render/VertexBuffer.hpp"
 
+namespace render
+{
+
 VertexBuffer::VertexBuffer(const void* data, unsigned int size)
 {
     glGenBuffers(1, &m_bufferID);
@@ -32,3 +35,5 @@ void VertexBuffer::unbind() const
 {
     glBindBuffer(GL_ARRAY_BUFFER, 0);
 }
+
+} // namespace render

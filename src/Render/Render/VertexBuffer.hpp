@@ -3,6 +3,9 @@
 #include <glm/glm.hpp>
 #include <vector>
 
+namespace render
+{
+
 // Structure to standardize the vertices used in the meshes
 struct Vertex
 {
@@ -32,3 +35,5 @@ class VertexBuffer
     void bind() const;
     void unbind() const;
 };
+
+} // namespace render

@@ -8,7 +8,7 @@
 #include "mainApp1/UserInterface.hpp"
 
 // Include API between PhysicsEngine and Render libs
-#include <API/ParticleMeshRegistry.hpp>
+#include <API/ScenesAPI.hpp>
 
 // Include PhysicsEngine library
 #include <PhysicsEngine/DebugUtils/ParticlePrinter.hpp>
@@ -22,6 +22,7 @@
 #include <PhysicsEngine/ParticleForceRegistry.hpp>
 #include <PhysicsEngine/ParticleGravity.hpp>
 #include <PhysicsEngine/ParticleSpring.hpp>
+#include <PhysicsEngine/Scene.hpp>
 #include <PhysicsEngine/WallContactGenerator.hpp>
 
 // Include Render lib which uses opengl
@@ -29,12 +30,16 @@
 #include <Render/Mesh.hpp>
 #include <Render/RenderedMesh.hpp>
 #include <Render/Renderer.hpp>
+#include <Render/Scene.hpp>
 #include <Render/Shader.hpp>
 #include <Render/Window.hpp>
 
+#include <Render/Mesh/Pyramid.hpp>
+#include <Render/Mesh/Plan.hpp>
+
 int main()
 {
-    Window window(960, 540, "Moteur Physique");
+    render::Window window(960, 540, "Moteur Physique");
     if(!window.init())
     {
         return -1;
@@ -42,48 +47,22 @@ int main()
 
     UserInterface ui(window);
 
-    // Store mesh data in vectors for the mesh
-    std::vector<Vertex> verts = {//              COORDINATES           /           TexCoord    //
-                                 Vertex{glm::vec3(-5.0f, 0.0f, 5.0f), glm::vec2(0.32f, 0.32f)},
-                                 Vertex{glm::vec3(5.0f, 0.0f, 5.0f), glm::vec2(0.69f, 0.32f)},
-                                 Vertex{glm::vec3(5.0f, 0.0f, -5.0f), glm::vec2(0.69f, 0.69f)},
-                                 Vertex{glm::vec3(-5.0f, 0.0f, -5.0f), glm::vec2(0.32f, 0.69f)},
-
-                                 Vertex{glm::vec3(0.0f, 8.0f, 0.0f), glm::vec2(0.5f, 0.0f)},
-                                 Vertex{glm::vec3(0.0f, 8.0f, 0.0f), glm::vec2(1.0f, 0.5f)},
-                                 Vertex{glm::vec3(0.0f, 8.0f, 0.0f), glm::vec2(0.5f, 1.0f)},
-                                 Vertex{glm::vec3(0.0f, 8.0f, 0.0f), glm::vec2(0.0f, 0.5f)}};
-
-    std::vector<unsigned int> indices = {0, 1, 2, 2, 3, 0, 0, 1, 4, 1, 2, 5, 2, 3, 6, 3, 0, 7};
-
-    Mesh pyramidMesh(verts, indices);
-
-    // Store mesh data in vectors for the mesh
-    std::vector<Vertex> vertsPlan = {//              COORDINATES           /           TexCoord //
-                                     Vertex{glm::vec3(-5.0f, 0.0f, 5.0f), glm::vec2(0.0f, 0.0f)},
-                                     Vertex{glm::vec3(-5.0f, 0.0f, -5.0f), glm::vec2(5.0f, 0.0f)},
-                                     Vertex{glm::vec3(5.0f, 0.0f, -5.0f), glm::vec2(5.0f, 5.0f)},
-                                     Vertex{glm::vec3(5.0f, 0.0f, 5.0f), glm::vec2(0.0f, 5.0f)}};
-
-    std::vector<unsigned int> indicesPlan = {0, 1, 2, 2, 3, 0};
-
-    Mesh planMesh(vertsPlan, indicesPlan);
-
-    Camera camera(960, 540, glm::vec3(0.0f, 15.0f, 80.0f));
+    std::shared_ptr<render::Camera> camera = std::make_shared<render::Camera>(960, 540, glm::vec3(0.0f, 15.0f, 80.0f));
 
     // create a particle
     std::shared_ptr<Fireball> fireball = std::make_shared<Fireball>(Vector3D(0, 0, 0), Vector3D(1, 0, -1), 1, 1);
 
-    Scene scene = Scene({fireball});
+    std::shared_ptr<Scene> sceneEngine = std::make_shared<Scene>();
+    //        sceneEngine->addParticle(fireball);
 
     std::shared_ptr<ParticleGravity> partGravity = std::make_shared<ParticleGravity>();
     std::shared_ptr<ParticleDrag> partDrag = std::make_shared<ParticleDrag>(0.25f, 0.0f);
 
     // link forces to fireball
-    scene.addForce(fireball, partGravity);
-    scene.addForce(fireball, partDrag);
+    sceneEngine->addForce(fireball, partGravity);
+    sceneEngine->addForce(fireball, partDrag);
 
-    GameEngine gameEngine = GameEngine(scene);
+    GameEngine gameEngine = GameEngine(sceneEngine);
 
     // Variable that help the rotation of the pyramid
     double prevTime = glfwGetTime();
@@ -92,23 +71,27 @@ int main()
     ParticlePrinter::setParticle(fireball);
 
     {
-        std::shared_ptr<RenderedMesh> pyramid =
-          std::make_shared<RenderedMesh>(pyramidMesh, std::string(RESOURCE_PATH) + "textures/fire_texture_pyramid.png");
+        std::shared_ptr<render::RenderedMesh> pyramid = std::make_shared<render::RenderedMesh>(
+          render::mesh::Pyramid::getMesh(), std::string(RESOURCE_PATH) + render::mesh::Pyramid::getTexturePath());
 
-        RenderedMesh plan(planMesh, std::string(RESOURCE_PATH) + "textures/gril_texture.png");
+        std::shared_ptr<render::RenderedMesh> plan = std::make_shared<render::RenderedMesh>(
+          render::mesh::Plan::getMesh(), std::string(RESOURCE_PATH) + render::mesh::Plan::getTexturePath());
 
-        Shader shader(std::string(RESOURCE_PATH) + "shaders/basic.shader");
+        render::Shader shader(std::string(RESOURCE_PATH) + "shaders/basic.shader");
 
-        Renderer renderer;
+        render::Renderer renderer;
 
-        ParticleMeshRegistry::addEntry(fireball, pyramid);
+        std::shared_ptr<render::Scene> sceneRender = std::make_shared<render::Scene>(camera);
+        sceneRender->addRenderedMesh(plan);
 
-        // multiplay the plan scale by 5
-        plan.setScale(glm::vec3(5.0f, 5.0f, 5.0f));
+        api::ScenesAPI scenesAPI(sceneEngine, sceneRender);
 
-        // divide the pyramid scale by 2
+        scenesAPI.addParticle(fireball, pyramid);
+        //        scenesAPI.addParticleDefault(fireball);
+
+        // scale the renderedMeshes
         pyramid->setScale(glm::vec3(0.5f, 0.5f, 0.5f));
-        plan.setScale(glm::vec3(50.0f, 50.0f, 50.0f));
+        plan->setScale(glm::vec3(50.0f, 50.0f, 50.0f));
 
         auto startTime = std::chrono::high_resolution_clock::now();
 
@@ -132,38 +115,18 @@ int main()
                 prevTime = crntTime;
             }
 
-            plan.updateModelMatrix();
-
-            ParticlePrinter::debugPrint();
+            //            ParticlePrinter::debugPrint();
 
             // get the actual particles positions to set it to the corresponding renderedMeshes
-            ParticleMeshRegistry::updateMeshPosition();
+            scenesAPI.updateMeshPosition();
 
-            // handle inputs to move the camera
-            camera.handleInputs(window);
-
-            // fix the camera dimensions if the window gets resized
-            {
-                int width, height;
-                glfwGetWindowSize(window.getWindow(), &width, &height);
-                // Update the camera matrices view and proj
-                camera.setSize(width, height);
-                glViewport(0, 0, width, height);
-            }
-
-            // Update the camera matrices view and proj
-            camera.update(0.1f, 10000.0f);
+            sceneRender->update(window);
 
             // bind everything and call drawElements
-            // renderer.draw(shader, scene); // how it will be in the end (scene will
-            // contain camera and list of meshes)
-            renderer.draw(shader, camera, plan);
-
-            // draw all particles
-            ParticleMeshRegistry::drawAllParticles(renderer, shader, camera);
+            renderer.draw(shader, *sceneRender);
 
             // RenderUI
-            ui.render(gameEngine, camera);
+            ui.render(gameEngine, scenesAPI, *camera);
 
             // Swap buffers
             glfwSwapBuffers(window.getWindow());

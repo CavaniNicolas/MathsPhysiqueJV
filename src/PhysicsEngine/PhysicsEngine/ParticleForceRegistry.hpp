@@ -7,7 +7,7 @@ class ParticleForceRegistry
   private:
     struct ParticleForceEntry
     {
-        std::shared_ptr<Particle> particle;
+        std::weak_ptr<Particle> particle;
         std::shared_ptr<ParticleForceGenerator> forceGenerator;
     };
 

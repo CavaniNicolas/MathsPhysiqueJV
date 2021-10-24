@@ -10,6 +10,9 @@
 #include "Render/VertexBuffer.hpp"
 #include "Render/VertexBufferLayout.hpp"
 
+namespace render
+{
+
 class RenderedMesh
 {
   private:
@@ -55,3 +58,5 @@ class RenderedMesh
 
     glm::mat4 getModel() const;
 };
+
+} // namespace render

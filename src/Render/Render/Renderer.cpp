@@ -21,6 +21,9 @@ bool GLLogCall(const char* function, const char* file, int line)
     return true;
 }
 
+namespace render
+{
+
 void Renderer::clear() const
 {
     GLCall(glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT));
@@ -39,6 +42,7 @@ void Renderer::draw(VertexArray& va, const IndexBuffer& ib, const Shader& shader
     GLCall(glDrawElements(GL_TRIANGLES, ib.getCount(), GL_UNSIGNED_INT, nullptr)); // unsigned is important !
 }
 
+// draw a rendredMesh given a camera
 void Renderer::draw(Shader& shader, Camera& camera, RenderedMesh& rendMesh) const
 {
     // bind the shader
@@ -59,3 +63,15 @@ void Renderer::draw(Shader& shader, Camera& camera, RenderedMesh& rendMesh) cons
     GLCall(glDrawElements(
       GL_TRIANGLES, rendMesh.getIndexBuffer().getCount(), GL_UNSIGNED_INT, nullptr)); // unsigned is important !
 }
+
+// draw all the renderedMeshes from a scene
+void Renderer::draw(Shader& shader, Scene& scene) const
+{
+    std::shared_ptr<Camera> camera = scene.getCamera();
+    for(auto const& rendMesh: scene.getRenderedMeshes())
+    {
+        draw(shader, *camera, *rendMesh);
+    }
+}
+
+} // namespace render

@@ -2,6 +2,9 @@
 #include "Render/Renderer.hpp"
 #include "Render/VertexArray.hpp"
 
+namespace render
+{
+
 VertexArray::VertexArray()
 {
     GLCall(glGenVertexArrays(1, &m_rendererID));
@@ -41,3 +44,5 @@ void VertexArray::unbind() const
 {
     GLCall(glBindVertexArray(0));
 }
+
+} // namespace render

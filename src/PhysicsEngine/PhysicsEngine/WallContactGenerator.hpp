@@ -7,7 +7,9 @@ class WallContactGenerator : public ParticleContactGenerator
   public:
     enum WallPlan
     {
-        x, y, z
+        x,
+        y,
+        z
     };
 
     WallPlan m_wallPlan;
