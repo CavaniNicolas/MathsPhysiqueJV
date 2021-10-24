@@ -53,7 +53,7 @@ int main()
     std::shared_ptr<Fireball> fireball = std::make_shared<Fireball>(Vector3D(0, 0, 0), Vector3D(1, 0, -1), 1, 1);
 
     std::shared_ptr<Scene> sceneEngine = std::make_shared<Scene>();
-    sceneEngine->addParticle(fireball);
+    //        sceneEngine->addParticle(fireball);
 
     std::shared_ptr<ParticleGravity> partGravity = std::make_shared<ParticleGravity>();
     std::shared_ptr<ParticleDrag> partDrag = std::make_shared<ParticleDrag>(0.25f, 0.0f);
@@ -82,13 +82,12 @@ int main()
         render::Renderer renderer;
 
         std::shared_ptr<render::Scene> sceneRender = std::make_shared<render::Scene>(camera);
-        sceneRender->addRenderedMesh(pyramid);
         sceneRender->addRenderedMesh(plan);
 
         api::ScenesAPI scenesAPI(sceneEngine, sceneRender);
 
-        //        scenesAPI.addParticle(fireball, pyramid);
-        scenesAPI.addParticleDefault(fireball);
+        scenesAPI.addParticle(fireball, pyramid);
+        //        scenesAPI.addParticleDefault(fireball);
 
         // scale the renderedMeshes
         pyramid->setScale(glm::vec3(0.5f, 0.5f, 0.5f));
@@ -116,7 +115,7 @@ int main()
                 prevTime = crntTime;
             }
 
-            ParticlePrinter::debugPrint();
+            //            ParticlePrinter::debugPrint();
 
             // get the actual particles positions to set it to the corresponding renderedMeshes
             scenesAPI.updateMeshPosition();
@@ -127,7 +126,7 @@ int main()
             renderer.draw(shader, *sceneRender);
 
             // RenderUI
-            ui.render(gameEngine, *camera);
+            ui.render(gameEngine, scenesAPI, *camera);
 
             // Swap buffers
             glfwSwapBuffers(window.getWindow());

@@ -1,5 +1,6 @@
 #pragma once
 
+#include <API/ScenesAPI.hpp>
 #include <PhysicsEngine/GameEngine.hpp>
 
 #include <Render/Camera.hpp>
@@ -12,5 +13,7 @@ class UserInterface
 
     void start() const;
     void terminate() const;
-    void render(GameEngine& gameEngine, render::Camera& camera) const;
+    void render(GameEngine& gameEngine, api::ScenesAPI& scenesAPI, render::Camera& camera) const;
+    void showProjectileCreation(api::ScenesAPI& scenesAPI) const;
+    void HelpMarker(const char* desc) const;
 };

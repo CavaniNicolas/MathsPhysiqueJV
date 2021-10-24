@@ -72,6 +72,8 @@ void GameEngine::gameLoop()
             //            auto deltaTDebugCastUS = std::chrono::duration_cast<std::chrono::microseconds>(deltaTDebug);
             //            if(deltaTDebugCastUS.count() > 1000000)
             //            {
+            //                std::cout << *m_scene->getParticles().at(0) << std::endl;
+
             //                std::cout << "deltaT: " << deltaTCastUS.count() << " us" << std::endl
             //                          << "deltaT: " << float(deltaTCastUS.count() / 1000000.0f) << " s" << std::endl
             //                          << std::endl;

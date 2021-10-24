@@ -4,14 +4,10 @@
 #include <imgui/imgui_impl_glfw.h>
 #include <imgui/imgui_impl_opengl3.h>
 
-#include <API/ParticleMeshRegistry.hpp>
-
 #include <PhysicsEngine/Projectile.hpp>
 #include <PhysicsEngine/Bullet.hpp>
 #include <PhysicsEngine/Fireball.hpp>
 #include <PhysicsEngine/Laser.hpp>
-
-#include <Render/RenderedMesh.hpp>
 
 #include "mainApp1/UserInterface.hpp"
 
@@ -49,7 +45,7 @@ void UserInterface::terminate() const
 }
 
 // Helper to display a little (?) mark which shows a tooltip when hovered.
-static void HelpMarker(const char* desc)
+void UserInterface::HelpMarker(const char* desc) const
 {
     ImGui::TextDisabled("(?)");
     if(ImGui::IsItemHovered())
@@ -62,7 +58,7 @@ static void HelpMarker(const char* desc)
     }
 }
 
-void showProjectileCreation(GameEngine& gameEngine)
+void UserInterface::showProjectileCreation(api::ScenesAPI& scenesAPI) const
 {
     if(ImGui::TreeNode("Projectile Creation"))
     {
@@ -146,25 +142,6 @@ void showProjectileCreation(GameEngine& gameEngine)
         // Button to create a projectile with the selected position and direction
         if(ImGui::Button("Create Projectile"))
         {
-            // NOT GOOD, CREATE A PROPER CLASS
-            // Store mesh data in vectors for the mesh
-            std::vector<render::Vertex> verts = {//              COORDINATES           /           TexCoord    //
-                                                 render::Vertex{glm::vec3(-5.0f, 0.0f, 5.0f), glm::vec2(0.32f, 0.32f)},
-                                                 render::Vertex{glm::vec3(5.0f, 0.0f, 5.0f), glm::vec2(0.69f, 0.32f)},
-                                                 render::Vertex{glm::vec3(5.0f, 0.0f, -5.0f), glm::vec2(0.69f, 0.69f)},
-                                                 render::Vertex{glm::vec3(-5.0f, 0.0f, -5.0f), glm::vec2(0.32f, 0.69f)},
-
-                                                 render::Vertex{glm::vec3(0.0f, 8.0f, 0.0f), glm::vec2(0.5f, 0.0f)},
-                                                 render::Vertex{glm::vec3(0.0f, 8.0f, 0.0f), glm::vec2(1.0f, 0.5f)},
-                                                 render::Vertex{glm::vec3(0.0f, 8.0f, 0.0f), glm::vec2(0.5f, 1.0f)},
-                                                 render::Vertex{glm::vec3(0.0f, 8.0f, 0.0f), glm::vec2(0.0f, 0.5f)}};
-            std::vector<unsigned int> indices = {0, 1, 2, 2, 3, 0, 0, 1, 4, 1, 2, 5, 2, 3, 6, 3, 0, 7};
-            render::Mesh pyramidMesh(verts, indices);
-
-            // Create the RenderedMesh
-            std::shared_ptr<render::RenderedMesh> pyramid = std::make_shared<render::RenderedMesh>(
-              pyramidMesh, std::string(RESOURCE_PATH) + "textures/fire_texture_pyramid.png");
-
             std::shared_ptr<Projectile> projectile;
 
             // Create the Projectile
@@ -181,14 +158,13 @@ void showProjectileCreation(GameEngine& gameEngine)
                 projectile = std::make_shared<Laser>(Vector3D(xP, yP, zP), Vector3D(xD, yD, zD), 1, 1);
             }
 
-            gameEngine.getScene()->addParticle(projectile);
-            //            ParticleMeshRegistry::addEntry(projectile, pyramid);
+            scenesAPI.addParticleDefault(projectile);
         }
         ImGui::TreePop();
     }
 }
 
-void UserInterface::render(GameEngine& gameEngine, render::Camera& camera) const
+void UserInterface::render(GameEngine& gameEngine, api::ScenesAPI& scenesAPI, render::Camera& camera) const
 {
     float cameraAngle = camera.getFOVdeg();
 
@@ -198,7 +174,7 @@ void UserInterface::render(GameEngine& gameEngine, render::Camera& camera) const
     // Edit translation.x using a slider from 0.0f to 90.0f
     ImGui::SliderFloat("cameraAngle", &cameraAngle, 0.0f, 90.0f);
 
-    showProjectileCreation(gameEngine);
+    showProjectileCreation(scenesAPI);
 
     // Buttons to run and pause the simulation
     if(ImGui::Button("Run Simulation"))
