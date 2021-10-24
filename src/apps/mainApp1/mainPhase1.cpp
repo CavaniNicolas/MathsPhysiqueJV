@@ -34,6 +34,9 @@
 #include <Render/Shader.hpp>
 #include <Render/Window.hpp>
 
+#include <Render/Mesh/Pyramid.hpp>
+#include <Render/Mesh/Plan.hpp>
+
 int main()
 {
     render::Window window(960, 540, "Moteur Physique");
@@ -43,33 +46,6 @@ int main()
     }
 
     UserInterface ui(window);
-
-    // Store mesh data in vectors for the mesh
-    std::vector<render::Vertex> verts = {//              COORDINATES           /           TexCoord    //
-                                         render::Vertex{glm::vec3(-5.0f, 0.0f, 5.0f), glm::vec2(0.32f, 0.32f)},
-                                         render::Vertex{glm::vec3(5.0f, 0.0f, 5.0f), glm::vec2(0.69f, 0.32f)},
-                                         render::Vertex{glm::vec3(5.0f, 0.0f, -5.0f), glm::vec2(0.69f, 0.69f)},
-                                         render::Vertex{glm::vec3(-5.0f, 0.0f, -5.0f), glm::vec2(0.32f, 0.69f)},
-
-                                         render::Vertex{glm::vec3(0.0f, 8.0f, 0.0f), glm::vec2(0.5f, 0.0f)},
-                                         render::Vertex{glm::vec3(0.0f, 8.0f, 0.0f), glm::vec2(1.0f, 0.5f)},
-                                         render::Vertex{glm::vec3(0.0f, 8.0f, 0.0f), glm::vec2(0.5f, 1.0f)},
-                                         render::Vertex{glm::vec3(0.0f, 8.0f, 0.0f), glm::vec2(0.0f, 0.5f)}};
-
-    std::vector<unsigned int> indices = {0, 1, 2, 2, 3, 0, 0, 1, 4, 1, 2, 5, 2, 3, 6, 3, 0, 7};
-
-    render::Mesh pyramidMesh(verts, indices);
-
-    // Store mesh data in vectors for the mesh
-    std::vector<render::Vertex> vertsPlan = {//              COORDINATES           /           TexCoord //
-                                             render::Vertex{glm::vec3(-5.0f, 0.0f, 5.0f), glm::vec2(0.0f, 0.0f)},
-                                             render::Vertex{glm::vec3(-5.0f, 0.0f, -5.0f), glm::vec2(5.0f, 0.0f)},
-                                             render::Vertex{glm::vec3(5.0f, 0.0f, -5.0f), glm::vec2(5.0f, 5.0f)},
-                                             render::Vertex{glm::vec3(5.0f, 0.0f, 5.0f), glm::vec2(0.0f, 5.0f)}};
-
-    std::vector<unsigned int> indicesPlan = {0, 1, 2, 2, 3, 0};
-
-    render::Mesh planMesh(vertsPlan, indicesPlan);
 
     std::shared_ptr<render::Camera> camera = std::make_shared<render::Camera>(960, 540, glm::vec3(0.0f, 15.0f, 80.0f));
 
@@ -96,10 +72,10 @@ int main()
 
     {
         std::shared_ptr<render::RenderedMesh> pyramid = std::make_shared<render::RenderedMesh>(
-          pyramidMesh, std::string(RESOURCE_PATH) + "textures/fire_texture_pyramid.png");
+          render::mesh::Pyramid::getMesh(), std::string(RESOURCE_PATH) + render::mesh::Pyramid::getTexturePath());
 
-        std::shared_ptr<render::RenderedMesh> plan =
-          std::make_shared<render::RenderedMesh>(planMesh, std::string(RESOURCE_PATH) + "textures/gril_texture.png");
+        std::shared_ptr<render::RenderedMesh> plan = std::make_shared<render::RenderedMesh>(
+          render::mesh::Plan::getMesh(), std::string(RESOURCE_PATH) + render::mesh::Plan::getTexturePath());
 
         render::Shader shader(std::string(RESOURCE_PATH) + "shaders/basic.shader");
 
@@ -112,6 +88,7 @@ int main()
         api::ScenesAPI scenesAPI(sceneEngine, sceneRender);
 
         scenesAPI.addParticle(fireball, pyramid);
+        //        scenesAPI.addParticleDefault(fireball);
 
         // scale the renderedMeshes
         pyramid->setScale(glm::vec3(0.5f, 0.5f, 0.5f));
