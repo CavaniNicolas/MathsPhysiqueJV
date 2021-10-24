@@ -109,7 +109,8 @@ int main()
         sceneRender.addRenderedMesh(pyramid);
         sceneRender.addRenderedMesh(plan);
 
-        ParticleMeshRegistry::addEntry(fireball, pyramid);
+        ParticleMeshRegistry partMeshReg;
+        partMeshReg.addEntry(fireball, pyramid);
 
         // scale the renderedMeshes
         pyramid->setScale(glm::vec3(0.5f, 0.5f, 0.5f));
@@ -140,7 +141,7 @@ int main()
             ParticlePrinter::debugPrint();
 
             // get the actual particles positions to set it to the corresponding renderedMeshes
-            ParticleMeshRegistry::updateMeshPosition();
+            partMeshReg.updateMeshPosition();
 
             sceneRender.update(window);
 

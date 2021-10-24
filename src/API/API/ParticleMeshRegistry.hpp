@@ -11,20 +11,9 @@
 class ParticleMeshRegistry
 {
   public:
-    ParticleMeshRegistry(const ParticleMeshRegistry&) = delete;
-    ParticleMeshRegistry& operator=(const ParticleMeshRegistry&) = delete;
+    void addEntry(std::shared_ptr<Particle> particle, std::shared_ptr<render::RenderedMesh> renderedMesh);
 
-    static ParticleMeshRegistry& get();
-
-    static void addEntry(std::shared_ptr<Particle> particle, std::shared_ptr<render::RenderedMesh> renderedMesh)
-    {
-        get().addEntryI(particle, renderedMesh);
-    }
-
-    static void updateMeshPosition()
-    {
-        get().updateMeshPositionI();
-    }
+    void updateMeshPosition();
 
   private:
     struct ParticleMeshEntry
@@ -34,9 +23,4 @@ class ParticleMeshRegistry
     };
 
     std::vector<ParticleMeshEntry> m_registry;
-
-    void addEntryI(std::shared_ptr<Particle> particle, std::shared_ptr<render::RenderedMesh> renderedMesh);
-    void updateMeshPositionI();
-
-    ParticleMeshRegistry() {}
 };

@@ -182,7 +182,7 @@ void showProjectileCreation(GameEngine& gameEngine)
             }
 
             gameEngine.getScene()->addParticle(projectile);
-            ParticleMeshRegistry::addEntry(projectile, pyramid);
+            //            ParticleMeshRegistry::addEntry(projectile, pyramid);
         }
         ImGui::TreePop();
     }

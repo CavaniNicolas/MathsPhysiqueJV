@@ -1,20 +1,13 @@
 
 #include "API/ParticleMeshRegistry.hpp"
 
-ParticleMeshRegistry& ParticleMeshRegistry::get()
-{
-    // static means it will only be alocated once the first time get() is called
-    static ParticleMeshRegistry instance;
-    return instance;
-}
-
-void ParticleMeshRegistry::addEntryI(std::shared_ptr<Particle> particle,
-                                     std::shared_ptr<render::RenderedMesh> renderedMesh)
+void ParticleMeshRegistry::addEntry(std::shared_ptr<Particle> particle,
+                                    std::shared_ptr<render::RenderedMesh> renderedMesh)
 {
     m_registry.push_back({particle, renderedMesh});
 }
 
-void ParticleMeshRegistry::updateMeshPositionI()
+void ParticleMeshRegistry::updateMeshPosition()
 {
     for(auto const& entry: m_registry)
     {
