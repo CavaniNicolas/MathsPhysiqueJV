@@ -17,8 +17,9 @@ class ScenesAPI
   public:
     ScenesAPI(std::shared_ptr<Scene> sceneEngine, std::shared_ptr<render::Scene> sceneRender);
 
-    void addParticle(std::shared_ptr<Particle> particle, std::shared_ptr<render::RenderedMesh> renderedMesh);
     void updateMeshPosition();
+
+    void addParticle(std::shared_ptr<Particle> particle, std::shared_ptr<render::RenderedMesh> renderedMesh);
 
   private:
     std::shared_ptr<Scene> m_sceneEngine;
