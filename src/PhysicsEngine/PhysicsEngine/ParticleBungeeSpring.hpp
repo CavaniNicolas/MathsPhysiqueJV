@@ -14,5 +14,8 @@ class ParticleBungeeSpring : public ParticleForceGenerator
 
   public:
     ParticleBungeeSpring(Vector3D anchor, float k, float restLength);
-    void UpdateForce(std::shared_ptr<Particle> particle, float duration);
+    unsigned int UpdateForce(std::shared_ptr<Particle> particle,
+                     float duration,
+                     std::vector<std::shared_ptr<ParticleContact>>& contacts,
+                     unsigned int limit);
 };

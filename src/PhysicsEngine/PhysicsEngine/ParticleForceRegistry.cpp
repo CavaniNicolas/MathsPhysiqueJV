@@ -1,5 +1,6 @@
 
 #include "PhysicsEngine/ParticleForceRegistry.hpp"
+#include "PhysicsEngine/ParticleContact.hpp"
 
 ParticleForceRegistry::ParticleForceRegistry(Registry registry): m_registry(registry) {}
 
@@ -36,10 +37,14 @@ ParticleForceRegistry::Registry ParticleForceRegistry::getRegistry()
     return m_registry;
 }
 
-void ParticleForceRegistry::updateForce(float duration)
+unsigned int ParticleForceRegistry::updateForce(float duration,
+                                                std::vector<std::shared_ptr<ParticleContact>>& contacts,
+                                                unsigned int limit)
 {
+    unsigned int createdContacts = 0;
     for(const auto& entry: m_registry)
     {
-        entry.forceGenerator->updateForce(entry.particle, duration);
+        createdContacts += entry.forceGenerator->updateForce(entry.particle, duration, contacts, limit);
     }
+    return createdContacts;
 }

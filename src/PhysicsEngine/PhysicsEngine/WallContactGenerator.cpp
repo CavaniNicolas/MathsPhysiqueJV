@@ -111,14 +111,12 @@ Vector3D WallContactGenerator::calculateNormal(std::shared_ptr<Particle> particl
 unsigned int WallContactGenerator::addContact(std::vector<std::shared_ptr<ParticleContact>>& contacts,
                                               unsigned int limit) const
 {
-    std::cout << "trying to add wall contact" << std::endl;
     int tempLimit = limit;
     for (auto& particle : m_particles) {
         float penetration = calculatePenetration(particle);
 
         if(penetration > 0)
         {
-            std::cout << "Wall contact detected" << std::endl;
             if(tempLimit >= 1)
             {
                 tempLimit--;

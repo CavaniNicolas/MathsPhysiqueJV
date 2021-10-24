@@ -6,7 +6,10 @@ ParticleAnchoredSpring::ParticleAnchoredSpring(Vector3D anchor, float k, float r
 {
 }
 
-void ParticleAnchoredSpring::updateForce(std::shared_ptr<Particle> particle, float duration)
+unsigned int ParticleAnchoredSpring::updateForce(std::shared_ptr<Particle> particle,
+                                         float duration,
+                                         std::vector<std::shared_ptr<ParticleContact>>& contacts,
+                                         unsigned int limit)
 {
     Vector3D d = particle->getPosition() - m_anchor;
 
@@ -19,4 +22,5 @@ void ParticleAnchoredSpring::updateForce(std::shared_ptr<Particle> particle, flo
     }
 
     particle->setAcceleration(particle->getAcceleration() + force * particle->getInverseMass());
+    return 0;
 }

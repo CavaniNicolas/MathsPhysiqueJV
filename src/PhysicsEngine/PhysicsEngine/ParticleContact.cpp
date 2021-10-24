@@ -29,7 +29,6 @@ void ParticleContact::resolveVelocity() {
     }
     else
     {
-        //TO CHECK
         Vector3D velocity = m_particle[0]->getVelocity();
 
         Vector3D accel = m_particle[0]->getAcceleration();
@@ -44,7 +43,6 @@ void ParticleContact::resolveVelocity() {
         if (accel == Vector3D(0, m_particle[0]->getG(), 0)) {
             if(newVelocity.getY() < 8 * m_restitution || m_restitution == 0)
             {
-                std::cout << "Particle is resting" << std::endl;
                 restingParticle = true;
             }
         }
@@ -83,7 +81,6 @@ void ParticleContact::resolveInterpenetration()
     }
     else
     {
-        //TO CHECK
         Vector3D p1 = m_particle[0]->getPosition();
         Vector3D delta_p1;
 

@@ -21,6 +21,7 @@ set(SOURCES
     PhysicsEngine/ParticleForceRegistry.cpp
     PhysicsEngine/ParticleGravity.cpp
     PhysicsEngine/ParticleSpring.cpp
+    PhysicsEngine/CableSpring.cpp
 
     # Collisions
     PhysicsEngine/ParticleContact.cpp
@@ -52,6 +53,7 @@ set(HEADERS
     PhysicsEngine/ParticleForceRegistry.hpp
     PhysicsEngine/ParticleGravity.hpp
     PhysicsEngine/ParticleSpring.hpp
+    PhysicsEngine/CableSpring.hpp
 
     # Collisions
     PhysicsEngine/ParticleCable.hpp
