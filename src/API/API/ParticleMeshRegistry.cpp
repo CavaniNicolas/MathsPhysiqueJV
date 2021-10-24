@@ -27,16 +27,3 @@ void ParticleMeshRegistry::updateMeshPositionI()
           {particle->getPosition().getX(), particle->getPosition().getY(), particle->getPosition().getZ()});
     }
 }
-
-void ParticleMeshRegistry::drawAllParticlesI(render::Renderer& renderer,
-                                             render::Shader& shader,
-                                             render::Camera& camera) const
-{
-    for(auto const& entry: m_registry)
-    {
-        // creates a shared_ptr that manages the referenced object by the weak_ptr
-        std::shared_ptr<render::RenderedMesh> renderedMesh = entry.renderedMesh.lock();
-
-        renderer.draw(shader, camera, *renderedMesh);
-    }
-}
