@@ -72,7 +72,7 @@ int main()
 
     // create a particle
     std::shared_ptr<Particle> particle;
-    particle = std::make_shared<Particle>(Vector3D(0, 20, 0), Vector3D());
+    particle = std::make_shared<Particle>(Vector3D(0, 20, 0), Vector3D(10,10,0));
 
     // create a particle
     std::shared_ptr<Particle> particle2;
@@ -89,15 +89,15 @@ int main()
    // scene.addForce(particle, partDrag);
 
     // create a floor the particle will bounce on
-    std::shared_ptr<WallContactGenerator> floor =
-      std::make_shared<WallContactGenerator>(particle, WallContactGenerator::y, .25, -2, 2);
+    //std::shared_ptr<WallContactGenerator> floor =
+    //  std::make_shared<WallContactGenerator>({particle, particle2}, WallContactGenerator::y, 0, 0, 2);
     
 
     //create a rod between the particles
-    std::shared_ptr<ParticleCable> cable = std::make_shared<ParticleCable>(particle, particle2, 50, 1);
+    std::shared_ptr<ParticleRod> rod = std::make_shared<ParticleRod>(particle, particle2, 50);
 
-    scene.addContactGenerator(floor);
-    scene.addContactGenerator(cable);
+    //scene.addContactGenerator(floor);
+    scene.addContactGenerator(rod);
 
     GameEngine gameEngine = GameEngine(scene);
 

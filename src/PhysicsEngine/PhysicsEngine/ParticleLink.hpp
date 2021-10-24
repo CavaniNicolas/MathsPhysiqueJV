@@ -17,5 +17,5 @@ class ParticleLink : public ParticleContactGenerator
     float currentLength() const;
 
 	// Take a pointer to an array of contact and the number of contact left to be generated
-    virtual unsigned int addContact(std::vector<std::shared_ptr<ParticleContact>>& contacts, unsigned int limit) const = 0;
+    unsigned int addContact(std::vector<std::shared_ptr<ParticleContact>>& contacts, unsigned int limit) const = 0;
 };
