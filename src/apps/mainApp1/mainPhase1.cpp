@@ -98,7 +98,8 @@ int main()
         std::shared_ptr<render::RenderedMesh> pyramid = std::make_shared<render::RenderedMesh>(
           pyramidMesh, std::string(RESOURCE_PATH) + "textures/fire_texture_pyramid.png");
 
-        render::RenderedMesh plan(planMesh, std::string(RESOURCE_PATH) + "textures/gril_texture.png");
+        std::shared_ptr<render::RenderedMesh> plan =
+          std::make_shared<render::RenderedMesh>(planMesh, std::string(RESOURCE_PATH) + "textures/gril_texture.png");
 
         render::Shader shader(std::string(RESOURCE_PATH) + "shaders/basic.shader");
 
@@ -106,12 +107,9 @@ int main()
 
         ParticleMeshRegistry::addEntry(fireball, pyramid);
 
-        // multiplay the plan scale by 5
-        plan.setScale(glm::vec3(5.0f, 5.0f, 5.0f));
-
-        // divide the pyramid scale by 2
+        // scale the renderedMeshes
         pyramid->setScale(glm::vec3(0.5f, 0.5f, 0.5f));
-        plan.setScale(glm::vec3(50.0f, 50.0f, 50.0f));
+        plan->setScale(glm::vec3(50.0f, 50.0f, 50.0f));
 
         auto startTime = std::chrono::high_resolution_clock::now();
 
@@ -135,7 +133,7 @@ int main()
                 prevTime = crntTime;
             }
 
-            plan.updateModelMatrix();
+            plan->updateModelMatrix();
 
             ParticlePrinter::debugPrint();
 
@@ -160,7 +158,7 @@ int main()
             // bind everything and call drawElements
             // renderer.draw(shader, scene); // how it will be in the end (scene will
             // contain camera and list of meshes)
-            renderer.draw(shader, camera, plan);
+            renderer.draw(shader, camera, *plan);
 
             // draw all particles
             ParticleMeshRegistry::drawAllParticles(renderer, shader, camera);
