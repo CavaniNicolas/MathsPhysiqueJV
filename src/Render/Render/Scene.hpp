@@ -13,22 +13,22 @@ namespace render
 class Scene
 {
   public:
-    Scene(Camera& camera = Camera(960, 540, glm::vec3(0.0f, 15.0f, 80.0f)));
+    Scene(std::shared_ptr<Camera> camera = std::make_shared<Camera>(960, 540, glm::vec3(0.0f, 15.0f, 80.0f)));
 
     void update(Window& window);
     void addRenderedMesh(std::shared_ptr<RenderedMesh> renderedMesh);
 
-    Camera& getCamera()
+    std::shared_ptr<Camera> getCamera()
     {
         return m_camera;
     }
 
-  private:
-    std::vector<std::shared_ptr<RenderedMesh>> m_renderedMeshes;
-    Camera m_camera;
-
     void updateCamera(Window& window);
     void updateRenderedMeshes();
+
+  private:
+    std::vector<std::shared_ptr<RenderedMesh>> m_renderedMeshes;
+    std::shared_ptr<Camera> m_camera;
 };
 
 } // namespace render

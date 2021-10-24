@@ -4,7 +4,7 @@
 namespace render
 {
 
-Scene::Scene(Camera& camera): m_camera(camera) {}
+Scene::Scene(std::shared_ptr<Camera> camera): m_camera(camera) {}
 
 void Scene::update(Window& window)
 {
@@ -15,19 +15,19 @@ void Scene::update(Window& window)
 void Scene::updateCamera(Window& window)
 {
     // handle inputs to move the camera
-    m_camera.handleInputs(window);
+    m_camera->handleInputs(window);
 
     // fix the camera dimensions if the window gets resized
     {
         int width, height;
         glfwGetWindowSize(window.getWindow(), &width, &height);
         // Update the camera matrices view and proj
-        m_camera.setSize(width, height);
+        m_camera->setSize(width, height);
         glViewport(0, 0, width, height);
     }
 
     // Update the camera matrices view and proj
-    m_camera.update(0.1f, 10000.0f);
+    m_camera->update(0.1f, 10000.0f);
 }
 
 void Scene::updateRenderedMeshes()

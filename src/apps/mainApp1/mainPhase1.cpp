@@ -71,7 +71,7 @@ int main()
 
     render::Mesh planMesh(vertsPlan, indicesPlan);
 
-    render::Camera camera(960, 540, glm::vec3(0.0f, 15.0f, 80.0f));
+    std::shared_ptr<render::Camera> camera = std::make_shared<render::Camera>(960, 540, glm::vec3(0.0f, 15.0f, 80.0f));
 
     // create a particle
     std::shared_ptr<Fireball> fireball = std::make_shared<Fireball>(Vector3D(0, 0, 0), Vector3D(1, 0, -1), 1, 1);
@@ -104,6 +104,8 @@ int main()
         render::Shader shader(std::string(RESOURCE_PATH) + "shaders/basic.shader");
 
         render::Renderer renderer;
+
+        render::Scene sceneRender(camera);
 
         ParticleMeshRegistry::addEntry(fireball, pyramid);
 
@@ -140,31 +142,18 @@ int main()
             // get the actual particles positions to set it to the corresponding renderedMeshes
             ParticleMeshRegistry::updateMeshPosition();
 
-            // handle inputs to move the camera
-            camera.handleInputs(window);
-
-            // fix the camera dimensions if the window gets resized
-            {
-                int width, height;
-                glfwGetWindowSize(window.getWindow(), &width, &height);
-                // Update the camera matrices view and proj
-                camera.setSize(width, height);
-                glViewport(0, 0, width, height);
-            }
-
-            // Update the camera matrices view and proj
-            camera.update(0.1f, 10000.0f);
+            sceneRender.updateCamera(window);
 
             // bind everything and call drawElements
             // renderer.draw(shader, scene); // how it will be in the end (scene will
             // contain camera and list of meshes)
-            renderer.draw(shader, camera, *plan);
+            renderer.draw(shader, *camera, *plan);
 
             // draw all particles
-            ParticleMeshRegistry::drawAllParticles(renderer, shader, camera);
+            ParticleMeshRegistry::drawAllParticles(renderer, shader, *camera);
 
             // RenderUI
-            ui.render(gameEngine, camera);
+            ui.render(gameEngine, *camera);
 
             // Swap buffers
             glfwSwapBuffers(window.getWindow());
