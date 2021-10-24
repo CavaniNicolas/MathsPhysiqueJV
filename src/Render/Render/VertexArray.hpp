@@ -3,6 +3,9 @@
 #include "Render/VertexBuffer.hpp"
 #include "Render/VertexBufferLayout.hpp"
 
+namespace render
+{
+
 class VertexArray
 {
   private:
@@ -22,3 +25,5 @@ class VertexArray
     void bind() const;
     void unbind() const;
 };
+
+} // namespace render

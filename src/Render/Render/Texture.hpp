@@ -2,6 +2,9 @@
 
 #include <string>
 
+namespace render
+{
+
 class Texture
 {
   private:
@@ -33,3 +36,5 @@ class Texture
         return m_height;
     }
 };
+
+} // namespace render

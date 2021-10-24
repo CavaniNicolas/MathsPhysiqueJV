@@ -44,7 +44,10 @@ unsigned int ParticleForceRegistry::updateForce(float duration,
     unsigned int createdContacts = 0;
     for(const auto& entry: m_registry)
     {
-        createdContacts += entry.forceGenerator->updateForce(entry.particle, duration, contacts, limit);
+        // creates a shared_ptr that manages the referenced object by the weak_ptr
+        std::shared_ptr<Particle> particle = entry.particle.lock();
+
+        createdContacts += entry.forceGenerator->updateForce(particle, duration, contacts, limit);
     }
     return createdContacts;
 }

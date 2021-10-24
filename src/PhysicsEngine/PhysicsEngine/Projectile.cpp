@@ -1,10 +1,7 @@
 
 #include "PhysicsEngine/Projectile.hpp"
 
-Projectile::Projectile(float damage, float speedFactor):
-  Particle(), m_damage(damage), m_speedFactor(speedFactor)
-{
-}
+Projectile::Projectile(float damage, float speedFactor): Particle(), m_damage(damage), m_speedFactor(speedFactor) {}
 
 Projectile::Projectile(): Particle(), m_damage(0), m_speedFactor(1) {}
 

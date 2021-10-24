@@ -5,6 +5,9 @@
 #include "Render/Shader.hpp"
 #include "Render/Window.hpp"
 
+namespace render
+{
+
 class Camera
 {
   private:
@@ -52,3 +55,5 @@ class Camera
         m_FOVdeg = FOVdeg;
     }
 };
+
+} // namespace render

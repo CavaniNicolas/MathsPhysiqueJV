@@ -2,6 +2,9 @@
 #include "Render/IndexBuffer.hpp"
 #include "Render/Renderer.hpp"
 
+namespace render
+{
+
 IndexBuffer::IndexBuffer(const unsigned int* data, unsigned int count): m_count(count)
 {
     //  static_assert(sizeof(unsigned int) == sizeof(GLuint));
@@ -27,3 +30,5 @@ void IndexBuffer::unbind() const
 {
     GLCall(glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0));
 }
+
+} // namespace render

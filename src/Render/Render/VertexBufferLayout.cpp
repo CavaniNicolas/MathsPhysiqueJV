@@ -1,6 +1,9 @@
 
 #include "Render/VertexBufferLayout.hpp"
 
+namespace render
+{
+
 template<>
 void VertexBufferLayout::push<float>(unsigned int count)
 {
@@ -21,3 +24,5 @@ void VertexBufferLayout::push<unsigned char>(unsigned int count)
     m_elements.push_back({GL_UNSIGNED_BYTE, count, GL_TRUE});
     m_stride += count * VertexBufferElement::getSizeOfType(GL_UNSIGNED_BYTE);
 }
+
+} // namespace render

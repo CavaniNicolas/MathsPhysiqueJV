@@ -4,6 +4,9 @@
 
 #include "Render/RenderedMesh.hpp"
 
+namespace render
+{
+
 RenderedMesh::RenderedMesh(Mesh mesh,
                            std::string textureFilepath,
                            const glm::vec3 origin,
@@ -131,3 +134,5 @@ glm::mat4 RenderedMesh::getModel() const
 {
     return m_model;
 }
+
+} // namespace render

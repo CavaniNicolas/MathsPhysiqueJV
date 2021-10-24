@@ -7,12 +7,16 @@ set(SOURCES
     Render/Mesh.cpp
     Render/RenderedMesh.cpp
     Render/Renderer.cpp
+    Render/Scene.cpp
     Render/Shader.cpp
     Render/Texture.cpp
     Render/VertexArray.cpp
     Render/VertexBuffer.cpp
     Render/VertexBufferLayout.cpp
     Render/Window.cpp
+
+    Render/Mesh/Plan.cpp
+    Render/Mesh/Pyramid.cpp
 )
 
 set(HEADERS
@@ -21,12 +25,17 @@ set(HEADERS
     Render/Mesh.hpp
     Render/RenderedMesh.hpp
     Render/Renderer.hpp
+    Render/Scene.hpp
     Render/Shader.hpp
     Render/Texture.hpp
     Render/VertexArray.hpp
     Render/VertexBuffer.hpp
     Render/VertexBufferLayout.hpp
     Render/Window.hpp
+
+    Render/Mesh/MeshModel.hpp
+    Render/Mesh/Plan.hpp
+    Render/Mesh/Pyramid.hpp
 )
 
 add_library(${MP_RENDER_LIB_NAME} STATIC
