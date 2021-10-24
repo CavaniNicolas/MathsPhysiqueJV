@@ -106,6 +106,8 @@ int main()
         render::Renderer renderer;
 
         render::Scene sceneRender(camera);
+        sceneRender.addRenderedMesh(pyramid);
+        sceneRender.addRenderedMesh(plan);
 
         ParticleMeshRegistry::addEntry(fireball, pyramid);
 
@@ -135,13 +137,12 @@ int main()
                 prevTime = crntTime;
             }
 
-            plan->updateModelMatrix();
-
             ParticlePrinter::debugPrint();
 
             // get the actual particles positions to set it to the corresponding renderedMeshes
             ParticleMeshRegistry::updateMeshPosition();
 
+            sceneRender.updateRenderedMeshes();
             sceneRender.updateCamera(window);
 
             // bind everything and call drawElements

@@ -25,8 +25,6 @@ void ParticleMeshRegistry::updateMeshPositionI()
         // get the actual particle position to set it to the renderedMesh
         renderedMesh->setPosition(
           {particle->getPosition().getX(), particle->getPosition().getY(), particle->getPosition().getZ()});
-
-        renderedMesh->updateModelMatrix();
     }
 }
 
