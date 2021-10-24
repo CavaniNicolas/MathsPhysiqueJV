@@ -105,9 +105,9 @@ int main()
 
         render::Renderer renderer;
 
-        render::Scene sceneRender(camera);
-        sceneRender.addRenderedMesh(pyramid);
-        sceneRender.addRenderedMesh(plan);
+        std::shared_ptr<render::Scene> sceneRender = std::make_shared<render::Scene>(camera);
+        sceneRender->addRenderedMesh(pyramid);
+        sceneRender->addRenderedMesh(plan);
 
         api::ParticleMeshRegistry partMeshReg;
         partMeshReg.addEntry(fireball, pyramid);
@@ -143,10 +143,10 @@ int main()
             // get the actual particles positions to set it to the corresponding renderedMeshes
             partMeshReg.updateMeshPosition();
 
-            sceneRender.update(window);
+            sceneRender->update(window);
 
             // bind everything and call drawElements
-            renderer.draw(shader, sceneRender);
+            renderer.draw(shader, *sceneRender);
 
             // RenderUI
             ui.render(gameEngine, *camera);
