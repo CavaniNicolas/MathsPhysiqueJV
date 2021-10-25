@@ -11,30 +11,19 @@
 #include <API/ScenesAPI.hpp>
 
 // Include PhysicsEngine library
-#include <PhysicsEngine/DebugUtils/ParticlePrinter.hpp>
-
-#include <PhysicsEngine/Bullet.hpp>
-#include <PhysicsEngine/Fireball.hpp>
-#include <PhysicsEngine/Laser.hpp>
 #include <PhysicsEngine/GameEngine.hpp>
-#include <PhysicsEngine/ParticleAnchoredSpring.hpp>
-#include <PhysicsEngine/ParticleDrag.hpp>
-#include <PhysicsEngine/ParticleForceRegistry.hpp>
-#include <PhysicsEngine/ParticleGravity.hpp>
-#include <PhysicsEngine/ParticleSpring.hpp>
 #include <PhysicsEngine/Scene.hpp>
-#include <PhysicsEngine/WallContactGenerator.hpp>
+
+#include <PhysicsEngine/DebugUtils/ParticlePrinter.hpp>
 
 // Include Render lib which uses opengl
 #include <Render/Camera.hpp>
 #include <Render/Mesh.hpp>
-#include <Render/RenderedMesh.hpp>
 #include <Render/Renderer.hpp>
 #include <Render/Scene.hpp>
 #include <Render/Shader.hpp>
 #include <Render/Window.hpp>
 
-#include <Render/Mesh/Pyramid.hpp>
 #include <Render/Mesh/Plan.hpp>
 
 int main()
@@ -49,31 +38,11 @@ int main()
 
     std::shared_ptr<render::Camera> camera = std::make_shared<render::Camera>(960, 540, glm::vec3(0.0f, 15.0f, 80.0f));
 
-    // create a particle
-    //std::shared_ptr<Fireball> fireball = std::make_shared<Fireball>(Vector3D(0, 0, 0), Vector3D(1, 0, -1), 1, 1);
-
     std::shared_ptr<Scene> sceneEngine = std::make_shared<Scene>();
-    //        sceneEngine->addParticle(fireball);
-
-    //std::shared_ptr<ParticleGravity> partGravity = std::make_shared<ParticleGravity>();
-    //std::shared_ptr<ParticleDrag> partDrag = std::make_shared<ParticleDrag>(0.25f, 0.0f);
-
-    // link forces to fireball
-    //sceneEngine->addForce(fireball, partGravity);
-    //sceneEngine->addForce(fireball, partDrag);
 
     GameEngine gameEngine = GameEngine(sceneEngine);
 
-    // Variable that help the rotation of the pyramid
-    double prevTime = glfwGetTime();
-
-    // Singleton to help debug and print Particle every 2 seconds
-    //ParticlePrinter::setParticle(fireball);
-
     {
-        //std::shared_ptr<render::RenderedMesh> pyramid = std::make_shared<render::RenderedMesh>(
-        //  render::mesh::Pyramid::getMesh(), std::string(RESOURCE_PATH) + render::mesh::Pyramid::getTexturePath());
-
         std::shared_ptr<render::RenderedMesh> plan = std::make_shared<render::RenderedMesh>(
           render::mesh::Plan::getMesh(), std::string(RESOURCE_PATH) + render::mesh::Plan::getTexturePath());
 
@@ -86,14 +55,8 @@ int main()
 
         api::ScenesAPI scenesAPI(sceneEngine, sceneRender);
 
-        //scenesAPI.addParticle(fireball, pyramid);
-        //        scenesAPI.addParticleDefault(fireball);
-
-        // scale the renderedMeshes
-        //pyramid->setScale(glm::vec3(0.5f, 0.5f, 0.5f));
+        // scale the renderedMesh
         plan->setScale(glm::vec3(50.0f, 50.0f, 50.0f));
-
-        auto startTime = std::chrono::high_resolution_clock::now();
 
         while(!window.isBeingClosed())
         {
@@ -106,16 +69,6 @@ int main()
 
             // bind the shader
             shader.bind();
-
-            // Simple timer for the rotation
-            /*double crntTime = glfwGetTime();
-            if(crntTime - prevTime >= 1 / 144)
-            {
-                pyramid->addRotation(glm::vec3(0.0f, 0.5f, 0.0f));
-                prevTime = crntTime;
-            }*/
-
-            //            ParticlePrinter::debugPrint();
 
             // get the actual particles positions to set it to the corresponding renderedMeshes
             scenesAPI.updateMeshPosition();
