@@ -2,6 +2,9 @@
 
 #include "PhysicsEngine/ParticleBuoyancy.hpp"
 
+namespace engine
+{
+
 ParticleBuoyancy::ParticleBuoyancy(float maxDepth, float volume, float waterHeight, float liquidDensity):
   ParticleForceGenerator(),
   m_maxDepth(maxDepth),
@@ -46,3 +49,5 @@ unsigned int ParticleBuoyancy::updateForce(std::shared_ptr<Particle> particle,
     particle->setAcceleration(particle->getAcceleration() + force * particle->getInverseMass());
     return 0;
 }
+
+} // namespace engine

@@ -2,6 +2,9 @@
 
 #include "PhysicsEngine/ParticleLink.hpp"
 
+namespace engine
+{
+
 class ParticleRod : public ParticleLink
 {
   public:
@@ -15,3 +18,5 @@ class ParticleRod : public ParticleLink
     // Contact is different wether the distance is shorter or greater than the length.
     unsigned int addContact(std::vector<std::shared_ptr<ParticleContact>>& contacts, unsigned int limit) const;
 };
+
+} // namespace engine

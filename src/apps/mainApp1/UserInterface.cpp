@@ -142,20 +142,23 @@ void UserInterface::showProjectileCreation(api::ScenesAPI& scenesAPI) const
         // Button to create a projectile with the selected position and direction
         if(ImGui::Button("Create Projectile"))
         {
-            std::shared_ptr<Projectile> projectile;
+            std::shared_ptr<engine::Projectile> projectile;
 
             // Create the Projectile
             if(item_current_idx == 0)
             {
-                projectile = std::make_shared<Bullet>(Vector3D(xP, yP, zP), Vector3D(xD, yD, zD), 1, 1);
+                projectile =
+                  std::make_shared<engine::Bullet>(engine::Vector3D(xP, yP, zP), engine::Vector3D(xD, yD, zD), 1, 1);
             }
             if(item_current_idx == 1)
             {
-                projectile = std::make_shared<Fireball>(Vector3D(xP, yP, zP), Vector3D(xD, yD, zD), 1, 1);
+                projectile =
+                  std::make_shared<engine::Fireball>(engine::Vector3D(xP, yP, zP), engine::Vector3D(xD, yD, zD), 1, 1);
             }
             if(item_current_idx == 2)
             {
-                projectile = std::make_shared<Laser>(Vector3D(xP, yP, zP), Vector3D(xD, yD, zD), 1, 1);
+                projectile =
+                  std::make_shared<engine::Laser>(engine::Vector3D(xP, yP, zP), engine::Vector3D(xD, yD, zD), 1, 1);
             }
 
             scenesAPI.addParticleDefault(projectile);
@@ -164,7 +167,7 @@ void UserInterface::showProjectileCreation(api::ScenesAPI& scenesAPI) const
     }
 }
 
-void UserInterface::render(GameEngine& gameEngine, api::ScenesAPI& scenesAPI, render::Camera& camera) const
+void UserInterface::render(engine::GameEngine& gameEngine, api::ScenesAPI& scenesAPI, render::Camera& camera) const
 {
     float cameraAngle = camera.getFOVdeg();
 

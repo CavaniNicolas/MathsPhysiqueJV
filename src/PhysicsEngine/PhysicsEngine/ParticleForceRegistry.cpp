@@ -2,6 +2,9 @@
 #include "PhysicsEngine/ParticleForceRegistry.hpp"
 #include "PhysicsEngine/ParticleContact.hpp"
 
+namespace engine
+{
+
 ParticleForceRegistry::ParticleForceRegistry(Registry registry): m_registry(registry) {}
 
 ParticleForceRegistry::~ParticleForceRegistry()
@@ -51,3 +54,5 @@ unsigned int ParticleForceRegistry::updateForce(float duration,
     }
     return createdContacts;
 }
+
+} // namespace engine

@@ -1,6 +1,9 @@
 
 #include "PhysicsEngine/Projectile.hpp"
 
+namespace engine
+{
+
 Projectile::Projectile(float damage, float speedFactor): Particle(), m_damage(damage), m_speedFactor(speedFactor) {}
 
 Projectile::Projectile(): Particle(), m_damage(0), m_speedFactor(1) {}
@@ -64,3 +67,5 @@ void Projectile::setSpeedFactor(float speedFactor)
 
     setVelocity(m_direction.normalize() * m_speedFactor);
 }
+
+} // namespace engine

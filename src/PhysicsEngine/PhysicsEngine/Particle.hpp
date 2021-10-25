@@ -7,6 +7,9 @@
 
 #define M_PI 3.14159265358979323846 /* pi */
 
+namespace engine
+{
+
 class Particle
 {
   private:
@@ -60,3 +63,5 @@ class Particle
 
     friend std::ostream& operator<<(std::ostream& out, Particle const& particle);
 };
+
+} // namespace engine

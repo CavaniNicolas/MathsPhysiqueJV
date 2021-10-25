@@ -1,6 +1,9 @@
 
 #include "PhysicsEngine/Laser.hpp"
 
+namespace engine
+{
+
 Laser::Laser(): Projectile::Projectile()
 {
     setSpeedFactor(100);
@@ -17,3 +20,5 @@ Laser::Laser(const Laser& other):
   Laser::Laser(other.getPosition(), other.getDirection(), other.getDamage(), other.getRadius(), other.getDamping())
 {
 }
+
+} // namespace engine

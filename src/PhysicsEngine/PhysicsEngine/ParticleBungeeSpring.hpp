@@ -2,6 +2,9 @@
 
 #include "PhysicsEngine/ParticleForceGenerator.hpp"
 
+namespace engine
+{
+
 class ParticleBungeeSpring : public ParticleForceGenerator
 {
   private:
@@ -19,3 +22,5 @@ class ParticleBungeeSpring : public ParticleForceGenerator
                              std::vector<std::shared_ptr<ParticleContact>>& contacts,
                              unsigned int limit);
 };
+
+} // namespace engine

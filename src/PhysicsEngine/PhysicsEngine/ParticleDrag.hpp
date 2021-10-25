@@ -2,6 +2,9 @@
 
 #include "PhysicsEngine/ParticleForceGenerator.hpp"
 
+namespace engine
+{
+
 class ParticleDrag : public ParticleForceGenerator
 {
   private:
@@ -16,3 +19,5 @@ class ParticleDrag : public ParticleForceGenerator
                              std::vector<std::shared_ptr<ParticleContact>>& contacts,
                              unsigned int limit);
 };
+
+} // namespace engine

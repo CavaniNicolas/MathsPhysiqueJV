@@ -1,5 +1,8 @@
 #include "ParticleCable.hpp"
 
+namespace engine
+{
+
 ParticleCable::ParticleCable(std::shared_ptr<Particle> particleA,
                              std::shared_ptr<Particle> particleB,
                              float maxlength,
@@ -29,3 +32,5 @@ unsigned int ParticleCable::addContact(std::vector<std::shared_ptr<ParticleConta
     }
     return 0;
 }
+
+} // namespace engine

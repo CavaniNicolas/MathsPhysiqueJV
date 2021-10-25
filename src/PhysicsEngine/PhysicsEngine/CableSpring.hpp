@@ -3,6 +3,9 @@
 #include "PhysicsEngine/ParticleSpring.hpp"
 #include "PhysicsEngine/ParticleCable.hpp"
 
+namespace engine
+{
+
 class CableSpring : public ParticleSpring
 {
   private:
@@ -19,3 +22,5 @@ class CableSpring : public ParticleSpring
                              std::vector<std::shared_ptr<ParticleContact>>& contacts,
                              unsigned int limit);
 };
+
+} // namespace engine

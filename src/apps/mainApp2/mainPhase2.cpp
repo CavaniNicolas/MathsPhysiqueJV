@@ -38,9 +38,9 @@ int main()
 
     std::shared_ptr<render::Camera> camera = std::make_shared<render::Camera>(960, 540, glm::vec3(0.0f, 15.0f, 80.0f));
 
-    std::shared_ptr<Scene> sceneEngine = std::make_shared<Scene>();
+    std::shared_ptr<engine::Scene> sceneEngine = std::make_shared<engine::Scene>();
 
-    GameEngine gameEngine = GameEngine(sceneEngine);
+    engine::GameEngine gameEngine = engine::GameEngine(sceneEngine);
 
     {
         std::shared_ptr<render::RenderedMesh> plan = std::make_shared<render::RenderedMesh>(

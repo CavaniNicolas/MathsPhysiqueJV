@@ -15,17 +15,17 @@ namespace api
 class ScenesAPI
 {
   public:
-    ScenesAPI(std::shared_ptr<Scene> sceneEngine, std::shared_ptr<render::Scene> sceneRender);
+    ScenesAPI(std::shared_ptr<engine::Scene> sceneEngine, std::shared_ptr<render::Scene> sceneRender);
 
     void updateMeshPosition();
 
-    void addParticle(std::shared_ptr<Particle> particle, std::shared_ptr<render::RenderedMesh> renderedMesh);
-    void addParticleDefault(std::shared_ptr<Particle> particle);
+    void addParticle(std::shared_ptr<engine::Particle> particle, std::shared_ptr<render::RenderedMesh> renderedMesh);
+    void addParticleDefault(std::shared_ptr<engine::Particle> particle);
 
-    std::shared_ptr<Scene> getSceneEngine();
+    std::shared_ptr<engine::Scene> getSceneEngine();
 
   private:
-    std::shared_ptr<Scene> m_sceneEngine;
+    std::shared_ptr<engine::Scene> m_sceneEngine;
 
     std::shared_ptr<render::Scene> m_sceneRender;
 

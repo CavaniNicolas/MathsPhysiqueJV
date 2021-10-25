@@ -1,5 +1,8 @@
 #include "ParticleLink.hpp"
 
+namespace engine
+{
+
 ParticleLink::ParticleLink(std::shared_ptr<Particle> particleA, std::shared_ptr<Particle> particleB):
   m_particle({particleA, particleB})
 {
@@ -15,3 +18,5 @@ float ParticleLink::currentLength() const
 {
     return (m_particle[0]->getPosition() - m_particle[1]->getPosition()).getNorm();
 }
+
+} // namespace engine

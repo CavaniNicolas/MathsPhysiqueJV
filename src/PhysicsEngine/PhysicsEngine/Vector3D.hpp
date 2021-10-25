@@ -3,6 +3,9 @@
 #include <iostream>
 #include <stdio.h>
 
+namespace engine
+{
+
 class Vector3D
 {
   private:
@@ -55,3 +58,5 @@ class Vector3D
 
     friend std::ostream& operator<<(std::ostream& out, Vector3D const& vector);
 };
+
+} // namespace engine

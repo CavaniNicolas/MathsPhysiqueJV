@@ -9,6 +9,9 @@
 #include "PhysicsEngine/ParticleContactResolver.hpp"
 #include "PhysicsEngine/ParticleContactGenerator.hpp"
 
+namespace engine
+{
+
 class Scene
 {
   private:
@@ -49,3 +52,5 @@ class Scene
 
     void integrateAll(float deltaT);
 };
+
+} // namespace engine

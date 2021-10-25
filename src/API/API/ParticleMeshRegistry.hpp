@@ -14,7 +14,7 @@ namespace api
 class ParticleMeshRegistry
 {
   public:
-    void addEntry(std::shared_ptr<Particle> particle, std::shared_ptr<render::RenderedMesh> renderedMesh);
+    void addEntry(std::shared_ptr<engine::Particle> particle, std::shared_ptr<render::RenderedMesh> renderedMesh);
 
     void updateMeshPosition();
     int getSize() const
@@ -25,7 +25,7 @@ class ParticleMeshRegistry
   private:
     struct ParticleMeshEntry
     {
-        std::weak_ptr<Particle> particle;
+        std::weak_ptr<engine::Particle> particle;
         std::weak_ptr<render::RenderedMesh> renderedMesh;
     };
 

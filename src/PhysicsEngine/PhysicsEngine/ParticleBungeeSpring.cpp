@@ -1,6 +1,9 @@
 
 #include "PhysicsEngine/ParticleBungeeSpring.hpp"
 
+namespace engine
+{
+
 ParticleBungeeSpring::ParticleBungeeSpring(Vector3D anchor, float k, float restLength):
   m_anchor(anchor), m_k(k), m_restLength(restLength)
 {
@@ -24,3 +27,5 @@ unsigned int ParticleBungeeSpring::UpdateForce(std::shared_ptr<Particle> particl
     }
     return 0;
 }
+
+} // namespace engine

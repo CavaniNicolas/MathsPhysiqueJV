@@ -1,6 +1,9 @@
 
 #include "ParticleSpring.hpp"
 
+namespace engine
+{
+
 ParticleSpring::ParticleSpring(std::shared_ptr<Particle> otherParticle, float k, float restLength):
   m_otherParticle(otherParticle), m_k(k), m_restLength(restLength)
 {
@@ -33,3 +36,5 @@ unsigned int ParticleSpring::updateForce(std::shared_ptr<Particle> particle,
 
     return 0;
 }
+
+} // namespace engine

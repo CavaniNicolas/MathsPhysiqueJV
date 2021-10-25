@@ -4,6 +4,9 @@
 
 #include "PhysicsEngine/Particle.hpp"
 
+namespace engine
+{
+
 class ParticlePrinter
 {
   public:
@@ -42,3 +45,5 @@ class ParticlePrinter
 
     ParticlePrinter(): m_prevPrintTime(std::chrono::high_resolution_clock::now()), m_printFrequency(2.0f) {}
 };
+
+} // namespace engine

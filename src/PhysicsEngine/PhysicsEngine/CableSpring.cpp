@@ -1,5 +1,8 @@
 #include "PhysicsEngine/CableSpring.hpp"
 
+namespace engine
+{
+
 CableSpring::CableSpring(
   std::shared_ptr<Particle> otherParticle, float k, float restLength, float elasticityLimit, float restitution):
   ParticleSpring(otherParticle, k, restLength), m_elasticityLimit(elasticityLimit), m_restitution(restitution)
@@ -24,3 +27,5 @@ unsigned int CableSpring::updateForce(std::shared_ptr<Particle> particle,
         return 0;
     }
 }
+
+} // namespace engine

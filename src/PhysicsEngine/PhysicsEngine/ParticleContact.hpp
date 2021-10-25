@@ -4,6 +4,9 @@
 
 #include "PhysicsEngine/Particle.hpp"
 
+namespace engine
+{
+
 class ParticleContact
 {
   private:
@@ -60,3 +63,5 @@ class ParticleContact
         }
     };
 };
+
+} // namespace engine

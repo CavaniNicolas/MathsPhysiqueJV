@@ -42,7 +42,7 @@ void UserInterface::terminate() const
     ImGui::DestroyContext();
 }
 
-void UserInterface::render(GameEngine& gameEngine, render::Camera& camera) const
+void UserInterface::render(engine::GameEngine& gameEngine, render::Camera& camera) const
 {
     float cameraAngle = camera.getFOVdeg();
 

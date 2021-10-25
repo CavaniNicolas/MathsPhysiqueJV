@@ -2,6 +2,9 @@
 
 #include "ParticleContact.hpp"
 
+namespace engine
+{
+
 class ParticleContactResolver
 {
   public:
@@ -10,3 +13,5 @@ class ParticleContactResolver
     // Stop when all contacts are solved or when max iteration is reached
     void resolveContacts(std::vector<std::shared_ptr<ParticleContact>>& contactArray);
 };
+
+} // namespace engine

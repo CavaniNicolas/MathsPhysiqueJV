@@ -4,6 +4,9 @@
 
 #include "PhysicsEngine/Scene.hpp"
 
+namespace engine
+{
+
 class GameEngine
 {
   private:
@@ -38,3 +41,5 @@ class GameEngine
         return m_scene;
     }
 };
+
+} // namespace engine

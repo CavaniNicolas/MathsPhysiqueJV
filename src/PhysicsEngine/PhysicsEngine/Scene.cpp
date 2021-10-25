@@ -1,6 +1,9 @@
 
 #include "PhysicsEngine/Scene.hpp"
 
+namespace engine
+{
+
 Scene::Scene(std::vector<std::shared_ptr<Particle>> particles,
              ParticleForceRegistry forcesRegistry,
              std::vector<std::shared_ptr<ParticleContactGenerator>> contactGenerators,
@@ -99,3 +102,5 @@ void Scene::integrateAll(float deltaT)
     // array to fill it once again during the next iteration
     m_contactArray.clear();
 }
+
+} // namespace engine

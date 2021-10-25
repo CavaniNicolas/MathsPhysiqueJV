@@ -3,6 +3,9 @@
 
 #include "PhysicsEngine/DebugUtils/ParticlePrinter.hpp"
 
+namespace engine
+{
+
 void ParticlePrinter::debugPrintI()
 {
     // Simple timer for the Particle printing
@@ -29,3 +32,5 @@ void ParticlePrinter::setParticleI(std::shared_ptr<Particle> particle)
 {
     m_particle = particle;
 }
+
+} // namespace engine

@@ -5,6 +5,9 @@
 
 #include "PhysicsEngine/Vector3D.hpp"
 
+namespace engine
+{
+
 // Constructors
 Vector3D::Vector3D(float x, float y, float z)
 {
@@ -195,3 +198,5 @@ bool operator==(const Vector3D v1, const Vector3D v2)
 {
     return (v1.m_x == v2.m_x && v1.m_y == v2.m_y && v1.m_z == v2.m_z);
 }
+
+} // namespace engine

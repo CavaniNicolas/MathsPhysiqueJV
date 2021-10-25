@@ -1,6 +1,9 @@
 
 #include "PhysicsEngine/ParticleAnchoredSpring.hpp"
 
+namespace engine
+{
+
 ParticleAnchoredSpring::ParticleAnchoredSpring(Vector3D anchor, float k, float restLength):
   m_anchor(anchor), m_k(k), m_restLength(restLength)
 {
@@ -26,3 +29,5 @@ unsigned int ParticleAnchoredSpring::updateForce(std::shared_ptr<Particle> parti
     particle->setAcceleration(particle->getAcceleration() + force * particle->getInverseMass());
     return 0;
 }
+
+} // namespace engine

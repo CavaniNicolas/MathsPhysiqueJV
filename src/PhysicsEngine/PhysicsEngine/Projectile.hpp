@@ -2,6 +2,9 @@
 
 #include "PhysicsEngine/Particle.hpp"
 
+namespace engine
+{
+
 class Projectile : public Particle
 {
   private:
@@ -33,3 +36,5 @@ class Projectile : public Particle
     void setDirection(Vector3D direction);
     void setSpeedFactor(float speedFactor);
 };
+
+} // namespace engine

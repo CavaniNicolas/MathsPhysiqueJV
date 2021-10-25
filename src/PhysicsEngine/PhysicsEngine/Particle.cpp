@@ -3,6 +3,9 @@
 
 #include "PhysicsEngine/Particle.hpp"
 
+namespace engine
+{
+
 //// Constructors
 Particle::Particle(Vector3D position, Vector3D velocity, float radius, float mass, float g, float damping):
   m_radius(radius),
@@ -166,3 +169,5 @@ std::ostream& operator<<(std::ostream& out, Particle const& particle)
     // }
     return out;
 }
+
+} // namespace engine

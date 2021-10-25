@@ -13,7 +13,7 @@ class UserInterface
 
     void start() const;
     void terminate() const;
-    void render(GameEngine& gameEngine, api::ScenesAPI& scenesAPI, render::Camera& camera) const;
+    void render(engine::GameEngine& gameEngine, api::ScenesAPI& scenesAPI, render::Camera& camera) const;
     void showProjectileCreation(api::ScenesAPI& scenesAPI) const;
     void HelpMarker(const char* desc) const;
 };

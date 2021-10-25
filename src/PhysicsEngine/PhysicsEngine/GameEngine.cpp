@@ -7,6 +7,9 @@
 
 #include "PhysicsEngine/GameEngine.hpp"
 
+namespace engine
+{
+
 GameEngine::GameEngine(std::shared_ptr<Scene> scene, int desiredFrameRate):
   m_scene(scene), m_desiredFrameRate(desiredFrameRate), m_running(false), m_stop(false)
 {
@@ -107,3 +110,5 @@ void GameEngine::stop()
 {
     m_stop = true;
 }
+
+} // namespace engine

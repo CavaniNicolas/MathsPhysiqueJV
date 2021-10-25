@@ -1,6 +1,9 @@
 
 #include "PhysicsEngine/Bullet.hpp"
 
+namespace engine
+{
+
 Bullet::Bullet(): Projectile()
 {
     setSpeedFactor(40);
@@ -17,3 +20,5 @@ Bullet::Bullet(const Bullet& other):
   Bullet(other.getPosition(), other.getDirection(), other.getDamage(), other.getRadius(), other.getDamping())
 {
 }
+
+} // namespace engine

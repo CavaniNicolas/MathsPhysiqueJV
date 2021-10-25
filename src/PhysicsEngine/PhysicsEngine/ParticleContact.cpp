@@ -1,5 +1,8 @@
 #include "ParticleContact.hpp"
 
+namespace engine
+{
+
 ParticleContact::ParticleContact(std::shared_ptr<Particle> particleA,
                                  std::shared_ptr<Particle> particleB,
                                  float restitution,
@@ -149,3 +152,5 @@ bool operator>=(const std::shared_ptr<ParticleContact> c1, const std::shared_ptr
 {
     return c1->calculateSeparatingVelocity() >= c2->calculateSeparatingVelocity();
 }
+
+} // namespace engine

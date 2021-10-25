@@ -5,6 +5,9 @@
 #include "PhysicsEngine/Particle.hpp"
 #include "PhysicsEngine/ParticleContact.hpp"
 
+namespace engine
+{
+
 class ParticleForceGenerator
 {
   public:
@@ -13,3 +16,5 @@ class ParticleForceGenerator
                                      std::vector<std::shared_ptr<ParticleContact>>& contacts,
                                      unsigned int limit) = 0;
 };
+
+} // namespace engine

@@ -2,6 +2,9 @@
 
 #include "PhysicsEngine/ParticleContactGenerator.hpp"
 
+namespace engine
+{
+
 class ParticleLink : public ParticleContactGenerator
 {
   protected:
@@ -18,3 +21,5 @@ class ParticleLink : public ParticleContactGenerator
     // Take a pointer to an array of contact and the number of contact left to be generated
     unsigned int addContact(std::vector<std::shared_ptr<ParticleContact>>& contacts, unsigned int limit) const = 0;
 };
+
+} // namespace engine

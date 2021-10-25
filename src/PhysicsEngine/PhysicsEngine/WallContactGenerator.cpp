@@ -1,5 +1,8 @@
 #include "PhysicsEngine/WallContactGenerator.hpp"
 
+namespace engine
+{
+
 WallContactGenerator::WallContactGenerator(
   std::shared_ptr<Particle> particle, WallPlan wallPlan, float restitution, float coordinates, float thickness):
   m_particles({particle}),
@@ -127,3 +130,5 @@ unsigned int WallContactGenerator::addContact(std::vector<std::shared_ptr<Partic
     }
     return limit - tempLimit;
 }
+
+} // namespace engine

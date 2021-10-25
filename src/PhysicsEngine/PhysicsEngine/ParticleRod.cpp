@@ -1,5 +1,8 @@
 #include "ParticleRod.hpp"
 
+namespace engine
+{
+
 ParticleRod::ParticleRod(std::shared_ptr<Particle> particleA, std::shared_ptr<Particle> particleB, float length):
   ParticleLink(particleA, particleB), m_length(length)
 {
@@ -23,3 +26,5 @@ unsigned int ParticleRod::addContact(std::vector<std::shared_ptr<ParticleContact
     }
     return 0;
 }
+
+} // namespace engine

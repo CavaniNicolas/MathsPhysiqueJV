@@ -1,6 +1,9 @@
 
 #include "PhysicsEngine/Fireball.hpp"
 
+namespace engine
+{
+
 Fireball::Fireball(): Projectile()
 {
     setSpeedFactor(30);
@@ -17,3 +20,5 @@ Fireball::Fireball(const Fireball& other):
   Fireball(other.getPosition(), other.getDirection(), other.getDamage(), other.getRadius(), other.getDamping())
 {
 }
+
+} // namespace engine

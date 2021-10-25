@@ -15,7 +15,7 @@ class UserInterface
 
     void start() const;
     void terminate() const;
-    void render(GameEngine& gameEngine, render::Camera& camera) const;
+    void render(engine::GameEngine& gameEngine, render::Camera& camera) const;
 };
 
 } // namespace api

@@ -4,7 +4,7 @@
 namespace api
 {
 
-void ParticleMeshRegistry::addEntry(std::shared_ptr<Particle> particle,
+void ParticleMeshRegistry::addEntry(std::shared_ptr<engine::Particle> particle,
                                     std::shared_ptr<render::RenderedMesh> renderedMesh)
 {
     m_registry.push_back({particle, renderedMesh});
@@ -16,7 +16,7 @@ void ParticleMeshRegistry::updateMeshPosition()
     {
         // creates a shared_ptr that manages the referenced object by the weak_ptr
         std::shared_ptr<render::RenderedMesh> renderedMesh = entry.renderedMesh.lock();
-        std::shared_ptr<Particle> particle = entry.particle.lock();
+        std::shared_ptr<engine::Particle> particle = entry.particle.lock();
 
         // get the actual particle position to set it to the renderedMesh
         renderedMesh->setPosition(

@@ -2,6 +2,9 @@
 
 #include "PhysicsEngine/ParticleContactGenerator.hpp"
 
+namespace engine
+{
+
 class WallContactGenerator : public ParticleContactGenerator
 {
   public:
@@ -33,3 +36,5 @@ class WallContactGenerator : public ParticleContactGenerator
 
     Vector3D calculateNormal(std::shared_ptr<Particle> particle) const;
 };
+
+} // namespace engine

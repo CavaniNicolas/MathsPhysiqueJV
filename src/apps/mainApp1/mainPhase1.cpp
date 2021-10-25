@@ -50,25 +50,26 @@ int main()
     std::shared_ptr<render::Camera> camera = std::make_shared<render::Camera>(960, 540, glm::vec3(0.0f, 15.0f, 80.0f));
 
     // create a particle
-    std::shared_ptr<Fireball> fireball = std::make_shared<Fireball>(Vector3D(0, 0, 0), Vector3D(1, 0, -1), 1, 1);
+    std::shared_ptr<engine::Fireball> fireball =
+      std::make_shared<engine::Fireball>(engine::Vector3D(0, 0, 0), engine::Vector3D(1, 0, -1), 1, 1);
 
-    std::shared_ptr<Scene> sceneEngine = std::make_shared<Scene>();
+    std::shared_ptr<engine::Scene> sceneEngine = std::make_shared<engine::Scene>();
     //        sceneEngine->addParticle(fireball);
 
-    std::shared_ptr<ParticleGravity> partGravity = std::make_shared<ParticleGravity>();
-    std::shared_ptr<ParticleDrag> partDrag = std::make_shared<ParticleDrag>(0.25f, 0.0f);
+    std::shared_ptr<engine::ParticleGravity> partGravity = std::make_shared<engine::ParticleGravity>();
+    std::shared_ptr<engine::ParticleDrag> partDrag = std::make_shared<engine::ParticleDrag>(0.25f, 0.0f);
 
     // link forces to fireball
     sceneEngine->addForce(fireball, partGravity);
     sceneEngine->addForce(fireball, partDrag);
 
-    GameEngine gameEngine = GameEngine(sceneEngine);
+    engine::GameEngine gameEngine = engine::GameEngine(sceneEngine);
 
     // Variable that help the rotation of the pyramid
     double prevTime = glfwGetTime();
 
     // Singleton to help debug and print Particle every 2 seconds
-    ParticlePrinter::setParticle(fireball);
+    engine::ParticlePrinter::setParticle(fireball);
 
     {
         std::shared_ptr<render::RenderedMesh> pyramid = std::make_shared<render::RenderedMesh>(

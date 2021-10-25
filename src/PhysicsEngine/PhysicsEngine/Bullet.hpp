@@ -2,6 +2,9 @@
 
 #include "PhysicsEngine/Projectile.hpp"
 
+namespace engine
+{
+
 class Bullet : public Projectile
 {
   public:
@@ -11,3 +14,5 @@ class Bullet : public Projectile
 
     Bullet(const Bullet& other);
 };
+
+} // namespace engine

@@ -1,6 +1,9 @@
 
 #include "PhysicsEngine/ParticleGravity.hpp"
 
+namespace engine
+{
+
 unsigned int ParticleGravity::updateForce(std::shared_ptr<Particle> particle,
                                           float duration,
                                           std::vector<std::shared_ptr<ParticleContact>>& contacts,
@@ -16,3 +19,5 @@ unsigned int ParticleGravity::updateForce(std::shared_ptr<Particle> particle,
     }
     return 0;
 }
+
+} // namespace engine

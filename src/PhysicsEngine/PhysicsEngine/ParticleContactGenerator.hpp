@@ -2,6 +2,9 @@
 
 #include "ParticleContact.hpp"
 
+namespace engine
+{
+
 class ParticleContactGenerator
 {
   public:
@@ -9,3 +12,5 @@ class ParticleContactGenerator
     virtual unsigned int addContact(std::vector<std::shared_ptr<ParticleContact>>& contacts,
                                     unsigned int limit) const = 0;
 };
+
+} // namespace engine
