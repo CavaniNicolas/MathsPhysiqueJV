@@ -56,34 +56,38 @@ mp_add_executable(${MP_MAIN2_NAME}
     INCLUDE_DIRS ${MP_APPS_INCDIRS}
 )
 
-###############################
-#### Test Spring Executable ###
-###############################
+if(BUILD_TESTS)
 
-#set(MP_TestSpring_NAME TestSpring)
+    ##############################
+    ### Test Spring Executable ###
+    ##############################
 
-#set(MP_TestSpring_SOURCES
-#    testSpring/testSpring.cpp
-#)
+    set(MP_TestSpring_NAME TestSpring)
 
-#mp_add_executable(${MP_TestSpring_NAME}
-#    SOURCE ${MP_TestSpring_SOURCES}
-#    LINKS ${MP_APPS_LINKS}
-#    INCLUDE_DIRS ${MP_APPS_INCDIRS}
-#)
+    set(MP_TestSpring_SOURCES
+        testSpring/testSpring.cpp
+    )
 
-###############################
-####  Test Wall Executable  ###
-###############################
+    mp_add_executable(${MP_TestSpring_NAME}
+        SOURCE ${MP_TestSpring_SOURCES}
+        LINKS ${MP_APPS_LINKS}
+        INCLUDE_DIRS ${MP_APPS_INCDIRS}
+    )
 
-#set(MP_TestWall_NAME TestWall)
+    ##############################
+    ###  Test Wall Executable  ###
+    ##############################
 
-#set(MP_TestWall_SOURCES
-#    testWall/testWall.cpp
-#)
+    set(MP_TestWall_NAME TestWall)
 
-#mp_add_executable(${MP_TestWall_NAME}
-#    SOURCE ${MP_TestWall_SOURCES}
-#    LINKS ${MP_APPS_LINKS}
-#    INCLUDE_DIRS ${MP_APPS_INCDIRS}
-#)
+    set(MP_TestWall_SOURCES
+        testWall/testWall.cpp
+    )
+
+    mp_add_executable(${MP_TestWall_NAME}
+        SOURCE ${MP_TestWall_SOURCES}
+        LINKS ${MP_APPS_LINKS}
+        INCLUDE_DIRS ${MP_APPS_INCDIRS}
+    )
+
+endif()

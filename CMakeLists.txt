@@ -10,6 +10,8 @@ find_package(OpenGL REQUIRED)
 
 include(cmake/MathsPhysiqueHelper.cmake)
 
+option(BUILD_TESTS "Build test executables" OFF)
+
 add_subdirectory(thirdparty)
 
 add_subdirectory(src)
