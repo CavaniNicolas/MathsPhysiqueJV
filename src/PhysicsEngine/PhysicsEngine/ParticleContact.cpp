@@ -47,9 +47,9 @@ void ParticleContact::resolveVelocity()
         bool restingParticle = false;
         if(accel == Vector3D(0, -m_particle[0]->getG(), 0))
         {
-            std::cout << "y accel only created by gravity" << std::endl;
-            std::cout << "newVelocity.y = " << newVelocity.getY() << std::endl;
-            std::cout << "8 * m_restitution = " << 8 * m_restitution << std::endl;
+            //            std::cout << "y accel only created by gravity" << std::endl;
+            //            std::cout << "newVelocity.y = " << newVelocity.getY() << std::endl;
+            //            std::cout << "8 * m_restitution = " << 8 * m_restitution << std::endl;
             if(newVelocity.getY() < 8 * m_restitution || m_restitution == 0)
             {
                 restingParticle = true;
