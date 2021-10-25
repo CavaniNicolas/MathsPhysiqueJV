@@ -18,11 +18,8 @@ class WallContactGenerator : public ParticleContactGenerator
     std::vector<std::shared_ptr<Particle>> m_particles;
     float m_restitution;
 
-    WallContactGenerator(std::shared_ptr<Particle> particle,
-                         WallPlan wallPlan,
-                         float restitution,
-                         float coordinates,
-                         float thickness);
+    WallContactGenerator(
+      std::shared_ptr<Particle> particle, WallPlan wallPlan, float restitution, float coordinates, float thickness);
 
     WallContactGenerator(std::vector<std::shared_ptr<Particle>> particles,
                          WallPlan wallPlan,

@@ -25,9 +25,8 @@ class ScenesAPI
     std::shared_ptr<Scene> getSceneEngine();
 
   private:
-
     std::shared_ptr<Scene> m_sceneEngine;
-    
+
     std::shared_ptr<render::Scene> m_sceneRender;
 
     api::ParticleMeshRegistry m_partMeshReg;

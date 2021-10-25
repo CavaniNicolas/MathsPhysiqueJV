@@ -173,7 +173,7 @@ void UserInterface::showProjectileCreation(api::ScenesAPI& scenesAPI) const
             ImGui::TableNextRow();
 
             ImGui::TableSetColumnIndex(0);
-            ImGui::Text("Restitution coefficient");
+            ImGui::Text("Drag Restitution coefficients");
             ImGui::TableNextRow();
             ImGui::TableSetColumnIndex(0);
             ImGui::InputFloat("k1", &k1);
@@ -191,18 +191,20 @@ void UserInterface::showProjectileCreation(api::ScenesAPI& scenesAPI) const
         // Button to create a projectile with the selected position and direction
         if(ImGui::Button("Create blob"))
         {
-            //The range determines how close to the first particle the other particles will be created
+            // The range determines how close to the first particle the other particles will be created
             float range = 1;
-            //We keep a reference to the first particle to be able to move it afterwards
+            // We keep a reference to the first particle to be able to move it afterwards
             std::shared_ptr<Particle> firstParticle;
             std::vector<std::shared_ptr<Particle>> particles;
-            //We create the requested number of particles and add them to the scene
-            if (particlesNb > 0) {
+            // We create the requested number of particles and add them to the scene
+            if(particlesNb > 0)
+            {
                 firstParticle = std::make_shared<Particle>(Vector3D(0, 30, 0), Vector3D());
                 scenesAPI.addParticleDefault(firstParticle);
                 particles.push_back(firstParticle);
             }
-            for (int i = 1; i < particlesNb; i++) {
+            for(int i = 1; i < particlesNb; i++)
+            {
                 std::shared_ptr<Particle> currentParticle =
                   std::make_shared<Particle>(Vector3D(0 + generateRandomFloat(-range, range),
                                                       30 + generateRandomFloat(-range, range),
@@ -212,31 +214,33 @@ void UserInterface::showProjectileCreation(api::ScenesAPI& scenesAPI) const
                 particles.push_back(currentParticle);
             }
 
-            //We get the sceneEngine
+            // We get the sceneEngine
             std::shared_ptr<Scene> sceneEngine = scenesAPI.getSceneEngine();
 
-            //We add a cable spring between all of our particles
+            // We add a cable spring between all of our particles
             int firstIndex = 1;
-            for (auto& particle : particles) {
-                //We add a cable spring with all the other particles
+            for(auto& particle: particles)
+            {
+                // We add a cable spring with all the other particles
                 std::shared_ptr<CableSpring> cableSpring = std::make_shared<CableSpring>(
                   particle, springConstant, restLength, elasticityLimitLength, restitutionCoef);
-                for (int index = firstIndex; index < particlesNb; index++) {
+                for(int index = firstIndex; index < particlesNb; index++)
+                {
                     sceneEngine->addForce(particles[index], cableSpring);
                 }
-                //We increase the starting index to avoid creating cablesprings twice
+                // We increase the starting index to avoid creating cablesprings twice
                 firstIndex++;
             }
 
-            //We add the gravity to all of our particles
+            // We add the gravity to all of our particles
             std::shared_ptr<ParticleGravity> gravity = std::make_shared<ParticleGravity>();
             sceneEngine->addForce(gravity);
 
-            //We add drag to all of our particles
+            // We add drag to all of our particles
             std::shared_ptr<ParticleDrag> drag = std::make_shared<ParticleDrag>(k1, k2);
             sceneEngine->addForce(drag);
 
-            //We add a wall to all of our particles, representing the floor at y = 0
+            // We add a wall to all of our particles, representing the floor at y = 0
             std::shared_ptr<WallContactGenerator> wall =
               std::make_shared<WallContactGenerator>(particles, WallContactGenerator::y, 0.5, -1, 2);
             sceneEngine->addContactGenerator(wall);
@@ -283,10 +287,12 @@ void UserInterface::render(GameEngine& gameEngine, api::ScenesAPI& scenesAPI, re
     ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 }
 
-void UserInterface::moveBlob(api::ScenesAPI& scenesAPI) {
+void UserInterface::moveBlob(api::ScenesAPI& scenesAPI)
+{
     std::vector<std::shared_ptr<Particle>> particles = scenesAPI.getSceneEngine()->getParticles();
 
-    if (particles.size() > 0) {
+    if(particles.size() > 0)
+    {
         std::shared_ptr<Particle> firstParticle = particles[0];
 
         // Edit translation.x using a slider from 0.0f to 90.0f

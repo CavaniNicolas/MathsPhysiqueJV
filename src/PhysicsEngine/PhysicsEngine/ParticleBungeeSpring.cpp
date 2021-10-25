@@ -7,9 +7,9 @@ ParticleBungeeSpring::ParticleBungeeSpring(Vector3D anchor, float k, float restL
 }
 
 unsigned int ParticleBungeeSpring::UpdateForce(std::shared_ptr<Particle> particle,
-                                       float duration,
-                                       std::vector<std::shared_ptr<ParticleContact>>& contacts,
-                                       unsigned int limit)
+                                               float duration,
+                                               std::vector<std::shared_ptr<ParticleContact>>& contacts,
+                                               unsigned int limit)
 {
     Vector3D d = particle->getPosition() - m_anchor;
     if(d.getNorm() > m_restLength)

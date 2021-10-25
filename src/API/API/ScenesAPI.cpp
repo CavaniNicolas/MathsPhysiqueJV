@@ -37,7 +37,8 @@ void ScenesAPI::addParticleDefault(std::shared_ptr<Particle> particle)
     addParticle(particle, pyramid);
 }
 
-std::shared_ptr<Scene> ScenesAPI::getSceneEngine() {
+std::shared_ptr<Scene> ScenesAPI::getSceneEngine()
+{
     return m_sceneEngine;
 }
 

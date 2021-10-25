@@ -1,18 +1,14 @@
 #include "PhysicsEngine/WallContactGenerator.hpp"
 
-WallContactGenerator::WallContactGenerator(std::shared_ptr<Particle> particle, 
-                                           WallPlan wallPlan, 
-                                           float restitution, 
-                                           float coordinates, 
-                                           float thickness) :
+WallContactGenerator::WallContactGenerator(
+  std::shared_ptr<Particle> particle, WallPlan wallPlan, float restitution, float coordinates, float thickness):
   m_particles({particle}),
   m_wallPlan(wallPlan),
   m_restitution(restitution),
   m_coordinates(coordinates),
-  m_thickness(thickness)
-{};
+  m_thickness(thickness){};
 
-WallContactGenerator::WallContactGenerator(std::vector<std::shared_ptr<Particle>> particles, 
+WallContactGenerator::WallContactGenerator(std::vector<std::shared_ptr<Particle>> particles,
                                            WallPlan wallPlan,
                                            float restitution,
                                            float coordinates,
@@ -21,11 +17,10 @@ WallContactGenerator::WallContactGenerator(std::vector<std::shared_ptr<Particle>
   m_wallPlan(wallPlan),
   m_restitution(restitution),
   m_coordinates(coordinates),
-  m_thickness(thickness)
-{};
+  m_thickness(thickness){};
 
-
-float WallContactGenerator::calculatePenetration(std::shared_ptr<Particle> particle) const{
+float WallContactGenerator::calculatePenetration(std::shared_ptr<Particle> particle) const
+{
     float wallcenterdistance;
     float penetration = 0;
     float particleRadius = particle->getRadius();
@@ -92,17 +87,20 @@ Vector3D WallContactGenerator::calculateNormal(std::shared_ptr<Particle> particl
     Vector3D normal;
     switch(m_wallPlan)
     {
-        case x: 
-            normal = (particle->getPosition() - Vector3D(m_coordinates, particle->getPosition().getY(), particle->getPosition().getZ())).normalize();
+        case x:
+            normal = (particle->getPosition() -
+                      Vector3D(m_coordinates, particle->getPosition().getY(), particle->getPosition().getZ()))
+                       .normalize();
             break;
         case y:
-            normal =
-              (particle->getPosition() -
-              Vector3D(particle->getPosition().getX(), m_coordinates, particle->getPosition().getZ())).normalize();
+            normal = (particle->getPosition() -
+                      Vector3D(particle->getPosition().getX(), m_coordinates, particle->getPosition().getZ()))
+                       .normalize();
             break;
         case z:
             normal = (particle->getPosition() -
-                     Vector3D(particle->getPosition().getX(), particle->getPosition().getY(), m_coordinates)).normalize();
+                      Vector3D(particle->getPosition().getX(), particle->getPosition().getY(), m_coordinates))
+                       .normalize();
             break;
         default: break;
     }
@@ -113,7 +111,8 @@ unsigned int WallContactGenerator::addContact(std::vector<std::shared_ptr<Partic
                                               unsigned int limit) const
 {
     int tempLimit = limit;
-    for (auto& particle : m_particles) {
+    for(auto& particle: m_particles)
+    {
         float penetration = calculatePenetration(particle);
 
         if(penetration > 0)
@@ -121,8 +120,8 @@ unsigned int WallContactGenerator::addContact(std::vector<std::shared_ptr<Partic
             if(tempLimit >= 1)
             {
                 tempLimit--;
-                contacts.push_back(
-                  std::make_shared<ParticleContact>(particle, nullptr, m_restitution, penetration, calculateNormal(particle)));
+                contacts.push_back(std::make_shared<ParticleContact>(
+                  particle, nullptr, m_restitution, penetration, calculateNormal(particle)));
             }
         }
     }

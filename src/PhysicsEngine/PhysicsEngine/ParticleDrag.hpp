@@ -12,7 +12,7 @@ class ParticleDrag : public ParticleForceGenerator
   public:
     ParticleDrag(float k1, float k2);
     unsigned int updateForce(std::shared_ptr<Particle> particle,
-                     float duration,
-                     std::vector<std::shared_ptr<ParticleContact>>& contacts,
-                     unsigned int limit);
+                             float duration,
+                             std::vector<std::shared_ptr<ParticleContact>>& contacts,
+                             unsigned int limit);
 };

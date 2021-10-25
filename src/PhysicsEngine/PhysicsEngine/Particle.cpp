@@ -11,7 +11,7 @@ Particle::Particle(Vector3D position, Vector3D velocity, float radius, float mas
   m_acceleration(Vector3D()),
   m_inverseMass(1 / mass),
   m_g(g),
-  m_damping(damping), 
+  m_damping(damping),
   m_resting(false)
 {
 }
@@ -86,7 +86,8 @@ float Particle::getRadius() const
     return m_radius;
 }
 
-bool Particle::isResting() const {
+bool Particle::isResting() const
+{
     return m_resting;
 }
 
@@ -130,11 +131,13 @@ void Particle::setRadius(float radius)
     m_radius = radius;
 }
 
-void Particle::setResting(bool resting) {
+void Particle::setResting(bool resting)
+{
     m_resting = resting;
 }
 
-float Particle::calculateVolume() {
+float Particle::calculateVolume()
+{
     return (4 / 3) * M_PI * std::pow(m_radius, 3);
 }
 

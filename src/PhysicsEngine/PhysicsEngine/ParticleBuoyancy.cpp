@@ -13,9 +13,9 @@ ParticleBuoyancy::ParticleBuoyancy(float maxDepth, float volume, float waterHeig
 
 // Apply Buoyancy based on particle position
 unsigned int ParticleBuoyancy::updateForce(std::shared_ptr<Particle> particle,
-                                   float duration,
-                                   std::vector<std::shared_ptr<ParticleContact>>& contacts,
-                                   unsigned int limit)
+                                           float duration,
+                                           std::vector<std::shared_ptr<ParticleContact>>& contacts,
+                                           unsigned int limit)
 {
     float submergedQuantity = (particle->getPosition().getX() - m_waterHeight - m_maxDepth) / 2 * m_maxDepth;
     Vector3D force = Vector3D();

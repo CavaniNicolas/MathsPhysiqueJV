@@ -8,9 +8,9 @@ ParticleSpring::ParticleSpring(std::shared_ptr<Particle> otherParticle, float k,
 
 // apply Hook's law based on particles position
 unsigned int ParticleSpring::updateForce(std::shared_ptr<Particle> particle,
-                                 float duration,
-                                 std::vector<std::shared_ptr<ParticleContact>>& contacts,
-                                 unsigned int limit)
+                                         float duration,
+                                         std::vector<std::shared_ptr<ParticleContact>>& contacts,
+                                         unsigned int limit)
 {
     Vector3D springLength = particle->getPosition() - m_otherParticle->getPosition();
 
@@ -22,7 +22,7 @@ unsigned int ParticleSpring::updateForce(std::shared_ptr<Particle> particle,
         {
             particle->setResting(false);
         }
-        if (m_otherParticle->isResting()) 
+        if(m_otherParticle->isResting())
         {
             m_otherParticle->setResting(false);
         }

@@ -16,7 +16,7 @@ class ParticleAnchoredSpring : public ParticleForceGenerator
     ParticleAnchoredSpring(Vector3D anchor, float k, float restLength);
 
     unsigned int updateForce(std::shared_ptr<Particle> particle,
-                     float duration,
-                     std::vector<std::shared_ptr<ParticleContact>>& contacts,
-                     unsigned int limit);
+                             float duration,
+                             std::vector<std::shared_ptr<ParticleContact>>& contacts,
+                             unsigned int limit);
 };

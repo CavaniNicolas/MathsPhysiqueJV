@@ -18,7 +18,7 @@ class ParticleBuoyancy : public ParticleForceGenerator
 
     // Apply Buoyancy based on particle position
     unsigned int updateForce(std::shared_ptr<Particle> particle,
-                     float duration,
-                     std::vector<std::shared_ptr<ParticleContact>>& contacts,
-                     unsigned int limit);
+                             float duration,
+                             std::vector<std::shared_ptr<ParticleContact>>& contacts,
+                             unsigned int limit);
 };

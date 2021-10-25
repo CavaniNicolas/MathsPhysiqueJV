@@ -38,15 +38,15 @@ void ParticleContact::resolveVelocity()
         Vector3D velocity = m_particle[0]->getVelocity();
 
         Vector3D accel = m_particle[0]->getAcceleration();
-        
+
         float inv_m = m_particle[0]->getInverseMass();
         float k = ((velocity * (m_restitution + 1)).scalarProduct(m_contactNormal)) / inv_m;
-
 
         Vector3D newVelocity = velocity - m_contactNormal * k * inv_m;
 
         bool restingParticle = false;
-        if (accel == Vector3D(0, -m_particle[0]->getG(), 0)) {
+        if(accel == Vector3D(0, -m_particle[0]->getG(), 0))
+        {
             std::cout << "y accel only created by gravity" << std::endl;
             std::cout << "newVelocity.y = " << newVelocity.getY() << std::endl;
             std::cout << "8 * m_restitution = " << 8 * m_restitution << std::endl;

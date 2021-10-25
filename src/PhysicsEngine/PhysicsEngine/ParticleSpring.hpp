@@ -18,7 +18,7 @@ class ParticleSpring : public ParticleForceGenerator
 
     // apply Hook's law based on particles position
     virtual unsigned int updateForce(std::shared_ptr<Particle> particle,
-                             float duration,
-                             std::vector<std::shared_ptr<ParticleContact>>& contacts,
-                             unsigned int limit);
+                                     float duration,
+                                     std::vector<std::shared_ptr<ParticleContact>>& contacts,
+                                     unsigned int limit);
 };
