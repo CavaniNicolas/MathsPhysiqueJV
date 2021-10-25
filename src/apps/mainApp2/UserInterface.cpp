@@ -293,6 +293,7 @@ void UserInterface::moveBlob(api::ScenesAPI& scenesAPI)
 
     if(particles.size() > 0)
     {
+        ImGui::Text("Move First Particle");
         std::shared_ptr<Particle> firstParticle = particles[0];
 
         // Edit translation.x using a slider from 0.0f to 90.0f
