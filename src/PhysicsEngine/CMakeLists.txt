@@ -63,6 +63,11 @@ set(HEADERS
     PhysicsEngine/ParticleLink.hpp
     PhysicsEngine/ParticleRod.hpp
     PhysicsEngine/WallContactGenerator.hpp
+
+    #Rigidbodies
+    PhysicsEngine/Quaternion.hpp
+    PhysicsEngine/Matrix33.hpp
+    PhysicsEngine/Matrix34.hpp
 )
 
 set(SOURCES_DEBUG
