@@ -68,9 +68,9 @@ void UserInterface::showProjectileCreation(api::ScenesAPI& scenesAPI) const
     if(ImGui::TreeNode("Blob creation"))
     {
         static int particlesNb = 1;
-        static float springConstant = 1;
-        static float restLength = 15;
-        static float elasticityLimitLength = 30;
+        static float springConstant = 1.2;
+        static float restLength = 3;
+        static float elasticityLimitLength = 10;
         static float restitutionCoef = 0;
         static float k1 = 0;
         static float k2 = 0;
