@@ -300,6 +300,13 @@ void UserInterface::moveBlob(api::ScenesAPI& scenesAPI)
         ImGui::SliderFloat("Y movement", &m_yMovement, -10, 10);
         ImGui::SliderFloat("Z movement", &m_zMovement, -10, 10);
 
-        firstParticle->setVelocity(firstParticle->getVelocity() + Vector3D(m_xMovement, m_yMovement, m_zMovement));
+        // move the entire blob by moving all particles the same
+        for(auto& particle: particles)
+        {
+            particle->setVelocity(firstParticle->getVelocity() + Vector3D(m_xMovement, m_yMovement, m_zMovement));
+        }
+        // move only one particle from the blob
+        //        firstParticle->setVelocity(firstParticle->getVelocity() + Vector3D(m_xMovement, m_yMovement,
+        //        m_zMovement));
     }
 }
