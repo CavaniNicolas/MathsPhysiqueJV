@@ -30,7 +30,7 @@ set(SOURCES
     PhysicsEngine/ParticleCable.cpp
     PhysicsEngine/ParticleRod.cpp
     PhysicsEngine/WallContactGenerator.cpp
-)
+ PhysicsEngine/Matrix33.cpp)
 
 set(HEADERS
     PhysicsEngine/GameEngine.hpp

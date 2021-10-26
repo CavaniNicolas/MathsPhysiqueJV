@@ -56,6 +56,25 @@ mp_add_executable(${MP_MAIN2_NAME}
     INCLUDE_DIRS ${MP_APPS_INCDIRS}
 )
 
+
+set(MP_MAIN3_NAME testMatrix)
+
+set(MP_MAIN3_SOURCES
+    #mainApp3/mainPhase3.cpp
+    #mainApp3/UserInterface.cpp
+    mainApp3/testMatrix.cpp
+)
+
+set(MP_MAIN3_HEADERS
+    #mainApp3/UserInterface.hpp
+)
+
+mp_add_executable(${MP_MAIN3_NAME}
+    SOURCE ${MP_MAIN3_SOURCES} ${MP_MAIN3_HEADERS}
+    LINKS ${MP_APPS_LINKS}
+    INCLUDE_DIRS ${MP_APPS_INCDIRS}
+)
+
 if(BUILD_TESTS)
 
     ##############################
