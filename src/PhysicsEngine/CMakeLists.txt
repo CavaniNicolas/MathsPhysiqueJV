@@ -30,6 +30,9 @@ set(SOURCES
     PhysicsEngine/ParticleCable.cpp
     PhysicsEngine/ParticleRod.cpp
     PhysicsEngine/WallContactGenerator.cpp
+
+    #Rigidbodies
+    PhysicsEngine/RigidBody.cpp
 )
 
 set(HEADERS
@@ -68,6 +71,7 @@ set(HEADERS
     PhysicsEngine/Quaternion.hpp
     PhysicsEngine/Matrix33.hpp
     PhysicsEngine/Matrix34.hpp
+    PhysicsEngine/RigidBody.hpp
 )
 
 set(SOURCES_DEBUG

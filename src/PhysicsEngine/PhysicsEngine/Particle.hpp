@@ -58,8 +58,8 @@ class Particle
 
     float calculateVolume();
 
-    virtual void integratePosition(float deltaT);
-    virtual void integrateVelocity(float deltaT);
+    void integratePosition(float deltaT);
+    void integrateVelocity(float deltaT);
 
     friend std::ostream& operator<<(std::ostream& out, Particle const& particle);
 };

@@ -2,10 +2,12 @@
 
 #include "PhysicsEngine/Vector3D.hpp"
 
+namespace engine
+{
 class Quaternion
 {
   private:
-	// w, i, j, k
+    // w, i, j, k
     float m_w;
     float m_i;
     float m_j;
@@ -23,4 +25,7 @@ class Quaternion
 
     // Apply the quaternion update by the angular velocity
     void updateByAngularVelocity(const Vector3D& rotation, float deltaT);
+
+    friend std::ostream& operator<<(std::ostream& out, Quaternion const& rb);
 };
+} // namespace engine

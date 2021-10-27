@@ -3,6 +3,8 @@
 #include <array>
 #include "PhysicsEngine/Vector3D.hpp"
 
+namespace engine
+{
 class Matrix34
 {
   private:
@@ -25,6 +27,7 @@ class Matrix34
     // Transform a position
     Vector3D transformPosition(const Vector3D& vector);
 
-    //Transform a direction by ignoring the translation
+    // Transform a direction by ignoring the translation
     Vector3D transformDirection(const Vector3D& vector);
 };
+} // namespace engine
