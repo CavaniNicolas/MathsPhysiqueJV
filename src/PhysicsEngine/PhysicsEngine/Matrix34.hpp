@@ -2,14 +2,21 @@
 
 #include <array>
 #include "PhysicsEngine/Vector3D.hpp"
+#include "Quaternion.hpp"
 
+namespace engine
+{
 class Matrix34
 {
   private:
     // values of the matrix 3x3
-    std::array<std::array<float, 3>, 4> m_values;
+    std::array<std::array<float, 4>, 3> m_values;
 
   public:
+
+    Matrix34(std::array<float, 4> line1, std::array<float, 4> line2, std::array<float, 4> line3);
+    Matrix34();
+
     // combination of affine transformation
     Matrix34 operator*(const Matrix34& other) const;
 
@@ -25,6 +32,7 @@ class Matrix34
     // Transform a position
     Vector3D transformPosition(const Vector3D& vector);
 
-    //Transform a direction by ignoring the translation
+    // Transform a direction by ignoring the translation
     Vector3D transformDirection(const Vector3D& vector);
 };
+} // namespace engine

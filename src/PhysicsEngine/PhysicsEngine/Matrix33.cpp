@@ -139,11 +139,42 @@ Matrix33 Matrix33::inverse()
 
 // Get the transpose matrix
 Matrix33 Matrix33::transpose() {
-    return Matrix33();
+    Matrix33 transpose = Matrix33();
+    float a = m_values[0][0];
+    float b = m_values[0][1];
+    float c = m_values[0][2];
+    float d = m_values[1][0];
+    float e = m_values[1][1];
+    float f = m_values[1][2];
+    float g = m_values[2][0];
+    float h = m_values[2][1];
+    float i = m_values[2][2];
+
+    transpose.m_values[0] = {a, d, g};
+    transpose.m_values[1] = {b, e, h};
+    transpose.m_values[2] = {c, f, i};
+    return transpose;
 }
 
 // Set the matrix base on a quaternion
-void Matrix33::setOrientation(const Quaternion& q) {}
+void Matrix33::setOrientation(const Quaternion& q)
+{
+    /*float w = q.getW();
+    float x = q.getI();
+    float y = q.getJ();
+    float z = q.getK();*/
+
+    /*m_values[0][0] = 1 - (2 * pow(y, 2) + 2 * pow(z, 2));
+    m_values[0][1] = 2 * x * y + 2 * z * w;
+    m_values[0][2] = 2 * x * z + 2 * y * w;
+    m_values[1][0] = 2 * x * y - 2 * z * w;
+    m_values[1][1] = 1 - (2 * pow(x, 2) + 2 * pow(z, 2));
+    m_values[1][2] = 2 * y * z + 2 * x * w;
+    m_values[2][0] = 2 * x * z + 2 * y * w;
+    m_values[2][1] = 2 * y * z - 2 * x * w;
+    m_values[2][2] = 1 - (2 * pow(x, 2) + 2 * pow(y, 2));*/    
+
+}
 
 std::array<std::array<float, 3>, 3> Matrix33::getValues() {
     return m_values;
