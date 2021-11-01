@@ -161,6 +161,7 @@ void RigidBody::integratePosition(float deltaT)
     //We update the transformation matrix
     calculateDerivedData();
 
+    //We use the transformation matrix to update the 
     m_transformationMatrix.transformPosition(m_position);
     m_orientation.updateByAngularVelocity(m_rotation, deltaT);
 
@@ -171,10 +172,13 @@ void RigidBody::integratePosition(float deltaT)
 
 void RigidBody::integrateVelocity(float deltaT)
 {
+    //Update velocity
     m_velocity *= pow(m_linearDamping, deltaT);
     m_velocity += m_acceleration * deltaT;
+    //Update angular velocity
     m_rotation *= pow(m_linearDamping, deltaT);
     m_rotation += m_angularAcceleration * deltaT;
+    //Update deltaT to last deltaT
     m_deltaT = deltaT;
 }
 
