@@ -158,27 +158,27 @@ void RigidBody::calculateDerivedData()
 // integrate the rigid body by modifying position, orientation and velocities
 void RigidBody::integratePosition(float deltaT)
 {
-    //We update the transformation matrix
+    // We update the transformation matrix
     calculateDerivedData();
 
-    //We use the transformation matrix to update the 
+    // We use the transformation matrix to update the
     m_transformationMatrix.transformPosition(m_position);
     m_orientation.updateByAngularVelocity(m_rotation, deltaT);
 
     setAcceleration(Vector3D());
-    //Should we reset the angular acceleration as well ?
-    //setAngularAcceleration(Vector3D());
+    // Should we reset the angular acceleration as well ?
+    // setAngularAcceleration(Vector3D());
 }
 
 void RigidBody::integrateVelocity(float deltaT)
 {
-    //Update velocity
+    // Update velocity
     m_velocity *= pow(m_linearDamping, deltaT);
     m_velocity += m_acceleration * deltaT;
-    //Update angular velocity
+    // Update angular velocity
     m_rotation *= pow(m_linearDamping, deltaT);
     m_rotation += m_angularAcceleration * deltaT;
-    //Update deltaT to last deltaT
+    // Update deltaT to last deltaT
     m_deltaT = deltaT;
 }
 

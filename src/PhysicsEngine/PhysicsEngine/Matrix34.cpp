@@ -51,8 +51,8 @@ Vector3D Matrix34::operator*(const Vector3D& vector) const
 }
 
 // Get the inverse matrix
-Matrix34 Matrix34::inverse() {
-
+Matrix34 Matrix34::inverse()
+{
     Matrix33 subMatrix = Matrix33({m_values[0][0], m_values[0][1], m_values[0][2]},
                                   {m_values[1][0], m_values[1][1], m_values[1][2]},
                                   {m_values[2][0], m_values[2][1], m_values[2][2]});
@@ -63,7 +63,7 @@ Matrix34 Matrix34::inverse() {
     Vector3D v = Vector3D(m_values[0][3], m_values[1][3], m_values[2][3]);
     v = subMatrix * (v * -1);
 
-    std::array<std::array<float,3>,3> values = subMatrix.getValues();
+    std::array<std::array<float, 3>, 3> values = subMatrix.getValues();
 
     inverse.m_values[0] = {values[0][0], values[0][1], values[0][2], v.getX()};
     inverse.m_values[1] = {values[1][0], values[1][1], values[1][2], v.getY()};
@@ -73,7 +73,8 @@ Matrix34 Matrix34::inverse() {
 }
 
 // Set the matrix base on a quaternion
-void Matrix34::setOrientationAndPosition(const Quaternion& q, const Vector3D& p) {
+void Matrix34::setOrientationAndPosition(const Quaternion& q, const Vector3D& p)
+{
     /*float w = q.getW();
     float x = q.getI();
     float y = q.getJ();
@@ -103,7 +104,8 @@ Vector3D Matrix34::transformPosition(const Vector3D& vector)
 }
 
 // Transform a direction by ignoring the translation
-Vector3D Matrix34::transformDirection(const Vector3D& vector) {
+Vector3D Matrix34::transformDirection(const Vector3D& vector)
+{
     Matrix33 m = Matrix33({m_values[0][0], m_values[0][1], m_values[0][2]},
                           {m_values[1][0], m_values[1][1], m_values[1][2]},
                           {m_values[2][0], m_values[2][1], m_values[2][2]});

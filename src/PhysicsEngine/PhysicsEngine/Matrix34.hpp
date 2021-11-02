@@ -13,7 +13,6 @@ class Matrix34
     std::array<std::array<float, 4>, 3> m_values;
 
   public:
-
     Matrix34(std::array<float, 4> line1, std::array<float, 4> line2, std::array<float, 4> line3);
     Matrix34();
 
