@@ -27,8 +27,10 @@ Quaternion Quaternion::operator*(const Quaternion& other)
     return Quaternion(w, i, j, k);
 }
 
+// Rotate the quaternion by a vector - multiply this by q = (0, dx, dy, dz)
 void Quaternion::rotateByVector(const Vector3D& vector)
 {
+    // quat is only used for the calculations
     Quaternion quat(0, vector.getX(), vector.getY(), vector.getZ());
     quat = *this * quat;
 
@@ -41,7 +43,17 @@ void Quaternion::rotateByVector(const Vector3D& vector)
     normalized();
 }
 
-void Quaternion::updateByAngularVelocity(const Vector3D& rotation, float deltaT) {}
+void Quaternion::updateByAngularVelocity(const Vector3D& rotation, float deltaT)
+{
+    // this = this + (deltaT/2) * angularVelocity * this
+    // quat is only used for the calculations
+    Quaternion quat(0, rotation.getX(), rotation.getY(), rotation.getZ());
+    quat = quat * *this;
+    quat.scalarMultiplication(deltaT / 2);
+    *this += quat;
+
+    normalized();
+}
 
 float Quaternion::getNorm() const
 {
