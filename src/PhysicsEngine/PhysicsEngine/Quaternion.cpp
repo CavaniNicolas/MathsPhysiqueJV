@@ -4,22 +4,27 @@
 namespace engine
 {
 
-Quaternion::Quaternion(float w, float i, float j, float k): m_w(w), m_i(i), m_j(j), m_k(k) {}
+Quaternion::Quaternion(float w, float x, float y, float z): m_w(w), m_x(x), m_y(y), m_z(z) {}
 
 void Quaternion::normalized() {}
 
 // corresponds to the rotation of other then of *this
 Quaternion Quaternion::operator*(const Quaternion& other)
 {
-    float w = m_w * other.m_w - m_i * other.m_i - m_j * other.m_j - m_k * other.m_k;
-    float i = m_w * other.m_i + m_i * other.m_w + m_j * other.m_k - m_k * other.m_j;
-    float j = m_w * other.m_j + m_j * other.m_w + m_k * other.m_i - m_i * other.m_k;
-    float k = m_w * other.m_k + m_k * other.m_w + m_i * other.m_j - m_j * other.m_i;
+    float w = m_w * other.m_w - m_x * other.m_x - m_y * other.m_y - m_z * other.m_z;
+    float i = m_w * other.m_x + m_x * other.m_w + m_y * other.m_z - m_z * other.m_y;
+    float j = m_w * other.m_y + m_y * other.m_w + m_z * other.m_x - m_x * other.m_z;
+    float k = m_w * other.m_z + m_z * other.m_w + m_x * other.m_y - m_y * other.m_x;
     return Quaternion(w, i, j, k);
 }
 
 void Quaternion::rotateByVector(const Vector3D& vector) {}
 
 void Quaternion::updateByAngularVelocity(const Vector3D& rotation, float deltaT) {}
+
+float Quaternion::getNorm() const
+{
+    return sqrt(m_w * m_w + m_x * m_x + m_y * m_y + m_z * m_z);
+}
 
 } // namespace engine
