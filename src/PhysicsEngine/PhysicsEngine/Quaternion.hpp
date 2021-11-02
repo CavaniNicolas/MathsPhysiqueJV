@@ -15,6 +15,7 @@ class Quaternion
     float m_z;
 
   public:
+    Quaternion();
     Quaternion(float w, float x, float y, float z);
 
     // normalize by multiplying the quaternion by the inverse of its magnitude

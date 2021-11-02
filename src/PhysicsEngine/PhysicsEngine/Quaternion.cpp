@@ -4,6 +4,8 @@
 namespace engine
 {
 
+Quaternion::Quaternion(): m_w(0), m_x(0), m_y(0), m_z(1) {}
+
 Quaternion::Quaternion(float w, float x, float y, float z): m_w(w), m_x(x), m_y(y), m_z(z) {}
 
 void Quaternion::normalized()
