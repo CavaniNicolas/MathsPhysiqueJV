@@ -35,8 +35,6 @@ void Quaternion::rotateByVector(const Vector3D& vector)
     m_x = quat.m_x;
     m_y = quat.m_y;
     m_z = quat.m_z;
-
-    normalized();
 }
 
 void Quaternion::updateByAngularVelocity(const Vector3D& rotation, float deltaT)
@@ -47,8 +45,6 @@ void Quaternion::updateByAngularVelocity(const Vector3D& rotation, float deltaT)
     quat = quat * *this;
     quat.scalarMultiplication(deltaT / 2);
     *this += quat;
-
-    normalized();
 }
 
 float Quaternion::getNorm() const
