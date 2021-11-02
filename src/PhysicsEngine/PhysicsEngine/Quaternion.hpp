@@ -31,6 +31,9 @@ class Quaternion
     void updateByAngularVelocity(const Vector3D& rotation, float deltaT);
 
     float getNorm() const;
+
+  private:
+    Quaternion& operator+=(const Quaternion& quat);
 };
 
 } // namespace engine

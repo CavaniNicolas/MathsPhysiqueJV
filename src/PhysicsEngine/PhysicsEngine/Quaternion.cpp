@@ -48,4 +48,14 @@ float Quaternion::getNorm() const
     return sqrt(m_w * m_w + m_x * m_x + m_y * m_y + m_z * m_z);
 }
 
+Quaternion& Quaternion::operator+=(const Quaternion& quat)
+{
+    m_w += quat.m_w;
+    m_x += quat.m_x;
+    m_y += quat.m_y;
+    m_z += quat.m_z;
+    return *this;
+}
+
+
 } // namespace engine
