@@ -34,6 +34,7 @@ set(SOURCES
     # Rigidbodies
     PhysicsEngine/Matrix33.cpp
     PhysicsEngine/Matrix34.cpp
+    PhysicsEngine/Quaternion.cpp
     PhysicsEngine/RigidBody.cpp
 )
 
