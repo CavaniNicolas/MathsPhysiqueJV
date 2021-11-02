@@ -10,7 +10,7 @@ class Matrix33
 {
   private:
     // values of the matrix 3x3
-    std::array<std::array<float, 3>,3> m_values;
+    std::array<std::array<float, 3>, 3> m_values;
 
   public:
     Matrix33(std::array<float, 3> line1, std::array<float, 3> line2, std::array<float, 3> line3);
@@ -36,11 +36,12 @@ class Matrix33
     // Set the matrix base on a quaternion
     void setOrientation(const Quaternion& q);
 
-    //Marche pas
-    //friend std::ostream& operator<<(std::ostream& out, Matrix33 const& matrix);
+    // Marche pas
+    // friend std::ostream& operator<<(std::ostream& out, Matrix33 const& matrix);
 
     void printMatrix() const;
 
     float calculateDeterminant33() const;
 };
-}
+
+} // namespace engine

@@ -26,4 +26,5 @@ class Quaternion
     // Apply the quaternion update by the angular velocity
     void updateByAngularVelocity(const Vector3D& rotation, float deltaT);
 };
+
 } // namespace engine
