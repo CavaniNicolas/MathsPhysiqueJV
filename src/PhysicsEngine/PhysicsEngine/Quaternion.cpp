@@ -43,7 +43,7 @@ void Quaternion::updateByAngularVelocity(const Vector3D& rotation, float deltaT)
     // quat is only used for the calculations
     Quaternion quat(0, rotation.getX(), rotation.getY(), rotation.getZ());
     quat = quat * *this;
-    quat.scalarMultiplication(deltaT / 2);
+    quat *= deltaT / 2;
     *this += quat;
 }
 
@@ -61,7 +61,7 @@ Quaternion& Quaternion::operator+=(const Quaternion& quat)
     return *this;
 }
 
-Quaternion& Quaternion::scalarMultiplication(const float scalar)
+Quaternion& Quaternion::operator*=(const float scalar)
 {
     m_w *= scalar;
     m_x *= scalar;
