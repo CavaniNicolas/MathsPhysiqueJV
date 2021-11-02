@@ -27,7 +27,19 @@ Quaternion Quaternion::operator*(const Quaternion& other)
     return Quaternion(w, i, j, k);
 }
 
-void Quaternion::rotateByVector(const Vector3D& vector) {}
+void Quaternion::rotateByVector(const Vector3D& vector)
+{
+    Quaternion quat(0, vector.getX(), vector.getY(), vector.getZ());
+    quat = *this * quat;
+
+    // maybe think of implementing operator=()
+    m_w = quat.m_w;
+    m_x = quat.m_x;
+    m_y = quat.m_y;
+    m_z = quat.m_z;
+
+    normalized();
+}
 
 void Quaternion::updateByAngularVelocity(const Vector3D& rotation, float deltaT) {}
 
