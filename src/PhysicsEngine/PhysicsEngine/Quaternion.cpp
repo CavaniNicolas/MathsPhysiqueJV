@@ -10,11 +10,7 @@ Quaternion::Quaternion(float w, float x, float y, float z): m_w(w), m_x(x), m_y(
 
 void Quaternion::normalized()
 {
-    float norm = getNorm();
-    m_w = m_w / norm;
-    m_x = m_x / norm;
-    m_y = m_y / norm;
-    m_z = m_z / norm;
+    *this /= getNorm();
 }
 
 // corresponds to the rotation of other then of *this
@@ -75,6 +71,15 @@ Quaternion& Quaternion::scalarMultiplication(const float scalar)
     m_x *= scalar;
     m_y *= scalar;
     m_z *= scalar;
+    return *this;
+}
+
+Quaternion& Quaternion::operator/=(const float scalar)
+{
+    m_w /= scalar;
+    m_x /= scalar;
+    m_y /= scalar;
+    m_z /= scalar;
     return *this;
 }
 
