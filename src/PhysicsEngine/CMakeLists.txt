@@ -30,6 +30,9 @@ set(SOURCES
     PhysicsEngine/ParticleCable.cpp
     PhysicsEngine/ParticleRod.cpp
     PhysicsEngine/WallContactGenerator.cpp
+
+    # Rigidbodies
+    PhysicsEngine/Quaternion.cpp
 )
 
 set(HEADERS
@@ -64,7 +67,7 @@ set(HEADERS
     PhysicsEngine/ParticleRod.hpp
     PhysicsEngine/WallContactGenerator.hpp
 
-    #Rigidbodies
+    # Rigidbodies
     PhysicsEngine/Quaternion.hpp
     PhysicsEngine/Matrix33.hpp
     PhysicsEngine/Matrix34.hpp
