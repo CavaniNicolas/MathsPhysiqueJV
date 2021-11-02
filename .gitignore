@@ -394,3 +394,7 @@ thirdparty/glfw-3.3.4
 thirdparty/assimp-5.0.1
 thirdparty/glm-0.9.9.8
 thirdparty/imgui-1.84.2
+
+*.patch
+*.mp4
+*.afdesign
