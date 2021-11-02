@@ -34,6 +34,7 @@ class Quaternion
 
   private:
     Quaternion& operator+=(const Quaternion& quat);
+    Quaternion& scalarMultiplication(const float scalar);
 };
 
 } // namespace engine

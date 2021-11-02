@@ -57,5 +57,13 @@ Quaternion& Quaternion::operator+=(const Quaternion& quat)
     return *this;
 }
 
+Quaternion& Quaternion::scalarMultiplication(const float scalar)
+{
+    m_w *= scalar;
+    m_x *= scalar;
+    m_y *= scalar;
+    m_z *= scalar;
+    return *this;
+}
 
 } // namespace engine
