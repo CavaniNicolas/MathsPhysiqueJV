@@ -9,6 +9,8 @@ Mesh::Mesh(const std::vector<Vertex>& vertices, const std::vector<unsigned int> 
 {
 }
 
+Mesh::Mesh(const Mesh& other): m_vertices(other.m_vertices), m_indices(other.m_indices) {}
+
 const std::vector<Vertex>& Mesh::getVertices() const
 {
     return m_vertices;
