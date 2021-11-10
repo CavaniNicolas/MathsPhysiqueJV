@@ -29,9 +29,6 @@ render::Mesh OBJReader::readOBJFromFile(const std::string& filename)
 
     while(!file.eof())
     {
-        //        file.getline(line, 256);
-        //        strstream << line;
-
         // get first word of the line
         file >> line;
 

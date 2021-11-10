@@ -27,13 +27,18 @@ int main()
 
     {
         render::IO::OBJReader objReader;
-        objReader.readOBJFromFile(std::string(RESOURCE_PATH) + "objects/sphere1.obj");
+        render::Mesh sphereMesh(objReader.readOBJFromFile(std::string(RESOURCE_PATH) + "objects/sphere1.obj"));
+
+        std::shared_ptr<render::RenderedMesh> sphere =
+          std::make_shared<render::RenderedMesh>(sphereMesh, std::string(RESOURCE_PATH) + "textures/fire_texture.png");
 
         render::Shader shader(std::string(RESOURCE_PATH) + "shaders/basic.shader");
 
         render::Renderer renderer;
 
         std::shared_ptr<render::Scene> sceneRender = std::make_shared<render::Scene>(camera);
+
+        sceneRender->addRenderedMesh(sphere);
 
         while(!window.isBeingClosed())
         {
