@@ -10,7 +10,7 @@ namespace render
 class Mesh
 {
   private:
-    std::vector<Vertex>& m_vertices;
+    std::vector<Vertex> m_vertices;
     std::vector<unsigned int> m_indices;
 
   public:
