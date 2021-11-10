@@ -24,11 +24,15 @@ render::Mesh OBJReader::readOBJFromFile(const std::string& filename)
     std::stringstream strstream;
     char line[256];
 
+    // 3D vertices and UV coordinates directly read from the file
     std::vector<glm::vec3> vertex;
     std::vector<glm::vec2> vertexTexture;
 
+    // actual structure containing the coresponding 3D vertices to its UV coordinates (and normals)
     std::vector<Vertex> vertices;
     std::vector<unsigned int> indices;
+
+    unsigned int compt = 0;
 
     while(!file.eof())
     {
@@ -77,33 +81,29 @@ render::Mesh OBJReader::readOBJFromFile(const std::string& filename)
             for(int i = 0; i < 3; ++i)
             {
                 file >> l;
-                v[i] = std::stoi(l);
+
+                // - 1 to every vertex because they start at 1 in the file
+                v[i] = std::stoi(l) - 1;
 
                 slash = l.find("/");
                 l.erase(0, slash + 1);
 
-                vt[i] = std::stoi(l);
+                vt[i] = std::stoi(l) - 1;
 
                 slash = l.find("/");
                 l.erase(0, slash + 1);
 
-                vn[i] = std::stoi(l);
+                vn[i] = std::stoi(l) - 1;
+
+                // fill vertices by assigning texture UV coordinates to the 3D model coordinates
+                vertices.push_back(Vertex{vertex[v[i]], vertexTexture[vt[i]]});
+                // fill indices
+                indices.push_back(compt);
+                compt++;
             }
 
             //            std::cout << "v[0]: " << v[0] << ", vt[0]: " << vt[0] << ", vn[0]: " << vn[0] << std::endl;
-
-            // - 1 to every vertex because they start at 1 in the file
-            indices.push_back(--v[0]);
-            indices.push_back(--v[1]);
-            indices.push_back(--v[2]);
         }
-    }
-
-    // assign texture UV coordinates to the 3D model coordinates
-    // TEMPORARY, these assignements are wrong
-    for(int i = 0; i < vertex.size(); ++i)
-    {
-        vertices.push_back(Vertex{vertex.at(i), vertexTexture.at(i)});
     }
 
     return Mesh(vertices, indices);
