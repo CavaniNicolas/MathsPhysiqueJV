@@ -44,7 +44,7 @@ render::Mesh OBJReader::readOBJFromFile(const std::string& filename)
             file >> x >> y >> z;
 
             //            std::cout << "x: " << x << ", y: " << y << ", z: " << z << std::endl;
-            vertices.push_back(Vertex{glm::vec3(x, y, z), glm::vec3(0, 0, 0)});
+            vertices.push_back(Vertex{glm::vec3(x, y, z), glm::vec2(0, 0)});
         }
         // if its a texture vertex
         else if(!std::strcmp(line, "vt"))
