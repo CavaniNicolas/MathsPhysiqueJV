@@ -24,6 +24,9 @@ render::Mesh OBJReader::readOBJFromFile(const std::string& filename)
     std::stringstream strstream;
     char line[256];
 
+    std::vector<glm::vec3> vertex;
+    std::vector<glm::vec2> vertexTexture;
+
     std::vector<Vertex> vertices;
     std::vector<unsigned int> indices;
 
@@ -44,7 +47,7 @@ render::Mesh OBJReader::readOBJFromFile(const std::string& filename)
             file >> x >> y >> z;
 
             //            std::cout << "x: " << x << ", y: " << y << ", z: " << z << std::endl;
-            vertices.push_back(Vertex{glm::vec3(x, y, z), glm::vec2(0, 0)});
+            vertex.push_back(glm::vec3(x, y, z));
         }
         // if its a texture vertex
         else if(!std::strcmp(line, "vt"))
@@ -53,7 +56,7 @@ render::Mesh OBJReader::readOBJFromFile(const std::string& filename)
             file >> u >> v;
 
             //            std::cout << "u: " << u << ", v: " << v << std::endl;
-            // TO DO, save it
+            vertexTexture.push_back(glm::vec2(u, v));
         }
         // if its a normal vertex
         else if(!std::strcmp(line, "vn"))
@@ -94,6 +97,13 @@ render::Mesh OBJReader::readOBJFromFile(const std::string& filename)
             indices.push_back(--v[1]);
             indices.push_back(--v[2]);
         }
+    }
+
+    // assign texture UV coordinates to the 3D model coordinates
+    // TEMPORARY, these assignements are wrong
+    for(int i = 0; i < vertex.size(); ++i)
+    {
+        vertices.push_back(Vertex{vertex.at(i), vertexTexture.at(i)});
     }
 
     return Mesh(vertices, indices);
