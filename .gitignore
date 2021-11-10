@@ -388,6 +388,8 @@ FodyWeavers.xsd
 
 out
 
+*.mtl
+
 thirdparty/assimp-5.0.1
 thirdparty/glm-0.9.9.8
 thirdparty/imgui-1.84.2
