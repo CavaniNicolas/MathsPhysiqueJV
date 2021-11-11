@@ -27,10 +27,10 @@ int main()
 
     {
         render::IO::OBJReader objReader;
-        render::Mesh sphereMesh(objReader.readOBJFromFile(std::string(RESOURCE_PATH) + "objects/sphere1.obj"));
+        render::Mesh sphereMesh(objReader.readOBJFromFile(std::string(RESOURCE_PATH) + "objects/LowPolyCar1.obj"));
 
         std::shared_ptr<render::RenderedMesh> sphere =
-          std::make_shared<render::RenderedMesh>(sphereMesh, std::string(RESOURCE_PATH) + "textures/fire_texture.png");
+          std::make_shared<render::RenderedMesh>(sphereMesh, std::string(RESOURCE_PATH) + "textures/CarTexture1.png");
 
         render::Shader shader(std::string(RESOURCE_PATH) + "shaders/basic.shader");
 
