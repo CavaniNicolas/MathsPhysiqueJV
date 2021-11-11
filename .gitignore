@@ -397,3 +397,4 @@ thirdparty/imgui-1.84.2
 *.patch
 *.mp4
 *.afdesign
+*.blend
