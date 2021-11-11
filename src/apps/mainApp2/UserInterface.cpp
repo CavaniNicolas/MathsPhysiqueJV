@@ -226,7 +226,7 @@ void UserInterface::showProjectileCreation(api::ScenesAPI& scenesAPI) const
                   particle, springConstant, restLength, elasticityLimitLength, restitutionCoef);
                 for(int index = firstIndex; index < particlesNb; index++)
                 {
-                    sceneEngine->addForce(particles[index], cableSpring);
+                    sceneEngine->addParticleForce(particles[index], cableSpring);
                 }
                 // We increase the starting index to avoid creating cablesprings twice
                 firstIndex++;
@@ -243,7 +243,7 @@ void UserInterface::showProjectileCreation(api::ScenesAPI& scenesAPI) const
             // We add a wall to all of our particles, representing the floor at y = 0
             std::shared_ptr<engine::WallContactGenerator> wall =
               std::make_shared<engine::WallContactGenerator>(particles, engine::WallContactGenerator::y, 0.5, -1, 2);
-            sceneEngine->addContactGenerator(wall);
+            sceneEngine->addParticleContactGenerator(wall);
         }
         ImGui::TreePop();
     }
@@ -289,12 +289,12 @@ void UserInterface::render(engine::GameEngine& gameEngine, api::ScenesAPI& scene
 
 void UserInterface::moveBlob(api::ScenesAPI& scenesAPI)
 {
-    std::vector<std::shared_ptr<engine::Particle>> particles = scenesAPI.getSceneEngine()->getParticles();
+    std::vector<std::shared_ptr<engine::PhysicsObject>> particles = scenesAPI.getSceneEngine()->getParticles();
 
     if(particles.size() > 0)
     {
         ImGui::Text("Move First Particle");
-        std::shared_ptr<engine::Particle> firstParticle = particles[0];
+        std::shared_ptr<engine::PhysicsObject> firstParticle = particles[0];
 
         // Edit translation.x using a slider from 0.0f to 90.0f
         ImGui::SliderFloat("X movement", &m_xMovement, -10, 10);

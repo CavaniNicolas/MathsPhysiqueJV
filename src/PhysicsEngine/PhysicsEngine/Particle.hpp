@@ -3,27 +3,17 @@
 #include <time.h>
 #include <vector>
 
-#include "PhysicsEngine/Vector3D.hpp"
+#include "PhysicsEngine/PhysicsObject.hpp"
 
 #define M_PI 3.14159265358979323846 /* pi */
 
 namespace engine
 {
 
-class Particle
+class Particle : public PhysicsObject
 {
   private:
-    float m_inverseMass;
-    float m_g;
-    float m_damping;
     float m_radius;
-
-    Vector3D m_position;
-    Vector3D m_velocity;
-    Vector3D m_acceleration;
-
-    float m_deltaT;
-    bool m_resting;
 
   public:
     // Constructors
@@ -35,26 +25,9 @@ class Particle
     // Assignation
     Particle& operator=(const Particle& other);
 
-    float getInverseMass() const;
-    float getMass() const;
-    float getG() const;
-    float getDamping() const;
-    Vector3D getPosition() const;
-    Vector3D getVelocity() const;
-    Vector3D getAcceleration() const;
-    float getDeltaT() const;
-    float getRadius() const;
-    bool isResting() const;
+    inline float getRadius() const;
 
-    void setInverseMass(float inverseMass);
-    void setMass(float mass);
-    void setG(float g);
-    void setDamping(float damping);
-    void setPosition(Vector3D position);
-    void setVelocity(Vector3D velocity);
-    void setAcceleration(Vector3D acceleration);
-    void setRadius(float radius);
-    void setResting(bool resting);
+    inline void setRadius(float radius);
 
     float calculateVolume();
 
