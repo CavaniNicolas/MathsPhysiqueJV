@@ -17,6 +17,8 @@ set(SOURCES
 
     Render/Mesh/Plan.cpp
     Render/Mesh/Pyramid.cpp
+
+    Render/Data/OBJReader.cpp
 )
 
 set(HEADERS
@@ -36,6 +38,8 @@ set(HEADERS
     Render/Mesh/MeshModel.hpp
     Render/Mesh/Plan.hpp
     Render/Mesh/Pyramid.hpp
+
+    Render/Data/OBJReader.hpp
 )
 
 add_library(${MP_RENDER_LIB_NAME} STATIC

@@ -49,3 +49,12 @@ The drag will also take the particle out of the resting state...
 
 So, if you want to visualize the resting contact properly, just create a single particle with no drag and after some bounces, the particle should stabilize
 in the y axis. You should still be able to move it with the cursors in the x and z axis.
+
+## References
+
+Here are the links to where we inspired our code from :
+- [ ] [glew and glfw sources compilation using cmake](https://github.com/opengl-tutorials/ogl/blob/master/external/CMakeLists.txt)
+- [ ] [TheCherno OpenGL Youtube Tutorial](https://thecherno.com/opengl)
+
+3D assets and Texture :
+- [ ] [LowPolyCars](https://free3d.com/fr/3d-model/cartoon-vehicles-low-poly-cars-free-874937.html)

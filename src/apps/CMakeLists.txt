@@ -56,17 +56,19 @@ mp_add_executable(${MP_MAIN2_NAME}
     INCLUDE_DIRS ${MP_APPS_INCDIRS}
 )
 
+###############################
+#### Main Executable Phase3 ###
+###############################
 
-set(MP_MAIN3_NAME testMatrix)
+set(MP_MAIN3_NAME mainPhase3)
 
 set(MP_MAIN3_SOURCES
-    #mainApp3/mainPhase3.cpp
-    #mainApp3/UserInterface.cpp
-    mainApp3/testMatrix.cpp
+    mainApp3/mainPhase3.cpp
+    mainApp3/UserInterface.cpp
 )
 
 set(MP_MAIN3_HEADERS
-    #mainApp3/UserInterface.hpp
+    mainApp3/UserInterface.hpp
 )
 
 mp_add_executable(${MP_MAIN3_NAME}
@@ -78,35 +80,55 @@ mp_add_executable(${MP_MAIN3_NAME}
 if(BUILD_TESTS)
 
     ##############################
-    ### Test Spring Executable ###
+    ### Test Matrix Executable ###
     ##############################
 
-    set(MP_TestSpring_NAME TestSpring)
-
-    set(MP_TestSpring_SOURCES
-        testSpring/testSpring.cpp
-    )
-
-    mp_add_executable(${MP_TestSpring_NAME}
-        SOURCE ${MP_TestSpring_SOURCES}
+    mp_add_executable(testMatrix
+        SOURCE testsPhase3/testMatrix.cpp
         LINKS ${MP_APPS_LINKS}
         INCLUDE_DIRS ${MP_APPS_INCDIRS}
     )
 
     ##############################
-    ###  Test Wall Executable  ###
+    ### Test Render Executable ###
     ##############################
 
-    set(MP_TestWall_NAME TestWall)
-
-    set(MP_TestWall_SOURCES
-        testWall/testWall.cpp
-    )
-
-    mp_add_executable(${MP_TestWall_NAME}
-        SOURCE ${MP_TestWall_SOURCES}
+    mp_add_executable(testRender
+        SOURCE testsPhase3/testRender.cpp
         LINKS ${MP_APPS_LINKS}
         INCLUDE_DIRS ${MP_APPS_INCDIRS}
     )
+
+#    ##############################
+#    ### Test Spring Executable ###
+#    ##############################
+
+#    set(MP_TestSpring_NAME TestSpring)
+
+#    set(MP_TestSpring_SOURCES
+#        testSpring/testSpring.cpp
+#    )
+
+#    mp_add_executable(${MP_TestSpring_NAME}
+#        SOURCE ${MP_TestSpring_SOURCES}
+#        LINKS ${MP_APPS_LINKS}
+#        INCLUDE_DIRS ${MP_APPS_INCDIRS}
+#    )
+
+#    ##############################
+#    ###  Test Wall Executable  ###
+#    ##############################
+
+#    set(MP_TestWall_NAME TestWall)
+
+#    set(MP_TestWall_SOURCES
+#        testWall/testWall.cpp
+#    )
+
+#    mp_add_executable(${MP_TestWall_NAME}
+#        SOURCE ${MP_TestWall_SOURCES}
+#        LINKS ${MP_APPS_LINKS}
+#        INCLUDE_DIRS ${MP_APPS_INCDIRS}
+#    )
 
 endif()
