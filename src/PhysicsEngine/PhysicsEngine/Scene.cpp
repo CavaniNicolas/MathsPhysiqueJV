@@ -4,13 +4,13 @@
 namespace engine
 {
 
-Scene::Scene(std::vector<std::shared_ptr<Particle>> particles,
+Scene::Scene(std::vector<std::shared_ptr<PhysicsObject>> objects,
              ParticleForceRegistry forcesRegistry,
-             std::vector<std::shared_ptr<ParticleContactGenerator>> contactGenerators,
+             std::vector<std::shared_ptr<ParticleContactGenerator>> particleContactGenerators,
              int maxContactsPerIteration):
-  m_forcesRegistry(forcesRegistry),
-  m_particles(particles),
-  m_contactGenerators(contactGenerators),
+  m_particleForceRegistry(forcesRegistry),
+  m_physicsObject(objects),
+  m_particleContactGenerators(particleContactGenerators),
   m_maxContactsPerIteration(maxContactsPerIteration)
 {
     m_contactResolver = ParticleContactResolver();
@@ -19,9 +19,9 @@ Scene::Scene(std::vector<std::shared_ptr<Particle>> particles,
 
 Scene::Scene(const Scene& other)
 {
-    m_particles = other.m_particles;
-    m_forcesRegistry = other.m_forcesRegistry;
-    m_contactGenerators = other.m_contactGenerators;
+    m_physicsObject = other.m_physicsObject;
+    m_particleForceRegistry = other.m_particleForceRegistry;
+    m_particleContactGenerators = other.m_particleContactGenerators;
     m_maxContactsPerIteration = other.m_maxContactsPerIteration;
     m_contactResolver = ParticleContactResolver();
     m_contactArray = {};
@@ -29,16 +29,16 @@ Scene::Scene(const Scene& other)
 
 Scene& Scene::operator=(const Scene& other)
 {
-    m_particles = other.m_particles;
-    m_forcesRegistry = other.m_forcesRegistry;
-    m_contactGenerators = other.m_contactGenerators;
+    m_physicsObject = other.m_physicsObject;
+    m_particleForceRegistry = other.m_particleForceRegistry;
+    m_particleContactGenerators = other.m_particleContactGenerators;
     m_maxContactsPerIteration = other.m_maxContactsPerIteration;
     return *this;
 }
 
-std::vector<std::shared_ptr<Particle>> Scene::getParticles() const
+std::vector<std::shared_ptr<PhysicsObject>> Scene::getParticles() const
 {
-    return m_particles;
+    return m_physicsObject;
 }
 
 // std::vector<Particle> Scene::getParticlesSynchronized() {
@@ -48,51 +48,46 @@ std::vector<std::shared_ptr<Particle>> Scene::getParticles() const
 //	return ret;
 // }
 
-// TO CHECK
-void Scene::setParticles(std::vector<std::shared_ptr<Particle>> particles)
-{
-    m_particles.clear();
-    m_particles = particles;
-}
-
 void Scene::addParticle(std::shared_ptr<Particle> particle)
 {
-    m_particles.push_back(particle);
+    m_physicsObject.push_back(particle);
 }
 
-void Scene::addForce(std::shared_ptr<Particle> particle, std::shared_ptr<ParticleForceGenerator> forceGenerator)
+void Scene::addParticleForce(std::shared_ptr<Particle> particle, std::shared_ptr<ParticleForceGenerator> forceGenerator)
 {
-    m_forcesRegistry.addEntry(particle, forceGenerator);
+    m_particleForceRegistry.addEntry(particle, forceGenerator);
 }
 
 void Scene::addForce(std::shared_ptr<ParticleForceGenerator> forceGenerator)
 {
-    for(auto& particle: m_particles)
+    for(auto& object: m_physicsObject)
     {
-        m_forcesRegistry.addEntry(particle, forceGenerator);
+        if (std::shared_ptr<Particle> particle = std::dynamic_pointer_cast<Particle>(object)) {
+            m_particleForceRegistry.addEntry(particle, forceGenerator);
+        }
     }
 }
 
-void Scene::addContactGenerator(std::shared_ptr<ParticleContactGenerator> contactGenerator)
+void Scene::addParticleContactGenerator(std::shared_ptr<ParticleContactGenerator> contactGenerator)
 {
-    m_contactGenerators.push_back(contactGenerator);
+    m_particleContactGenerators.push_back(contactGenerator);
 }
 
 void Scene::integrateAll(float deltaT)
 {
     unsigned int contacts = m_maxContactsPerIteration;
     // We move the particles
-    for(auto& particle: m_particles)
+    for(auto& object: m_physicsObject)
     {
-        particle->integratePosition(deltaT);
+        object->integratePosition(deltaT);
     }
-    contacts -= m_forcesRegistry.updateForce(deltaT, m_contactArray, contacts);
-    for(auto& particle: m_particles)
+    contacts -= m_particleForceRegistry.updateForce(deltaT, m_contactArray, contacts);
+    for(auto& object: m_physicsObject)
     {
-        particle->integrateVelocity(deltaT);
+        object->integrateVelocity(deltaT);
     }
     // We check for contacts
-    for(auto& contactGenerator: m_contactGenerators)
+    for(auto& contactGenerator: m_particleContactGenerators)
     {
         contacts -= contactGenerator->addContact(m_contactArray, contacts);
     }

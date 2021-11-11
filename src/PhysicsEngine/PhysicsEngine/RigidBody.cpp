@@ -9,16 +9,12 @@ RigidBody::RigidBody(Vector3D position,
                      float mass,
                      float g,
                      float damping):
-  m_position(position),
-  m_velocity(velocity),
+  PhysicsObject(position, velocity, mass, g, damping),
   m_orientation(rotation),
-  m_rotation(angularVelocity),
-  m_inverseMass(1 / mass),
-  m_g(g),
-  m_linearDamping(damping)
+  m_rotation(angularVelocity)
 {
-    m_orientation.normalized();
     m_transformationMatrix = Matrix34();
+    calculateDerivedData();
 }
 
 // Default
@@ -29,12 +25,12 @@ RigidBody::RigidBody(const RigidBody& other)
 {
     if(this != &other)
     {
-        m_position = other.m_position;
-        m_velocity = other.m_velocity;
-        m_acceleration = other.m_acceleration;
-        m_inverseMass = other.m_inverseMass;
-        m_g = other.m_g;
-        m_linearDamping = other.m_linearDamping;
+        setPosition(other.getPosition());
+        setVelocity(other.getVelocity());
+        setAcceleration(other.getAcceleration());
+        setInverseMass(other.getInverseMass());
+        setG(other.getG());
+        setDamping(other.getDamping());
         m_orientation = other.m_orientation;
         m_rotation = other.m_rotation;
         m_angularAcceleration = other.m_angularAcceleration;
@@ -46,12 +42,12 @@ RigidBody& RigidBody::operator=(const RigidBody& other)
 {
     if(this != &other)
     {
-        m_position = other.m_position;
-        m_velocity = other.m_velocity;
-        m_acceleration = other.m_acceleration;
-        m_inverseMass = other.m_inverseMass;
-        m_g = other.m_g;
-        m_linearDamping = other.m_linearDamping;
+        setPosition(other.getPosition());
+        setVelocity(other.getVelocity());
+        setAcceleration(other.getAcceleration());
+        setInverseMass(other.getInverseMass());
+        setG(other.getG());
+        setDamping(other.getDamping());
         m_orientation = other.m_orientation;
         m_rotation = other.m_rotation;
         m_angularAcceleration = other.m_angularAcceleration;
@@ -60,34 +56,6 @@ RigidBody& RigidBody::operator=(const RigidBody& other)
 }
 
 // Getters
-float RigidBody::getInverseMass() const
-{
-    return m_inverseMass;
-}
-float RigidBody::getMass() const
-{
-    return 1 / m_inverseMass;
-}
-float RigidBody::getG() const
-{
-    return m_g;
-}
-float RigidBody::getDamping() const
-{
-    return m_linearDamping;
-}
-Vector3D RigidBody::getPosition() const
-{
-    return m_position;
-}
-Vector3D RigidBody::getVelocity() const
-{
-    return m_velocity;
-}
-Vector3D RigidBody::getAcceleration() const
-{
-    return m_acceleration;
-}
 Quaternion RigidBody::getOrientation() const
 {
     return m_orientation;
@@ -100,40 +68,8 @@ Vector3D RigidBody::getAngularAcceleration() const
 {
     return m_angularAcceleration;
 }
-float RigidBody::getDeltaT() const
-{
-    return m_deltaT;
-}
 
 // Setters
-void RigidBody::setInverseMass(float inverseMass)
-{
-    m_inverseMass = inverseMass;
-}
-void RigidBody::setMass(float mass)
-{
-    m_inverseMass = 1 / mass;
-}
-void RigidBody::setG(float g)
-{
-    m_g = g;
-}
-void RigidBody::setDamping(float damping)
-{
-    m_linearDamping = damping;
-}
-void RigidBody::setPosition(Vector3D position)
-{
-    m_position = position;
-}
-void RigidBody::setVelocity(Vector3D velocity)
-{
-    m_velocity = velocity;
-}
-void RigidBody::setAcceleration(Vector3D acceleration)
-{
-    m_acceleration = acceleration;
-}
 void RigidBody::setOrientation(Quaternion orientation)
 {
     m_orientation = orientation;
@@ -152,40 +88,44 @@ void RigidBody::setAngularAcceleration(Vector3D angularAcceleration)
 void RigidBody::calculateDerivedData()
 {
     m_orientation.normalized();
-    m_transformationMatrix.setOrientationAndPosition(m_orientation, m_position);
+    m_transformationMatrix.setOrientationAndPosition(m_orientation, getPosition());
 }
 
 // integrate the rigid body by modifying position, orientation and velocities
 void RigidBody::integratePosition(float deltaT)
 {
-    // We update the transformation matrix
-    calculateDerivedData();
+    //We update the position, the same way we did with the particles
+    setPosition(getPosition() + getVelocity() * deltaT + getAcceleration() * 0.5 * pow(deltaT, 2));
 
-    // We use the transformation matrix to update the
-    m_transformationMatrix.transformPosition(m_position);
+    //We update the orientation thanks to the quaternion class's method
     m_orientation.updateByAngularVelocity(m_rotation, deltaT);
 
+    //We update the transformation matrix for the graphical engine
+    calculateDerivedData();
+
+    //We reset the accelerations
     setAcceleration(Vector3D());
-    // Should we reset the angular acceleration as well ?
-    // setAngularAcceleration(Vector3D());
+    setAngularAcceleration(Vector3D());
 }
 
 void RigidBody::integrateVelocity(float deltaT)
 {
     // Update velocity
-    m_velocity *= pow(m_linearDamping, deltaT);
-    m_velocity += m_acceleration * deltaT;
+    setVelocity(getVelocity() * pow(getDamping(), deltaT));
+    setVelocity(getVelocity() + getAcceleration() * deltaT);
+
     // Update angular velocity
-    m_rotation *= pow(m_linearDamping, deltaT);
+    m_rotation *= pow(getDamping(), deltaT);
     m_rotation += m_angularAcceleration * deltaT;
+
     // Update deltaT to last deltaT
-    m_deltaT = deltaT;
+    setDeltaT(deltaT);
 }
 
 std::ostream& operator<<(std::ostream& out, RigidBody const& rb)
 {
-    out << "Position : " << rb.m_position << ", " << std::endl
-        << "Velocity : " << rb.m_velocity << ", " << std::endl
+    out << "Position : " << rb.getPosition() << ", " << std::endl
+        << "Velocity : " << rb.getVelocity() << ", " << std::endl
         << "Orientation : " << rb.m_orientation << ", " << std::endl
         << "Rotation : " << rb.m_rotation;
     return out;

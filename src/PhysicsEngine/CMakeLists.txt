@@ -6,6 +6,7 @@ set(SOURCES
     PhysicsEngine/Particle.cpp
     PhysicsEngine/Scene.cpp
     PhysicsEngine/Vector3D.cpp
+    PhysicsEngine/PhysicsObject.cpp
 
     # Projectiles
     PhysicsEngine/Bullet.cpp
@@ -43,6 +44,7 @@ set(HEADERS
     PhysicsEngine/Particle.hpp
     PhysicsEngine/Scene.hpp
     PhysicsEngine/Vector3D.hpp
+    PhysicsEngine/PhysicsObject.hpp
 
     # Projectiles
     PhysicsEngine/Bullet.hpp

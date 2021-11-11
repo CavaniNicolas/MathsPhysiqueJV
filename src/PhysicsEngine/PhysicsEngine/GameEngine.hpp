@@ -26,10 +26,6 @@ class GameEngine
     GameEngine();
     ~GameEngine();
 
-    // std::vector<Particle> getParticlesSynchronized();
-
-    std::vector<std::shared_ptr<Particle>> getParticles() const;
-
     void gameLoop();
 
     void run();

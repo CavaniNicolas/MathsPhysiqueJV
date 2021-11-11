@@ -29,15 +29,6 @@ GameEngine::~GameEngine()
     m_gameLoopThread.join();
 }
 
-// std::vector<Particle> GameEngine::getParticlesSynchronized() {
-//	return m_scene.getParticlesSynchronized();
-// }
-
-std::vector<std::shared_ptr<Particle>> GameEngine::getParticles() const
-{
-    return m_scene->getParticles();
-}
-
 void GameEngine::gameLoop()
 {
     // timeBetweenFrames in MICROSECONDS
