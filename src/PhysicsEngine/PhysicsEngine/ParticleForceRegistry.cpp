@@ -4,7 +4,6 @@
 
 namespace engine
 {
-
 ParticleForceRegistry::ParticleForceRegistry(Registry registry): m_registry(registry) {}
 
 ParticleForceRegistry::~ParticleForceRegistry()
@@ -40,9 +39,7 @@ ParticleForceRegistry::Registry ParticleForceRegistry::getRegistry()
     return m_registry;
 }
 
-unsigned int ParticleForceRegistry::updateForce(float duration,
-                                                std::vector<std::shared_ptr<ParticleContact>>& contacts,
-                                                unsigned int limit)
+void ParticleForceRegistry::updateForce(float duration)
 {
     unsigned int createdContacts = 0;
     for(const auto& entry: m_registry)
@@ -50,9 +47,8 @@ unsigned int ParticleForceRegistry::updateForce(float duration,
         // creates a shared_ptr that manages the referenced object by the weak_ptr
         std::shared_ptr<Particle> particle = entry.particle.lock();
 
-        createdContacts += entry.forceGenerator->updateForce(particle, duration, contacts, limit);
+        entry.forceGenerator->updateForce(particle, duration);
     }
-    return createdContacts;
 }
 
 } // namespace engine

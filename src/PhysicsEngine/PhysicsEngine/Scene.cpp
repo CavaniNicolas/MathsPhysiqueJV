@@ -36,7 +36,7 @@ Scene& Scene::operator=(const Scene& other)
     return *this;
 }
 
-std::vector<std::shared_ptr<PhysicsObject>> Scene::getParticles() const
+std::vector<std::shared_ptr<PhysicsObject>> Scene::getObjects() const
 {
     return m_physicsObject;
 }
@@ -75,18 +75,18 @@ void Scene::addParticleContactGenerator(std::shared_ptr<ParticleContactGenerator
 
 void Scene::integrateAll(float deltaT)
 {
-    unsigned int contacts = m_maxContactsPerIteration;
     // We move the particles
     for(auto& object: m_physicsObject)
     {
         object->integratePosition(deltaT);
     }
-    contacts -= m_particleForceRegistry.updateForce(deltaT, m_contactArray, contacts);
+    m_particleForceRegistry.updateForce(deltaT);
     for(auto& object: m_physicsObject)
     {
         object->integrateVelocity(deltaT);
     }
     // We check for contacts
+    unsigned int contacts = m_maxContactsPerIteration;
     for(auto& contactGenerator: m_particleContactGenerators)
     {
         contacts -= contactGenerator->addContact(m_contactArray, contacts);

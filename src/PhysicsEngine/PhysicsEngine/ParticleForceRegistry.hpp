@@ -4,7 +4,6 @@
 
 namespace engine
 {
-
 class ParticleForceRegistry
 {
   private:
@@ -33,9 +32,7 @@ class ParticleForceRegistry
     // Getters
     Registry getRegistry();
 
-    unsigned int updateForce(float duration,
-                             std::vector<std::shared_ptr<ParticleContact>>& contacts,
-                             unsigned int limit);
+    void updateForce(float duration);
 };
 
 } // namespace engine

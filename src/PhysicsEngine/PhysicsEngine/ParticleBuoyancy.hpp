@@ -4,7 +4,6 @@
 
 namespace engine
 {
-
 class ParticleBuoyancy : public ParticleForceGenerator
 {
   private:
@@ -20,10 +19,7 @@ class ParticleBuoyancy : public ParticleForceGenerator
     ParticleBuoyancy(float maxDepth, float volume, float waterHeight, float liquidDensity = 1);
 
     // Apply Buoyancy based on particle position
-    unsigned int updateForce(std::shared_ptr<Particle> particle,
-                             float duration,
-                             std::vector<std::shared_ptr<ParticleContact>>& contacts,
-                             unsigned int limit);
+    virtual void updateForce(std::shared_ptr<Particle> particle, float duration);
 };
 
 } // namespace engine

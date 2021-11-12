@@ -12,14 +12,16 @@ class ParticleLink : public ParticleContactGenerator
     std::vector<std::shared_ptr<Particle>> m_particle;
 
   public:
-    ParticleLink(std::shared_ptr<Particle> particleA, std::shared_ptr<Particle> particleB);
+    ParticleLink(std::shared_ptr<Particle> particleA, std::shared_ptr<Particle> particleB = nullptr);
     ~ParticleLink();
+
+    void setParticleB(std::shared_ptr<Particle> particleB);
 
     // return the length of the link
     float currentLength() const;
 
     // Take a pointer to an array of contact and the number of contact left to be generated
-    unsigned int addContact(std::vector<std::shared_ptr<ParticleContact>>& contacts, unsigned int limit) const = 0;
+    virtual unsigned int addContact(std::vector<std::shared_ptr<ParticleContact>>& contacts, unsigned int limit) = 0;
 };
 
 } // namespace engine

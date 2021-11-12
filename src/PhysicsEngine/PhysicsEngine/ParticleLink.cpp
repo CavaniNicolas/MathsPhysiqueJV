@@ -2,7 +2,6 @@
 
 namespace engine
 {
-
 ParticleLink::ParticleLink(std::shared_ptr<Particle> particleA, std::shared_ptr<Particle> particleB):
   m_particle({particleA, particleB})
 {
@@ -11,6 +10,11 @@ ParticleLink::ParticleLink(std::shared_ptr<Particle> particleA, std::shared_ptr<
 ParticleLink ::~ParticleLink()
 {
     m_particle.clear();
+}
+
+void ParticleLink::setParticleB(std::shared_ptr<Particle> particleB)
+{
+    m_particle[1] = particleB;
 }
 
 // return the length of the link

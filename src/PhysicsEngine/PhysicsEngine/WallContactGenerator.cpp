@@ -2,7 +2,6 @@
 
 namespace engine
 {
-
 WallContactGenerator::WallContactGenerator(
   std::shared_ptr<Particle> particle, WallPlan wallPlan, float restitution, float coordinates, float thickness):
   m_particles({particle}),
@@ -111,7 +110,7 @@ Vector3D WallContactGenerator::calculateNormal(std::shared_ptr<Particle> particl
 }
 
 unsigned int WallContactGenerator::addContact(std::vector<std::shared_ptr<ParticleContact>>& contacts,
-                                              unsigned int limit) const
+                                              unsigned int limit)
 {
     int tempLimit = limit;
     for(auto& particle: m_particles)

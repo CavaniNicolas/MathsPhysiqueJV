@@ -45,6 +45,7 @@ set(HEADERS
     PhysicsEngine/Scene.hpp
     PhysicsEngine/Vector3D.hpp
     PhysicsEngine/PhysicsObject.hpp
+    PhysicsEngine/ForceGenerator.hpp
 
     # Projectiles
     PhysicsEngine/Bullet.hpp

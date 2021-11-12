@@ -3,16 +3,12 @@
 
 namespace engine
 {
-
 ParticleBungeeSpring::ParticleBungeeSpring(Vector3D anchor, float k, float restLength):
   m_anchor(anchor), m_k(k), m_restLength(restLength)
 {
 }
 
-unsigned int ParticleBungeeSpring::UpdateForce(std::shared_ptr<Particle> particle,
-                                               float duration,
-                                               std::vector<std::shared_ptr<ParticleContact>>& contacts,
-                                               unsigned int limit)
+void ParticleBungeeSpring::UpdateForce(std::shared_ptr<Particle> particle, float duration)
 {
     Vector3D d = particle->getPosition() - m_anchor;
     if(d.getNorm() > m_restLength)
@@ -25,7 +21,6 @@ unsigned int ParticleBungeeSpring::UpdateForce(std::shared_ptr<Particle> particl
             particle->setResting(false);
         }
     }
-    return 0;
 }
 
 } // namespace engine

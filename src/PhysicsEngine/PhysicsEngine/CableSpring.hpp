@@ -5,22 +5,22 @@
 
 namespace engine
 {
-
-class CableSpring : public ParticleSpring
+class CableSpring
+  : public ParticleSpring
+  , public ParticleCable
 {
   private:
-    float m_elasticityLimit;
-    float m_restitution;
+    std::vector<std::shared_ptr<Particle>> m_linkedParticles;
 
   public:
     CableSpring(
       std::shared_ptr<Particle> otherParticle, float k, float restLength, float elasticityLimit, float restitution);
 
     // apply Hook's law based on particles position
-    unsigned int updateForce(std::shared_ptr<Particle> particle,
-                             float duration,
-                             std::vector<std::shared_ptr<ParticleContact>>& contacts,
-                             unsigned int limit);
+    virtual void updateForce(std::shared_ptr<Particle> particle, float duration);
+
+    // Fill ParticleContact with information from particles and contact generator
+    virtual unsigned int addContact(std::vector<std::shared_ptr<ParticleContact>>& contacts, unsigned int limit);
 };
 
 } // namespace engine

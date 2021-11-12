@@ -4,7 +4,6 @@
 
 namespace engine
 {
-
 class ParticleDrag : public ParticleForceGenerator
 {
   private:
@@ -14,10 +13,7 @@ class ParticleDrag : public ParticleForceGenerator
 
   public:
     ParticleDrag(float k1, float k2);
-    unsigned int updateForce(std::shared_ptr<Particle> particle,
-                             float duration,
-                             std::vector<std::shared_ptr<ParticleContact>>& contacts,
-                             unsigned int limit);
+    virtual void updateForce(std::shared_ptr<Particle> particle, float duration);
 };
 
 } // namespace engine
