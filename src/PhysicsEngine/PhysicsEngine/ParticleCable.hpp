@@ -4,7 +4,6 @@
 
 namespace engine
 {
-
 class ParticleCable : public ParticleLink
 {
   public:
@@ -20,8 +19,10 @@ class ParticleCable : public ParticleLink
                   float maxlength,
                   float restitution);
 
+    ParticleCable(std::shared_ptr<Particle> particleA, float maxlength, float restitution);
+
     // Fill ParticleContact with information from particles and contact generator
-    unsigned int addContact(std::vector<std::shared_ptr<ParticleContact>>& contacts, unsigned int limit) const;
+    virtual unsigned int addContact(std::vector<std::shared_ptr<ParticleContact>>& contacts, unsigned int limit);
 };
 
 } // namespace engine

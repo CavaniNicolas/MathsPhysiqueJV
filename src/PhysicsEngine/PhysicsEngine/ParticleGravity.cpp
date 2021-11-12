@@ -3,11 +3,7 @@
 
 namespace engine
 {
-
-unsigned int ParticleGravity::updateForce(std::shared_ptr<Particle> particle,
-                                          float duration,
-                                          std::vector<std::shared_ptr<ParticleContact>>& contacts,
-                                          unsigned int limit)
+void ParticleGravity::updateForce(std::shared_ptr<Particle> particle, float duration)
 {
     if(!particle->isResting())
     {
@@ -17,7 +13,6 @@ unsigned int ParticleGravity::updateForce(std::shared_ptr<Particle> particle,
         //    particle->setAcceleration(particle->getAcceleration() + force * particle->getInverseMass());
         particle->setAcceleration(particle->getAcceleration() + gravity);
     }
-    return 0;
 }
 
 } // namespace engine

@@ -4,13 +4,9 @@
 
 namespace engine
 {
-
 ParticleDrag::ParticleDrag(float k1, float k2): m_k1(k1), m_k2(k2) {}
 
-unsigned int ParticleDrag::updateForce(std::shared_ptr<Particle> particle,
-                                       float duration,
-                                       std::vector<std::shared_ptr<ParticleContact>>& contacts,
-                                       unsigned int limit)
+void ParticleDrag::updateForce(std::shared_ptr<Particle> particle, float duration)
 {
     if(!particle->isResting())
     {
@@ -19,7 +15,6 @@ unsigned int ParticleDrag::updateForce(std::shared_ptr<Particle> particle,
 
         particle->setAcceleration(particle->getAcceleration() + dragForce * particle->getInverseMass());
     }
-    return 0;
 }
 
 } // namespace engine

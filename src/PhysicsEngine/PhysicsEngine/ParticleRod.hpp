@@ -16,7 +16,7 @@ class ParticleRod : public ParticleLink
 
     // Fill ParticleContact with information from particles and contact generator.
     // Contact is different wether the distance is shorter or greater than the length.
-    unsigned int addContact(std::vector<std::shared_ptr<ParticleContact>>& contacts, unsigned int limit) const;
+    virtual unsigned int addContact(std::vector<std::shared_ptr<ParticleContact>>& contacts, unsigned int limit);
 };
 
 } // namespace engine

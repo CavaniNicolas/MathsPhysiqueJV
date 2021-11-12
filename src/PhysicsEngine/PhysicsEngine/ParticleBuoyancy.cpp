@@ -4,7 +4,6 @@
 
 namespace engine
 {
-
 ParticleBuoyancy::ParticleBuoyancy(float maxDepth, float volume, float waterHeight, float liquidDensity):
   ParticleForceGenerator(),
   m_maxDepth(maxDepth),
@@ -15,10 +14,7 @@ ParticleBuoyancy::ParticleBuoyancy(float maxDepth, float volume, float waterHeig
 }
 
 // Apply Buoyancy based on particle position
-unsigned int ParticleBuoyancy::updateForce(std::shared_ptr<Particle> particle,
-                                           float duration,
-                                           std::vector<std::shared_ptr<ParticleContact>>& contacts,
-                                           unsigned int limit)
+void ParticleBuoyancy::updateForce(std::shared_ptr<Particle> particle, float duration)
 {
     float submergedQuantity = (particle->getPosition().getX() - m_waterHeight - m_maxDepth) / 2 * m_maxDepth;
     Vector3D force = Vector3D();
@@ -47,7 +43,6 @@ unsigned int ParticleBuoyancy::updateForce(std::shared_ptr<Particle> particle,
         }
     }
     particle->setAcceleration(particle->getAcceleration() + force * particle->getInverseMass());
-    return 0;
 }
 
 } // namespace engine

@@ -2,7 +2,6 @@
 
 namespace engine
 {
-
 ParticleCable::ParticleCable(std::shared_ptr<Particle> particleA,
                              std::shared_ptr<Particle> particleB,
                              float maxlength,
@@ -11,9 +10,14 @@ ParticleCable::ParticleCable(std::shared_ptr<Particle> particleA,
 {
 }
 
+ParticleCable::ParticleCable(std::shared_ptr<Particle> particleA, float maxlength, float restitution):
+  ParticleLink(particleA), m_maxlength(maxlength), m_restitution(restitution)
+{
+}
+
 // Fill ParticleContact with information from particles and contact generator
 unsigned int ParticleCable::addContact(std::vector<std::shared_ptr<ParticleContact>>& contacts,
-                                       unsigned int limit) const
+                                       unsigned int limit)
 {
     float totalGap = currentLength() - m_maxlength;
     if(totalGap > 0)

@@ -60,8 +60,8 @@ int main()
     std::shared_ptr<engine::ParticleDrag> partDrag = std::make_shared<engine::ParticleDrag>(0.25f, 0.0f);
 
     // link forces to fireball
-    sceneEngine->addForce(fireball, partGravity);
-    sceneEngine->addForce(fireball, partDrag);
+    sceneEngine->addParticleForce(fireball, partGravity);
+    sceneEngine->addParticleForce(fireball, partDrag);
 
     engine::GameEngine gameEngine = engine::GameEngine(sceneEngine);
 

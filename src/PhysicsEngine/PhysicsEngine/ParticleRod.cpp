@@ -8,7 +8,7 @@ ParticleRod::ParticleRod(std::shared_ptr<Particle> particleA, std::shared_ptr<Pa
 {
 }
 
-unsigned int ParticleRod::addContact(std::vector<std::shared_ptr<ParticleContact>>& contacts, unsigned int limit) const
+unsigned int ParticleRod::addContact(std::vector<std::shared_ptr<ParticleContact>>& contacts, unsigned int limit)
 {
     float totalGap = currentLength() - m_length;
     if(totalGap != 0)

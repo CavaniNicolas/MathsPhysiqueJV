@@ -228,6 +228,7 @@ void UserInterface::showProjectileCreation(api::ScenesAPI& scenesAPI) const
                 {
                     sceneEngine->addParticleForce(particles[index], cableSpring);
                 }
+                sceneEngine->addParticleContactGenerator(cableSpring);
                 // We increase the starting index to avoid creating cablesprings twice
                 firstIndex++;
             }
@@ -289,12 +290,12 @@ void UserInterface::render(engine::GameEngine& gameEngine, api::ScenesAPI& scene
 
 void UserInterface::moveBlob(api::ScenesAPI& scenesAPI)
 {
-    std::vector<std::shared_ptr<engine::PhysicsObject>> particles = scenesAPI.getSceneEngine()->getParticles();
+    std::vector<std::shared_ptr<engine::PhysicsObject>> objects = scenesAPI.getSceneEngine()->getObjects();
 
-    if(particles.size() > 0)
+    if(objects.size() > 0)
     {
         ImGui::Text("Move First Particle");
-        std::shared_ptr<engine::PhysicsObject> firstParticle = particles[0];
+        std::shared_ptr<engine::PhysicsObject> firstParticle = objects[0];
 
         // Edit translation.x using a slider from 0.0f to 90.0f
         ImGui::SliderFloat("X movement", &m_xMovement, -10, 10);
