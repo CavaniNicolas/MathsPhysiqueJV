@@ -17,7 +17,7 @@ class ParticleAnchoredSpring : public ParticleForceGenerator
   public:
     ParticleAnchoredSpring(Vector3D anchor, float k, float restLength);
 
-    virtual void updateForce(std::shared_ptr<Particle> particle, float duration);
+    virtual void updateForce(std::shared_ptr<PhysicsObject> object, float duration);
 };
 
 } // namespace engine

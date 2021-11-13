@@ -19,7 +19,7 @@ class ParticleSpring : public ParticleForceGenerator
     ParticleSpring(std::shared_ptr<Particle> otherParticle, float k, float restLength);
 
     // apply Hook's law based on particles position
-    virtual void updateForce(std::shared_ptr<Particle> particle, float duration);
+    virtual void updateForce(std::shared_ptr<PhysicsObject> object, float duration);
 };
 
 } // namespace engine

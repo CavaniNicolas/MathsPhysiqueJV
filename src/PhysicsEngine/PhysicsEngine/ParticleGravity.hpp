@@ -7,7 +7,7 @@ namespace engine
 class ParticleGravity : public ParticleForceGenerator
 {
   public:
-    virtual void updateForce(std::shared_ptr<Particle> particle, float duration);
+    virtual void updateForce(std::shared_ptr<PhysicsObject> object, float duration);
 };
 
 } // namespace engine

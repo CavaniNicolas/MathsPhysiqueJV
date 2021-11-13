@@ -13,7 +13,7 @@ class ParticleDrag : public ParticleForceGenerator
 
   public:
     ParticleDrag(float k1, float k2);
-    virtual void updateForce(std::shared_ptr<Particle> particle, float duration);
+    virtual void updateForce(std::shared_ptr<PhysicsObject> object, float duration);
 };
 
 } // namespace engine

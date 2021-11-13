@@ -9,10 +9,17 @@ CableSpring::CableSpring(
 }
 
 // apply Hook's law based on particles position
-void CableSpring::updateForce(std::shared_ptr<Particle> particle, float duration)
+void CableSpring::updateForce(std::shared_ptr<PhysicsObject> object, float duration)
 {
-    m_linkedParticles.push_back(particle);
-    ParticleSpring::updateForce(particle, duration);
+    if (std::shared_ptr<Particle> particle = std::dynamic_pointer_cast<Particle>(object)) {
+        m_linkedParticles.push_back(particle);
+        ParticleSpring::updateForce(particle, duration);
+    }
+    else
+    {
+        std::cerr << "Tried to apply a ParticleForce to a non particle object." << std::endl;
+        exit(EXIT_FAILURE);
+    }
 }
 
 // Fill ParticleContact with information from particles and contact generator

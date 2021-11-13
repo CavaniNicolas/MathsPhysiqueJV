@@ -6,10 +6,11 @@
 
 namespace engine
 {
-class ParticleForceGenerator
+class ParticleForceGenerator : public ForceGenerator
 {
   public:
-    virtual void updateForce(std::shared_ptr<Particle> particle, float duration) = 0;
+    //We will check if the object is a particle before really applying the force
+    virtual void updateForce(std::shared_ptr<PhysicsObject> object, float duration) = 0;
 };
 
 } // namespace engine

@@ -17,7 +17,7 @@ class CableSpring
       std::shared_ptr<Particle> otherParticle, float k, float restLength, float elasticityLimit, float restitution);
 
     // apply Hook's law based on particles position
-    virtual void updateForce(std::shared_ptr<Particle> particle, float duration);
+    virtual void updateForce(std::shared_ptr<PhysicsObject> object, float duration);
 
     // Fill ParticleContact with information from particles and contact generator
     virtual unsigned int addContact(std::vector<std::shared_ptr<ParticleContact>>& contacts, unsigned int limit);

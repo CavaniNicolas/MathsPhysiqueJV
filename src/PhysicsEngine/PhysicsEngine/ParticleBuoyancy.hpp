@@ -19,7 +19,7 @@ class ParticleBuoyancy : public ParticleForceGenerator
     ParticleBuoyancy(float maxDepth, float volume, float waterHeight, float liquidDensity = 1);
 
     // Apply Buoyancy based on particle position
-    virtual void updateForce(std::shared_ptr<Particle> particle, float duration);
+    virtual void updateForce(std::shared_ptr<PhysicsObject> object, float duration);
 };
 
 } // namespace engine

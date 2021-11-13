@@ -14,35 +14,43 @@ ParticleBuoyancy::ParticleBuoyancy(float maxDepth, float volume, float waterHeig
 }
 
 // Apply Buoyancy based on particle position
-void ParticleBuoyancy::updateForce(std::shared_ptr<Particle> particle, float duration)
+void ParticleBuoyancy::updateForce(std::shared_ptr<PhysicsObject> object, float duration)
 {
-    float submergedQuantity = (particle->getPosition().getX() - m_waterHeight - m_maxDepth) / 2 * m_maxDepth;
-    Vector3D force = Vector3D();
-    if(submergedQuantity <= 0)
+    if(std::shared_ptr<Particle> particle = std::dynamic_pointer_cast<Particle>(object))
     {
-        // The particle is not submerged at all
-    }
-    else if(submergedQuantity < 1)
-    {
-        // The particle is partially submerged
-        force.setY(submergedQuantity * m_volume * m_liquidDensity);
-
-        if(particle->isResting())
+        float submergedQuantity = (particle->getPosition().getX() - m_waterHeight - m_maxDepth) / 2 * m_maxDepth;
+        Vector3D force = Vector3D();
+        if(submergedQuantity <= 0)
         {
-            particle->setResting(false);
+            // The particle is not submerged at all
         }
+        else if(submergedQuantity < 1)
+        {
+            // The particle is partially submerged
+            force.setY(submergedQuantity * m_volume * m_liquidDensity);
+
+            if(particle->isResting())
+            {
+                particle->setResting(false);
+            }
+        }
+        else
+        {
+            // The particle is totally submerged
+            force.setY(m_volume * m_liquidDensity);
+
+            if(particle->isResting())
+            {
+                particle->setResting(false);
+            }
+        }
+        particle->setAcceleration(particle->getAcceleration() + force * particle->getInverseMass());
     }
     else
     {
-        // The particle is totally submerged
-        force.setY(m_volume * m_liquidDensity);
-
-        if(particle->isResting())
-        {
-            particle->setResting(false);
-        }
+        std::cerr << "Tried to apply a ParticleForce to a non particle object." << std::endl;
+        exit(EXIT_FAILURE);
     }
-    particle->setAcceleration(particle->getAcceleration() + force * particle->getInverseMass());
 }
 
 } // namespace engine
