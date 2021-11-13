@@ -122,6 +122,33 @@ void RigidBody::integrateVelocity(float deltaT)
     setDeltaT(deltaT);
 }
 
+
+void RigidBody::addForce(const Vector3D& force) {
+    m_forceAccum += force;
+}
+
+
+void RigidBody::addForceAtPoint(const Vector3D& force, const Vector3D& worldPoint) {
+    Vector3D torque = (m_transformationMatrix * worldPoint).crossProduct(force);
+    m_torqueAccum += torque;
+    m_forceAccum += force;
+}
+
+
+void RigidBody::addForceAtBodyPoint(const Vector3D& force, const Vector3D& localPoint) {
+    Vector3D torque = (localPoint).crossProduct(force);
+    m_torqueAccum += torque;
+    m_forceAccum += force;
+}
+
+
+void RigidBody::clearAccumulator()
+{
+    m_torqueAccum = Vector3D();
+    m_forceAccum = Vector3D();
+}
+
+
 std::ostream& operator<<(std::ostream& out, RigidBody const& rb)
 {
     out << "Position : " << rb.getPosition() << ", " << std::endl

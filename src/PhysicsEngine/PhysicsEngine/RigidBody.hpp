@@ -21,8 +21,22 @@ class RigidBody : public PhysicsObject
     // accelerations
     Vector3D m_angularAcceleration;
 
+    // same as linear damping
+    // but for rotation
+    float m_angularDamping;
+
+    //accumulated force
+    //added by ForceGenerator
+    Vector3D m_forceAccum;
+
+    //Accumulated torque
+    //added by ForceGenerator
+    Vector3D m_torqueAccum;
+
     // call each frame to calculate the transformMatrix and normalize the orientation
     void calculateDerivedData();
+
+ 
 
   public:
     RigidBody(Vector3D position,
@@ -53,6 +67,21 @@ class RigidBody : public PhysicsObject
     // integrate the rigid body by modifying position, orientation and velocities
     void integratePosition(float deltaT);
     void integrateVelocity(float deltaT);
+
+    // Add force on the Center of mass (no torque generated)
+    void addForce(const Vector3D& force);
+
+    // Add force at a point in world coordinate 
+    // Generate force and torque
+    void addForceAtPoint(const Vector3D& force, const Vector3D& worldPoint);
+
+    // Add force at a point in local coordinate
+    // the point is converted in world coordinate by using the transform matrix
+    // Generate torque and force
+    void addForceAtBodyPoint(const Vector3D& force, const Vector3D& localPoint);
+
+    // Called each frame to reset m_forceAccum and m_torqueAccum
+    void clearAccumulator();
 
     friend std::ostream& operator<<(std::ostream& out, RigidBody const& rb);
 };
