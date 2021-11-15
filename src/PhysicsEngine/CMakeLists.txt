@@ -19,7 +19,7 @@ set(SOURCES
     PhysicsEngine/ParticleBungeeSpring.cpp
     PhysicsEngine/ParticleBuoyancy.cpp
     PhysicsEngine/ParticleDrag.cpp
-    PhysicsEngine/ParticleForceRegistry.cpp
+    "PhysicsEngine/ForceRegistry.cpp"
     PhysicsEngine/ParticleGravity.cpp
     PhysicsEngine/ParticleSpring.cpp
     PhysicsEngine/CableSpring.cpp
@@ -59,7 +59,7 @@ set(HEADERS
     PhysicsEngine/ParticleBuoyancy.hpp
     PhysicsEngine/ParticleDrag.hpp
     PhysicsEngine/ParticleForceGenerator.hpp
-    PhysicsEngine/ParticleForceRegistry.hpp
+    "PhysicsEngine/ForceRegistry.hpp"
     PhysicsEngine/ParticleGravity.hpp
     PhysicsEngine/ParticleSpring.hpp
     PhysicsEngine/CableSpring.hpp

@@ -5,10 +5,10 @@ namespace engine
 {
 
 Scene::Scene(std::vector<std::shared_ptr<PhysicsObject>> objects,
-             ParticleForceRegistry forcesRegistry,
+             ForceRegistry forcesRegistry,
              std::vector<std::shared_ptr<ParticleContactGenerator>> particleContactGenerators,
              int maxContactsPerIteration):
-  m_particleForceRegistry(forcesRegistry),
+  m_forceRegistry(forcesRegistry),
   m_physicsObject(objects),
   m_particleContactGenerators(particleContactGenerators),
   m_maxContactsPerIteration(maxContactsPerIteration)
@@ -20,7 +20,7 @@ Scene::Scene(std::vector<std::shared_ptr<PhysicsObject>> objects,
 Scene::Scene(const Scene& other)
 {
     m_physicsObject = other.m_physicsObject;
-    m_particleForceRegistry = other.m_particleForceRegistry;
+    m_forceRegistry = other.m_forceRegistry;
     m_particleContactGenerators = other.m_particleContactGenerators;
     m_maxContactsPerIteration = other.m_maxContactsPerIteration;
     m_contactResolver = ParticleContactResolver();
@@ -30,7 +30,7 @@ Scene::Scene(const Scene& other)
 Scene& Scene::operator=(const Scene& other)
 {
     m_physicsObject = other.m_physicsObject;
-    m_particleForceRegistry = other.m_particleForceRegistry;
+    m_forceRegistry = other.m_forceRegistry;
     m_particleContactGenerators = other.m_particleContactGenerators;
     m_maxContactsPerIteration = other.m_maxContactsPerIteration;
     return *this;
@@ -55,15 +55,15 @@ void Scene::addParticle(std::shared_ptr<Particle> particle)
 
 void Scene::addParticleForce(std::shared_ptr<Particle> particle, std::shared_ptr<ParticleForceGenerator> forceGenerator)
 {
-    m_particleForceRegistry.addEntry(particle, forceGenerator);
+    m_forceRegistry.addEntry(particle, forceGenerator);
 }
 
-void Scene::addForce(std::shared_ptr<ParticleForceGenerator> forceGenerator)
+void Scene::addForceToAllParticles(std::shared_ptr<ParticleForceGenerator> forceGenerator)
 {
     for(auto& object: m_physicsObject)
     {
         if (std::shared_ptr<Particle> particle = std::dynamic_pointer_cast<Particle>(object)) {
-            m_particleForceRegistry.addEntry(particle, forceGenerator);
+            m_forceRegistry.addEntry(particle, forceGenerator);
         }
     }
 }
@@ -80,7 +80,7 @@ void Scene::integrateAll(float deltaT)
     {
         object->integratePosition(deltaT);
     }
-    m_particleForceRegistry.updateForce(deltaT);
+    m_forceRegistry.updateForce(deltaT);
     for(auto& object: m_physicsObject)
     {
         object->integrateVelocity(deltaT);

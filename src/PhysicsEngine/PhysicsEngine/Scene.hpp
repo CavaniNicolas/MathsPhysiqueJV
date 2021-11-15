@@ -6,7 +6,8 @@
 
 #include "PhysicsEngine/PhysicsObject.hpp"
 
-#include "PhysicsEngine/ParticleForceRegistry.hpp"
+#include "PhysicsEngine/ForceRegistry.hpp"
+#include "PhysicsEngine/ParticleForceGenerator.hpp"
 #include "PhysicsEngine/ParticleContactResolver.hpp"
 #include "PhysicsEngine/ParticleContactGenerator.hpp"
 
@@ -18,7 +19,7 @@ class Scene
   private:
     std::vector<std::shared_ptr<PhysicsObject>> m_physicsObject;
 
-    ParticleForceRegistry m_particleForceRegistry;
+    ForceRegistry m_forceRegistry;
 
     std::vector<std::shared_ptr<ParticleContact>> m_contactArray;
     ParticleContactResolver m_contactResolver;
@@ -28,7 +29,7 @@ class Scene
   public:
     // Constructors
     Scene(std::vector<std::shared_ptr<PhysicsObject>> particles = {},
-          ParticleForceRegistry forcesRegistry = ParticleForceRegistry(),
+          ForceRegistry forcesRegistry = ForceRegistry(),
           std::vector<std::shared_ptr<ParticleContactGenerator>> contactGenerators = {},
           int maxContactsPerIteration = 50);
     Scene(const Scene& other);
@@ -47,7 +48,7 @@ class Scene
     void addParticleForce(std::shared_ptr<Particle> particle, std::shared_ptr<ParticleForceGenerator> forceGenerator);
 
     // Add a force to every object currently in the scene
-    void addForce(std::shared_ptr<ParticleForceGenerator> forceGenerator);
+    void addForceToAllParticles(std::shared_ptr<ParticleForceGenerator> forceGenerator);
     // Add a force to every object currently in the scene
     void addParticleContactGenerator(std::shared_ptr<ParticleContactGenerator> contactGenerator);
 
