@@ -37,6 +37,8 @@ set(SOURCES
     PhysicsEngine/Matrix34.cpp
     PhysicsEngine/Quaternion.cpp
     PhysicsEngine/RigidBody.cpp
+    PhysicsEngine/RigidBodyGravity.cpp
+    PhysicsEngine/RigidBodySpring.cpp
 )
 
 set(HEADERS
@@ -79,6 +81,8 @@ set(HEADERS
     PhysicsEngine/Quaternion.hpp
     PhysicsEngine/RigidBody.hpp
     PhysicsEngine/RigidBodyForceGenerator.hpp
+    PhysicsEngine/RigidBodyGravity.hpp
+    PhysicsEngine/RigidBodySpring.hpp
 )
 
 set(SOURCES_DEBUG

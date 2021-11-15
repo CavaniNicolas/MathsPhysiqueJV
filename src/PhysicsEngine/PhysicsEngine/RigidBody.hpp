@@ -83,6 +83,8 @@ class RigidBody : public PhysicsObject
     // Called each frame to reset m_forceAccum and m_torqueAccum
     void clearAccumulator();
 
+    Vector3D localToWorldCoordinates(Vector3D& coordinates);
+
     friend std::ostream& operator<<(std::ostream& out, RigidBody const& rb);
 };
 } // namespace engine
