@@ -1,7 +1,6 @@
 #pragma once
 
 #include "PhysicsEngine/Particle.hpp"
-#include "PhysicsEngine/ParticleContact.hpp"
 #include "PhysicsEngine/ForceGenerator.hpp"
 
 namespace engine
