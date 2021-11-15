@@ -30,6 +30,8 @@ class RenderedMesh
 
     glm::mat4 m_model;
 
+    bool m_needModelUpdate;
+
   public:
     RenderedMesh(Mesh mesh,
                  std::string textureFilepath,
@@ -57,6 +59,19 @@ class RenderedMesh
     IndexBuffer& getIndexBuffer();
 
     glm::mat4 getModel() const;
+
+    bool getNeedModelUpdate() const
+    {
+        return m_needModelUpdate;
+    }
+    void setNeedModelUpdate(bool val)
+    {
+        m_needModelUpdate = val;
+    }
+    void setModelMatrix(glm::mat4 matrix)
+    {
+        m_model = matrix;
+    }
 };
 
 } // namespace render

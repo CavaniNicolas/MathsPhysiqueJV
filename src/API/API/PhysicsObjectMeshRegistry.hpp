@@ -17,7 +17,7 @@ class PhysicsObjectMeshRegistry
     void addEntry(std::shared_ptr<engine::PhysicsObject> physicsObject,
                   std::shared_ptr<render::RenderedMesh> renderedMesh);
 
-    void updateMeshPosition();
+    void updateMeshMatrixFromPhysicsObject();
     int getSize() const
     {
         return m_registry.size();

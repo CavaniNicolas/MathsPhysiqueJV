@@ -119,7 +119,7 @@ int main()
             //            ParticlePrinter::debugPrint();
 
             // get the actual particles positions to set it to the corresponding renderedMeshes
-            scenesAPI.updateMeshPosition();
+            scenesAPI.updateMeshMatrix();
 
             sceneRender->update(window);
 

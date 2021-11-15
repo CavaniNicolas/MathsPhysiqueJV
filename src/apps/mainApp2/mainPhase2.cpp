@@ -57,6 +57,7 @@ int main()
 
         // scale the renderedMesh
         plan->setScale(glm::vec3(50.0f, 50.0f, 50.0f));
+        plan->setNeedModelUpdate(true);
 
         while(!window.isBeingClosed())
         {
@@ -71,7 +72,7 @@ int main()
             shader.bind();
 
             // get the actual particles positions to set it to the corresponding renderedMeshes
-            scenesAPI.updateMeshPosition();
+            scenesAPI.updateMeshMatrix();
 
             sceneRender->update(window);
 
