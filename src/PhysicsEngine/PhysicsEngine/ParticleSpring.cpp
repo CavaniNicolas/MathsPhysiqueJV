@@ -11,33 +11,26 @@ ParticleSpring::ParticleSpring(std::shared_ptr<Particle> otherParticle, float k,
 // apply Hook's law based on particles position
 void ParticleSpring::updateForce(std::shared_ptr<PhysicsObject> object, float duration)
 {
-    if(std::shared_ptr<Particle> particle = std::dynamic_pointer_cast<Particle>(object))
+    auto particle = checkParticle(object);
+
+    Vector3D springLength = particle->getPosition() - m_otherParticle->getPosition();
+
+    Vector3D force = springLength.normalize() * -m_k * (springLength.getNorm() - m_restLength);
+
+    if(springLength.getNorm() - m_restLength != 0)
     {
-        Vector3D springLength = particle->getPosition() - m_otherParticle->getPosition();
-
-        Vector3D force = springLength.normalize() * -m_k * (springLength.getNorm() - m_restLength);
-
-        if(springLength.getNorm() - m_restLength != 0)
+        if(particle->isResting())
         {
-            if(particle->isResting())
-            {
-                particle->setResting(false);
-            }
-            if(m_otherParticle->isResting())
-            {
-                m_otherParticle->setResting(false);
-            }
+            particle->setResting(false);
         }
+        if(m_otherParticle->isResting())
+        {
+            m_otherParticle->setResting(false);
+        }
+    }
 
-        particle->setAcceleration(particle->getAcceleration() + force * particle->getInverseMass());
-        m_otherParticle->setAcceleration(m_otherParticle->getAcceleration() -
-                                         force * m_otherParticle->getInverseMass());
-    }
-    else
-    {
-        std::cerr << "Tried to apply a ParticleForce to a non particle object." << std::endl;
-        exit(EXIT_FAILURE);
-    }
+    particle->setAcceleration(particle->getAcceleration() + force * particle->getInverseMass());
+    m_otherParticle->setAcceleration(m_otherParticle->getAcceleration() - force * m_otherParticle->getInverseMass());
 }
 
 } // namespace engine
