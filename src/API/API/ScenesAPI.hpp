@@ -7,7 +7,7 @@
 #include <Render/RenderedMesh.hpp>
 #include <Render/Scene.hpp>
 
-#include "API/ParticleMeshRegistry.hpp"
+#include "API/PhysicsObjectMeshRegistry.hpp"
 
 namespace api
 {
@@ -29,7 +29,7 @@ class ScenesAPI
 
     std::shared_ptr<render::Scene> m_sceneRender;
 
-    api::ParticleMeshRegistry m_partMeshReg;
+    api::PhysicsObjectMeshRegistry m_physicsObjectMeshReg;
 };
 
 } // namespace api

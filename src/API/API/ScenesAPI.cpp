@@ -14,7 +14,7 @@ ScenesAPI::ScenesAPI(std::shared_ptr<engine::Scene> sceneEngine, std::shared_ptr
 // get the actual particles positions to set it to the corresponding renderedMeshes
 void ScenesAPI::updateMeshPosition()
 {
-    m_partMeshReg.updateMeshPosition();
+    m_physicsObjectMeshReg.updateMeshPosition();
 }
 
 // add a particle to the engine Scene and add its linked renderedMesh in the render Scene
@@ -25,7 +25,7 @@ void ScenesAPI::addParticle(std::shared_ptr<engine::Particle> particle,
     m_sceneEngine->addParticle(particle);
     m_sceneRender->addRenderedMesh(renderedMesh);
 
-    m_partMeshReg.addEntry(particle, renderedMesh);
+    m_physicsObjectMeshReg.addEntry(particle, renderedMesh);
 }
 
 // add a particle to the engine Scene and link a default renderedMesh to it

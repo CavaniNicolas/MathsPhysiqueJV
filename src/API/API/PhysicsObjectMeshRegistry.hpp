@@ -2,7 +2,7 @@
 
 #include <vector>
 
-#include <PhysicsEngine/Particle.hpp>
+#include <PhysicsEngine/PhysicsObject.hpp>
 #include <Render/Camera.hpp>
 #include <Render/RenderedMesh.hpp>
 #include <Render/Renderer.hpp>
@@ -11,10 +11,11 @@
 namespace api
 {
 
-class ParticleMeshRegistry
+class PhysicsObjectMeshRegistry
 {
   public:
-    void addEntry(std::shared_ptr<engine::Particle> particle, std::shared_ptr<render::RenderedMesh> renderedMesh);
+    void addEntry(std::shared_ptr<engine::PhysicsObject> physicsObject,
+                  std::shared_ptr<render::RenderedMesh> renderedMesh);
 
     void updateMeshPosition();
     int getSize() const
@@ -23,13 +24,13 @@ class ParticleMeshRegistry
     }
 
   private:
-    struct ParticleMeshEntry
+    struct PhysicsObjectMeshEntry
     {
-        std::weak_ptr<engine::Particle> particle;
+        std::weak_ptr<engine::PhysicsObject> physicsObject;
         std::weak_ptr<render::RenderedMesh> renderedMesh;
     };
 
-    std::vector<ParticleMeshEntry> m_registry;
+    std::vector<PhysicsObjectMeshEntry> m_registry;
 };
 
 } // namespace api
