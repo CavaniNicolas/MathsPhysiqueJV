@@ -5,7 +5,7 @@
 
 #include <iostream>
 
-#include "mainApp2/UserInterface.hpp"
+#include "mainApp3/UserInterface.hpp"
 
 // Include API between PhysicsEngine and Render libs
 #include <API/ScenesAPI.hpp>
@@ -16,6 +16,8 @@
 #include <PhysicsEngine/RigidBody.hpp>
 #include <PhysicsEngine/Scene.hpp>
 #include <PhysicsEngine/Vector3D.hpp>
+
+#include <PhysicsEngine/DebugUtils/RigidBodyPrinter.hpp>
 
 // Include Render lib which uses opengl
 #include <Render/Camera.hpp>
@@ -46,6 +48,10 @@ int main()
     // Create physicsObjects
     std::shared_ptr<engine::RigidBody> carObject = std::make_shared<engine::RigidBody>(
       engine::Vector3D(0, 30, 0), engine::Vector3D(), engine::Quaternion(), engine::Vector3D());
+
+    carObject->addForce(engine::Vector3D(1, 0, 0));
+
+    engine::RigidBodyPrinter::setRigidBody(carObject);
 
     {
         // Create Meshes and RenderedMeshes
@@ -91,6 +97,8 @@ int main()
             scenesAPI.updateMeshMatrix();
 
             sceneRender->update(window);
+
+            engine::RigidBodyPrinter::debugPrint();
 
             // bind everything and call drawElements
             renderer.draw(shader, *sceneRender);
