@@ -49,9 +49,7 @@ int main()
 
     // Create physicsObjects
     std::shared_ptr<engine::RigidBody> carObject = std::make_shared<engine::RigidBody>(
-      engine::Vector3D(0, 30, 0), engine::Vector3D(1, 0, 0), engine::Quaternion(), engine::Vector3D(5,5,0));
-
-    carObject->addForce(engine::Vector3D(1, 0, 0));
+      engine::Vector3D(0, 30, 0), engine::Vector3D(1, 0, 0), engine::Quaternion(), engine::Vector3D(0, 0, 0));
 
     engine::RigidBodyPrinter::setRigidBody(carObject);
 
@@ -90,6 +88,9 @@ int main()
             // Render Here
             // Clean the back buffer and depth buffer
             renderer.clear();
+
+            //            carObject->addForceAtBodyPoint(engine::Vector3D(1, 0, 1), engine::Vector3D(1, 1, 1)); // bugs
+            carObject->addForceAtBodyPoint(engine::Vector3D(1, 0, 0), engine::Vector3D(0, 1, 1)); // works fine
 
             // Start UI
             ui.start();
