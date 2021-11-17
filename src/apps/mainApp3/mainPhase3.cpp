@@ -49,7 +49,7 @@ int main()
 
     // Create physicsObjects
     std::shared_ptr<engine::RigidBody> carObject = std::make_shared<engine::RigidBody>(
-      engine::Vector3D(0, 30, 0), engine::Vector3D(), engine::Quaternion(), engine::Vector3D());
+      engine::Vector3D(0, 30, 0), engine::Vector3D(1,0,0), engine::Quaternion(), engine::Vector3D(1,0,0));
 
     carObject->addForce(engine::Vector3D(1, 0, 0));
 

@@ -36,5 +36,7 @@ class Matrix34
 
     // return m_values
     std::array<std::array<float, 4>, 3> getValuesArray() const;
+
+    void printMatrix() const;
 };
 } // namespace engine

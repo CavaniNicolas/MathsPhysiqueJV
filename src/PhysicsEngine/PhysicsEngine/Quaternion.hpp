@@ -8,7 +8,7 @@ namespace engine
 class Quaternion
 {
   private:
-    // w, i, j, k
+    // w, x, y, z
     float m_w;
     float m_x;
     float m_y;
@@ -31,6 +31,26 @@ class Quaternion
     void updateByAngularVelocity(const Vector3D& rotation, float deltaT);
 
     float getNorm() const;
+
+    inline float getW() const
+    {
+        return m_w;
+    }
+
+    inline float getX() const
+    {
+        return m_x;
+    }
+
+    inline float getY() const
+    {
+        return m_y;
+    }
+
+    inline float getZ() const
+    {
+        return m_z;
+    }
 
     friend std::ostream& operator<<(std::ostream& out, Quaternion const& rb);
 

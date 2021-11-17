@@ -38,7 +38,6 @@ void PhysicsObjectMeshRegistry::updateMeshMatrixFromPhysicsObject()
                               {values[1][0], values[1][1], values[1][2], values[1][3]},
                               {values[2][0], values[2][1], values[2][2], values[2][3]},
                               {0, 0, 0, 1}});
-            //            std::cout << matrix[0][0] << matrix[0][1] << matrix[0][2] << matrix[0][3] << std::endl;
 
             renderedMesh->setModelMatrix(matrix);
         }
