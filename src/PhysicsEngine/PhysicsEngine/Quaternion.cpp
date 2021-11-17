@@ -17,10 +17,10 @@ void Quaternion::normalized()
 Quaternion Quaternion::operator*(const Quaternion& other)
 {
     float w = m_w * other.m_w - m_x * other.m_x - m_y * other.m_y - m_z * other.m_z;
-    float i = m_w * other.m_x + m_x * other.m_w + m_y * other.m_z - m_z * other.m_y;
-    float j = m_w * other.m_y + m_y * other.m_w + m_z * other.m_x - m_x * other.m_z;
-    float k = m_w * other.m_z + m_z * other.m_w + m_x * other.m_y - m_y * other.m_x;
-    return Quaternion(w, i, j, k);
+    float x = m_w * other.m_x + m_x * other.m_w + m_y * other.m_z - m_z * other.m_y;
+    float y = m_w * other.m_y + m_y * other.m_w + m_z * other.m_x - m_x * other.m_z;
+    float z = m_w * other.m_z + m_z * other.m_w + m_x * other.m_y - m_y * other.m_x;
+    return Quaternion(w, x, y, z);
 }
 
 // Rotate the quaternion by a vector - multiply this by q = (0, dx, dy, dz)
