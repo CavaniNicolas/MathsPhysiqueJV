@@ -49,7 +49,7 @@ int main()
 
     // Create physicsObjects
     std::shared_ptr<engine::RigidBody> carObject = std::make_shared<engine::RigidBody>(
-      engine::Vector3D(0, 30, 0), engine::Vector3D(1,0,0), engine::Quaternion(), engine::Vector3D(1,0,0));
+      engine::Vector3D(0, 30, 0), engine::Vector3D(1, 0, 0), engine::Quaternion(), engine::Vector3D());
 
     carObject->addForce(engine::Vector3D(1, 0, 0));
 
@@ -100,6 +100,7 @@ int main()
             // get the actual particles positions to set it to the corresponding renderedMeshes
             scenesAPI.updateMeshMatrix();
 
+            // update model matrix if necessary and update camera
             sceneRender->update(window);
 
             engine::RigidBodyPrinter::debugPrint();

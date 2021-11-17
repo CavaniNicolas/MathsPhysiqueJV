@@ -25,7 +25,10 @@ void ScenesAPI::addPhysicsObject(std::shared_ptr<engine::PhysicsObject> physicsO
     m_sceneEngine->addPhysicsObject(physicsObject);
     m_sceneRender->addRenderedMesh(renderedMesh);
 
-    renderedMesh->setNeedModelUpdate(true);
+    if(std::shared_ptr<engine::Particle> particle = std::dynamic_pointer_cast<engine::Particle>(physicsObject))
+    {
+        renderedMesh->setNeedModelUpdate(true);
+    }
 
     m_physicsObjectMeshReg.addEntry(physicsObject, renderedMesh);
 }
