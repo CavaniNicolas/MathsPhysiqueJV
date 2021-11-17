@@ -235,11 +235,11 @@ void UserInterface::showProjectileCreation(api::ScenesAPI& scenesAPI) const
 
             // We add the gravity to all of our particles
             std::shared_ptr<engine::ParticleGravity> gravity = std::make_shared<engine::ParticleGravity>();
-            sceneEngine->addForce(gravity);
+            sceneEngine->addForceToAllParticles(gravity);
 
             // We add drag to all of our particles
             std::shared_ptr<engine::ParticleDrag> drag = std::make_shared<engine::ParticleDrag>(k1, k2);
-            sceneEngine->addForce(drag);
+            sceneEngine->addForceToAllParticles(drag);
 
             // We add a wall to all of our particles, representing the floor at y = 0
             std::shared_ptr<engine::WallContactGenerator> wall =

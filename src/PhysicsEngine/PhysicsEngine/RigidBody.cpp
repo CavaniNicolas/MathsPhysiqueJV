@@ -110,6 +110,12 @@ void RigidBody::integratePosition(float deltaT)
 
 void RigidBody::integrateVelocity(float deltaT)
 {
+    setAcceleration(m_forceAccum * getInverseMass());
+    //Calculate inertia tensor
+
+    //Calculate angular acceleration
+
+
     // Update velocity
     setVelocity(getVelocity() * pow(getDamping(), deltaT));
     setVelocity(getVelocity() + getAcceleration() * deltaT);
@@ -146,6 +152,10 @@ void RigidBody::clearAccumulator()
 {
     m_torqueAccum = Vector3D();
     m_forceAccum = Vector3D();
+}
+
+Vector3D RigidBody::localToWorldCoordinates(Vector3D& coordinates) {
+    return m_transformationMatrix * coordinates;
 }
 
 
