@@ -41,7 +41,7 @@ class Scene
     // std::vector<Particle> getParticlesSynchronized();
 
     // Setters
-    void addParticle(std::shared_ptr<Particle> particle);
+    void addPhysicsObject(std::shared_ptr<PhysicsObject> physicsObject);
 
     // Add a force to a specific particle
     void addParticleForce(std::shared_ptr<Particle> particle, std::shared_ptr<ParticleForceGenerator> forceGenerator);

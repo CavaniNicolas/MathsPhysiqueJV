@@ -87,7 +87,7 @@ int main()
 
         api::ScenesAPI scenesAPI(sceneEngine, sceneRender);
 
-        scenesAPI.addParticle(fireball, pyramid);
+        scenesAPI.addPhysicsObject(fireball, pyramid);
         //        scenesAPI.addParticleDefault(fireball);
 
         // scale the renderedMeshes

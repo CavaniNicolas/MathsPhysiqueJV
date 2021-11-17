@@ -3,6 +3,7 @@
 #include <memory>
 
 #include <PhysicsEngine/Particle.hpp>
+#include <PhysicsEngine/PhysicsObject.hpp>
 #include <PhysicsEngine/Scene.hpp>
 #include <Render/RenderedMesh.hpp>
 #include <Render/Scene.hpp>
@@ -19,7 +20,8 @@ class ScenesAPI
 
     void updateMeshMatrix();
 
-    void addParticle(std::shared_ptr<engine::Particle> particle, std::shared_ptr<render::RenderedMesh> renderedMesh);
+    void addPhysicsObject(std::shared_ptr<engine::PhysicsObject> physicsObject,
+                          std::shared_ptr<render::RenderedMesh> renderedMesh);
     void addParticleDefault(std::shared_ptr<engine::Particle> particle);
 
     std::shared_ptr<engine::Scene> getSceneEngine();
