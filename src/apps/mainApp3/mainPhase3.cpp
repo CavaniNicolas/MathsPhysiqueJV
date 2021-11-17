@@ -31,6 +31,8 @@
 
 #include "Render/Data/OBJReader.hpp"
 
+#include <Render/DebugUtils/RenderedMeshPrinter.hpp>
+
 int main()
 {
     render::Window window(960, 540, "Moteur Physique");
@@ -63,6 +65,8 @@ int main()
 
         std::shared_ptr<render::RenderedMesh> carRenderedMesh =
           std::make_shared<render::RenderedMesh>(carMesh, std::string(RESOURCE_PATH) + "textures/CarTexture1.png");
+
+        render::RenderedMeshPrinter::setRenderedMesh(carRenderedMesh);
 
         // create shader, renderer, and sceneRender
         render::Shader shader(std::string(RESOURCE_PATH) + "shaders/basic.shader");
@@ -99,6 +103,7 @@ int main()
             sceneRender->update(window);
 
             engine::RigidBodyPrinter::debugPrint();
+            render::RenderedMeshPrinter::debugPrint();
 
             // bind everything and call drawElements
             renderer.draw(shader, *sceneRender);

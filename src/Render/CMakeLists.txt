@@ -42,9 +42,19 @@ set(HEADERS
     Render/Data/OBJReader.hpp
 )
 
+set(SOURCES_DEBUG
+    Render/DebugUtils/RenderedMeshPrinter.cpp
+)
+
+set(HEADERS_DEBUG
+    Render/DebugUtils/RenderedMeshPrinter.hpp
+)
+
 add_library(${MP_RENDER_LIB_NAME} STATIC
     ${SOURCES}
     ${HEADERS}
+    ${SOURCES_DEBUG}
+    ${HEADERS_DEBUG}
 )
 
 set(MP_OPENGL_LINK_LIBS
