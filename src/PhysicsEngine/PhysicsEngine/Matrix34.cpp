@@ -113,3 +113,8 @@ Vector3D Matrix34::transformDirection(const Vector3D& vector)
 
     return m * vector;
 }
+
+std::array<std::array<float, 4>, 3> Matrix34::getValuesArray() const
+{
+    return m_values;
+}

@@ -33,5 +33,8 @@ class Matrix34
 
     // Transform a direction by ignoring the translation
     Vector3D transformDirection(const Vector3D& vector);
+
+    // return m_values
+    std::array<std::array<float, 4>, 3> getValuesArray() const;
 };
 } // namespace engine

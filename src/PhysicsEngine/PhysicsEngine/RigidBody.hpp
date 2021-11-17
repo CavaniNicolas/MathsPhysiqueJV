@@ -56,6 +56,7 @@ class RigidBody : public PhysicsObject
     Quaternion getOrientation() const;
     Vector3D getRotation() const;
     Vector3D getAngularAcceleration() const;
+    Matrix34 getTransformationMatrix() const;
 
     // Setters
     void setOrientation(Quaternion orientation);

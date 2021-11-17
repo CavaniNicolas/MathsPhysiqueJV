@@ -67,6 +67,10 @@ Vector3D RigidBody::getAngularAcceleration() const
 {
     return m_angularAcceleration;
 }
+Matrix34 RigidBody::getTransformationMatrix() const
+{
+    return m_transformationMatrix;
+}
 
 // Setters
 void RigidBody::setOrientation(Quaternion orientation)
