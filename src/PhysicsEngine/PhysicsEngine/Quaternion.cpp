@@ -79,4 +79,10 @@ Quaternion& Quaternion::operator/=(const float scalar)
     return *this;
 }
 
+std::ostream& operator<<(std::ostream& out, Quaternion const& quat)
+{
+    out << "w:" << quat.m_w << ", x:" << quat.m_x << ", y:" << quat.m_y << ", z:" << quat.m_z;
+    return out;
+}
+
 } // namespace engine
