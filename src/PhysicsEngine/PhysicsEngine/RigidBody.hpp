@@ -2,6 +2,7 @@
 
 #include "PhysicsEngine/PhysicsObject.hpp"
 #include "PhysicsEngine/Quaternion.hpp"
+#include "PhysicsEngine/Matrix33.hpp"
 #include "PhysicsEngine/Matrix34.hpp"
 
 namespace engine
@@ -33,14 +34,25 @@ class RigidBody : public PhysicsObject
     // added by ForceGenerator
     Vector3D m_torqueAccum;
 
+    //The dimensions of the rigidbody
+    float m_dx, m_dy, m_dz;
+
+    //The inertia matrix
+    Matrix33 m_inertiaInverseMatrix;
+
     // call each frame to calculate the transformMatrix and normalize the orientation
     void calculateDerivedData();
+
+    void calculateInertiaMatrix();
 
   public:
     RigidBody(Vector3D position,
               Vector3D velocity,
               Quaternion rotation,
               Vector3D angularVelocity,
+              float dx = 1,
+              float dy = 1,
+              float dz = 1,
               float mass = 1,
               float g = 10,
               float damping = 0.999);
@@ -57,6 +69,9 @@ class RigidBody : public PhysicsObject
     Vector3D getRotation() const;
     Vector3D getAngularAcceleration() const;
     Matrix34 getTransformationMatrix() const;
+    float getDx() const;
+    float getDy() const;
+    float getDz() const;
 
     // Setters
     void setOrientation(Quaternion orientation);
