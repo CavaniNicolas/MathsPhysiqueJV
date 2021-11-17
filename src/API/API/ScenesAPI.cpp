@@ -12,20 +12,22 @@ ScenesAPI::ScenesAPI(std::shared_ptr<engine::Scene> sceneEngine, std::shared_ptr
 }
 
 // get the actual particles positions to set it to the corresponding renderedMeshes
-void ScenesAPI::updateMeshPosition()
+void ScenesAPI::updateMeshMatrix()
 {
-    m_partMeshReg.updateMeshPosition();
+    m_physicsObjectMeshReg.updateMeshMatrixFromPhysicsObject();
 }
 
 // add a particle to the engine Scene and add its linked renderedMesh in the render Scene
 // particles must not be added to the scenes before, it is done here
-void ScenesAPI::addParticle(std::shared_ptr<engine::Particle> particle,
-                            std::shared_ptr<render::RenderedMesh> renderedMesh)
+void ScenesAPI::addPhysicsObject(std::shared_ptr<engine::PhysicsObject> physicsObject,
+                                 std::shared_ptr<render::RenderedMesh> renderedMesh)
 {
-    m_sceneEngine->addParticle(particle);
+    m_sceneEngine->addPhysicsObject(physicsObject);
     m_sceneRender->addRenderedMesh(renderedMesh);
 
-    m_partMeshReg.addEntry(particle, renderedMesh);
+    renderedMesh->setNeedModelUpdate(true);
+
+    m_physicsObjectMeshReg.addEntry(physicsObject, renderedMesh);
 }
 
 // add a particle to the engine Scene and link a default renderedMesh to it
@@ -35,7 +37,7 @@ void ScenesAPI::addParticleDefault(std::shared_ptr<engine::Particle> particle)
     std::shared_ptr<render::RenderedMesh> pyramid = std::make_shared<render::RenderedMesh>(
       render::mesh::Pyramid::getMesh(), std::string(RESOURCE_PATH) + render::mesh::Pyramid::getTexturePath());
 
-    addParticle(particle, pyramid);
+    addPhysicsObject(particle, pyramid);
 }
 
 std::shared_ptr<engine::Scene> ScenesAPI::getSceneEngine()

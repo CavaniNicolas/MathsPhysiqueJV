@@ -25,18 +25,16 @@ class RigidBody : public PhysicsObject
     // but for rotation
     float m_angularDamping;
 
-    //accumulated force
-    //added by ForceGenerator
+    // accumulated force
+    // added by ForceGenerator
     Vector3D m_forceAccum;
 
-    //Accumulated torque
-    //added by ForceGenerator
+    // Accumulated torque
+    // added by ForceGenerator
     Vector3D m_torqueAccum;
 
     // call each frame to calculate the transformMatrix and normalize the orientation
     void calculateDerivedData();
-
- 
 
   public:
     RigidBody(Vector3D position,
@@ -58,6 +56,7 @@ class RigidBody : public PhysicsObject
     Quaternion getOrientation() const;
     Vector3D getRotation() const;
     Vector3D getAngularAcceleration() const;
+    Matrix34 getTransformationMatrix() const;
 
     // Setters
     void setOrientation(Quaternion orientation);
@@ -71,7 +70,7 @@ class RigidBody : public PhysicsObject
     // Add force on the Center of mass (no torque generated)
     void addForce(const Vector3D& force);
 
-    // Add force at a point in world coordinate 
+    // Add force at a point in world coordinate
     // Generate force and torque
     void addForceAtPoint(const Vector3D& force, const Vector3D& worldPoint);
 

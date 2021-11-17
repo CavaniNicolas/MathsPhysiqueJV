@@ -19,7 +19,6 @@
 #include <PhysicsEngine/GameEngine.hpp>
 #include <PhysicsEngine/ParticleAnchoredSpring.hpp>
 #include <PhysicsEngine/ParticleDrag.hpp>
-#include <PhysicsEngine/ParticleForceRegistry.hpp>
 #include <PhysicsEngine/ParticleGravity.hpp>
 #include <PhysicsEngine/ParticleSpring.hpp>
 #include <PhysicsEngine/Scene.hpp>
@@ -87,7 +86,7 @@ int main()
 
         api::ScenesAPI scenesAPI(sceneEngine, sceneRender);
 
-        scenesAPI.addParticle(fireball, pyramid);
+        scenesAPI.addPhysicsObject(fireball, pyramid);
         //        scenesAPI.addParticleDefault(fireball);
 
         // scale the renderedMeshes
@@ -119,7 +118,7 @@ int main()
             //            ParticlePrinter::debugPrint();
 
             // get the actual particles positions to set it to the corresponding renderedMeshes
-            scenesAPI.updateMeshPosition();
+            scenesAPI.updateMeshMatrix();
 
             sceneRender->update(window);
 

@@ -34,7 +34,10 @@ void Scene::updateRenderedMeshes()
 {
     for(auto& renderedMesh: m_renderedMeshes)
     {
-        renderedMesh->updateModelMatrix();
+        if(renderedMesh->getNeedModelUpdate())
+        {
+            renderedMesh->updateModelMatrix();
+        }
     }
 }
 

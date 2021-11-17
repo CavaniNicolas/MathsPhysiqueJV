@@ -17,8 +17,7 @@ PhysicsObject::PhysicsObject(Vector3D position, Vector3D velocity, float mass, f
 PhysicsObject::PhysicsObject(): PhysicsObject(Vector3D(), Vector3D()) {}
 
 PhysicsObject::PhysicsObject(const PhysicsObject& other):
-  PhysicsObject(
-    other.m_position, other.m_velocity, other.getMass(), other.m_g, other.m_linearDamping)
+  PhysicsObject(other.m_position, other.m_velocity, other.getMass(), other.m_g, other.m_linearDamping)
 {
 }
 
@@ -102,7 +101,8 @@ void PhysicsObject::setAcceleration(Vector3D acceleration)
     m_acceleration = acceleration;
 }
 
-void PhysicsObject::setDeltaT(float deltaT) {
+void PhysicsObject::setDeltaT(float deltaT)
+{
     m_deltaT = deltaT;
 }
 

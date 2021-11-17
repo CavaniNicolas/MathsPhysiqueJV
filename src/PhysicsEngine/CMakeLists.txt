@@ -87,10 +87,12 @@ set(HEADERS
 
 set(SOURCES_DEBUG
     PhysicsEngine/DebugUtils/ParticlePrinter.cpp
+    PhysicsEngine/DebugUtils/RigidBodyPrinter.cpp
 )
 
 set(HEADERS_DEBUG
     PhysicsEngine/DebugUtils/ParticlePrinter.hpp
+    PhysicsEngine/DebugUtils/RigidBodyPrinter.hpp
 )
 
 add_library(${MP_PHYSICS_LIB_NAME} STATIC

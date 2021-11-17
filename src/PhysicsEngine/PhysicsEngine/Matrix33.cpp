@@ -1,6 +1,8 @@
-#include "PhysicsEngine/Matrix33.hpp"
+
 #include <format>
 #include <iostream>
+
+#include "PhysicsEngine/Matrix33.hpp"
 
 using namespace engine;
 

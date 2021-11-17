@@ -2,13 +2,13 @@
 set(MP_API_LIB_NAME APILib)
 
 set(SOURCES
-    API/ParticleMeshRegistry.cpp
+    API/PhysicsObjectMeshRegistry.cpp
     API/ScenesAPI.cpp
     API/UserInterface.cpp
 )
 
 set(HEADERS
-    API/ParticleMeshRegistry.hpp
+    API/PhysicsObjectMeshRegistry.hpp
     API/ScenesAPI.hpp
     API/UserInterface.hpp
 )

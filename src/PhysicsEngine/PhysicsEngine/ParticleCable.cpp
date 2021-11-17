@@ -16,8 +16,7 @@ ParticleCable::ParticleCable(std::shared_ptr<Particle> particleA, float maxlengt
 }
 
 // Fill ParticleContact with information from particles and contact generator
-unsigned int ParticleCable::addContact(std::vector<std::shared_ptr<ParticleContact>>& contacts,
-                                       unsigned int limit)
+unsigned int ParticleCable::addContact(std::vector<std::shared_ptr<ParticleContact>>& contacts, unsigned int limit)
 {
     float totalGap = currentLength() - m_maxlength;
     if(totalGap > 0)

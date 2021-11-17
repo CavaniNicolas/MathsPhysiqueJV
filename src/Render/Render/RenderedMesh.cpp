@@ -24,7 +24,9 @@ RenderedMesh::RenderedMesh(Mesh mesh,
   m_origin(origin),
   m_position(position),
   m_rotation(rotation),
-  m_scale(scale)
+  m_scale(scale),
+
+  m_needModelUpdate(false)
 {
     m_layout.push<float>(3);
     m_layout.push<float>(2);

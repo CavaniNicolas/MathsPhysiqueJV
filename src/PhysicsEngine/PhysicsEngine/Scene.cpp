@@ -48,9 +48,9 @@ std::vector<std::shared_ptr<PhysicsObject>> Scene::getObjects() const
 //	return ret;
 // }
 
-void Scene::addParticle(std::shared_ptr<Particle> particle)
+void Scene::addPhysicsObject(std::shared_ptr<PhysicsObject> physicsObject)
 {
-    m_physicsObject.push_back(particle);
+    m_physicsObject.push_back(physicsObject);
 }
 
 void Scene::addParticleForce(std::shared_ptr<Particle> particle, std::shared_ptr<ParticleForceGenerator> forceGenerator)
@@ -62,7 +62,8 @@ void Scene::addForceToAllParticles(std::shared_ptr<ParticleForceGenerator> force
 {
     for(auto& object: m_physicsObject)
     {
-        if (std::shared_ptr<Particle> particle = std::dynamic_pointer_cast<Particle>(object)) {
+        if(std::shared_ptr<Particle> particle = std::dynamic_pointer_cast<Particle>(object))
+        {
             m_forceRegistry.addEntry(particle, forceGenerator);
         }
     }

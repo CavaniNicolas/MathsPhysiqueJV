@@ -1,5 +1,6 @@
-#include "Matrix34.hpp"
+
 #include "Matrix33.hpp"
+#include "Matrix34.hpp"
 
 using namespace engine;
 
@@ -111,4 +112,9 @@ Vector3D Matrix34::transformDirection(const Vector3D& vector)
                           {m_values[2][0], m_values[2][1], m_values[2][2]});
 
     return m * vector;
+}
+
+std::array<std::array<float, 4>, 3> Matrix34::getValuesArray() const
+{
+    return m_values;
 }
