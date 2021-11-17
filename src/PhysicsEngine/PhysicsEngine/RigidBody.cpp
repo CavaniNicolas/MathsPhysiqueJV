@@ -126,6 +126,10 @@ void RigidBody::integrateVelocity(float deltaT)
     m_rotation *= pow(getDamping(), deltaT);
     m_rotation += m_angularAcceleration * deltaT;
 
+    // reset forces accum
+    m_forceAccum = Vector3D();
+    m_torqueAccum = Vector3D();
+
     // Update deltaT to last deltaT
     setDeltaT(deltaT);
 }
