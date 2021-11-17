@@ -7,11 +7,20 @@ RigidBody::RigidBody(Vector3D position,
                      Vector3D velocity,
                      Quaternion rotation,
                      Vector3D angularVelocity,
+                     float dx,
+                     float dy,
+                     float dz,
                      float mass,
                      float g,
                      float damping):
-  PhysicsObject(position, velocity, mass, g, damping), m_orientation(rotation), m_rotation(angularVelocity)
+  PhysicsObject(position, velocity, mass, g, damping),
+  m_orientation(rotation),
+  m_rotation(angularVelocity),
+  m_dx(dx),
+  m_dy(dy),
+  m_dz(dz)
 {
+    calculateInertiaMatrix();
     m_transformationMatrix = Matrix34();
     calculateDerivedData();
 }
@@ -33,6 +42,13 @@ RigidBody::RigidBody(const RigidBody& other)
         m_orientation = other.m_orientation;
         m_rotation = other.m_rotation;
         m_angularAcceleration = other.m_angularAcceleration;
+        m_dx = other.m_dx;
+        m_dy = other.m_dy;
+        m_dz = other.m_dz;
+
+        calculateInertiaMatrix();
+        m_transformationMatrix = Matrix34();
+        calculateDerivedData();
     }
 }
 
@@ -50,6 +66,13 @@ RigidBody& RigidBody::operator=(const RigidBody& other)
         m_orientation = other.m_orientation;
         m_rotation = other.m_rotation;
         m_angularAcceleration = other.m_angularAcceleration;
+        m_dx = other.m_dx;
+        m_dy = other.m_dy;
+        m_dz = other.m_dz;
+
+        calculateInertiaMatrix();
+        m_transformationMatrix = Matrix34();
+        calculateDerivedData();
     }
     return *this;
 }
@@ -70,6 +93,21 @@ Vector3D RigidBody::getAngularAcceleration() const
 Matrix34 RigidBody::getTransformationMatrix() const
 {
     return m_transformationMatrix;
+}
+
+float RigidBody::getDx() const
+{
+    return m_dx;
+}
+
+float RigidBody::getDy() const
+{
+    return m_dy;
+}
+
+float RigidBody::getDz() const
+{
+    return m_dz;
 }
 
 // Setters
@@ -113,10 +151,10 @@ void RigidBody::integratePosition(float deltaT)
 
 void RigidBody::integrateVelocity(float deltaT)
 {
+    // Calculate regular acceleration
     setAcceleration(m_forceAccum * getInverseMass());
-    // Calculate inertia tensor
-
     // Calculate angular acceleration
+    m_angularAcceleration = m_inertiaInverseMatrix * m_torqueAccum;
 
     // Update velocity
     setVelocity(getVelocity() * pow(getDamping(), deltaT));
@@ -164,6 +202,16 @@ Vector3D RigidBody::localToWorldCoordinates(Vector3D& coordinates)
     return m_transformationMatrix * coordinates;
 }
 
+void RigidBody::calculateInertiaMatrix()
+{
+    std::array<float, 3> line1 = {(1.0 / 12.0) * getMass() * (m_dy * m_dy + m_dz * m_dz), 0, 0};
+    std::array<float, 3> line2 = {0, (1.0 / 12.0) * getMass() * (m_dx * m_dx + m_dz * m_dz), 0};
+    std::array<float, 3> line3 = {0, 0, (1.0 / 12.0) * getMass() * (m_dy * m_dy + m_dx * m_dx)};
+
+    m_inertiaInverseMatrix = Matrix33(line1, line2, line3);
+    m_inertiaInverseMatrix.inverse();
+}
+
 std::ostream& operator<<(std::ostream& out, RigidBody const& rb)
 {
     out << "Position : " << rb.getPosition() << ", " << std::endl
@@ -172,4 +220,5 @@ std::ostream& operator<<(std::ostream& out, RigidBody const& rb)
         << "Rotation : " << rb.m_rotation;
     return out;
 }
+
 } // namespace engine
