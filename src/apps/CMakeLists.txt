@@ -60,6 +60,7 @@ mp_add_executable(${MP_MAIN2_NAME}
 #### Main Executable Phase3 ###
 ###############################
 
+# mainPhase3_1
 set(MP_MAIN3_NAME mainPhase3)
 
 set(MP_MAIN3_SOURCES
@@ -73,6 +74,24 @@ set(MP_MAIN3_HEADERS
 
 mp_add_executable(${MP_MAIN3_NAME}
     SOURCE ${MP_MAIN3_SOURCES} ${MP_MAIN3_HEADERS}
+    LINKS ${MP_APPS_LINKS}
+    INCLUDE_DIRS ${MP_APPS_INCDIRS}
+)
+
+# mainPhase3_2
+set(MP_MAIN3_2_NAME mainPhase3_2)
+
+set(MP_MAIN3_2_SOURCES
+    mainApp3_2/mainPhase3_2.cpp
+    mainApp3_2/UserInterface.cpp
+)
+
+set(MP_MAIN3_2_HEADERS
+    mainApp3_2/UserInterface.hpp
+)
+
+mp_add_executable(${MP_MAIN3_2_NAME}
+    SOURCE ${MP_MAIN3_2_SOURCES} ${MP_MAIN3_2_HEADERS}
     LINKS ${MP_APPS_LINKS}
     INCLUDE_DIRS ${MP_APPS_INCDIRS}
 )
