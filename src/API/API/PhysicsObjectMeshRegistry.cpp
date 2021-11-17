@@ -34,10 +34,11 @@ void PhysicsObjectMeshRegistry::updateMeshMatrixFromPhysicsObject()
             // get the Matrix34 from the engine but make it a glm::mat4
             std::array<std::array<float, 4>, 3> values = rigidBody->getTransformationMatrix().getValuesArray();
 
-            glm::mat4 matrix({{values[0][0], values[0][1], values[0][2], values[0][3]},
-                              {values[1][0], values[1][1], values[1][2], values[1][3]},
-                              {values[2][0], values[2][1], values[2][2], values[2][3]},
-                              {0, 0, 0, 1}});
+            // copy and transpose matrix
+            glm::mat4 matrix({{values[0][0], values[1][0], values[2][0], 0},
+                              {values[0][1], values[1][1], values[2][1], 0},
+                              {values[0][2], values[1][2], values[2][2], 0},
+                              {values[0][3], values[1][3], values[2][3], 1}});
 
             renderedMesh->setModelMatrix(matrix);
         }
