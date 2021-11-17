@@ -19,7 +19,6 @@
 #include <PhysicsEngine/GameEngine.hpp>
 #include <PhysicsEngine/ParticleAnchoredSpring.hpp>
 #include <PhysicsEngine/ParticleDrag.hpp>
-#include <PhysicsEngine/ParticleForceRegistry.hpp>
 #include <PhysicsEngine/ParticleGravity.hpp>
 #include <PhysicsEngine/ParticleSpring.hpp>
 #include <PhysicsEngine/Scene.hpp>
