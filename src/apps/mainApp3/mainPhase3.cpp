@@ -12,9 +12,10 @@
 
 // Include PhysicsEngine library
 #include <PhysicsEngine/GameEngine.hpp>
+#include <PhysicsEngine/Quaternion.hpp>
+#include <PhysicsEngine/RigidBody.hpp>
 #include <PhysicsEngine/Scene.hpp>
-
-#include <PhysicsEngine/DebugUtils/ParticlePrinter.hpp>
+#include <PhysicsEngine/Vector3D.hpp>
 
 // Include Render lib which uses opengl
 #include <Render/Camera.hpp>
@@ -26,6 +27,8 @@
 
 #include <Render/Mesh/Plan.hpp>
 
+#include "Render/Data/OBJReader.hpp"
+
 int main()
 {
     render::Window window(960, 540, "Moteur Physique");
@@ -35,28 +38,42 @@ int main()
     }
 
     UserInterface ui(window);
-
     std::shared_ptr<render::Camera> camera = std::make_shared<render::Camera>(960, 540, glm::vec3(0.0f, 15.0f, 80.0f));
 
     std::shared_ptr<engine::Scene> sceneEngine = std::make_shared<engine::Scene>();
-
     engine::GameEngine gameEngine = engine::GameEngine(sceneEngine);
 
+    // Create physicsObjects
+    std::shared_ptr<engine::RigidBody> carObject = std::make_shared<engine::RigidBody>(
+      engine::Vector3D(0, 30, 0), engine::Vector3D(), engine::Quaternion(), engine::Vector3D());
+
     {
+        // Create Meshes and RenderedMeshes
         std::shared_ptr<render::RenderedMesh> plan = std::make_shared<render::RenderedMesh>(
           render::mesh::Plan::getMesh(), std::string(RESOURCE_PATH) + render::mesh::Plan::getTexturePath());
 
+        render::IO::OBJReader objReader;
+        render::Mesh carMesh(objReader.readOBJFromFile(std::string(RESOURCE_PATH) + "objects/LowPolyCar1.obj"));
+
+        std::shared_ptr<render::RenderedMesh> carRenderedMesh =
+          std::make_shared<render::RenderedMesh>(carMesh, std::string(RESOURCE_PATH) + "textures/CarTexture1.png");
+
+        // create shader, renderer, and sceneRender
         render::Shader shader(std::string(RESOURCE_PATH) + "shaders/basic.shader");
-
         render::Renderer renderer;
-
         std::shared_ptr<render::Scene> sceneRender = std::make_shared<render::Scene>(camera);
+
+        // add objects to the render scene (objects we only render
         sceneRender->addRenderedMesh(plan);
-
-        api::ScenesAPI scenesAPI(sceneEngine, sceneRender);
-
         // scale the renderedMesh
         plan->setScale(glm::vec3(50.0f, 50.0f, 50.0f));
+        plan->setNeedModelUpdate(true);
+
+        // Create the main API Scene
+        api::ScenesAPI scenesAPI(sceneEngine, sceneRender);
+
+        // add physicsObjects to the main scene
+        scenesAPI.addPhysicsObject(carObject, carRenderedMesh);
 
         while(!window.isBeingClosed())
         {
