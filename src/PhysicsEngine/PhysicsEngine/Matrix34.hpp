@@ -2,14 +2,14 @@
 
 #include <array>
 #include "PhysicsEngine/Vector3D.hpp"
-#include "Quaternion.hpp"
+#include "PhysicsEngine/Quaternion.hpp"
 
 namespace engine
 {
 class Matrix34
 {
   private:
-    // values of the matrix 3x3
+    // values of the matrix 4x3
     std::array<std::array<float, 4>, 3> m_values;
 
   public:

@@ -28,8 +28,7 @@ class PhysicsObject
 
   public:
     // Constructors
-    PhysicsObject(
-      Vector3D position, Vector3D velocity, float mass = 1, float g = 10, float damping = 0.999);
+    PhysicsObject(Vector3D position, Vector3D velocity, float mass = 1, float g = 10, float damping = 0.999);
     PhysicsObject();
     PhysicsObject(const PhysicsObject& other);
 

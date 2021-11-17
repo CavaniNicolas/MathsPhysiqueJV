@@ -62,7 +62,8 @@ void Scene::addForceToAllParticles(std::shared_ptr<ParticleForceGenerator> force
 {
     for(auto& object: m_physicsObject)
     {
-        if (std::shared_ptr<Particle> particle = std::dynamic_pointer_cast<Particle>(object)) {
+        if(std::shared_ptr<Particle> particle = std::dynamic_pointer_cast<Particle>(object))
+        {
             m_forceRegistry.addEntry(particle, forceGenerator);
         }
     }

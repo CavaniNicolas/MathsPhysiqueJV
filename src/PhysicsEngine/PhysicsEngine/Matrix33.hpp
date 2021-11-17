@@ -2,7 +2,7 @@
 
 #include <array>
 #include "PhysicsEngine/Vector3D.hpp"
-#include "Quaternion.hpp"
+#include "PhysicsEngine/Quaternion.hpp"
 
 namespace engine
 {
