@@ -4,7 +4,7 @@
 namespace engine
 {
 
-Quaternion::Quaternion(): m_w(0), m_x(0), m_y(0), m_z(1) {}
+Quaternion::Quaternion(): m_w(1), m_x(0), m_y(0), m_z(0) {}
 
 Quaternion::Quaternion(float w, float x, float y, float z): m_w(w), m_x(x), m_y(y), m_z(z) {}
 
@@ -43,7 +43,7 @@ void Quaternion::updateByAngularVelocity(const Vector3D& rotation, float deltaT)
     // quat is only used for the calculations
     Quaternion quat(0, rotation.getX(), rotation.getY(), rotation.getZ());
     quat = quat * *this;
-    quat *= deltaT / 2;
+    quat *= deltaT / 2.0;
     *this += quat;
 }
 

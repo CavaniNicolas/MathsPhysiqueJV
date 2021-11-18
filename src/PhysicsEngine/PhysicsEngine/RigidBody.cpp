@@ -128,8 +128,15 @@ void RigidBody::setAngularAcceleration(Vector3D angularAcceleration)
 // call each frame to calculate the transformMatrix and normalize the orientation
 void RigidBody::calculateDerivedData()
 {
+    //We normalize the orientation quaternion
     m_orientation.normalized();
+
+    //We update the transformation matrix for the graphical engine
     m_transformationMatrix.setOrientationAndPosition(m_orientation, getPosition());
+
+    //We update the world inertia matrix
+    m_worldInertiaInverseMatrix = m_transformationMatrix.getMatrix33() * m_localInertiaInverseMatrix *
+                                  m_transformationMatrix.getMatrix33().inverse();
 }
 
 // integrate the rigid body by modifying position, orientation and velocities
@@ -154,19 +161,16 @@ void RigidBody::integrateVelocity(float deltaT)
     // Calculate regular acceleration
     setAcceleration(m_forceAccum * getInverseMass());
     // Calculate angular acceleration
-    m_angularAcceleration = m_inertiaInverseMatrix * m_torqueAccum;
+    m_angularAcceleration = m_worldInertiaInverseMatrix * m_torqueAccum;
 
     // Update velocity
-    setVelocity(getVelocity() * pow(getDamping(), deltaT));
-    setVelocity(getVelocity() + getAcceleration() * deltaT);
+    setVelocity(getVelocity() * pow(getDamping(), deltaT) + getAcceleration() * deltaT);
 
     // Update angular velocity
-    m_rotation *= pow(getDamping(), deltaT);
-    m_rotation += m_angularAcceleration * deltaT;
+    m_rotation = m_rotation * pow(getDamping(), deltaT) + m_angularAcceleration * deltaT;
 
     // reset forces accum
-    m_forceAccum = Vector3D();
-    m_torqueAccum = Vector3D();
+    clearAccumulator();
 
     // Update deltaT to last deltaT
     setDeltaT(deltaT);
@@ -208,8 +212,7 @@ void RigidBody::calculateInertiaMatrix()
     std::array<float, 3> line2 = {0, (1.0 / 12.0) * getMass() * (m_dx * m_dx + m_dz * m_dz), 0};
     std::array<float, 3> line3 = {0, 0, (1.0 / 12.0) * getMass() * (m_dy * m_dy + m_dx * m_dx)};
 
-    m_inertiaInverseMatrix = Matrix33(line1, line2, line3);
-    m_inertiaInverseMatrix.inverse();
+    m_localInertiaInverseMatrix = Matrix33(line1, line2, line3).inverse();
 }
 
 std::ostream& operator<<(std::ostream& out, RigidBody const& rb)

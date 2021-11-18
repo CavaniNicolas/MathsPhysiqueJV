@@ -1,6 +1,7 @@
 #pragma once
 
 #include <array>
+#include "PhysicsEngine/Matrix33.hpp"
 #include "PhysicsEngine/Vector3D.hpp"
 #include "PhysicsEngine/Quaternion.hpp"
 
@@ -36,6 +37,8 @@ class Matrix34
 
     // return m_values
     std::array<std::array<float, 4>, 3> getValuesArray() const;
+    
+    Matrix33 getMatrix33() const;
 
     void printMatrix() const;
 };

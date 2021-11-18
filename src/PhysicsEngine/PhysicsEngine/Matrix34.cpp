@@ -81,15 +81,15 @@ void Matrix34::setOrientationAndPosition(const Quaternion& q, const Vector3D& p)
     float y = q.getY();
     float z = q.getZ();
 
-    m_values[0][0] = 1 - (2 * pow(y, 2) + 2 * pow(z, 2));
-    m_values[0][1] = 2 * x * y + 2 * z * w;
-    m_values[0][2] = 2 * x * z + 2 * y * w;
-    m_values[1][0] = 2 * x * y - 2 * z * w;
-    m_values[1][1] = 1 - (2 * pow(x, 2) + 2 * pow(z, 2));
-    m_values[1][2] = 2 * y * z + 2 * x * w;
-    m_values[2][0] = 2 * x * z + 2 * y * w;
-    m_values[2][1] = 2 * y * z - 2 * x * w;
-    m_values[2][2] = 1 - (2 * pow(x, 2) + 2 * pow(y, 2));
+    m_values[0][0] = 1.0 - (2.0 * pow(y, 2.0) + 2.0 * pow(z, 2.0));
+    m_values[0][1] = 2.0 * x * y + 2.0 * z * w;
+    m_values[0][2] = 2.0 * x * z + 2.0 * y * w;
+    m_values[1][0] = 2.0 * x * y - 2.0 * z * w;
+    m_values[1][1] = 1.0 - (2.0 * pow(x, 2.0) + 2 * pow(z, 2.0));
+    m_values[1][2] = 2.0 * y * z + 2.0 * x * w;
+    m_values[2][0] = 2.0 * x * z + 2.0 * y * w;
+    m_values[2][1] = 2.0 * y * z - 2.0 * x * w;
+    m_values[2][2] = 1.0 - (2.0 * pow(x, 2.0) + 2.0 * pow(y, 2.0));
 
     m_values[0][3] = p.getX();
     m_values[1][3] = p.getY();
@@ -115,6 +115,14 @@ Vector3D Matrix34::transformDirection(const Vector3D& vector)
 std::array<std::array<float, 4>, 3> Matrix34::getValuesArray() const
 {
     return m_values;
+}
+
+Matrix33 Matrix34::getMatrix33() const {
+    Matrix33 m = Matrix33({m_values[0][0], m_values[0][1], m_values[0][2]},
+                          {m_values[1][0], m_values[1][1], m_values[1][2]},
+                          {m_values[2][0], m_values[2][1], m_values[2][2]});
+
+    return m;
 }
 
 void Matrix34::printMatrix() const

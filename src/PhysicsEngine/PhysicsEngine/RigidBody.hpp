@@ -38,7 +38,8 @@ class RigidBody : public PhysicsObject
     float m_dx, m_dy, m_dz;
 
     //The inertia matrix
-    Matrix33 m_inertiaInverseMatrix;
+    Matrix33 m_localInertiaInverseMatrix;
+    Matrix33 m_worldInertiaInverseMatrix;
 
     // call each frame to calculate the transformMatrix and normalize the orientation
     void calculateDerivedData();
