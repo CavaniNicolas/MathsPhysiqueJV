@@ -213,9 +213,9 @@ Vector3D RigidBody::localToWorldCoordinates(Vector3D& coordinates)
 
 void RigidBody::calculateInertiaMatrix()
 {
-    std::array<float, 3> line1 = {(1.0 / 12.0) * getMass() * (m_dy * m_dy + m_dz * m_dz), 0, 0};
-    std::array<float, 3> line2 = {0, (1.0 / 12.0) * getMass() * (m_dx * m_dx + m_dz * m_dz), 0};
-    std::array<float, 3> line3 = {0, 0, (1.0 / 12.0) * getMass() * (m_dy * m_dy + m_dx * m_dx)};
+    std::array<float, 3> line1 = {(1.0f / 12.0f) * getMass() * (m_dy * m_dy + m_dz * m_dz), 0, 0};
+    std::array<float, 3> line2 = {0, (1.0f / 12.0f) * getMass() * (m_dx * m_dx + m_dz * m_dz), 0};
+    std::array<float, 3> line3 = {0, 0, (1.0f / 12.0f) * getMass() * (m_dy * m_dy + m_dx * m_dx)};
 
     m_localInertiaInverseMatrix = Matrix33(line1, line2, line3).inverse();
 }
