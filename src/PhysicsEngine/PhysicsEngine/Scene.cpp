@@ -95,13 +95,20 @@ void Scene::integrateAll(float deltaT)
     // We move the particles
     for(auto& object: m_physicsObject)
     {
-        object->integratePosition(deltaT);
+        if(auto& particle = std::dynamic_pointer_cast<Particle>(object))
+            object->integratePosition(deltaT);
     }
     m_forceRegistry.updateForce(deltaT);
     for(auto& object: m_physicsObject)
     {
         object->integrateVelocity(deltaT);
     }
+    for(auto& object: m_physicsObject)
+    {
+        if(auto& rigidbody = std::dynamic_pointer_cast<RigidBody>(object))
+            object->integratePosition(deltaT);
+    }
+
     // We check for contacts
     unsigned int contacts = m_maxContactsPerIteration;
     for(auto& contactGenerator: m_particleContactGenerators)

@@ -56,7 +56,8 @@ class RigidBody : public PhysicsObject
               float dz = 1,
               float mass = 1,
               float g = 10,
-              float damping = 0.999);
+              float damping = 0.999,
+              float angularDamping = 0.999);
 
     RigidBody();
 

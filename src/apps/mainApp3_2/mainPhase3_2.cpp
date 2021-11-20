@@ -104,10 +104,10 @@ int main()
             if(!crashDone && (sportCarObject->getPosition().getX() >= -1 || policeCarObject->getPosition().getX() <= 1))
             {
                 crashDone = true;
-                // sportCarObject->setVelocity(engine::Vector3D());
-                // policeCarObject->setVelocity(engine::Vector3D());
-                sportCarObject->addForceAtBodyPoint(engine::Vector3D(-50, 50, 10), engine::Vector3D(-1, -1, 0));
-                policeCarObject->addForceAtBodyPoint(engine::Vector3D(50, 50, -10), engine::Vector3D(1, -1, 0));
+                /*sportCarObject->setVelocity(engine::Vector3D());
+                policeCarObject->setVelocity(engine::Vector3D());*/
+                sportCarObject->addForceAtBodyPoint(engine::Vector3D(-5, 0, 0), engine::Vector3D(-1, -1, 0));
+                policeCarObject->addForceAtBodyPoint(engine::Vector3D(5, 0, 00), engine::Vector3D(1, -1, 0));
 
                 // std::shared_ptr<engine::RigidBodyGravity> gravity = std::make_shared<engine::RigidBodyGravity>();
                 // sceneEngine->addForceToAllRigidBodies(gravity);
