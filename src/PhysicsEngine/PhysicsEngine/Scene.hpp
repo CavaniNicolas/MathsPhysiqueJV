@@ -10,6 +10,7 @@
 #include "PhysicsEngine/ParticleForceGenerator.hpp"
 #include "PhysicsEngine/ParticleContactResolver.hpp"
 #include "PhysicsEngine/ParticleContactGenerator.hpp"
+#include "PhysicsEngine/RigidBodyForceGenerator.hpp"
 
 namespace engine
 {
@@ -46,11 +47,16 @@ class Scene
 
     // Add a force to a specific particle
     void addParticleForce(std::shared_ptr<Particle> particle, std::shared_ptr<ParticleForceGenerator> forceGenerator);
+    // Add a force to every particle currently in the scene
+    void addForceToAllParticles(std::shared_ptr<ParticleForceGenerator> forceGenerator);
 
     // Add a force to every object currently in the scene
-    void addForceToAllParticles(std::shared_ptr<ParticleForceGenerator> forceGenerator);
-    // Add a force to every object currently in the scene
     void addParticleContactGenerator(std::shared_ptr<ParticleContactGenerator> contactGenerator);
+
+    // Add a force to a specific rigidbody
+    void addRigidBodyForce(std::shared_ptr<RigidBody> rigidbody, std::shared_ptr<RigidBodyForceGenerator> forceGenerator);
+    // Add a force to every rigidbody currently in the 
+    void addForceToAllRigidBodies(std::shared_ptr<RigidBodyForceGenerator> forceGenerator);
 
     void integrateAll(float deltaT);
 };

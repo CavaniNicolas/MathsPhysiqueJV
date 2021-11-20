@@ -21,7 +21,5 @@ class UserInterface
     void start() const;
     void terminate() const;
     void render(engine::GameEngine& gameEngine, api::ScenesAPI& scenesAPI, render::Camera& camera);
-    void showProjectileCreation(api::ScenesAPI& scenesAPI) const;
-    void moveBlob(api::ScenesAPI& scenesAPI);
     void HelpMarker(const char* desc) const;
 };

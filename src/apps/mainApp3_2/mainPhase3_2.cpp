@@ -17,6 +17,7 @@
 #include <PhysicsEngine/RigidBody.hpp>
 #include <PhysicsEngine/Scene.hpp>
 #include <PhysicsEngine/Vector3D.hpp>
+#include <PhysicsEngine/RigidBodyGravity.hpp>
 
 // Include Render lib which uses opengl
 #include <Render/Camera.hpp>
@@ -51,12 +52,11 @@ int main()
     // Create physicsObjects
     // sport car
     std::shared_ptr<engine::RigidBody> sportCarObject = std::make_shared<engine::RigidBody>(
-      engine::Vector3D(0, 10, 0), engine::Vector3D(1, 0, 0), engine::Quaternion(), engine::Vector3D());
-    sportCarObject->addForce(engine::Vector3D(5, 5, 5));
+      engine::Vector3D(-10, 10, 0), engine::Vector3D(5, 0, 0), engine::Quaternion(), engine::Vector3D());
 
     // police car
     std::shared_ptr<engine::RigidBody> policeCarObject = std::make_shared<engine::RigidBody>(
-      engine::Vector3D(0, 10, 0), engine::Vector3D(-1, 0, 0), engine::Quaternion(), engine::Vector3D());
+      engine::Vector3D(10, 10, 0), engine::Vector3D(-5, 0, 0), engine::Quaternion(), engine::Vector3D());
 
     engine::RigidBodyPrinter::setRigidBody(sportCarObject);
 
@@ -97,8 +97,22 @@ int main()
         scenesAPI.addPhysicsObject(sportCarObject, sportCarRenderedMesh);
         scenesAPI.addPhysicsObject(policeCarObject, policeCarRenderedMesh);
 
+        bool crashDone = false;
+
         while(!window.isBeingClosed())
         {
+            if(!crashDone && (sportCarObject->getPosition().getX() >= -1 || policeCarObject->getPosition().getX() <= 1))
+            {
+                crashDone = true;
+                // sportCarObject->setVelocity(engine::Vector3D());
+                // policeCarObject->setVelocity(engine::Vector3D());
+                sportCarObject->addForceAtBodyPoint(engine::Vector3D(-50, 50, 10), engine::Vector3D(-1, -1, 0));
+                policeCarObject->addForceAtBodyPoint(engine::Vector3D(50, 50, -10), engine::Vector3D(1, -1, 0));
+
+                // std::shared_ptr<engine::RigidBodyGravity> gravity = std::make_shared<engine::RigidBodyGravity>();
+                // sceneEngine->addForceToAllRigidBodies(gravity);
+            }
+
             // Render Here
             // Clean the back buffer and depth buffer
             renderer.clear();

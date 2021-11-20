@@ -128,13 +128,13 @@ void RigidBody::setAngularAcceleration(Vector3D angularAcceleration)
 // call each frame to calculate the transformMatrix and normalize the orientation
 void RigidBody::calculateDerivedData()
 {
-    //We normalize the orientation quaternion
+    // We normalize the orientation quaternion
     m_orientation.normalized();
 
-    //We update the transformation matrix for the graphical engine
+    // We update the transformation matrix for the graphical engine
     m_transformationMatrix.setOrientationAndPosition(m_orientation, getPosition());
 
-    //We update the world inertia matrix
+    // We update the world inertia matrix
     m_worldInertiaInverseMatrix = m_transformationMatrix.getMatrix33() * m_localInertiaInverseMatrix *
                                   m_transformationMatrix.getMatrix33().inverse();
 }
@@ -143,7 +143,8 @@ void RigidBody::calculateDerivedData()
 void RigidBody::integratePosition(float deltaT)
 {
     // We update the position, the same way we did with the particles
-    setPosition(getPosition() + getVelocity() * deltaT + getAcceleration() * 0.5 * pow(deltaT, 2));
+    Vector3D newPosition = getPosition() + getVelocity() * deltaT + getAcceleration() * 0.5 * pow(deltaT, 2);
+    m_position = newPosition;
 
     // We update the orientation thanks to the quaternion class's method
     m_orientation.updateByAngularVelocity(m_rotation, deltaT);
@@ -152,19 +153,20 @@ void RigidBody::integratePosition(float deltaT)
     calculateDerivedData();
 
     // We reset the accelerations
-    setAcceleration(Vector3D());
-    setAngularAcceleration(Vector3D());
+    m_acceleration = Vector3D();
+    m_angularAcceleration = Vector3D();
 }
 
 void RigidBody::integrateVelocity(float deltaT)
 {
     // Calculate regular acceleration
-    setAcceleration(m_forceAccum * getInverseMass());
+    m_acceleration = m_forceAccum * getInverseMass();
     // Calculate angular acceleration
     m_angularAcceleration = m_worldInertiaInverseMatrix * m_torqueAccum;
 
+    Vector3D newVelocity = getVelocity() * pow(getDamping(), deltaT) + getAcceleration() * deltaT;
     // Update velocity
-    setVelocity(getVelocity() * pow(getDamping(), deltaT) + getAcceleration() * deltaT);
+    m_velocity = newVelocity;
 
     // Update angular velocity
     m_rotation = m_rotation * pow(getDamping(), deltaT) + m_angularAcceleration * deltaT;
@@ -183,14 +185,14 @@ void RigidBody::addForce(const Vector3D& force)
 
 void RigidBody::addForceAtPoint(const Vector3D& force, const Vector3D& worldPoint)
 {
-    Vector3D torque = (m_transformationMatrix * worldPoint).crossProduct(force);
+    Vector3D torque = (worldPoint).crossProduct(force);
     m_torqueAccum += torque;
     m_forceAccum += force;
 }
 
 void RigidBody::addForceAtBodyPoint(const Vector3D& force, const Vector3D& localPoint)
 {
-    Vector3D torque = (localPoint).crossProduct(force);
+    Vector3D torque = (m_transformationMatrix * localPoint).crossProduct(force);
     m_torqueAccum += torque;
     m_forceAccum += force;
 }

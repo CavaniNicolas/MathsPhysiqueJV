@@ -6,7 +6,7 @@ namespace engine
 {
 class PhysicsObject
 {
-  private:
+  protected:
     // We store inverseMass rather than mass, because we will more often access the
     // inverse mass, and because it allows us to imagine an infinite mass, but not a null mass
     float m_inverseMass;
