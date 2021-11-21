@@ -4,12 +4,9 @@
 #include <imgui/imgui_impl_glfw.h>
 #include <imgui/imgui_impl_opengl3.h>
 
-#include "PhysicsEngine/CableSpring.hpp"
-#include "PhysicsEngine/WallContactGenerator.hpp"
-#include "PhysicsEngine/ParticleGravity.hpp"
-#include "PhysicsEngine/ParticleDrag.hpp"
+#include "PhysicsEngine/RigidBodySpring.hpp"
 
-#include "mainApp2/UserInterface.hpp"
+#include "mainApp3/UserInterface.hpp"
 
 float UserInterface::generateRandomFloat(float minVal, float maxVal) const
 {
@@ -31,6 +28,65 @@ UserInterface::UserInterface(render::Window window): m_xMovement(0), m_yMovement
     // Setup Platform/Renderer backends
     ImGui_ImplGlfw_InitForOpenGL(window.getWindow(), true);
     ImGui_ImplOpenGL3_Init(glsl_version);
+}
+
+void UserInterface::showSpringCreation(api::ScenesAPI& scenesAPI) const
+{
+    if(ImGui::TreeNode("Spring creation"))
+    {
+        static float springConstant = .2f;
+        static float restLength = 15;
+
+        // Table with the spring constant
+        if(ImGui::BeginTable("SpringConstant", 1))
+        {
+            ImGui::TableNextRow();
+
+            ImGui::TableSetColumnIndex(0);
+            ImGui::Text("Spring constant");
+
+            ImGui::TableNextRow();
+            ImGui::TableSetColumnIndex(0);
+            ImGui::InputFloat("Constant", &springConstant);
+            ImGui::SameLine();
+            HelpMarker("Here you can determine how strong the springs linking the particles will be.");
+
+            ImGui::EndTable();
+        }
+
+        // Table with the rest length
+        if(ImGui::BeginTable("RestLength", 1))
+        {
+            ImGui::TableNextRow();
+
+            ImGui::TableSetColumnIndex(0);
+            ImGui::Text("Rest length");
+
+            ImGui::TableNextRow();
+            ImGui::TableSetColumnIndex(0);
+            ImGui::InputFloat("Length", &restLength);
+            ImGui::SameLine();
+            HelpMarker("Here you can determine the springs' rest length.\n"
+                       "If the spring's length is below this length, the spring will push the\n"
+                       "particles appart, and if the spring's length if above this length, the\n"
+                       "spring will push them towards each other.");
+
+            ImGui::EndTable();
+        }
+
+        // Button to create a projectile with the selected position and direction
+        if(ImGui::Button("Create spring"))
+        {
+            auto& rigidBody1 = std::dynamic_pointer_cast<engine::RigidBody>(scenesAPI.getSceneEngine()->getObjects()[0]);
+            auto& rigidBody2 = std::dynamic_pointer_cast<engine::RigidBody>(scenesAPI.getSceneEngine()->getObjects()[1]);
+
+            std::shared_ptr<engine::RigidBodySpring> spring = std::make_shared<engine::RigidBodySpring>(
+              engine::Vector3D(1, 1, 0), rigidBody2, engine::Vector3D(1, 1, 0), springConstant, restLength);
+
+            scenesAPI.getSceneEngine()->addRigidBodyForce(rigidBody1, spring);
+        }
+        ImGui::TreePop();
+    }
 }
 
 void UserInterface::start() const
@@ -72,6 +128,8 @@ void UserInterface::render(engine::GameEngine& gameEngine, api::ScenesAPI& scene
 
     // Edit translation.x using a slider from 0.0f to 90.0f
     ImGui::SliderFloat("cameraAngle", &cameraAngle, 0.0f, 90.0f);
+
+    showSpringCreation(scenesAPI);
 
     // Buttons to run and pause the simulation
     if(ImGui::Button("Run Simulation"))

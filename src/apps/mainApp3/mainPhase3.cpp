@@ -59,10 +59,10 @@ int main()
     std::shared_ptr<engine::RigidBody> policeCarObject = std::make_shared<engine::RigidBody>(
       engine::Vector3D(-5, 20, 30), engine::Vector3D(-5, 0, 0), engine::Quaternion(), engine::Vector3D(0, 0, 1));
 
-    std::shared_ptr<engine::RigidBodySpring> spring = std::make_shared<engine::RigidBodySpring>(
+    /*std::shared_ptr<engine::RigidBodySpring> spring = std::make_shared<engine::RigidBodySpring>(
       engine::Vector3D(1, 1, 0), policeCarObject, engine::Vector3D(1, 1, 0), .05, 20);
 
-    sceneEngine->addRigidBodyForce(sportsCarObject, spring);
+    sceneEngine->addRigidBodyForce(sportsCarObject, spring);*/
 
     engine::RigidBodyPrinter::setRigidBody(sportsCarObject);
 
