@@ -51,13 +51,13 @@ int main()
 
     // Create physicsObjects
     std::shared_ptr<engine::RigidBody> sportsCarObject =
-      std::make_shared<engine::RigidBody>(engine::Vector3D(5, 20, 30),
+      std::make_shared<engine::RigidBody>(engine::Vector3D(5, 10, 30),
                                           engine::Vector3D(5, 0, 0),
                                           engine::Quaternion(0, 0, 1, 0),
                                           engine::Vector3D(1, 0, 1));
 
     std::shared_ptr<engine::RigidBody> policeCarObject = std::make_shared<engine::RigidBody>(
-      engine::Vector3D(-5, 20, 30), engine::Vector3D(-5, 0, 0), engine::Quaternion(), engine::Vector3D(0, 0, 1));
+      engine::Vector3D(-5, 10, 30), engine::Vector3D(-5, 0, 0), engine::Quaternion(), engine::Vector3D(0, 0, 1));
 
     /*std::shared_ptr<engine::RigidBodySpring> spring = std::make_shared<engine::RigidBodySpring>(
       engine::Vector3D(1, 1, 0), policeCarObject, engine::Vector3D(1, 1, 0), .05, 20);
