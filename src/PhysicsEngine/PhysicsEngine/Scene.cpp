@@ -80,7 +80,8 @@ void Scene::addRigidBodyForce(std::shared_ptr<RigidBody> rigidbody,
     m_forceRegistry.addEntry(rigidbody, forceGenerator);
 }
 
-void Scene::addForceToAllRigidBodies(std::shared_ptr<RigidBodyForceGenerator> forceGenerator) {
+void Scene::addForceToAllRigidBodies(std::shared_ptr<RigidBodyForceGenerator> forceGenerator)
+{
     for(auto& object: m_physicsObject)
     {
         if(std::shared_ptr<RigidBody> rigidbody = std::dynamic_pointer_cast<RigidBody>(object))
@@ -95,7 +96,7 @@ void Scene::integrateAll(float deltaT)
     // We move the particles
     for(auto& object: m_physicsObject)
     {
-        if(auto& particle = std::dynamic_pointer_cast<Particle>(object))
+        if(auto const& particle = std::dynamic_pointer_cast<Particle>(object))
             object->integratePosition(deltaT);
     }
     m_forceRegistry.updateForce(deltaT);
@@ -105,7 +106,7 @@ void Scene::integrateAll(float deltaT)
     }
     for(auto& object: m_physicsObject)
     {
-        if(auto& rigidbody = std::dynamic_pointer_cast<RigidBody>(object))
+        if(auto const& rigidbody = std::dynamic_pointer_cast<RigidBody>(object))
             object->integratePosition(deltaT);
     }
 
