@@ -52,11 +52,13 @@ int main()
     // Create physicsObjects
     // sport car
     std::shared_ptr<engine::RigidBody> sportCarObject = std::make_shared<engine::RigidBody>(
-      engine::Vector3D(-10, 10, 0), engine::Vector3D(5, 0, 0), engine::Quaternion(), engine::Vector3D());
+      engine::Vector3D(-10, 20, 30), engine::Vector3D(5, 0, 0), engine::Quaternion(0, 0, 1, 0), engine::Vector3D());
+    sportCarObject->setG(1);
 
     // police car
     std::shared_ptr<engine::RigidBody> policeCarObject = std::make_shared<engine::RigidBody>(
-      engine::Vector3D(10, 10, 0), engine::Vector3D(-5, 0, 0), engine::Quaternion(), engine::Vector3D());
+      engine::Vector3D(10, 20, 30), engine::Vector3D(-5, 0, 0), engine::Quaternion(), engine::Vector3D());
+    policeCarObject->setG(1);
 
     engine::RigidBodyPrinter::setRigidBody(sportCarObject);
 
@@ -76,6 +78,8 @@ int main()
         render::Mesh policeCarMesh(objReader.readOBJFromFile(std::string(RESOURCE_PATH) + "objects/LowPolyCar2.obj"));
         std::shared_ptr<render::RenderedMesh> policeCarRenderedMesh = std::make_shared<render::RenderedMesh>(
           policeCarMesh, std::string(RESOURCE_PATH) + "textures/CarTexture2.png");
+
+        std::shared_ptr<engine::RigidBodyGravity> gravity = std::make_shared<engine::RigidBodyGravity>();
 
         render::RenderedMeshPrinter::setRenderedMesh(sportCarRenderedMesh);
 
@@ -97,20 +101,31 @@ int main()
         scenesAPI.addPhysicsObject(sportCarObject, sportCarRenderedMesh);
         scenesAPI.addPhysicsObject(policeCarObject, policeCarRenderedMesh);
 
-        bool crashDone = false;
+        bool crashHappening = false;
+        bool crashStarted = false;
+        int maxForceNb = 100;
+        int forceNb = 0;
 
         while(!window.isBeingClosed())
         {
-            if(!crashDone && (sportCarObject->getPosition().getX() >= -1 || policeCarObject->getPosition().getX() <= 1))
+            if(!crashStarted &&
+               (sportCarObject->getPosition().getX() >= -1 || policeCarObject->getPosition().getX() <= 1))
             {
-                crashDone = true;
+                crashHappening = true;
+                crashStarted = true;
                 /*sportCarObject->setVelocity(engine::Vector3D());
                 policeCarObject->setVelocity(engine::Vector3D());*/
-                sportCarObject->addForceAtBodyPoint(engine::Vector3D(-5, 0, 0), engine::Vector3D(-1, -1, 0));
-                policeCarObject->addForceAtBodyPoint(engine::Vector3D(5, 0, 00), engine::Vector3D(1, -1, 0));
+                sportCarObject->addForceAtBodyPoint(engine::Vector3D(-10, 2, 0), engine::Vector3D(-1, -1, 0));
+                policeCarObject->addForceAtBodyPoint(engine::Vector3D(10, 2, 0), engine::Vector3D(1, -1, 0));
 
-                // std::shared_ptr<engine::RigidBodyGravity> gravity = std::make_shared<engine::RigidBodyGravity>();
-                // sceneEngine->addForceToAllRigidBodies(gravity);
+                sceneEngine->addForceToAllRigidBodies(gravity);
+            }
+
+            if(crashHappening && forceNb < maxForceNb)
+            {
+                forceNb++;
+                sportCarObject->addForce(engine::Vector3D(-5, 2, 0));
+                policeCarObject->addForce(engine::Vector3D(5, 2, 0));
             }
 
             // Render Here
