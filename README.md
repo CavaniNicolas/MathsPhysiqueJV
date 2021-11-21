@@ -13,15 +13,19 @@ Go to your build dir and compile the source using the root CMakeLists.txt
 
 ## User Guide
 
-### Launch an object
-
 Once the project is compiled, you will be able to start several executables.
 
-As we worked on the phase 3, you should start mainPhase3. This will open an ImGUI window.
+### Launch an object
+
+To try to launch a rigidbody with an angular velocity, you should start mainPhase3. This will open an ImGUI window.
 
 Here, you should set the window to be fullscreen to see everything well.
 
 Then, just click on the button "Run simulation". You will see two cars launched in the air, and you can observe their rotations.
+
+### Spring between two objects
+
+Still in the mainPhase3, it is possible to also add a spring between the two cars. To do so, you can click on "Spring creation". Here there is a few settings you can change if you want, and click on "create spring". Then click on "Run simulation" to observe the behaviour of the cars.
 
 ### Collision between two cars
 
