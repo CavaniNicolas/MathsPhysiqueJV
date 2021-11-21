@@ -33,6 +33,8 @@
 
 #include <Render/DebugUtils/RenderedMeshPrinter.hpp>
 
+#include <PhysicsEngine/RigidBodySpring.hpp>
+
 int main()
 {
     render::Window window(960, 540, "Moteur Physique");
@@ -48,10 +50,21 @@ int main()
     engine::GameEngine gameEngine = engine::GameEngine(sceneEngine);
 
     // Create physicsObjects
-    std::shared_ptr<engine::RigidBody> carObject = std::make_shared<engine::RigidBody>(
-      engine::Vector3D(0, 20, 30), engine::Vector3D(5, 0, 0), engine::Quaternion(), engine::Vector3D(0, 1, 0));
+    std::shared_ptr<engine::RigidBody> sportsCarObject =
+      std::make_shared<engine::RigidBody>(engine::Vector3D(5, 20, 30),
+                                          engine::Vector3D(5, 0, 0),
+                                          engine::Quaternion(0, 0, 1, 0),
+                                          engine::Vector3D(1, 0, 1));
 
-    engine::RigidBodyPrinter::setRigidBody(carObject);
+    std::shared_ptr<engine::RigidBody> policeCarObject = std::make_shared<engine::RigidBody>(
+      engine::Vector3D(-5, 20, 30), engine::Vector3D(-5, 0, 0), engine::Quaternion(), engine::Vector3D(0, 0, 1));
+
+    std::shared_ptr<engine::RigidBodySpring> spring = std::make_shared<engine::RigidBodySpring>(
+      engine::Vector3D(1, 1, 0), policeCarObject, engine::Vector3D(1, 1, 0), .05, 20);
+
+    sceneEngine->addRigidBodyForce(sportsCarObject, spring);
+
+    engine::RigidBodyPrinter::setRigidBody(sportsCarObject);
 
     {
         // Create Meshes and RenderedMeshes
@@ -59,12 +72,18 @@ int main()
           render::mesh::Plan::getMesh(), std::string(RESOURCE_PATH) + render::mesh::Plan::getTexturePath());
 
         render::IO::OBJReader objReader;
-        render::Mesh carMesh(objReader.readOBJFromFile(std::string(RESOURCE_PATH) + "objects/LowPolyCar1.obj"));
 
-        std::shared_ptr<render::RenderedMesh> carRenderedMesh =
-          std::make_shared<render::RenderedMesh>(carMesh, std::string(RESOURCE_PATH) + "textures/CarTexture1.png");
+        // sports car
+        render::Mesh sportsCarMesh(objReader.readOBJFromFile(std::string(RESOURCE_PATH) + "objects/LowPolyCar1.obj"));
+        std::shared_ptr<render::RenderedMesh> sportsCarRenderedMesh = std::make_shared<render::RenderedMesh>(
+          sportsCarMesh, std::string(RESOURCE_PATH) + "textures/CarTexture1.png");
 
-        render::RenderedMeshPrinter::setRenderedMesh(carRenderedMesh);
+        // police Car
+        render::Mesh policeCarMesh(objReader.readOBJFromFile(std::string(RESOURCE_PATH) + "objects/LowPolyCar2.obj"));
+        std::shared_ptr<render::RenderedMesh> policeCarRenderedMesh = std::make_shared<render::RenderedMesh>(
+          policeCarMesh, std::string(RESOURCE_PATH) + "textures/CarTexture2.png");
+
+        render::RenderedMeshPrinter::setRenderedMesh(sportsCarRenderedMesh);
 
         // create shader, renderer, and sceneRender
         render::Shader shader(std::string(RESOURCE_PATH) + "shaders/basic.shader");
@@ -81,7 +100,8 @@ int main()
         api::ScenesAPI scenesAPI(sceneEngine, sceneRender);
 
         // add physicsObjects to the main scene
-        scenesAPI.addPhysicsObject(carObject, carRenderedMesh);
+        scenesAPI.addPhysicsObject(sportsCarObject, sportsCarRenderedMesh);
+        scenesAPI.addPhysicsObject(policeCarObject, policeCarRenderedMesh);
 
         while(!window.isBeingClosed())
         {

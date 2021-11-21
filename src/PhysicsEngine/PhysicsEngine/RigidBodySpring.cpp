@@ -25,6 +25,6 @@ void RigidBodySpring::updateForce(std::shared_ptr<PhysicsObject> object, float d
 
     Vector3D force = springLength.normalize() * -m_k * (springLength.getNorm() - m_restLength);
 
-    rigidbody->addForceAtBodyPoint(force, m_bodyAnchor);
-    m_otherRigidBody->addForceAtBodyPoint(force * (-1), m_otherBodyAnchor);
+    rigidbody->addForceAtPoint(force, bodyWorldCoordinates);
+    m_otherRigidBody->addForceAtPoint(force * (-1), otherWorldCoordinates);
 }
