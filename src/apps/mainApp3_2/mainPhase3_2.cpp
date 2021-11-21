@@ -52,12 +52,12 @@ int main()
     // Create physicsObjects
     // sport car
     std::shared_ptr<engine::RigidBody> sportCarObject = std::make_shared<engine::RigidBody>(
-      engine::Vector3D(-10, 20, 30), engine::Vector3D(5, 0, 0), engine::Quaternion(0, 0, 1, 0), engine::Vector3D());
+      engine::Vector3D(-10, 10, 30), engine::Vector3D(5, 0, 0), engine::Quaternion(0, 0, 1, 0), engine::Vector3D());
     sportCarObject->setG(1);
 
     // police car
     std::shared_ptr<engine::RigidBody> policeCarObject = std::make_shared<engine::RigidBody>(
-      engine::Vector3D(10, 20, 30), engine::Vector3D(-5, 0, 0), engine::Quaternion(), engine::Vector3D());
+      engine::Vector3D(10, 10, 30), engine::Vector3D(-5, 0, 0), engine::Quaternion(), engine::Vector3D());
     policeCarObject->setG(1);
 
     engine::RigidBodyPrinter::setRigidBody(sportCarObject);
@@ -109,7 +109,7 @@ int main()
         while(!window.isBeingClosed())
         {
             if(!crashStarted &&
-               (sportCarObject->getPosition().getX() >= -1 || policeCarObject->getPosition().getX() <= 1))
+               (sportCarObject->getPosition().getX() >= -2 || policeCarObject->getPosition().getX() <= 2))
             {
                 crashHappening = true;
                 crashStarted = true;
