@@ -83,6 +83,9 @@ set(HEADERS
     PhysicsEngine/RigidBodyForceGenerator.hpp
     PhysicsEngine/RigidBodyGravity.hpp
     PhysicsEngine/RigidBodySpring.hpp
+
+    #Rigidbodies collision
+    PhysicsEngine/BoundingSphere.hpp
 )
 
 set(SOURCES_DEBUG
