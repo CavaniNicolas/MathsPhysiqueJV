@@ -33,6 +33,8 @@
 #include <Render/Shader.hpp>
 #include <Render/Window.hpp>
 
+#include <Render/DebugUtils/RenderedMeshPrinter.hpp>
+
 #include <Render/Mesh/Pyramid.hpp>
 #include <Render/Mesh/Plan.hpp>
 
@@ -90,8 +92,11 @@ int main()
         //        scenesAPI.addParticleDefault(fireball);
 
         // scale the renderedMeshes
-        pyramid->setScale(glm::vec3(0.5f, 0.5f, 0.5f));
+        //        pyramid->setScale(glm::vec3(0.5f, 0.5f, 0.5f));
         plan->setScale(glm::vec3(50.0f, 50.0f, 50.0f));
+        plan->setNeedModelUpdate(true);
+
+        render::RenderedMeshPrinter::setRenderedMesh(pyramid);
 
         auto startTime = std::chrono::high_resolution_clock::now();
 
@@ -111,11 +116,12 @@ int main()
             double crntTime = glfwGetTime();
             if(crntTime - prevTime >= 1 / 144)
             {
-                pyramid->addRotation(glm::vec3(0.0f, 0.5f, 0.0f));
+                pyramid->addRotation(glm::vec3(0.5f, 0.5f, 0.5f));
                 prevTime = crntTime;
             }
 
-            //            ParticlePrinter::debugPrint();
+            //            engine::ParticlePrinter::debugPrint();
+            render::RenderedMeshPrinter::debugPrint();
 
             // get the actual particles positions to set it to the corresponding renderedMeshes
             scenesAPI.updateMeshMatrix();
