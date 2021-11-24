@@ -52,6 +52,8 @@ class Quaternion
         return m_z;
     }
 
+    Vector3D getEuler() const;
+
     friend std::ostream& operator<<(std::ostream& out, Quaternion const& rb);
 
   private:

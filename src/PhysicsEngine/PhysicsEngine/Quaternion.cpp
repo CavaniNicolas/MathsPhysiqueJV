@@ -79,6 +79,15 @@ Quaternion& Quaternion::operator/=(const float scalar)
     return *this;
 }
 
+Vector3D Quaternion::getEuler() const
+{
+    Vector3D result;
+    result.setX(atan2(2 * (m_w * m_x + m_y * m_z), 1 - 2 * (m_x * m_x + m_y * m_y)));
+    result.setY(asin(2 * (m_w * m_y - m_z * m_x)));
+    result.setZ(atan2(2 * (m_w * m_z + m_x * m_y), 1 - 2 * (m_y * m_y + m_z * m_z)));
+    return result;
+}
+
 std::ostream& operator<<(std::ostream& out, Quaternion const& quat)
 {
     out << "w:" << quat.m_w << ", x:" << quat.m_x << ", y:" << quat.m_y << ", z:" << quat.m_z;
