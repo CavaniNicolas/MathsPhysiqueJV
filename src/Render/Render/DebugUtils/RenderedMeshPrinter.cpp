@@ -29,6 +29,23 @@ void RenderedMeshPrinter::debugPrintI()
                 }
                 std::cout << std::endl;
             }
+
+            // print vectors norm as well
+            if(m_printVectorsNorm)
+            {
+                std::cout << "vectors norm :" << std::endl;
+                for(int i = 0; i < 3; ++i)
+                {
+                    std::cout << model[i][0] * model[i][0] + model[i][1] * model[i][1] + model[i][2] * model[i][2]
+                              << std::endl;
+                }
+                for(int i = 0; i < 3; ++i)
+                {
+                    std::cout << model[0][i] * model[0][i] + model[1][i] * model[1][i] + model[2][i] * model[2][i]
+                              << " ";
+                }
+                std::cout << std::endl;
+            }
             std::cout << std::endl;
         }
         else
@@ -37,6 +54,11 @@ void RenderedMeshPrinter::debugPrintI()
         }
         m_prevPrintTime = currPrintTime;
     }
+}
+
+void RenderedMeshPrinter::setPrintVectorsNormI(bool shouldPrint)
+{
+    m_printVectorsNorm = shouldPrint;
 }
 
 void RenderedMeshPrinter::setRenderedMeshI(std::shared_ptr<RenderedMesh> renderedMesh)
