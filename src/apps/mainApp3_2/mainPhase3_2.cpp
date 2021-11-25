@@ -60,7 +60,7 @@ int main()
       engine::Vector3D(10, 10, 30), engine::Vector3D(-5, 0, 0), engine::Quaternion(), engine::Vector3D());
     policeCarObject->setG(1);
 
-    engine::RigidBodyPrinter::setRigidBody(sportCarObject);
+    engine::RigidBodyPrinter::setRigidBody(policeCarObject);
 
     {
         // Create Meshes and RenderedMeshes
@@ -81,7 +81,8 @@ int main()
 
         std::shared_ptr<engine::RigidBodyGravity> gravity = std::make_shared<engine::RigidBodyGravity>();
 
-        render::RenderedMeshPrinter::setRenderedMesh(sportCarRenderedMesh);
+        render::RenderedMeshPrinter::setRenderedMesh(policeCarRenderedMesh);
+        render::RenderedMeshPrinter::setPrintVectorsNorm(true);
 
         // create shader, renderer, and sceneRender
         render::Shader shader(std::string(RESOURCE_PATH) + "shaders/basic.shader");
