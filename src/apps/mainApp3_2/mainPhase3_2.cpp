@@ -102,7 +102,6 @@ int main()
         scenesAPI.addPhysicsObject(sportCarObject, sportCarRenderedMesh);
         scenesAPI.addPhysicsObject(policeCarObject, policeCarRenderedMesh);
 
-        bool crashHappening = false;
         bool crashStarted = false;
         int maxForceNb = 100;
         int forceNb = 0;
@@ -112,7 +111,6 @@ int main()
             if(!crashStarted &&
                (sportCarObject->getPosition().getX() >= -2 || policeCarObject->getPosition().getX() <= 2))
             {
-                crashHappening = true;
                 crashStarted = true;
                 /*sportCarObject->setVelocity(engine::Vector3D());
                 policeCarObject->setVelocity(engine::Vector3D());*/
@@ -122,7 +120,7 @@ int main()
                 sceneEngine->addForceToAllRigidBodies(gravity);
             }
 
-            if(crashHappening && forceNb < maxForceNb)
+            if(crashStarted && forceNb < maxForceNb)
             {
                 forceNb++;
                 sportCarObject->addForce(engine::Vector3D(-5, 2, 0));
