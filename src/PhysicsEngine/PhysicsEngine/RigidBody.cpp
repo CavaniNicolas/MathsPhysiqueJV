@@ -220,6 +220,11 @@ void RigidBody::calculateInertiaMatrix()
     m_localInertiaInverseMatrix = Matrix33(line1, line2, line3).inverse();
 }
 
+Vector3D RigidBody::getOrientationEuler() const
+{
+    return m_orientation.getEuler();
+}
+
 std::ostream& operator<<(std::ostream& out, RigidBody const& rb)
 {
     out << "Position : " << rb.getPosition() << ", " << std::endl
