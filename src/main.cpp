@@ -96,7 +96,7 @@ int main()
     scene.addForce(particle, partGravity);
 
     std::shared_ptr<WallContactGenerator> wall =
-      std::make_shared<WallContactGenerator>(particle, WallContactGenerator::y, 1, 0, 3);
+      std::make_shared<WallContactGenerator>(particle, WallContactGenerator::y, 0, 0, 3);
 
     scene.addContactGenerator(wall);
 

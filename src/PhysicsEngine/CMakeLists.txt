@@ -39,6 +39,9 @@ set(SOURCES
     PhysicsEngine/RigidBody.cpp
     PhysicsEngine/RigidBodyGravity.cpp
     PhysicsEngine/RigidBodySpring.cpp
+
+    #Rigidbodies collision
+    PhysicsEngine/BVH.cpp
 )
 
 set(HEADERS
@@ -86,6 +89,7 @@ set(HEADERS
 
     #Rigidbodies collision
     PhysicsEngine/BoundingSphere.hpp
+    PhysicsEngine/BVH.hpp
 )
 
 set(SOURCES_DEBUG
