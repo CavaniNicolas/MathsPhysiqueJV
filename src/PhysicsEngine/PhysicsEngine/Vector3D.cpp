@@ -147,6 +147,11 @@ float Vector3D::getNorm() const
     return sqrt(pow(m_x, 2) + pow(m_y, 2) + pow(m_z, 2));
 }
 
+float Vector3D::getSquareNorm() const
+{
+    return pow(m_x, 2) + pow(m_y, 2) + pow(m_z, 2);
+}
+
 Vector3D Vector3D::normalize() const
 {
     float norm = getNorm();
@@ -186,6 +191,15 @@ Vector3D Vector3D::getVectorInput()
             continue;
         }
     }
+}
+
+float Vector3D::distance(Vector3D vect1, Vector3D vect2)
+{
+    return (vect2 - vect1).getNorm();
+}
+
+float Vector3D::squareDistance(Vector3D vect1, Vector3D vect2) {
+    return (vect2 - vect1).getSquareNorm();
 }
 
 std::ostream& operator<<(std::ostream& out, Vector3D const& vector)
