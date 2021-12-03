@@ -19,7 +19,7 @@ BVH::BVH(std::vector<std::shared_ptr<PhysicsObject>>& objects)
     {
         const int MIN_OBJECTS_PER_LEAF = 1;
 
-        m_root = std::make_unique<Node>(rigidBodies);
+        m_root = std::make_shared<Node>(rigidBodies);
 
         if(numObjects > MIN_OBJECTS_PER_LEAF)
         {
@@ -27,8 +27,8 @@ BVH::BVH(std::vector<std::shared_ptr<PhysicsObject>>& objects)
 
             auto partitions = partitionObjects(rigidBodies);
 
-            m_root->m_leftTree = std::make_unique<BVH>(partitions.first);
-            m_root->m_rightTree = std::make_unique<BVH>(partitions.second);
+            m_root->m_leftTree = std::make_shared<BVH>(partitions.first);
+            m_root->m_rightTree = std::make_shared<BVH>(partitions.second);
         }
     }
 }
@@ -40,7 +40,7 @@ BVH::BVH(std::vector<std::shared_ptr<RigidBody>>& rigidBodies)
     {
         const int MIN_OBJECTS_PER_LEAF = 1;
 
-        m_root = std::make_unique<Node>(rigidBodies);
+        m_root = std::make_shared<Node>(rigidBodies);
 
         if(numObjects > MIN_OBJECTS_PER_LEAF)
         {
@@ -48,8 +48,8 @@ BVH::BVH(std::vector<std::shared_ptr<RigidBody>>& rigidBodies)
 
             auto partitions = partitionObjects(rigidBodies);
 
-            m_root->m_leftTree = std::make_unique<BVH>(partitions.first);
-            m_root->m_rightTree = std::make_unique<BVH>(partitions.second);
+            m_root->m_leftTree = std::make_shared<BVH>(partitions.first);
+            m_root->m_rightTree = std::make_shared<BVH>(partitions.second);
         }
     }
 }
@@ -104,7 +104,62 @@ std::pair<std::vector<std::shared_ptr<RigidBody>>, std::vector<std::shared_ptr<R
     return ret;
 }
 
-std::vector<std::pair<std::weak_ptr<RigidBody>, std::weak_ptr<RigidBody>>> BVH::getPossibleCollisions()
+std::vector<std::pair<std::weak_ptr<RigidBody>, std::weak_ptr<RigidBody>>> BVH::getPossibleCollisions(
+  std::shared_ptr<BVH> toEvaluate)
 {
     std::vector<std::pair<std::weak_ptr<RigidBody>, std::weak_ptr<RigidBody>>> ret;
+    if(toEvaluate == nullptr)
+    {
+        if(m_root->type == NODE)
+        {
+            if(m_root->m_leftTree->m_root->type == LEAF && m_root->m_rightTree->m_root->type == LEAF)
+            {
+                ret = m_root->m_leftTree->getPossibleCollisions(m_root->m_rightTree);
+            }
+            else if(m_root->m_leftTree->m_root->type == LEAF && m_root->m_rightTree->m_root->type == NODE)
+            {
+                ret = m_root->m_rightTree->getPossibleCollisions(m_root->m_leftTree);
+            }
+            else if(m_root->m_leftTree->m_root->type == NODE && m_root->m_rightTree->m_root->type == LEAF)
+            {
+                ret = m_root->m_leftTree->getPossibleCollisions(m_root->m_rightTree);
+            }
+            else
+            {
+                std::vector<std::pair<std::weak_ptr<RigidBody>, std::weak_ptr<RigidBody>>> retLeft =
+                  m_root->m_leftTree->getPossibleCollisions();
+                std::vector<std::pair<std::weak_ptr<RigidBody>, std::weak_ptr<RigidBody>>> retRight =
+                  m_root->m_rightTree->getPossibleCollisions();
+                ret.reserve(retLeft.size() + retRight.size()); // preallocate memory
+                ret.insert(ret.end(), retLeft.begin(), retLeft.end());
+                ret.insert(ret.end(), retRight.begin(), retRight.end());
+            }
+        }
+    }
+    else
+    {
+        if(m_root->boundingVolume.collideWith(toEvaluate->m_root->boundingVolume)) 
+        {
+            if (m_root->type == LEAF) {
+                ret.push_back(
+                  {toEvaluate->m_root->boundingVolume.getRigidBodies()[0], m_root->boundingVolume.getRigidBodies()[0]});
+            }
+            else
+            {
+                std::vector<std::pair<std::weak_ptr<RigidBody>, std::weak_ptr<RigidBody>>> retLeft =
+                  m_root->m_leftTree->getPossibleCollisions(toEvaluate);
+                std::vector<std::pair<std::weak_ptr<RigidBody>, std::weak_ptr<RigidBody>>> retRight =
+                  m_root->m_rightTree->getPossibleCollisions(toEvaluate);
+                ret.reserve(retLeft.size() + retRight.size()); // preallocate memory
+                ret.insert(ret.end(), retLeft.begin(), retLeft.end());
+                ret.insert(ret.end(), retRight.begin(), retRight.end());
+            }
+        }
+        else
+        {
+            ret = getPossibleCollisions();
+        }
+    }
+
+    return ret;
 }

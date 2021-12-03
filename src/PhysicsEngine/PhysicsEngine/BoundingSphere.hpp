@@ -14,7 +14,7 @@ class BoundingSphere
     float m_radius;
 
   public:
-    BoundingSphere(const std::vector<std::shared_ptr<RigidBody>>& rigidBodies);
+    BoundingSphere(const std::vector<std::shared_ptr<RigidBody>>& rigidBodies = {});
 
     bool collideWith(const BoundingSphere& other) const;
 
