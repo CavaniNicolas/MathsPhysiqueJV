@@ -53,8 +53,11 @@ class Vector3D
 
     // Other methods
     float getNorm() const;
+    float getSquareNorm() const;
     Vector3D normalize() const;
     static Vector3D getVectorInput();
+    static float distance(Vector3D vect1, Vector3D vect2);
+    static float squareDistance(Vector3D vect1, Vector3D vect2);
 
     friend std::ostream& operator<<(std::ostream& out, Vector3D const& vector);
 };

@@ -42,6 +42,7 @@ set(SOURCES
 
     # Rigidbodies collisions
     PhysicsEngine/BoundingSphere.cpp
+    PhysicsEngine/BVH.cpp
 )
 
 set(HEADERS
@@ -89,6 +90,7 @@ set(HEADERS
 
     # Rigidbodies collisions
     PhysicsEngine/BoundingSphere.hpp
+    PhysicsEngine/BVH.hpp
 )
 
 set(SOURCES_DEBUG
