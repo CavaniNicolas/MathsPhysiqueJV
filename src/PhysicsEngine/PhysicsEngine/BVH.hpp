@@ -22,11 +22,14 @@ class BVH
     std::pair<std::vector<std::shared_ptr<RigidBody>>, std::vector<std::shared_ptr<RigidBody>>> partitionObjects(
       const std::vector<std::shared_ptr<RigidBody>>& rigidBodies);
 
+    void createBVH(const std::vector<std::shared_ptr<RigidBody>>& rigidBodies);
+
   public:
     BVH(std::vector<std::shared_ptr<PhysicsObject>>& objects);
     BVH(std::vector<std::shared_ptr<RigidBody>>& rigidBodies);
 
-    std::vector<std::pair<std::weak_ptr<RigidBody>, std::weak_ptr<RigidBody>>> getPossibleCollisions(std::shared_ptr<BVH> toEvaluate = nullptr);
+    std::vector<std::pair<std::weak_ptr<RigidBody>, std::weak_ptr<RigidBody>>> getPossibleCollisions(
+      std::shared_ptr<BVH> toEvaluate = nullptr);
 };
 
 struct Node

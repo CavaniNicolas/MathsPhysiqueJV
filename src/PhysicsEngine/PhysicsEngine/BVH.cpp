@@ -14,26 +14,15 @@ BVH::BVH(std::vector<std::shared_ptr<PhysicsObject>>& objects)
         }
     }
 
-    int numObjects = rigidBodies.size();
-    if(numObjects > 0)
-    {
-        const int MIN_OBJECTS_PER_LEAF = 1;
-
-        m_root = std::make_shared<Node>(rigidBodies);
-
-        if(numObjects > MIN_OBJECTS_PER_LEAF)
-        {
-            m_root->type = NODE;
-
-            auto partitions = partitionObjects(rigidBodies);
-
-            m_root->m_leftTree = std::make_shared<BVH>(partitions.first);
-            m_root->m_rightTree = std::make_shared<BVH>(partitions.second);
-        }
-    }
+    createBVH(rigidBodies);
 }
 
 BVH::BVH(std::vector<std::shared_ptr<RigidBody>>& rigidBodies)
+{
+    createBVH(rigidBodies);
+}
+
+void BVH::createBVH(const std::vector<std::shared_ptr<RigidBody>>& rigidBodies)
 {
     int numObjects = rigidBodies.size();
     if(numObjects > 0)
@@ -138,9 +127,10 @@ std::vector<std::pair<std::weak_ptr<RigidBody>, std::weak_ptr<RigidBody>>> BVH::
     }
     else
     {
-        if(m_root->boundingVolume.collideWith(toEvaluate->m_root->boundingVolume)) 
+        if(m_root->boundingVolume.collideWith(toEvaluate->m_root->boundingVolume))
         {
-            if (m_root->type == LEAF) {
+            if(m_root->type == LEAF)
+            {
                 ret.push_back(
                   {toEvaluate->m_root->boundingVolume.getRigidBodies()[0], m_root->boundingVolume.getRigidBodies()[0]});
             }
