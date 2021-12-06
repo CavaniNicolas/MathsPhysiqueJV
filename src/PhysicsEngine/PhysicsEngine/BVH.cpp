@@ -93,10 +93,10 @@ std::pair<std::vector<std::shared_ptr<RigidBody>>, std::vector<std::shared_ptr<R
     return ret;
 }
 
-std::vector<std::pair<std::weak_ptr<RigidBody>, std::weak_ptr<RigidBody>>> BVH::getPossibleCollisions(
+std::vector<std::pair<std::shared_ptr<RigidBody>, std::shared_ptr<RigidBody>>> BVH::getPossibleCollisions(
   std::shared_ptr<BVH> toEvaluate)
 {
-    std::vector<std::pair<std::weak_ptr<RigidBody>, std::weak_ptr<RigidBody>>> ret;
+    std::vector<std::pair<std::shared_ptr<RigidBody>, std::shared_ptr<RigidBody>>> ret;
     if(toEvaluate == nullptr)
     {
         if(m_root->type == NODE)
@@ -115,9 +115,9 @@ std::vector<std::pair<std::weak_ptr<RigidBody>, std::weak_ptr<RigidBody>>> BVH::
             }
             else
             {
-                std::vector<std::pair<std::weak_ptr<RigidBody>, std::weak_ptr<RigidBody>>> retLeft =
+                std::vector<std::pair<std::shared_ptr<RigidBody>, std::shared_ptr<RigidBody>>> retLeft =
                   m_root->m_leftTree->getPossibleCollisions();
-                std::vector<std::pair<std::weak_ptr<RigidBody>, std::weak_ptr<RigidBody>>> retRight =
+                std::vector<std::pair<std::shared_ptr<RigidBody>, std::shared_ptr<RigidBody>>> retRight =
                   m_root->m_rightTree->getPossibleCollisions();
                 ret.reserve(retLeft.size() + retRight.size()); // preallocate memory
                 ret.insert(ret.end(), retLeft.begin(), retLeft.end());
@@ -136,9 +136,9 @@ std::vector<std::pair<std::weak_ptr<RigidBody>, std::weak_ptr<RigidBody>>> BVH::
             }
             else
             {
-                std::vector<std::pair<std::weak_ptr<RigidBody>, std::weak_ptr<RigidBody>>> retLeft =
+                std::vector<std::pair<std::shared_ptr<RigidBody>, std::shared_ptr<RigidBody>>> retLeft =
                   m_root->m_leftTree->getPossibleCollisions(toEvaluate);
-                std::vector<std::pair<std::weak_ptr<RigidBody>, std::weak_ptr<RigidBody>>> retRight =
+                std::vector<std::pair<std::shared_ptr<RigidBody>, std::shared_ptr<RigidBody>>> retRight =
                   m_root->m_rightTree->getPossibleCollisions(toEvaluate);
                 ret.reserve(retLeft.size() + retRight.size()); // preallocate memory
                 ret.insert(ret.end(), retLeft.begin(), retLeft.end());
@@ -152,4 +152,19 @@ std::vector<std::pair<std::weak_ptr<RigidBody>, std::weak_ptr<RigidBody>>> BVH::
     }
 
     return ret;
+}
+
+std::vector<BoundingSphere> BVH::getBoundingSpheres() const
+{
+    std::vector<BoundingSphere> spheres;
+    spheres.push_back(m_root->boundingVolume);
+    if(m_root->type == NODE)
+    {
+        std::vector<BoundingSphere> leftSpheres = m_root->m_leftTree->getBoundingSpheres();
+        std::vector<BoundingSphere> rightSpheres = m_root->m_rightTree->getBoundingSpheres();
+        spheres.reserve(spheres.size() + leftSpheres.size() + rightSpheres.size()); // preallocate memory
+        spheres.insert(spheres.end(), leftSpheres.begin(), leftSpheres.end());
+        spheres.insert(spheres.end(), rightSpheres.begin(), rightSpheres.end());
+    }
+    return spheres;
 }

@@ -28,8 +28,10 @@ class BVH
     BVH(std::vector<std::shared_ptr<PhysicsObject>>& objects);
     BVH(std::vector<std::shared_ptr<RigidBody>>& rigidBodies);
 
-    std::vector<std::pair<std::weak_ptr<RigidBody>, std::weak_ptr<RigidBody>>> getPossibleCollisions(
+    std::vector<std::pair<std::shared_ptr<RigidBody>, std::shared_ptr<RigidBody>>> getPossibleCollisions(
       std::shared_ptr<BVH> toEvaluate = nullptr);
+
+    std::vector<BoundingSphere> getBoundingSpheres() const;
 };
 
 struct Node
