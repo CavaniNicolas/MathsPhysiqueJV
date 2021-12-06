@@ -20,6 +20,12 @@ class BoundingSphere
 
     std::vector<std::shared_ptr<RigidBody>> getRigidBodies();
 
-    int getNumObjects();
+    void calculateCenter();
+    void calculateRadius();
+
+    inline int getNumObjects() const
+    {
+        return m_rigidBodies.size();
+    }
 };
 } // namespace engine
