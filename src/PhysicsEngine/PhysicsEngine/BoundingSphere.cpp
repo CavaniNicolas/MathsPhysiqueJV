@@ -16,7 +16,7 @@ BoundingSphere::BoundingSphere(const std::vector<std::shared_ptr<RigidBody>>& ri
     calculateRadius();
 }
 
-bool BoundingSphere::collideWith(const BoundingSphere& other) const
+bool BoundingSphere::collideWith(BoundingSphere& other)
 {
     if(m_rigidBodies.size() != 0 && other.m_rigidBodies.size() != 0)
     {
@@ -29,10 +29,14 @@ bool BoundingSphere::collideWith(const BoundingSphere& other) const
         // if the bounding spheres collide, return true
         if(distance < m_radius + other.m_radius)
         {
-            return true;
+            m_isColliding = true;
+            other.m_isColliding = true;
         }
     }
-    return false;
+    m_isColliding = false;
+    other.m_isColliding = false;
+
+    return m_isColliding;
 }
 
 void BoundingSphere::calculateCenter()

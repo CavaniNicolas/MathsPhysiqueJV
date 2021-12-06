@@ -13,10 +13,12 @@ class BoundingSphere
     Vector3D m_center;
     float m_radius;
 
+    bool m_isColliding;
+
   public:
     BoundingSphere(const std::vector<std::shared_ptr<RigidBody>>& rigidBodies = {});
 
-    bool collideWith(const BoundingSphere& other) const;
+    bool collideWith(BoundingSphere& other);
 
     std::vector<std::shared_ptr<RigidBody>> getRigidBodies();
 
