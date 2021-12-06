@@ -220,6 +220,11 @@ void RigidBody::calculateInertiaMatrix()
     m_localInertiaInverseMatrix = Matrix33(line1, line2, line3).inverse();
 }
 
+float RigidBody::getGreatestRadius() const
+{
+    return std::sqrt(m_dx * m_dx + m_dy * m_dy + m_dz * m_dz) / 2;
+}
+
 std::ostream& operator<<(std::ostream& out, RigidBody const& rb)
 {
     out << "Position : " << rb.getPosition() << ", " << std::endl

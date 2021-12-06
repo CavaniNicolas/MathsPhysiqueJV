@@ -34,10 +34,10 @@ class RigidBody : public PhysicsObject
     // added by ForceGenerator
     Vector3D m_torqueAccum;
 
-    //The dimensions of the rigidbody
+    // The dimensions of the rigidbody
     float m_dx, m_dy, m_dz;
 
-    //The inertia matrix
+    // The inertia matrix
     Matrix33 m_localInertiaInverseMatrix;
     Matrix33 m_worldInertiaInverseMatrix;
 
@@ -100,6 +100,8 @@ class RigidBody : public PhysicsObject
     void clearAccumulator();
 
     Vector3D localToWorldCoordinates(Vector3D& coordinates);
+
+    float getGreatestRadius() const;
 
     friend std::ostream& operator<<(std::ostream& out, RigidBody const& rb);
 };
