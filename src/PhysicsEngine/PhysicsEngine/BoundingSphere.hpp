@@ -20,7 +20,7 @@ class BoundingSphere
 
     bool collideWith(BoundingSphere& other);
 
-    std::vector<std::shared_ptr<RigidBody>> getRigidBodies();
+    std::vector<std::shared_ptr<RigidBody>> getRigidBodies() const;
 
     void calculateCenter();
     void calculateRadius();

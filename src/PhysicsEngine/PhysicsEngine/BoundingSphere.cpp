@@ -84,4 +84,14 @@ void BoundingSphere::calculateRadius()
     }
 }
 
+std::vector<std::shared_ptr<RigidBody>> BoundingSphere::getRigidBodies() const
+{
+    std::vector<std::shared_ptr<RigidBody>> rigidBodies;
+    for(auto const& rb: m_rigidBodies)
+    {
+        rigidBodies.push_back(rb.lock());
+    }
+    return rigidBodies;
+}
+
 } // namespace engine
