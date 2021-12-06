@@ -4,6 +4,7 @@
 #include <vector>
 //#include <mutex>
 
+#include "PhysicsEngine/BVH.hpp"
 #include "PhysicsEngine/PhysicsObject.hpp"
 
 #include "PhysicsEngine/ForceRegistry.hpp"
@@ -26,6 +27,8 @@ class Scene
     ParticleContactResolver m_contactResolver;
     std::vector<std::shared_ptr<ParticleContactGenerator>> m_particleContactGenerators;
     int m_maxContactsPerIteration;
+
+    std::shared_ptr<BVH> m_bvh;
 
   public:
     // Constructors
@@ -54,8 +57,9 @@ class Scene
     void addParticleContactGenerator(std::shared_ptr<ParticleContactGenerator> contactGenerator);
 
     // Add a force to a specific rigidbody
-    void addRigidBodyForce(std::shared_ptr<RigidBody> rigidbody, std::shared_ptr<RigidBodyForceGenerator> forceGenerator);
-    // Add a force to every rigidbody currently in the 
+    void addRigidBodyForce(std::shared_ptr<RigidBody> rigidbody,
+                           std::shared_ptr<RigidBodyForceGenerator> forceGenerator);
+    // Add a force to every rigidbody currently in the
     void addForceToAllRigidBodies(std::shared_ptr<RigidBodyForceGenerator> forceGenerator);
 
     void integrateAll(float deltaT);

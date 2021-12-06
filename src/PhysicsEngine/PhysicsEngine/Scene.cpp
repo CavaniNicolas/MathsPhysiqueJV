@@ -121,6 +121,10 @@ void Scene::integrateAll(float deltaT)
     // We processed every contact, we can now clear the contact
     // array to fill it once again during the next iteration
     m_contactArray.clear();
+
+    m_bvh = std::make_shared<BVH>(m_physicsObject);
+    // Resolve the possible contacts
+    auto possibleContacts = m_bvh->getPossibleCollisions();
 }
 
 } // namespace engine
