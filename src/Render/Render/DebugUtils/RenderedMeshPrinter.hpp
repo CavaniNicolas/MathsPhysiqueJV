@@ -25,6 +25,11 @@ class RenderedMeshPrinter
         get().debugPrintI();
     }
 
+    static void setPrintVectorsNorm(bool shouldPrint)
+    {
+        get().setPrintVectorsNormI(shouldPrint);
+    }
+
     static void setRenderedMesh(std::shared_ptr<RenderedMesh> renderedMesh)
     {
         get().setRenderedMeshI(renderedMesh);
@@ -40,7 +45,11 @@ class RenderedMeshPrinter
     // print particle every printFrequency seconds
     float m_printFrequency;
 
+    // print vectors norm from the matrix if true
+    bool m_printVectorsNorm = false;
+
     void debugPrintI();
+    void setPrintVectorsNormI(bool shouldPrint);
     void setRenderedMeshI(std::shared_ptr<RenderedMesh> renderedMesh);
 
     RenderedMeshPrinter(): m_prevPrintTime(std::chrono::high_resolution_clock::now()), m_printFrequency(2.0f) {}

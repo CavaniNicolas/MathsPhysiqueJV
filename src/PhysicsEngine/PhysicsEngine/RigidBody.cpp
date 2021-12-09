@@ -220,6 +220,11 @@ void RigidBody::calculateInertiaMatrix()
     m_localInertiaInverseMatrix = Matrix33(line1, line2, line3).inverse();
 }
 
+Vector3D RigidBody::getOrientationEuler() const
+{
+    return m_orientation.getEuler();
+}
+
 float RigidBody::getGreatestRadius() const
 {
     return std::sqrt(m_dx * m_dx + m_dy * m_dy + m_dz * m_dz) / 2;

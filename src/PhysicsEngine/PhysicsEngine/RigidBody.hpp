@@ -101,6 +101,7 @@ class RigidBody : public PhysicsObject
 
     Vector3D localToWorldCoordinates(Vector3D& coordinates);
 
+    Vector3D getOrientationEuler() const;
     float getGreatestRadius() const;
 
     friend std::ostream& operator<<(std::ostream& out, RigidBody const& rb);
