@@ -31,6 +31,7 @@ void BVH::createBVH(const std::vector<std::shared_ptr<RigidBody>>& rigidBodies)
 
         m_root = std::make_shared<Node>(rigidBodies);
 
+        // rigidBodies.size() (numObjects) must be 2 or more, or it will crash
         if(numObjects > MIN_OBJECTS_PER_LEAF)
         {
             m_root->type = NODE;
@@ -43,6 +44,7 @@ void BVH::createBVH(const std::vector<std::shared_ptr<RigidBody>>& rigidBodies)
     }
 }
 
+// rigidBodies.size() must be 2 or more, or it will crash
 std::pair<std::vector<std::shared_ptr<RigidBody>>, std::vector<std::shared_ptr<RigidBody>>> BVH::partitionObjects(
   const std::vector<std::shared_ptr<RigidBody>>& rigidBodies)
 {
@@ -58,13 +60,13 @@ std::pair<std::vector<std::shared_ptr<RigidBody>>, std::vector<std::shared_ptr<R
         {
             firstFarthest = rigidBodies[i];
         }
-        for(int j = i; j < rigidBodies.size(); j++)
+        for(int j = i + 1; j < rigidBodies.size(); j++)
         {
             if(secondFarthest == nullptr)
             {
                 secondFarthest = rigidBodies[j];
             }
-            else if(Vector3D::squareDistance(rigidBodies[i]->getPosition(), rigidBodies[j]->getPosition()) <
+            else if(Vector3D::squareDistance(rigidBodies[i]->getPosition(), rigidBodies[j]->getPosition()) >
                     Vector3D::squareDistance(firstFarthest->getPosition(), secondFarthest->getPosition()))
             {
                 firstFarthest = rigidBodies[i];
