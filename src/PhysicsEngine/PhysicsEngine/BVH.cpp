@@ -6,7 +6,7 @@ BVH::BVH(std::vector<std::shared_ptr<PhysicsObject>>& objects)
 {
     std::vector<std::shared_ptr<RigidBody>> rigidBodies;
 
-    for(std::shared_ptr<PhysicsObject> physicsObject: objects)
+    for(auto const& physicsObject: objects)
     {
         if(std::shared_ptr<RigidBody> rigidBody = std::dynamic_pointer_cast<RigidBody>(physicsObject))
         {
