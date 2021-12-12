@@ -43,6 +43,10 @@ set(SOURCES
     # Rigidbodies collisions
     PhysicsEngine/BoundingSphere.cpp
     PhysicsEngine/BVH.cpp
+    PhysicsEngine/RigidBodyContact.cpp
+    PhysicsEngine/RigidBodyCollisionData.cpp
+    PhysicsEngine/Primitive.cpp
+    PhysicsEngine/RigidBodyContactGenerator.cpp
 )
 
 set(HEADERS
@@ -91,6 +95,10 @@ set(HEADERS
     # Rigidbodies collisions
     PhysicsEngine/BoundingSphere.hpp
     PhysicsEngine/BVH.hpp
+    PhysicsEngine/RigidBodyContact.hpp
+    PhysicsEngine/RigidBodyCollisionData.hpp
+    PhysicsEngine/Primitive.hpp
+    PhysicsEngine/RigidBodyContactGenerator.hpp
 )
 
 set(SOURCES_DEBUG

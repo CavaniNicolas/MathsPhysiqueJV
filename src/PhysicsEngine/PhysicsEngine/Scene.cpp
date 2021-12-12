@@ -125,6 +125,9 @@ void Scene::integrateAll(float deltaT)
     m_bvh = std::make_shared<BVH>(m_physicsObject);
     // Resolve the possible contacts
     auto possibleContacts = m_bvh->getPossibleCollisions();
+    for (auto& possibleContact : possibleContacts) {
+        //m_rigidBodyContactGenerator.generateContact(possibleContact.first, possibleContact.second, m_rigidBodyCollisionData);
+    }
 }
 
 } // namespace engine
