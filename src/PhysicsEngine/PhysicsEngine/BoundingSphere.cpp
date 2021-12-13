@@ -1,42 +1,72 @@
-
 #include "PhysicsEngine/BoundingSphere.hpp"
-#include "PhysicsEngine/Vector3D.hpp"
 
 namespace engine
 {
 
-BoundingSphere::BoundingSphere(const std::vector<std::shared_ptr<RigidBody>>& rigidBodies)
+BoundingSphere::BoundingSphere(const std::vector<std::shared_ptr<Primitive>>& primitives): BoundingVolume(primitives)
 {
-    for(auto const& rigidBody: rigidBodies)
-    {
-        m_rigidBodies.push_back(rigidBody);
-    }
-
     calculateCenter();
     calculateRadius();
 }
 
-bool BoundingSphere::collideWith(BoundingSphere& other)
+bool BoundingSphere::collideWith(std::shared_ptr<BoundingVolume>& other)
 {
-    if(m_rigidBodies.size() != 0 && other.m_rigidBodies.size() != 0)
+    if(getNumPrimitives() != 0 && other->getNumPrimitives() != 0)
     {
-        // calculate distance between the two BoundingSphere' center
-        float difX = m_center.getX() - other.m_center.getX();
-        float difY = m_center.getY() - other.m_center.getY();
-        float difZ = m_center.getZ() - other.m_center.getZ();
-        float distance = sqrt(difX * difX + difY * difY + difZ * difZ);
-
-        // if the bounding spheres collide, return true
-        if(distance < m_radius + other.m_radius)
+        if (std::shared_ptr<BoundingSphere>& otherBoundingSphere = std::dynamic_pointer_cast<BoundingSphere>(other)) {
+            collideWithSphere(otherBoundingSphere);
+        }
+        else if(std::shared_ptr<BoundingPlan>& otherBoundingPlan = std::dynamic_pointer_cast<BoundingPlan>(other))
         {
-            m_isColliding = true;
-            other.m_isColliding = true;
+            collideWithPlan(otherBoundingPlan);
         }
     }
-    m_isColliding = false;
-    other.m_isColliding = false;
+    else
+    {
+        m_isColliding = false || m_isColliding;
+        other->setColliding(false || other->isColliding());
+    }
 
     return m_isColliding;
+}
+
+bool BoundingSphere::collideWithSphere(std::shared_ptr<BoundingSphere>& otherBoundingSphere) {
+    // calculate distance between the two BoundingSphere' center
+    Vector3D otherCenter = otherBoundingSphere->getCenter();
+    float difX = m_center.getX() - otherCenter.getX();
+    float difY = m_center.getY() - otherCenter.getY();
+    float difZ = m_center.getZ() - otherCenter.getZ();
+    float distance = sqrt(difX * difX + difY * difY + difZ * difZ);
+
+    // if the bounding spheres collide, return true
+    if(distance < m_radius + otherBoundingSphere->getRadius())
+    {
+        m_isColliding = true;
+        otherBoundingSphere->setColliding(true);
+        return true;
+    }
+    else
+    {
+        m_isColliding = false || m_isColliding;
+        otherBoundingSphere->setColliding(false || otherBoundingSphere->isColliding());
+        return false;
+    }
+}
+
+bool BoundingSphere::collideWithPlan(std::shared_ptr<BoundingPlan>& otherBoundingPlan) {
+    float yMinHeight = m_center.getY() - m_radius;
+
+    if (yMinHeight <= otherBoundingPlan->getHeight()) {
+        m_isColliding = true;
+        otherBoundingPlan->setColliding(true);
+        return true;
+    }
+    else
+    {
+        m_isColliding = false || m_isColliding;
+        otherBoundingPlan->setColliding(false || otherBoundingPlan->isColliding());
+        return false;
+    }
 }
 
 void BoundingSphere::calculateCenter()
@@ -82,16 +112,6 @@ void BoundingSphere::calculateRadius()
         float dz = zMax - zMin;
         m_radius = std::sqrt(dx * dx + dy * dy + dz * dz) / 2;
     }
-}
-
-std::vector<std::shared_ptr<RigidBody>> BoundingSphere::getRigidBodies() const
-{
-    std::vector<std::shared_ptr<RigidBody>> rigidBodies;
-    for(auto const& rb: m_rigidBodies)
-    {
-        rigidBodies.push_back(rb.lock());
-    }
-    return rigidBodies;
 }
 
 } // namespace engine
