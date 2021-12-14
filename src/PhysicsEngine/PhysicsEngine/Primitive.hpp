@@ -18,5 +18,9 @@ class Primitive
 
     void setRigidBody(std::shared_ptr<RigidBody> body);
     void setOffset(Matrix34 offset);
+
+    Vector3D getPosition() const;
+
+    virtual bool collidesWith(const std::shared_ptr<Primitive>& other) = 0;
 };
 } // namespace engine

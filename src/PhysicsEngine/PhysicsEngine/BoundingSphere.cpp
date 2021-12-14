@@ -1,9 +1,10 @@
 #include "PhysicsEngine/BoundingSphere.hpp"
+#include "PhysicsEngine/Box.hpp"
 
 namespace engine
 {
-
-BoundingSphere::BoundingSphere(const std::vector<std::shared_ptr<Primitive>>& primitives): BoundingVolume(primitives)
+BoundingSphere::BoundingSphere(const std::vector<std::shared_ptr<Primitive>>& primitives):
+  BoundingVolume(primitives)
 {
     calculateCenter();
     calculateRadius();
@@ -13,7 +14,8 @@ bool BoundingSphere::collideWith(std::shared_ptr<BoundingVolume>& other)
 {
     if(getNumPrimitives() != 0 && other->getNumPrimitives() != 0)
     {
-        if (std::shared_ptr<BoundingSphere>& otherBoundingSphere = std::dynamic_pointer_cast<BoundingSphere>(other)) {
+        if(std::shared_ptr<BoundingSphere>& otherBoundingSphere = std::dynamic_pointer_cast<BoundingSphere>(other))
+        {
             collideWithSphere(otherBoundingSphere);
         }
         else if(std::shared_ptr<BoundingPlan>& otherBoundingPlan = std::dynamic_pointer_cast<BoundingPlan>(other))
@@ -30,7 +32,8 @@ bool BoundingSphere::collideWith(std::shared_ptr<BoundingVolume>& other)
     return m_isColliding;
 }
 
-bool BoundingSphere::collideWithSphere(std::shared_ptr<BoundingSphere>& otherBoundingSphere) {
+bool BoundingSphere::collideWithSphere(std::shared_ptr<BoundingSphere>& otherBoundingSphere)
+{
     // calculate distance between the two BoundingSphere' center
     Vector3D otherCenter = otherBoundingSphere->getCenter();
     float difX = m_center.getX() - otherCenter.getX();
@@ -53,10 +56,12 @@ bool BoundingSphere::collideWithSphere(std::shared_ptr<BoundingSphere>& otherBou
     }
 }
 
-bool BoundingSphere::collideWithPlan(std::shared_ptr<BoundingPlan>& otherBoundingPlan) {
+bool BoundingSphere::collideWithPlan(std::shared_ptr<BoundingPlan>& otherBoundingPlan)
+{
     float yMinHeight = m_center.getY() - m_radius;
 
-    if (yMinHeight <= otherBoundingPlan->getHeight()) {
+    if(yMinHeight <= otherBoundingPlan->getHeight())
+    {
         m_isColliding = true;
         otherBoundingPlan->setColliding(true);
         return true;
@@ -71,40 +76,48 @@ bool BoundingSphere::collideWithPlan(std::shared_ptr<BoundingPlan>& otherBoundin
 
 void BoundingSphere::calculateCenter()
 {
-    for(auto const& rigidBody: m_rigidBodies)
+    for(auto const& primitive: m_primitives)
     {
-        std::shared_ptr<RigidBody> rb = rigidBody.lock();
+        std::shared_ptr<Primitive> prim = primitive.lock();
 
-        m_center += rb->getPosition();
+        m_center += prim->getPosition();
     }
-    m_center /= m_rigidBodies.size();
+    m_center /= m_primitives.size();
 }
 
 void BoundingSphere::calculateRadius()
 {
-    if(m_rigidBodies.size() != 0)
+    if(m_primitives.size() != 0)
     {
-        std::shared_ptr<RigidBody> rb = m_rigidBodies[0].lock();
-        float radius = rb->getGreatestRadius();
-
-        float xMin = rb->getPosition().getX() - radius;
-        float yMin = rb->getPosition().getY() - radius;
-        float zMin = rb->getPosition().getZ() - radius;
-        float xMax = rb->getPosition().getX() + radius;
-        float yMax = rb->getPosition().getY() + radius;
-        float zMax = rb->getPosition().getZ() + radius;
-
-        for(int i = 1; i < m_rigidBodies.size(); ++i)
+        std::shared_ptr<Primitive> prim = m_primitives[0].lock();
+        float radius = 0;
+        if(std::shared_ptr<Box> box = std::dynamic_pointer_cast<Box>(prim))
         {
-            rb = m_rigidBodies[i].lock();
-            radius = rb->getGreatestRadius();
+            radius = box->getGreatestHalfSize();
+        }
 
-            xMin = std::min(xMin, rb->getPosition().getX() - radius);
-            yMin = std::min(yMin, rb->getPosition().getY() - radius);
-            zMin = std::min(zMin, rb->getPosition().getZ() - radius);
-            xMax = std::max(xMax, rb->getPosition().getX() + radius);
-            yMax = std::max(yMax, rb->getPosition().getY() + radius);
-            zMax = std::max(zMax, rb->getPosition().getZ() + radius);
+        float xMin = prim->getPosition().getX() - radius;
+        float yMin = prim->getPosition().getY() - radius;
+        float zMin = prim->getPosition().getZ() - radius;
+        float xMax = prim->getPosition().getX() + radius;
+        float yMax = prim->getPosition().getY() + radius;
+        float zMax = prim->getPosition().getZ() + radius;
+
+        for(int i = 1; i < m_primitives.size(); ++i)
+        {
+            prim = m_primitives[i].lock();
+            radius = 0;
+            if(std::shared_ptr<Box> box = std::dynamic_pointer_cast<Box>(prim))
+            {
+                radius = box->getGreatestHalfSize();
+            }
+
+            xMin = std::min(xMin, prim->getPosition().getX() - radius);
+            yMin = std::min(yMin, prim->getPosition().getY() - radius);
+            zMin = std::min(zMin, prim->getPosition().getZ() - radius);
+            xMax = std::max(xMax, prim->getPosition().getX() + radius);
+            yMax = std::max(yMax, prim->getPosition().getY() + radius);
+            zMax = std::max(zMax, prim->getPosition().getZ() + radius);
         }
 
         float dx = xMax - xMin;

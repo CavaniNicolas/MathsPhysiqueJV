@@ -3,7 +3,6 @@
 
 namespace engine
 {
-
 Scene::Scene(std::vector<std::shared_ptr<PhysicsObject>> objects,
              ForceRegistry forcesRegistry,
              std::vector<std::shared_ptr<ParticleContactGenerator>> particleContactGenerators,
@@ -91,6 +90,11 @@ void Scene::addForceToAllRigidBodies(std::shared_ptr<RigidBodyForceGenerator> fo
     }
 }
 
+void Scene::addPrimitive(std::shared_ptr<Primitive> primitive)
+{
+    m_primitives.push_back(primitive);
+}
+
 void Scene::integrateAll(float deltaT)
 {
     // We move the particles
@@ -122,11 +126,13 @@ void Scene::integrateAll(float deltaT)
     // array to fill it once again during the next iteration
     m_contactArray.clear();
 
-    m_bvh = std::make_shared<BVH>(m_physicsObject);
+    m_bvh = std::make_shared<BVH>(m_primitives);
     // Resolve the possible contacts
     auto possibleContacts = m_bvh->getPossibleCollisions();
-    for (auto& possibleContact : possibleContacts) {
-        //m_rigidBodyContactGenerator.generateContact(possibleContact.first, possibleContact.second, m_rigidBodyCollisionData);
+    for(auto& possibleContact: possibleContacts)
+    {
+        // m_rigidBodyContactGenerator.generateContact(possibleContact.first, possibleContact.second,
+        // m_rigidBodyCollisionData);
     }
 }
 

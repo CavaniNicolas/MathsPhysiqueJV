@@ -15,5 +15,9 @@ class Box : public Primitive
     Vector3D getHalfSizes() const;
 
     void setHalfSizes(Vector3D halfSizes);
+
+    float getGreatestHalfSize() const;
+
+    virtual bool collidesWith(const std::shared_ptr<Primitive>& other);
 };
 } // namespace engine

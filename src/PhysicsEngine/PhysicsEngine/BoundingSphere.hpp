@@ -1,33 +1,33 @@
 #pragma once
 
-#include <vector>
-#include <memory>
-#include "PhysicsEngine/RigidBody.hpp"
+#include "PhysicsEngine/BoundingVolume.hpp"
+#include "PhysicsEngine/BoundingPlan.hpp"
 
 namespace engine
 {
-class BoundingSphere
+class BoundingSphere : public BoundingVolume
 {
   private:
-    std::vector<std::weak_ptr<RigidBody>> m_rigidBodies;
     Vector3D m_center;
     float m_radius;
 
-    bool m_isColliding;
-
   public:
-    BoundingSphere(const std::vector<std::shared_ptr<RigidBody>>& rigidBodies = {});
+    BoundingSphere(const std::vector<std::shared_ptr<Primitive>>& primitives = {});
 
-    bool collideWith(BoundingSphere& other);
+    bool collideWithSphere(std::shared_ptr<BoundingSphere>& otherBoundingSphere);
+    bool collideWithPlan(std::shared_ptr<BoundingPlan>& otherBoundingPlan);
 
-    std::vector<std::shared_ptr<RigidBody>> getRigidBodies() const;
+    virtual bool collideWith(std::shared_ptr<BoundingVolume>& other);
+
+    inline Vector3D getCenter() const {
+        return m_center;
+    }
+
+    inline float getRadius() const {
+        return m_radius;
+    }
 
     void calculateCenter();
     void calculateRadius();
-
-    inline int getNumObjects() const
-    {
-        return m_rigidBodies.size();
-    }
 };
 } // namespace engine

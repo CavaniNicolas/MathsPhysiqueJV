@@ -25,13 +25,15 @@ class Scene
     ForceRegistry m_forceRegistry;
 
     std::vector<std::shared_ptr<ParticleContact>> m_contactArray;
-    RigidBodyCollisionData m_rigidBodyCollisionData;
+    //RigidBodyCollisionData m_rigidBodyCollisionData;
     ParticleContactResolver m_contactResolver;
     std::vector<std::shared_ptr<ParticleContactGenerator>> m_particleContactGenerators;
     RigidBodyContactGenerator m_rigidBodyContactGenerator;
     int m_maxContactsPerIteration;
 
     std::shared_ptr<BVH> m_bvh;
+
+    std::vector<std::shared_ptr<Primitive>> m_primitives;
 
   public:
     // Constructors
@@ -64,6 +66,8 @@ class Scene
                            std::shared_ptr<RigidBodyForceGenerator> forceGenerator);
     // Add a force to every rigidbody currently in the
     void addForceToAllRigidBodies(std::shared_ptr<RigidBodyForceGenerator> forceGenerator);
+
+    void addPrimitive(std::shared_ptr<Primitive> primitive);
 
     void integrateAll(float deltaT);
 };
