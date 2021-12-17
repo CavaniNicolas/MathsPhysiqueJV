@@ -44,7 +44,7 @@ set(SOURCES
     PhysicsEngine/BoundingSphere.cpp
     PhysicsEngine/BoundingVolume.cpp
     PhysicsEngine/BoundingPlan.cpp
-    PhysicsEngine/BoundingVolumeCreator.hpp
+    PhysicsEngine/BoundingVolumeCreator.cpp
     PhysicsEngine/BVH.cpp
     PhysicsEngine/RigidBodyContact.cpp
     PhysicsEngine/RigidBodyCollisionData.cpp
@@ -52,6 +52,8 @@ set(SOURCES
     PhysicsEngine/Plan.cpp
     PhysicsEngine/Box.cpp
     PhysicsEngine/RigidBodyContactGenerator.cpp
+    PhysicsEngine/RigidBodyContactResolver.cpp
+
 )
 
 set(HEADERS
@@ -109,6 +111,7 @@ set(HEADERS
     PhysicsEngine/Plan.hpp
     PhysicsEngine/Box.hpp
     PhysicsEngine/RigidBodyContactGenerator.hpp
+    PhysicsEngine/RigidBodyContactResolver.hpp
 )
 
 set(SOURCES_DEBUG

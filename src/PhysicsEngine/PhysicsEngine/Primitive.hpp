@@ -1,9 +1,12 @@
 #pragma once
 
-#include "PhysicsEngine/RigidBody.hpp"
+#include "PhysicsEngine/RigidBodyCollisionData.hpp"
 
 namespace engine
 {
+//class RigidBody;
+//class RigidBodyCollisionData;
+
 class Primitive
 {
   private:
@@ -21,6 +24,8 @@ class Primitive
 
     Vector3D getPosition() const;
 
-    virtual bool collidesWith(const std::shared_ptr<Primitive>& other) = 0;
+    virtual float getYMax() const = 0;
+
+    virtual void generateContactWith(const std::shared_ptr<Primitive>& other, RigidBodyCollisionData& collisionData) = 0;
 };
 } // namespace engine

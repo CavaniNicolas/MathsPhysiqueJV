@@ -8,7 +8,6 @@ class Box : public Primitive
 {
   private:
     Vector3D m_halfSizes;
-
   public:
     Box(std::shared_ptr<RigidBody> body, Matrix34 offset, Vector3D halfSizes);
 
@@ -18,6 +17,10 @@ class Box : public Primitive
 
     float getGreatestHalfSize() const;
 
-    virtual bool collidesWith(const std::shared_ptr<Primitive>& other);
+    std::vector<Vector3D> getApexes() const;
+
+    virtual float getYMax() const;
+
+    virtual void generateContactWith(const std::shared_ptr<Primitive>& other, RigidBodyCollisionData& collisionData);
 };
 } // namespace engine

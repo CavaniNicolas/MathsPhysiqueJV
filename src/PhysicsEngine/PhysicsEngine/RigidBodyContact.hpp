@@ -7,12 +7,16 @@ namespace engine
 class RigidBodyContact
 {
   private:
-    Vector3D m_contactPoint;
-    Vector3D m_contactNormal;
+    Vector3D m_contactPoint = Vector3D();
+    Vector3D m_contactNormal = Vector3D();
     float m_penetration;
 
   public:
-    RigidBodyContact(Vector3D contactPoint, Vector3D contactNormal, float penetration);
+    RigidBodyContact(Vector3D contactPoint,
+                     Vector3D contactNormal,
+                     float penetration);
+
+    RigidBodyContact() = default;
 
     Vector3D getContactPoint() const;
     Vector3D getContactNormal() const;

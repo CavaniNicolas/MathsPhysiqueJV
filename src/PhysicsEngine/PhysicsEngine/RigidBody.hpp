@@ -5,105 +5,111 @@
 #include "PhysicsEngine/Matrix33.hpp"
 #include "PhysicsEngine/Matrix34.hpp"
 
+
 namespace engine
 {
-class RigidBody : public PhysicsObject
-{
-  private:
-    // orientation of the rigid body
-    Quaternion m_orientation;
+	class Primitive;
 
-    // angular velocity of the rigid body
-    Vector3D m_rotation;
+	class RigidBody
+      : public PhysicsObject
+      , public std::enable_shared_from_this<RigidBody>
+	{
+	private:
+		// orientation of the rigid body
+		Quaternion m_orientation;
 
-    // calculates transform matrix from orientation and rotation
-    Matrix34 m_transformationMatrix;
+		// angular velocity of the rigid body
+		Vector3D m_rotation;
 
-    // accelerations
-    Vector3D m_angularAcceleration;
+		// calculates transform matrix from orientation and rotation
+		Matrix34 m_transformationMatrix;
 
-    // same as linear damping
-    // but for rotation
-    float m_angularDamping;
+		// accelerations
+		Vector3D m_angularAcceleration;
 
-    // accumulated force
-    // added by ForceGenerator
-    Vector3D m_forceAccum;
+		// same as linear damping
+		// but for rotation
+		float m_angularDamping;
 
-    // Accumulated torque
-    // added by ForceGenerator
-    Vector3D m_torqueAccum;
+		// accumulated force
+		// added by ForceGenerator
+		Vector3D m_forceAccum;
 
-    // The dimensions of the rigidbody
-    float m_dx, m_dy, m_dz;
+		// Accumulated torque
+		// added by ForceGenerator
+		Vector3D m_torqueAccum;
 
-    // The inertia matrix
-    Matrix33 m_localInertiaInverseMatrix;
-    Matrix33 m_worldInertiaInverseMatrix;
+		// The dimensions of the rigidbody
+		float m_dx, m_dy, m_dz;
 
-    // call each frame to calculate the transformMatrix and normalize the orientation
-    void calculateDerivedData();
+		// The inertia matrix
+		Matrix33 m_localInertiaInverseMatrix;
+		Matrix33 m_worldInertiaInverseMatrix;
 
-    void calculateInertiaMatrix();
+		// call each frame to calculate the transformMatrix and normalize the orientation
+		void calculateDerivedData();
 
-  public:
-    RigidBody(Vector3D position,
-              Vector3D velocity,
-              Quaternion rotation,
-              Vector3D angularVelocity,
-              float dx = 1,
-              float dy = 1,
-              float dz = 1,
-              float mass = 1,
-              float g = 10,
-              float damping = 0.999,
-              float angularDamping = 0.999);
+		void calculateInertiaMatrix();
 
-    RigidBody();
+	public:
+		RigidBody(Vector3D position,
+			Vector3D velocity,
+			Quaternion rotation,
+			Vector3D angularVelocity,
+			float dx = 1,
+			float dy = 1,
+			float dz = 1,
+			float mass = 1,
+			float g = 10,
+			float damping = 0.999,
+			float angularDamping = 0.999);
 
-    RigidBody(const RigidBody& other);
+		RigidBody();
 
-    // Assignation
-    RigidBody& operator=(const RigidBody& other);
+		RigidBody(const RigidBody& other);
 
-    // Getters
-    Quaternion getOrientation() const;
-    Vector3D getRotation() const;
-    Vector3D getAngularAcceleration() const;
-    Matrix34 getTransformationMatrix() const;
-    float getDx() const;
-    float getDy() const;
-    float getDz() const;
+		// Assignation
+		RigidBody& operator=(const RigidBody& other);
 
-    // Setters
-    void setOrientation(Quaternion orientation);
-    void setRotation(Vector3D rotation);
-    void setAngularAcceleration(Vector3D angularAcceleration);
+		// Getters
+		Quaternion getOrientation() const;
+		Vector3D getRotation() const;
+		Vector3D getAngularAcceleration() const;
+		Matrix34 getTransformationMatrix() const;
+		float getDx() const;
+		float getDy() const;
+		float getDz() const;
+		Matrix33 getInertiaInverseMatrix() const;
 
-    // integrate the rigid body by modifying position, orientation and velocities
-    void integratePosition(float deltaT);
-    void integrateVelocity(float deltaT);
+		// Setters
+		void setOrientation(Quaternion orientation);
+		void setRotation(Vector3D rotation);
+		void setAngularAcceleration(Vector3D angularAcceleration);
 
-    // Add force on the Center of mass (no torque generated)
-    void addForce(const Vector3D& force);
+		// integrate the rigid body by modifying position, orientation and velocities
+		void integratePosition(float deltaT);
+		void integrateVelocity(float deltaT);
 
-    // Add force at a point in world coordinate
-    // Generate force and torque
-    void addForceAtPoint(const Vector3D& force, const Vector3D& worldPoint);
+		// Add force on the Center of mass (no torque generated)
+		void addForce(const Vector3D& force);
 
-    // Add force at a point in local coordinate
-    // the point is converted in world coordinate by using the transform matrix
-    // Generate torque and force
-    void addForceAtBodyPoint(const Vector3D& force, const Vector3D& localPoint);
+		// Add force at a point in world coordinate
+		// Generate force and torque
+		void addForceAtPoint(const Vector3D& force, const Vector3D& worldPoint);
 
-    // Called each frame to reset m_forceAccum and m_torqueAccum
-    void clearAccumulator();
+		// Add force at a point in local coordinate
+		// the point is converted in world coordinate by using the transform matrix
+		// Generate torque and force
+		void addForceAtBodyPoint(const Vector3D& force, const Vector3D& localPoint);
 
-    Vector3D localToWorldCoordinates(Vector3D& coordinates);
+		// Called each frame to reset m_forceAccum and m_torqueAccum
+		void clearAccumulator();
 
-    Vector3D getOrientationEuler() const;
-    float getGreatestRadius() const;
+		Vector3D localToWorldCoordinates(Vector3D& coordinates);
 
-    friend std::ostream& operator<<(std::ostream& out, RigidBody const& rb);
-};
+		Vector3D getOrientationEuler() const;
+		float getGreatestRadius() const;
+
+		friend std::ostream& operator<<(std::ostream& out, RigidBody const& rb);
+	};
 } // namespace engine

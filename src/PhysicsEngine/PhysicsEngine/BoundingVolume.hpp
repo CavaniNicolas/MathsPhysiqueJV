@@ -15,7 +15,6 @@ class BoundingVolume
 
   public:
     BoundingVolume(const std::vector<std::shared_ptr<Primitive>>& primitives = {});
-    BoundingVolume(const BoundingVolume& other);
 
     virtual bool collideWith(std::shared_ptr<BoundingVolume>& other) = 0;
 

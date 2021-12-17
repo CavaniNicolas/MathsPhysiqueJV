@@ -13,6 +13,7 @@
 #include "PhysicsEngine/ParticleContactGenerator.hpp"
 #include "PhysicsEngine/RigidBodyForceGenerator.hpp"
 #include "PhysicsEngine/RigidBodyContactGenerator.hpp"
+#include "PhysicsEngine/RigidBodyContactResolver.hpp"
 
 namespace engine
 {
@@ -25,15 +26,17 @@ class Scene
     ForceRegistry m_forceRegistry;
 
     std::vector<std::shared_ptr<ParticleContact>> m_contactArray;
-    //RigidBodyCollisionData m_rigidBodyCollisionData;
+    RigidBodyCollisionData m_rigidBodyCollisionData;
+
     ParticleContactResolver m_contactResolver;
     std::vector<std::shared_ptr<ParticleContactGenerator>> m_particleContactGenerators;
-    RigidBodyContactGenerator m_rigidBodyContactGenerator;
     int m_maxContactsPerIteration;
 
-    std::shared_ptr<BVH> m_bvh;
-
+    RigidBodyContactGenerator m_rigidBodyContactGenerator;
+    RigidBodyContactResolver m_rigidBodyContactResolver;
     std::vector<std::shared_ptr<Primitive>> m_primitives;
+
+    std::shared_ptr<BVH> m_bvh;
 
   public:
     // Constructors
@@ -67,7 +70,9 @@ class Scene
     // Add a force to every rigidbody currently in the
     void addForceToAllRigidBodies(std::shared_ptr<RigidBodyForceGenerator> forceGenerator);
 
-    void addPrimitive(std::shared_ptr<Primitive> primitive);
+    void addPrimitives(std::vector<std::shared_ptr<Primitive>> primitives);
+
+    void buildPrimitivesFromRigidBodies();
 
     void integrateAll(float deltaT);
 };

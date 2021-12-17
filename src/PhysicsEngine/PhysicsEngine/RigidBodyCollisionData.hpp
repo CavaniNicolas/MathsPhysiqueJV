@@ -5,6 +5,8 @@
 
 namespace engine
 {
+//class RigidBodyContact;
+
 class RigidBodyCollisionData
 {
   private:
@@ -14,8 +16,10 @@ class RigidBodyCollisionData
   public:
     RigidBodyCollisionData(int maxContacts);
 
-    std::vector<RigidBodyContact> getContacts() const;
+    std::vector<RigidBodyContact> popContacts();
 
-    void addContact(RigidBodyContact& contact);
+    int getMaxContacts() const;
+
+    void addContact(RigidBodyContact contact);
 };
 } // namespace engine

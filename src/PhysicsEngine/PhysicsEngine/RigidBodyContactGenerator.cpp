@@ -1,15 +1,41 @@
-#pragma once
-
-#include "PhysicsEngine/RigidBodyCollisionData.hpp"
-#include "PhysicsEngine/Primitive.hpp"
+#include "PhysicsEngine/RigidBodyContactGenerator.hpp"
+#include "PhysicsEngine/Plan.hpp"
+#include "PhysicsEngine/Box.hpp"
 
 namespace engine
 {
-class RigidBodyContactGenerator
+void RigidBodyContactGenerator::generateContact(const std::shared_ptr<Primitive>& prim1,
+                                                const std::shared_ptr<Primitive>& prim2,
+                                                RigidBodyCollisionData& collisionData)
 {
-  public:
-    virtual void generateContact(std::shared_ptr<Primitive> prim1,
-                                 std::shared_ptr<Primitive> prim2,
-                                 RigidBodyCollisionData& collisionDatas);
-};
+    if(const std::shared_ptr<Plan>& plan = std::dynamic_pointer_cast<Plan>(prim1))
+    {
+        if(const std::shared_ptr<Box>& box = std::dynamic_pointer_cast<Box>(prim2))
+        {
+            box->generateContactWith(prim1, collisionData);
+        }
+        else
+        {
+            std::cerr << "We can only generate contacts between a bow and a plan" << std::endl;
+            exit(EXIT_FAILURE);
+        }
+    }
+    else if(const std::shared_ptr<Box>& box = std::dynamic_pointer_cast<Box>(prim1))
+    {
+        if(const std::shared_ptr<Plan>& plan = std::dynamic_pointer_cast<Plan>(prim2))
+        {
+            box->generateContactWith(prim2, collisionData);
+        }
+        else
+        {
+            std::cerr << "We can only generate contacts between a bow and a plan" << std::endl;
+            exit(EXIT_FAILURE);
+        }
+    }
+    else
+    {
+        std::cerr << "We can only generate contacts between a bow and a plan" << std::endl;
+        exit(EXIT_FAILURE);
+    }
+}
 } // namespace engine

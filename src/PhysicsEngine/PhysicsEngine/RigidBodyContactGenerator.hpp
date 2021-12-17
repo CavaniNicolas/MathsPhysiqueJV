@@ -8,8 +8,8 @@ namespace engine
 class RigidBodyContactGenerator
 {
   public:
-    void generateContact(std::shared_ptr<Primitive> prim1,
-                         std::shared_ptr<Primitive> prim2,
-                         RigidBodyCollisionData& collisionDatas);
+    void generateContact(const std::shared_ptr<Primitive>& prim1,
+                         const std::shared_ptr<Primitive>& prim2,
+                         RigidBodyCollisionData& collisionData);
 };
 } // namespace engine

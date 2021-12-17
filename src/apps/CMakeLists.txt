@@ -96,6 +96,27 @@ mp_add_executable(${MP_MAIN3_2_NAME}
     INCLUDE_DIRS ${MP_APPS_INCDIRS}
 )
 
+###############################
+#### Main Executable Phase4 ###
+###############################
+
+set(MP_MAIN4_NAME mainPhase4)
+
+set(MP_MAIN4_SOURCES
+    mainApp4/mainPhase4.cpp
+    mainApp4/UserInterface.cpp
+)
+
+set(MP_MAIN4_HEADERS
+    mainApp4/UserInterface.hpp
+)
+
+mp_add_executable(${MP_MAIN4_NAME}
+    SOURCE ${MP_MAIN4_SOURCES} ${MP_MAIN4_HEADERS}
+    LINKS ${MP_APPS_LINKS}
+    INCLUDE_DIRS ${MP_APPS_INCDIRS}
+)
+
 if(BUILD_TESTS)
 
     ##############################
