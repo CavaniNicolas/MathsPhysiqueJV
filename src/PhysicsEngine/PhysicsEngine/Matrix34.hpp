@@ -37,7 +37,7 @@ class Matrix34
 
     // return m_values
     std::array<std::array<float, 4>, 3> getValuesArray() const;
-    
+
     Matrix33 getMatrix33() const;
 
     void printMatrix() const;

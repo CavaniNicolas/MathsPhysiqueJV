@@ -4,8 +4,8 @@
 
 namespace engine
 {
-//class RigidBody;
-//class RigidBodyCollisionData;
+// class RigidBody;
+// class RigidBodyCollisionData;
 
 class Primitive
 {
@@ -26,6 +26,7 @@ class Primitive
 
     virtual float getYMax() const = 0;
 
-    virtual void generateContactWith(const std::shared_ptr<Primitive>& other, RigidBodyCollisionData& collisionData) = 0;
+    virtual void generateContactWith(const std::shared_ptr<Primitive>& other,
+                                     RigidBodyCollisionData& collisionData) = 0;
 };
 } // namespace engine

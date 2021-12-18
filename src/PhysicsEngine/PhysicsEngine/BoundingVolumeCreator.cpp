@@ -3,9 +3,12 @@
 
 namespace engine
 {
-bool BoundingVolumeCreator::containsPlan(const std::vector<std::shared_ptr<Primitive>>& primitives) {
-    for(const auto& primitive: primitives) {
-        if (const std::shared_ptr<Plan>& plan = std::dynamic_pointer_cast<Plan>(primitive)) {
+bool BoundingVolumeCreator::containsPlan(const std::vector<std::shared_ptr<Primitive>>& primitives)
+{
+    for(const auto& primitive: primitives)
+    {
+        if(const std::shared_ptr<Plan>& plan = std::dynamic_pointer_cast<Plan>(primitive))
+        {
             return true;
         }
     }

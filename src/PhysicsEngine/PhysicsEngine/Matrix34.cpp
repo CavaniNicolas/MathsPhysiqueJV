@@ -117,7 +117,8 @@ std::array<std::array<float, 4>, 3> Matrix34::getValuesArray() const
     return m_values;
 }
 
-Matrix33 Matrix34::getMatrix33() const {
+Matrix33 Matrix34::getMatrix33() const
+{
     Matrix33 m = Matrix33({m_values[0][0], m_values[0][1], m_values[0][2]},
                           {m_values[1][0], m_values[1][1], m_values[1][2]},
                           {m_values[2][0], m_values[2][1], m_values[2][2]});

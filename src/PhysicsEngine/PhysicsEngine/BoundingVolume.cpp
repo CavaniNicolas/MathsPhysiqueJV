@@ -10,7 +10,8 @@ BoundingVolume::BoundingVolume(const std::vector<std::shared_ptr<Primitive>>& pr
     }
 }
 
-std::vector<std::shared_ptr<Primitive>> BoundingVolume::getPrimitives() const {
+std::vector<std::shared_ptr<Primitive>> BoundingVolume::getPrimitives() const
+{
     std::vector<std::shared_ptr<Primitive>> primitives;
     for(auto const& primitive: m_primitives)
     {

@@ -24,7 +24,8 @@ float Box::getGreatestHalfSize() const
     return std::max(greatestHalfSize, m_halfSizes.getZ());
 }
 
-std::vector<Vector3D> Box::getApexes() const {
+std::vector<Vector3D> Box::getApexes() const
+{
     Vector3D selfPosition = getPosition();
     float dx = m_halfSizes.getX();
     float dy = m_halfSizes.getY();
@@ -42,14 +43,17 @@ std::vector<Vector3D> Box::getApexes() const {
     return ret;
 }
 
-float Box::getYMax() const {
+float Box::getYMax() const
+{
     float yMax = getPosition().getY() + m_halfSizes.getNorm();
     return yMax;
 }
 
-void Box::generateContactWith(const std::shared_ptr<Primitive>& other, RigidBodyCollisionData& collisionData) {
+void Box::generateContactWith(const std::shared_ptr<Primitive>& other, RigidBodyCollisionData& collisionData)
+{
     std::vector<Vector3D> apexes = getApexes();
-    if (const std::shared_ptr<Plan>& plan = std::dynamic_pointer_cast<Plan>(other)) {
+    if(const std::shared_ptr<Plan>& plan = std::dynamic_pointer_cast<Plan>(other))
+    {
         for(Vector3D& apex: apexes)
         {
             if(plan->getNormal().scalarProduct(apex) <= -plan->getPlanOffset())

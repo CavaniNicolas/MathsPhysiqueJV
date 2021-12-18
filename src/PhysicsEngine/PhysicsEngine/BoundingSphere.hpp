@@ -19,11 +19,13 @@ class BoundingSphere : public BoundingVolume
 
     virtual bool collideWith(std::shared_ptr<BoundingVolume>& other);
 
-    inline Vector3D getCenter() const {
+    inline Vector3D getCenter() const
+    {
         return m_center;
     }
 
-    inline float getRadius() const {
+    inline float getRadius() const
+    {
         return m_radius;
     }
 

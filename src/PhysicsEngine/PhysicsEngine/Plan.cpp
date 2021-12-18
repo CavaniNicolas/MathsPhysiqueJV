@@ -26,12 +26,15 @@ void Plan::setPlanOffset(float planOffset)
     m_planOffset = planOffset;
 }
 
-float Plan::getYMax() const {
+float Plan::getYMax() const
+{
     return m_planOffset;
 }
 
-void Plan::generateContactWith(const std::shared_ptr<Primitive>& other, RigidBodyCollisionData& collisionData) {
-    if (const std::shared_ptr<Box>& box = std::dynamic_pointer_cast<Box>(other)) {
+void Plan::generateContactWith(const std::shared_ptr<Primitive>& other, RigidBodyCollisionData& collisionData)
+{
+    if(const std::shared_ptr<Box>& box = std::dynamic_pointer_cast<Box>(other))
+    {
         box->generateContactWith(shared_from_this(), collisionData);
     }
 }

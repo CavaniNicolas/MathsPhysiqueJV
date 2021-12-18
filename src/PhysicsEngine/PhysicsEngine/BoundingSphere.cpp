@@ -3,8 +3,7 @@
 
 namespace engine
 {
-BoundingSphere::BoundingSphere(const std::vector<std::shared_ptr<Primitive>>& primitives):
-  BoundingVolume(primitives)
+BoundingSphere::BoundingSphere(const std::vector<std::shared_ptr<Primitive>>& primitives): BoundingVolume(primitives)
 {
     calculateCenter();
     calculateRadius();

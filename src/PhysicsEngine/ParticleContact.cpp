@@ -4,16 +4,22 @@ ParticleContact::ParticleContact(std::shared_ptr<Particle> particleA,
                                  std::shared_ptr<Particle> particleB,
                                  float restitution,
                                  float penetration,
-                                 Vector3D contactNormal) :
-    m_particle({particleA, particleB}), m_restitution(restitution), m_penetration(penetration), m_contactNormal(contactNormal)
-{}
+                                 Vector3D contactNormal):
+  m_particle({particleA, particleB}),
+  m_restitution(restitution),
+  m_penetration(penetration),
+  m_contactNormal(contactNormal)
+{
+}
 
-ParticleContact ::~ParticleContact() {
+ParticleContact ::~ParticleContact()
+{
     m_particle.clear();
 }
 
 // Handle impulse for this collision
-void ParticleContact::resolveVelocity() {
+void ParticleContact::resolveVelocity()
+{
     if(m_particle[1] != nullptr)
     {
         Vector3D v1 = m_particle[0]->getVelocity();
@@ -29,7 +35,7 @@ void ParticleContact::resolveVelocity() {
     }
     else
     {
-        //TO CHECK
+        // TO CHECK
         Vector3D velocity = m_particle[0]->getVelocity();
 
         Vector3D accel = m_particle[0]->getAcceleration();
@@ -55,8 +61,6 @@ void ParticleContact::resolveVelocity() {
             m_particle[0]->setAcceleration(accel);
         }
         m_particle[0]->setVelocity(newVelocity);
-
-        
     }
 }
 
@@ -81,7 +85,7 @@ void ParticleContact::resolveInterpenetration()
     }
     else
     {
-        //TO CHECK
+        // TO CHECK
         Vector3D p1 = m_particle[0]->getPosition();
         Vector3D delta_p1;
 
@@ -92,7 +96,8 @@ void ParticleContact::resolveInterpenetration()
 }
 
 // Resolve velocity and interpenetration
-void ParticleContact::resolve() {
+void ParticleContact::resolve()
+{
     resolveInterpenetration();
     resolveVelocity();
 }
@@ -100,7 +105,7 @@ void ParticleContact::resolve() {
 // Return the separationVelocity of the particles
 float ParticleContact::calculateSeparatingVelocity()
 {
-    if (m_particle[1] != nullptr) 
+    if(m_particle[1] != nullptr)
     {
         Vector3D v_A = m_particle[0]->getVelocity();
         Vector3D v_B = m_particle[1]->getVelocity();

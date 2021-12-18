@@ -92,15 +92,20 @@ void Scene::addForceToAllRigidBodies(std::shared_ptr<RigidBodyForceGenerator> fo
     }
 }
 
-void Scene::addPrimitives(std::vector<std::shared_ptr<Primitive>> primitives) {
+void Scene::addPrimitives(std::vector<std::shared_ptr<Primitive>> primitives)
+{
     m_primitives.reserve(m_primitives.size() + primitives.size());
     m_primitives.insert(m_primitives.end(), primitives.begin(), primitives.end());
 }
 
-void Scene::buildPrimitivesFromRigidBodies() {
-    for (const auto& object : m_physicsObject) {
-        if (const std::shared_ptr<RigidBody>& rb = std::dynamic_pointer_cast<RigidBody>(object)) {
-            m_primitives.push_back(std::make_shared<Box>(rb, Matrix34(), Vector3D(rb->getDx()/2, rb->getDy()/2, rb->getDz()/2)));
+void Scene::buildPrimitivesFromRigidBodies()
+{
+    for(const auto& object: m_physicsObject)
+    {
+        if(const std::shared_ptr<RigidBody>& rb = std::dynamic_pointer_cast<RigidBody>(object))
+        {
+            m_primitives.push_back(
+              std::make_shared<Box>(rb, Matrix34(), Vector3D(rb->getDx() / 2, rb->getDy() / 2, rb->getDz() / 2)));
         }
     }
 }
@@ -130,17 +135,18 @@ void Scene::integrateAll(float deltaT)
     // array to fill it once again during the next iteration
     m_contactArray.clear();
 
-    //We check for rigidbody possible contacts
+    // We check for rigidbody possible contacts
     m_bvh = std::make_shared<BVH>(m_primitives);
     auto possibleContacts = m_bvh->getPossibleCollisions();
-    //We generate the real rigidbody contacts
+    // We generate the real rigidbody contacts
     for(auto& possibleContact: possibleContacts)
     {
         m_rigidBodyContactGenerator.generateContact(
           possibleContact.first, possibleContact.second, m_rigidBodyCollisionData);
     }
-    //We resolve the found contacts
-    if (m_rigidBodyContactResolver.resolveContacts(m_rigidBodyCollisionData)) {
+    // We resolve the found contacts
+    if(m_rigidBodyContactResolver.resolveContacts(m_rigidBodyCollisionData))
+    {
         std::cout << "OUIIIIII" << std::endl;
     }
 }

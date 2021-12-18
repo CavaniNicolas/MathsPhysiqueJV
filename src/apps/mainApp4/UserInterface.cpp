@@ -77,8 +77,10 @@ void UserInterface::showSpringCreation(api::ScenesAPI& scenesAPI) const
         // Button to create a projectile with the selected position and direction
         if(ImGui::Button("Create spring"))
         {
-            auto& rigidBody1 = std::dynamic_pointer_cast<engine::RigidBody>(scenesAPI.getSceneEngine()->getObjects()[0]);
-            auto& rigidBody2 = std::dynamic_pointer_cast<engine::RigidBody>(scenesAPI.getSceneEngine()->getObjects()[1]);
+            auto& rigidBody1 =
+              std::dynamic_pointer_cast<engine::RigidBody>(scenesAPI.getSceneEngine()->getObjects()[0]);
+            auto& rigidBody2 =
+              std::dynamic_pointer_cast<engine::RigidBody>(scenesAPI.getSceneEngine()->getObjects()[1]);
 
             std::shared_ptr<engine::RigidBodySpring> spring = std::make_shared<engine::RigidBodySpring>(
               engine::Vector3D(1, 1, 0), rigidBody2, engine::Vector3D(1, 1, 0), springConstant, restLength);

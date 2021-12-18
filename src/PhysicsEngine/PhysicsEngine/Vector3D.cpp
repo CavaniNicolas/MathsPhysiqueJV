@@ -198,7 +198,8 @@ float Vector3D::distance(Vector3D vect1, Vector3D vect2)
     return (vect2 - vect1).getNorm();
 }
 
-float Vector3D::squareDistance(Vector3D vect1, Vector3D vect2) {
+float Vector3D::squareDistance(Vector3D vect1, Vector3D vect2)
+{
     return (vect2 - vect1).getSquareNorm();
 }
 

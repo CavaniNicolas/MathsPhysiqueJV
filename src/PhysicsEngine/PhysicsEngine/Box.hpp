@@ -8,6 +8,7 @@ class Box : public Primitive
 {
   private:
     Vector3D m_halfSizes;
+
   public:
     Box(std::shared_ptr<RigidBody> body, Matrix34 offset, Vector3D halfSizes);
 

@@ -47,11 +47,8 @@ int main()
     engine::GameEngine gameEngine = engine::GameEngine(sceneEngine);
 
     // Create physicsObjects
-    std::shared_ptr<engine::RigidBody> sportsCarObject =
-      std::make_shared<engine::RigidBody>(engine::Vector3D(0, 10, 30),
-                                          engine::Vector3D(),
-                                          engine::Quaternion(0, 0, 1, 0),
-                                          engine::Vector3D());
+    std::shared_ptr<engine::RigidBody> sportsCarObject = std::make_shared<engine::RigidBody>(
+      engine::Vector3D(0, 10, 30), engine::Vector3D(), engine::Quaternion(0, 0, 1, 0), engine::Vector3D());
 
     engine::RigidBodyPrinter::setRigidBody(sportsCarObject);
 

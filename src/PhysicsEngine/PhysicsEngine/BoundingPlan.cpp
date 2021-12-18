@@ -10,8 +10,10 @@ BoundingPlan::BoundingPlan(float height, const std::vector<std::shared_ptr<Primi
 {
 }
 
-bool BoundingPlan::collideWith(std::shared_ptr<BoundingVolume>& other) {
-    if (std::shared_ptr<BoundingSphere>& otherBoundingSphere = std::dynamic_pointer_cast<BoundingSphere>(other)) {
+bool BoundingPlan::collideWith(std::shared_ptr<BoundingVolume>& other)
+{
+    if(std::shared_ptr<BoundingSphere>& otherBoundingSphere = std::dynamic_pointer_cast<BoundingSphere>(other))
+    {
         return otherBoundingSphere->collideWithPlan(shared_from_this());
     }
     else

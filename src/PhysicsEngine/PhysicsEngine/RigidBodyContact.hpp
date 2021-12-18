@@ -12,9 +12,7 @@ class RigidBodyContact
     float m_penetration;
 
   public:
-    RigidBodyContact(Vector3D contactPoint,
-                     Vector3D contactNormal,
-                     float penetration);
+    RigidBodyContact(Vector3D contactPoint, Vector3D contactNormal, float penetration);
 
     RigidBodyContact() = default;
 

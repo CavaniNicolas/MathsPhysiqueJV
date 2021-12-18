@@ -5,7 +5,7 @@
 
 namespace engine
 {
-//class RigidBodyContact;
+// class RigidBodyContact;
 
 class RigidBodyCollisionData
 {
