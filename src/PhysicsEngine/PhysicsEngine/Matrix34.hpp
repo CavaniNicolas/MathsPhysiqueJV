@@ -30,10 +30,10 @@ class Matrix34
     void setOrientationAndPosition(const Quaternion& q, const Vector3D& p);
 
     // Transform a position
-    Vector3D transformPosition(const Vector3D& vector);
+    Vector3D transformPosition(const Vector3D& vector) const;
 
     // Transform a direction by ignoring the translation
-    Vector3D transformDirection(const Vector3D& vector);
+    Vector3D transformDirection(const Vector3D& vector) const;
 
     // return m_values
     std::array<std::array<float, 4>, 3> getValuesArray() const;

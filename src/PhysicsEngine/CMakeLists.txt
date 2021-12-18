@@ -42,7 +42,18 @@ set(SOURCES
 
     # Rigidbodies collisions
     PhysicsEngine/BoundingSphere.cpp
+    PhysicsEngine/BoundingVolume.cpp
+    PhysicsEngine/BoundingPlan.cpp
+    PhysicsEngine/BoundingVolumeCreator.cpp
     PhysicsEngine/BVH.cpp
+    PhysicsEngine/RigidBodyContact.cpp
+    PhysicsEngine/RigidBodyCollisionData.cpp
+    PhysicsEngine/Primitive.cpp
+    PhysicsEngine/Plan.cpp
+    PhysicsEngine/Box.cpp
+    PhysicsEngine/RigidBodyContactGenerator.cpp
+    PhysicsEngine/RigidBodyContactResolver.cpp
+
 )
 
 set(HEADERS
@@ -90,7 +101,17 @@ set(HEADERS
 
     # Rigidbodies collisions
     PhysicsEngine/BoundingSphere.hpp
+    PhysicsEngine/BoundingVolume.hpp
+    PhysicsEngine/BoundingPlan.hpp
+    PhysicsEngine/BoundingVolumeCreator.hpp
     PhysicsEngine/BVH.hpp
+    PhysicsEngine/RigidBodyContact.hpp
+    PhysicsEngine/RigidBodyCollisionData.hpp
+    PhysicsEngine/Primitive.hpp
+    PhysicsEngine/Plan.hpp
+    PhysicsEngine/Box.hpp
+    PhysicsEngine/RigidBodyContactGenerator.hpp
+    PhysicsEngine/RigidBodyContactResolver.hpp
 )
 
 set(SOURCES_DEBUG

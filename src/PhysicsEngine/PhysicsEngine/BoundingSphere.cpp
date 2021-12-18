@@ -1,80 +1,123 @@
-
 #include "PhysicsEngine/BoundingSphere.hpp"
-#include "PhysicsEngine/Vector3D.hpp"
+#include "PhysicsEngine/Box.hpp"
 
 namespace engine
 {
-
-BoundingSphere::BoundingSphere(const std::vector<std::shared_ptr<RigidBody>>& rigidBodies)
+BoundingSphere::BoundingSphere(const std::vector<std::shared_ptr<Primitive>>& primitives):
+  BoundingVolume(primitives)
 {
-    for(auto const& rigidBody: rigidBodies)
-    {
-        m_rigidBodies.push_back(rigidBody);
-    }
-
     calculateCenter();
     calculateRadius();
 }
 
-bool BoundingSphere::collideWith(BoundingSphere& other)
+bool BoundingSphere::collideWith(std::shared_ptr<BoundingVolume>& other)
 {
-    if(m_rigidBodies.size() != 0 && other.m_rigidBodies.size() != 0)
+    if(getNumPrimitives() != 0 && other->getNumPrimitives() != 0)
     {
-        // calculate distance between the two BoundingSphere' center
-        float difX = m_center.getX() - other.m_center.getX();
-        float difY = m_center.getY() - other.m_center.getY();
-        float difZ = m_center.getZ() - other.m_center.getZ();
-        float distance = sqrt(difX * difX + difY * difY + difZ * difZ);
-
-        // if the bounding spheres collide, return true
-        if(distance < m_radius + other.m_radius)
+        if(std::shared_ptr<BoundingSphere>& otherBoundingSphere = std::dynamic_pointer_cast<BoundingSphere>(other))
         {
-            m_isColliding = true;
-            other.m_isColliding = true;
+            collideWithSphere(otherBoundingSphere);
+        }
+        else if(std::shared_ptr<BoundingPlan>& otherBoundingPlan = std::dynamic_pointer_cast<BoundingPlan>(other))
+        {
+            collideWithPlan(otherBoundingPlan);
         }
     }
-    m_isColliding = false;
-    other.m_isColliding = false;
+    else
+    {
+        m_isColliding = false || m_isColliding;
+        other->setColliding(false || other->isColliding());
+    }
 
     return m_isColliding;
 }
 
+bool BoundingSphere::collideWithSphere(std::shared_ptr<BoundingSphere>& otherBoundingSphere)
+{
+    // calculate distance between the two BoundingSphere' center
+    Vector3D otherCenter = otherBoundingSphere->getCenter();
+    float difX = m_center.getX() - otherCenter.getX();
+    float difY = m_center.getY() - otherCenter.getY();
+    float difZ = m_center.getZ() - otherCenter.getZ();
+    float distance = sqrt(difX * difX + difY * difY + difZ * difZ);
+
+    // if the bounding spheres collide, return true
+    if(distance < m_radius + otherBoundingSphere->getRadius())
+    {
+        m_isColliding = true;
+        otherBoundingSphere->setColliding(true);
+        return true;
+    }
+    else
+    {
+        m_isColliding = false || m_isColliding;
+        otherBoundingSphere->setColliding(false || otherBoundingSphere->isColliding());
+        return false;
+    }
+}
+
+bool BoundingSphere::collideWithPlan(std::shared_ptr<BoundingPlan>& otherBoundingPlan)
+{
+    float yMinHeight = m_center.getY() - m_radius;
+
+    if(yMinHeight <= otherBoundingPlan->getHeight())
+    {
+        m_isColliding = true;
+        otherBoundingPlan->setColliding(true);
+        return true;
+    }
+    else
+    {
+        m_isColliding = false || m_isColliding;
+        otherBoundingPlan->setColliding(false || otherBoundingPlan->isColliding());
+        return false;
+    }
+}
+
 void BoundingSphere::calculateCenter()
 {
-    for(auto const& rigidBody: m_rigidBodies)
+    for(auto const& primitive: m_primitives)
     {
-        std::shared_ptr<RigidBody> rb = rigidBody.lock();
+        std::shared_ptr<Primitive> prim = primitive.lock();
 
-        m_center += rb->getPosition();
+        m_center += prim->getPosition();
     }
-    m_center /= m_rigidBodies.size();
+    m_center /= m_primitives.size();
 }
 
 void BoundingSphere::calculateRadius()
 {
-    if(m_rigidBodies.size() != 0)
+    if(m_primitives.size() != 0)
     {
-        std::shared_ptr<RigidBody> rb = m_rigidBodies[0].lock();
-        float radius = rb->getGreatestRadius();
-
-        float xMin = rb->getPosition().getX() - radius;
-        float yMin = rb->getPosition().getY() - radius;
-        float zMin = rb->getPosition().getZ() - radius;
-        float xMax = rb->getPosition().getX() + radius;
-        float yMax = rb->getPosition().getY() + radius;
-        float zMax = rb->getPosition().getZ() + radius;
-
-        for(int i = 1; i < m_rigidBodies.size(); ++i)
+        std::shared_ptr<Primitive> prim = m_primitives[0].lock();
+        float radius = 0;
+        if(std::shared_ptr<Box> box = std::dynamic_pointer_cast<Box>(prim))
         {
-            rb = m_rigidBodies[i].lock();
-            radius = rb->getGreatestRadius();
+            radius = box->getGreatestHalfSize();
+        }
 
-            xMin = std::min(xMin, rb->getPosition().getX() - radius);
-            yMin = std::min(yMin, rb->getPosition().getY() - radius);
-            zMin = std::min(zMin, rb->getPosition().getZ() - radius);
-            xMax = std::max(xMax, rb->getPosition().getX() + radius);
-            yMax = std::max(yMax, rb->getPosition().getY() + radius);
-            zMax = std::max(zMax, rb->getPosition().getZ() + radius);
+        float xMin = prim->getPosition().getX() - radius;
+        float yMin = prim->getPosition().getY() - radius;
+        float zMin = prim->getPosition().getZ() - radius;
+        float xMax = prim->getPosition().getX() + radius;
+        float yMax = prim->getPosition().getY() + radius;
+        float zMax = prim->getPosition().getZ() + radius;
+
+        for(int i = 1; i < m_primitives.size(); ++i)
+        {
+            prim = m_primitives[i].lock();
+            radius = 0;
+            if(std::shared_ptr<Box> box = std::dynamic_pointer_cast<Box>(prim))
+            {
+                radius = box->getGreatestHalfSize();
+            }
+
+            xMin = std::min(xMin, prim->getPosition().getX() - radius);
+            yMin = std::min(yMin, prim->getPosition().getY() - radius);
+            zMin = std::min(zMin, prim->getPosition().getZ() - radius);
+            xMax = std::max(xMax, prim->getPosition().getX() + radius);
+            yMax = std::max(yMax, prim->getPosition().getY() + radius);
+            zMax = std::max(zMax, prim->getPosition().getZ() + radius);
         }
 
         float dx = xMax - xMin;
@@ -82,16 +125,6 @@ void BoundingSphere::calculateRadius()
         float dz = zMax - zMin;
         m_radius = std::sqrt(dx * dx + dy * dy + dz * dz) / 2;
     }
-}
-
-std::vector<std::shared_ptr<RigidBody>> BoundingSphere::getRigidBodies() const
-{
-    std::vector<std::shared_ptr<RigidBody>> rigidBodies;
-    for(auto const& rb: m_rigidBodies)
-    {
-        rigidBodies.push_back(rb.lock());
-    }
-    return rigidBodies;
 }
 
 } // namespace engine

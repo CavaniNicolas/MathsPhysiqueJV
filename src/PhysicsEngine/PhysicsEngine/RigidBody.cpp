@@ -114,6 +114,11 @@ float RigidBody::getDz() const
     return m_dz;
 }
 
+Matrix33 RigidBody::getInertiaInverseMatrix() const
+{
+    return m_worldInertiaInverseMatrix;
+}
+
 // Setters
 void RigidBody::setOrientation(Quaternion orientation)
 {
@@ -155,15 +160,12 @@ void RigidBody::integratePosition(float deltaT)
     // We update the transformation matrix for the graphical engine
     calculateDerivedData();
 
+    // Update deltaT to last deltaT
+    m_deltaT = deltaT;
+
     // We reset the accelerations
     m_acceleration = Vector3D();
     m_angularAcceleration = Vector3D();
-
-    // reset forces accum
-    clearAccumulator();
-
-    // Update deltaT to last deltaT
-    m_deltaT = deltaT;
 }
 
 void RigidBody::integrateVelocity(float deltaT)
@@ -179,6 +181,9 @@ void RigidBody::integrateVelocity(float deltaT)
 
     // Update angular velocity
     m_rotation = m_rotation * pow(m_angularDamping, deltaT) + m_angularAcceleration * deltaT;
+
+    // reset forces accum
+    clearAccumulator();
 }
 
 void RigidBody::addForce(const Vector3D& force)

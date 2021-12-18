@@ -1,9 +1,9 @@
 
 #include "PhysicsEngine/Scene.hpp"
+#include "PhysicsEngine/Box.hpp"
 
 namespace engine
 {
-
 Scene::Scene(std::vector<std::shared_ptr<PhysicsObject>> objects,
              ForceRegistry forcesRegistry,
              std::vector<std::shared_ptr<ParticleContactGenerator>> particleContactGenerators,
@@ -11,13 +11,14 @@ Scene::Scene(std::vector<std::shared_ptr<PhysicsObject>> objects,
   m_forceRegistry(forcesRegistry),
   m_physicsObject(objects),
   m_particleContactGenerators(particleContactGenerators),
-  m_maxContactsPerIteration(maxContactsPerIteration)
+  m_maxContactsPerIteration(maxContactsPerIteration),
+  m_rigidBodyCollisionData(16)
 {
     m_contactResolver = ParticleContactResolver();
     m_contactArray = {};
 }
 
-Scene::Scene(const Scene& other)
+Scene::Scene(const Scene& other): m_rigidBodyCollisionData(18)
 {
     m_physicsObject = other.m_physicsObject;
     m_forceRegistry = other.m_forceRegistry;
@@ -91,40 +92,56 @@ void Scene::addForceToAllRigidBodies(std::shared_ptr<RigidBodyForceGenerator> fo
     }
 }
 
+void Scene::addPrimitives(std::vector<std::shared_ptr<Primitive>> primitives) {
+    m_primitives.reserve(m_primitives.size() + primitives.size());
+    m_primitives.insert(m_primitives.end(), primitives.begin(), primitives.end());
+}
+
+void Scene::buildPrimitivesFromRigidBodies() {
+    for (const auto& object : m_physicsObject) {
+        if (const std::shared_ptr<RigidBody>& rb = std::dynamic_pointer_cast<RigidBody>(object)) {
+            m_primitives.push_back(std::make_shared<Box>(rb, Matrix34(), Vector3D(rb->getDx()/2, rb->getDy()/2, rb->getDz()/2)));
+        }
+    }
+}
+
 void Scene::integrateAll(float deltaT)
 {
-    // We move the particles
+    // We move the objects
     for(auto& object: m_physicsObject)
     {
-        if(auto const& particle = std::dynamic_pointer_cast<Particle>(object))
-            object->integratePosition(deltaT);
+        object->integratePosition(deltaT);
     }
     m_forceRegistry.updateForce(deltaT);
     for(auto& object: m_physicsObject)
     {
         object->integrateVelocity(deltaT);
     }
-    for(auto& object: m_physicsObject)
-    {
-        if(auto const& rigidbody = std::dynamic_pointer_cast<RigidBody>(object))
-            object->integratePosition(deltaT);
-    }
 
-    // We check for contacts
+    // We check for particle contacts
     unsigned int contacts = m_maxContactsPerIteration;
     for(auto& contactGenerator: m_particleContactGenerators)
     {
         contacts -= contactGenerator->addContact(m_contactArray, contacts);
     }
-    // We resolve the found contacts
+    // We resolve the particle contacts
     m_contactResolver.resolveContacts(m_contactArray);
     // We processed every contact, we can now clear the contact
     // array to fill it once again during the next iteration
     m_contactArray.clear();
 
-    m_bvh = std::make_shared<BVH>(m_physicsObject);
-    // Resolve the possible contacts
+    //We check for rigidbody possible contacts
+    m_bvh = std::make_shared<BVH>(m_primitives);
     auto possibleContacts = m_bvh->getPossibleCollisions();
+    //We generate the real rigidbody contacts
+    for(auto& possibleContact: possibleContacts)
+    {
+        m_rigidBodyContactGenerator.generateContact(
+          possibleContact.first, possibleContact.second, m_rigidBodyCollisionData);
+    }
+    //We resolve the found contacts
+    if (m_rigidBodyContactResolver.resolveContacts(m_rigidBodyCollisionData)) {
+        std::cout << "OUIIIIII" << std::endl;
+    }
 }
-
 } // namespace engine

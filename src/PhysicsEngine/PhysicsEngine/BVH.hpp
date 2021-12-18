@@ -2,7 +2,7 @@
 
 #include <vector>
 #include <utility>
-#include "PhysicsEngine/BoundingSphere.hpp"
+#include "PhysicsEngine/BoundingVolumeCreator.hpp"
 
 namespace engine
 {
@@ -19,32 +19,32 @@ class BVH
   private:
     std::shared_ptr<Node> m_root;
 
-    std::pair<std::vector<std::shared_ptr<RigidBody>>, std::vector<std::shared_ptr<RigidBody>>> partitionObjects(
-      const std::vector<std::shared_ptr<RigidBody>>& rigidBodies);
+    std::pair<std::vector<std::shared_ptr<Primitive>>, std::vector<std::shared_ptr<Primitive>>> partitionObjects(
+      const std::vector<std::shared_ptr<Primitive>>& primitives);
 
-    void createBVH(const std::vector<std::shared_ptr<RigidBody>>& rigidBodies);
+    void createBVH(const std::vector<std::shared_ptr<Primitive>>& primitives);
 
   public:
-    BVH(std::vector<std::shared_ptr<PhysicsObject>>& objects);
-    BVH(std::vector<std::shared_ptr<RigidBody>>& rigidBodies);
+    BVH(const std::vector<std::shared_ptr<Primitive>>& primitives);
 
-    std::vector<std::pair<std::shared_ptr<RigidBody>, std::shared_ptr<RigidBody>>> getPossibleCollisions(
+    std::vector<std::pair<std::shared_ptr<Primitive>, std::shared_ptr<Primitive>>> getPossibleCollisions(
       std::shared_ptr<BVH> toEvaluate = nullptr);
 
-    std::vector<BoundingSphere> getBoundingSpheres() const;
+    std::vector<std::shared_ptr<BoundingVolume>> getBoundingVolumes() const;
 };
 
 struct Node
 {
-    Type type;
-    BoundingSphere boundingVolume;
+    Type m_type;
+    std::shared_ptr<BoundingVolume> m_boundingVolume;
     std::shared_ptr<BVH> m_leftTree;
     std::shared_ptr<BVH> m_rightTree;
 
-    Node(const std::vector<std::shared_ptr<RigidBody>>& rigidBodies)
+    Node(const std::vector<std::shared_ptr<Primitive>>& primitives)
     {
-        type = LEAF;
-        boundingVolume = BoundingSphere(rigidBodies);
+        m_type = LEAF;
+        BoundingVolumeCreator boundingVolumeCreator = BoundingVolumeCreator();
+        m_boundingVolume = boundingVolumeCreator.createBoundingVolume(primitives);
         m_leftTree = nullptr;
         m_rightTree = nullptr;
     }

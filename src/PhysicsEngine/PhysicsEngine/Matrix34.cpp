@@ -97,13 +97,13 @@ void Matrix34::setOrientationAndPosition(const Quaternion& q, const Vector3D& p)
 }
 
 // Transform a position
-Vector3D Matrix34::transformPosition(const Vector3D& vector)
+Vector3D Matrix34::transformPosition(const Vector3D& vector) const
 {
     return *this * vector;
 }
 
 // Transform a direction by ignoring the translation
-Vector3D Matrix34::transformDirection(const Vector3D& vector)
+Vector3D Matrix34::transformDirection(const Vector3D& vector) const
 {
     Matrix33 m = Matrix33({m_values[0][0], m_values[0][1], m_values[0][2]},
                           {m_values[1][0], m_values[1][1], m_values[1][2]},
