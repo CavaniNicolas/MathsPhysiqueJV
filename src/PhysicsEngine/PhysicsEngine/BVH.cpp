@@ -83,61 +83,63 @@ std::pair<std::vector<std::shared_ptr<Primitive>>, std::vector<std::shared_ptr<P
 std::vector<std::pair<std::shared_ptr<Primitive>, std::shared_ptr<Primitive>>> BVH::getPossibleCollisions(
   std::shared_ptr<BVH> toEvaluate)
 {
-    std::vector<std::pair<std::shared_ptr<Primitive>, std::shared_ptr<Primitive>>> ret;
-    if(toEvaluate == nullptr)
+    std::vector<std::pair<std::shared_ptr<Primitive>, std::shared_ptr<Primitive>>> ret = {};
+    if(m_root != nullptr)
     {
-        if(m_root->m_type == NODE)
+        if(toEvaluate == nullptr)
         {
-            if(m_root->m_leftTree->m_root->m_type == LEAF && m_root->m_rightTree->m_root->m_type == LEAF)
+            if(m_root->m_type == NODE)
             {
-                ret = m_root->m_leftTree->getPossibleCollisions(m_root->m_rightTree);
-            }
-            else if(m_root->m_leftTree->m_root->m_type == LEAF && m_root->m_rightTree->m_root->m_type == NODE)
-            {
-                ret = m_root->m_rightTree->getPossibleCollisions(m_root->m_leftTree);
-            }
-            else if(m_root->m_leftTree->m_root->m_type == NODE && m_root->m_rightTree->m_root->m_type == LEAF)
-            {
-                ret = m_root->m_leftTree->getPossibleCollisions(m_root->m_rightTree);
-            }
-            else
-            {
-                std::vector<std::pair<std::shared_ptr<Primitive>, std::shared_ptr<Primitive>>> retLeft =
-                  m_root->m_leftTree->getPossibleCollisions();
-                std::vector<std::pair<std::shared_ptr<Primitive>, std::shared_ptr<Primitive>>> retRight =
-                  m_root->m_rightTree->getPossibleCollisions();
-                ret.reserve(retLeft.size() + retRight.size()); // preallocate memory
-                ret.insert(ret.end(), retLeft.begin(), retLeft.end());
-                ret.insert(ret.end(), retRight.begin(), retRight.end());
-            }
-        }
-    }
-    else
-    {
-        if(m_root->m_boundingVolume->collideWith(toEvaluate->m_root->m_boundingVolume))
-        {
-            if(m_root->m_type == LEAF)
-            {
-                ret.push_back({toEvaluate->m_root->m_boundingVolume->getPrimitives()[0],
-                               m_root->m_boundingVolume->getPrimitives()[0]});
-            }
-            else
-            {
-                std::vector<std::pair<std::shared_ptr<Primitive>, std::shared_ptr<Primitive>>> retLeft =
-                  m_root->m_leftTree->getPossibleCollisions(toEvaluate);
-                std::vector<std::pair<std::shared_ptr<Primitive>, std::shared_ptr<Primitive>>> retRight =
-                  m_root->m_rightTree->getPossibleCollisions(toEvaluate);
-                ret.reserve(retLeft.size() + retRight.size()); // preallocate memory
-                ret.insert(ret.end(), retLeft.begin(), retLeft.end());
-                ret.insert(ret.end(), retRight.begin(), retRight.end());
+                if(m_root->m_leftTree->m_root->m_type == LEAF && m_root->m_rightTree->m_root->m_type == LEAF)
+                {
+                    ret = m_root->m_leftTree->getPossibleCollisions(m_root->m_rightTree);
+                }
+                else if(m_root->m_leftTree->m_root->m_type == LEAF && m_root->m_rightTree->m_root->m_type == NODE)
+                {
+                    ret = m_root->m_rightTree->getPossibleCollisions(m_root->m_leftTree);
+                }
+                else if(m_root->m_leftTree->m_root->m_type == NODE && m_root->m_rightTree->m_root->m_type == LEAF)
+                {
+                    ret = m_root->m_leftTree->getPossibleCollisions(m_root->m_rightTree);
+                }
+                else
+                {
+                    std::vector<std::pair<std::shared_ptr<Primitive>, std::shared_ptr<Primitive>>> retLeft =
+                      m_root->m_leftTree->getPossibleCollisions();
+                    std::vector<std::pair<std::shared_ptr<Primitive>, std::shared_ptr<Primitive>>> retRight =
+                      m_root->m_rightTree->getPossibleCollisions();
+                    ret.reserve(retLeft.size() + retRight.size()); // preallocate memory
+                    ret.insert(ret.end(), retLeft.begin(), retLeft.end());
+                    ret.insert(ret.end(), retRight.begin(), retRight.end());
+                }
             }
         }
         else
         {
-            ret = getPossibleCollisions();
+            if(m_root->m_boundingVolume->collideWith(toEvaluate->m_root->m_boundingVolume))
+            {
+                if(m_root->m_type == LEAF)
+                {
+                    ret.push_back({toEvaluate->m_root->m_boundingVolume->getPrimitives()[0],
+                                   m_root->m_boundingVolume->getPrimitives()[0]});
+                }
+                else
+                {
+                    std::vector<std::pair<std::shared_ptr<Primitive>, std::shared_ptr<Primitive>>> retLeft =
+                      m_root->m_leftTree->getPossibleCollisions(toEvaluate);
+                    std::vector<std::pair<std::shared_ptr<Primitive>, std::shared_ptr<Primitive>>> retRight =
+                      m_root->m_rightTree->getPossibleCollisions(toEvaluate);
+                    ret.reserve(retLeft.size() + retRight.size()); // preallocate memory
+                    ret.insert(ret.end(), retLeft.begin(), retLeft.end());
+                    ret.insert(ret.end(), retRight.begin(), retRight.end());
+                }
+            }
+            else
+            {
+                ret = getPossibleCollisions();
+            }
         }
     }
-
     return ret;
 }
 
