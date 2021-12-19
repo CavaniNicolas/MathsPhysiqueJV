@@ -36,8 +36,8 @@ void UserInterface::showSceneParameters(api::ScenesAPI& scenesAPI) const
     if(ImGui::TreeNode("Parameters"))
     {
         static int speedX = 0;
-        static int speedY = 10;
-        static int speedZ = 30;
+        static int speedY = 5;
+        static int speedZ = 0;
 
         static int rotationX = 0;
         static int rotationY = 0;
