@@ -60,7 +60,7 @@ int main()
 
     {
         // Create Meshes and RenderedMeshes
-        std::shared_ptr<render::RenderedMesh> plan = std::make_shared<render::RenderedMesh>(
+        std::shared_ptr<render::RenderedMesh> planRenderedMesh = std::make_shared<render::RenderedMesh>(
           render::mesh::Plan::getMesh(), std::string(RESOURCE_PATH) + render::mesh::Plan::getTexturePath());
 
         render::IO::OBJReader objReader;
@@ -78,10 +78,10 @@ int main()
         std::shared_ptr<render::Scene> sceneRender = std::make_shared<render::Scene>(camera);
 
         // add objects to the render scene (objects we only render
-        sceneRender->addRenderedMesh(plan);
+        sceneRender->addRenderedMesh(planRenderedMesh);
         // scale the renderedMesh
-        plan->setScale(glm::vec3(50.0f, 50.0f, 50.0f));
-        plan->setNeedModelUpdate(true);
+        planRenderedMesh->setScale(glm::vec3(50.0f, 1.0f, 50.0f));
+        planRenderedMesh->setNeedModelUpdate(true);
 
         // Create the main API Scene
         api::ScenesAPI scenesAPI(sceneEngine, sceneRender);
