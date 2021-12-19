@@ -42,6 +42,10 @@ std::vector<std::shared_ptr<PhysicsObject>> Scene::getObjects() const
     return m_physicsObject;
 }
 
+std::vector<std::shared_ptr<Primitive>> Scene::getPrimitives() const {
+    return m_primitives;
+}
+
 // std::vector<Particle> Scene::getParticlesSynchronized() {
 //	m_particlesMutex.lock();
 //	std::vector<Particle> ret = getParticles();

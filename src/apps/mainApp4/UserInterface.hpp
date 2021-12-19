@@ -20,7 +20,7 @@ class UserInterface
 
     void start() const;
     void terminate() const;
-    void showSpringCreation(api::ScenesAPI& scenesAPI) const;
+    void showSceneParameters(api::ScenesAPI& scenesAPI) const;
     void render(engine::GameEngine& gameEngine, api::ScenesAPI& scenesAPI, render::Camera& camera);
     void HelpMarker(const char* desc) const;
 };

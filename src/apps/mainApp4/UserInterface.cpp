@@ -4,9 +4,10 @@
 #include <imgui/imgui_impl_glfw.h>
 #include <imgui/imgui_impl_opengl3.h>
 
-#include "PhysicsEngine/RigidBodySpring.hpp"
+#include "PhysicsEngine/Plan.hpp"
+#include "PhysicsEngine/RigidBodyGravity.hpp"
 
-#include "mainApp3/UserInterface.hpp"
+#include "mainApp4/UserInterface.hpp"
 
 float UserInterface::generateRandomFloat(float minVal, float maxVal) const
 {
@@ -30,62 +31,122 @@ UserInterface::UserInterface(render::Window window): m_xMovement(0), m_yMovement
     ImGui_ImplOpenGL3_Init(glsl_version);
 }
 
-void UserInterface::showSpringCreation(api::ScenesAPI& scenesAPI) const
+void UserInterface::showSceneParameters(api::ScenesAPI& scenesAPI) const
 {
-    if(ImGui::TreeNode("Spring creation"))
+    if(ImGui::TreeNode("Parameters"))
     {
-        static float springConstant = .2f;
-        static float restLength = 15;
+        static int speedX = 0;
+        static int speedY = 10;
+        static int speedZ = 30;
 
-        // Table with the spring constant
-        if(ImGui::BeginTable("SpringConstant", 1))
+        static int rotationX = 0;
+        static int rotationY = 0;
+        static int rotationZ = 0;
+
+        static int normalX = 0;
+        static int normalY = 1;
+        static int normalZ = 0;
+
+        static float planOffset = 0;
+
+        // Table with position input boxes
+        if(ImGui::BeginTable("Speed", 3))
         {
             ImGui::TableNextRow();
 
             ImGui::TableSetColumnIndex(0);
-            ImGui::Text("Spring constant");
+            ImGui::Text("Speed");
 
             ImGui::TableNextRow();
             ImGui::TableSetColumnIndex(0);
-            ImGui::InputFloat("Constant", &springConstant);
+            ImGui::InputInt("X", &speedX);
+            ImGui::TableSetColumnIndex(1);
+            ImGui::InputInt("Y", &speedY);
+            ImGui::TableSetColumnIndex(2);
+            ImGui::InputInt("Z", &speedZ);
             ImGui::SameLine();
-            HelpMarker("Here you can determine how strong the springs linking the particles will be.");
+            HelpMarker("Choose the car's linear velocity.\n");
 
             ImGui::EndTable();
         }
 
-        // Table with the rest length
-        if(ImGui::BeginTable("RestLength", 1))
+        // Table with position input boxes
+        if(ImGui::BeginTable("Rotation", 3))
         {
             ImGui::TableNextRow();
 
             ImGui::TableSetColumnIndex(0);
-            ImGui::Text("Rest length");
+            ImGui::Text("Rotation");
 
             ImGui::TableNextRow();
             ImGui::TableSetColumnIndex(0);
-            ImGui::InputFloat("Length", &restLength);
+            ImGui::InputInt("X", &rotationX);
+            ImGui::TableSetColumnIndex(1);
+            ImGui::InputInt("Y", &rotationY);
+            ImGui::TableSetColumnIndex(2);
+            ImGui::InputInt("Z", &rotationZ);
             ImGui::SameLine();
-            HelpMarker("Here you can determine the springs' rest length.\n"
-                       "If the spring's length is below this length, the spring will push the\n"
-                       "particles appart, and if the spring's length if above this length, the\n"
-                       "spring will push them towards each other.");
+            HelpMarker("Choose the car's angular velocity.\n");
+
+            ImGui::EndTable();
+        }
+
+        // Table with position input boxes
+        if(ImGui::BeginTable("Plan's normal", 3))
+        {
+            ImGui::TableNextRow();
+
+            ImGui::TableSetColumnIndex(0);
+            ImGui::Text("Plan's normal");
+
+            ImGui::TableNextRow();
+            ImGui::TableSetColumnIndex(0);
+            ImGui::InputInt("X", &normalX);
+            ImGui::TableSetColumnIndex(1);
+            ImGui::InputInt("Y", &normalY);
+            ImGui::TableSetColumnIndex(2);
+            ImGui::InputInt("Z", &normalZ);
+            ImGui::SameLine();
+            HelpMarker("Choose the plan's normal.\n");
+
+            ImGui::EndTable();
+        }
+
+        if(ImGui::BeginTable("Plan's offset", 1))
+        {
+            ImGui::TableNextRow();
+
+            ImGui::TableSetColumnIndex(0);
+            ImGui::Text("Plan's offset");
+
+            ImGui::TableNextRow();
+            ImGui::TableSetColumnIndex(0);
+            ImGui::InputFloat("Offset", &planOffset);
+            ImGui::SameLine();
+            HelpMarker("Choose the wall's offset (its height in the normal direction).");
 
             ImGui::EndTable();
         }
 
         // Button to create a projectile with the selected position and direction
-        if(ImGui::Button("Create spring"))
+        if(ImGui::Button("Apply changes"))
         {
-            auto& rigidBody1 =
+            std::shared_ptr<engine::RigidBody> car =
               std::dynamic_pointer_cast<engine::RigidBody>(scenesAPI.getSceneEngine()->getObjects()[0]);
-            auto& rigidBody2 =
-              std::dynamic_pointer_cast<engine::RigidBody>(scenesAPI.getSceneEngine()->getObjects()[1]);
+            car->setVelocity(engine::Vector3D(speedX, speedY, speedZ));
+            car->setRotation(engine::Vector3D(rotationX, rotationY, rotationZ));
 
-            std::shared_ptr<engine::RigidBodySpring> spring = std::make_shared<engine::RigidBodySpring>(
-              engine::Vector3D(1, 1, 0), rigidBody2, engine::Vector3D(1, 1, 0), springConstant, restLength);
+            std::shared_ptr<engine::Plan> plan =
+              std::dynamic_pointer_cast<engine::Plan>(scenesAPI.getSceneEngine()->getPrimitives()[0]);
+            plan->setNormal(engine::Vector3D(normalX, normalY, normalZ));
+            plan->setPlanOffset(planOffset);
+        }
 
-            scenesAPI.getSceneEngine()->addRigidBodyForce(rigidBody1, spring);
+        // Button to create a projectile with the selected position and direction
+        if(ImGui::Button("Apply gravity"))
+        {
+            std::shared_ptr<engine::RigidBodyGravity> gravity = std::make_shared<engine::RigidBodyGravity>();
+            scenesAPI.getSceneEngine()->addForceToAllRigidBodies(gravity);
         }
         ImGui::TreePop();
     }
@@ -131,7 +192,7 @@ void UserInterface::render(engine::GameEngine& gameEngine, api::ScenesAPI& scene
     // Edit translation.x using a slider from 0.0f to 90.0f
     ImGui::SliderFloat("cameraAngle", &cameraAngle, 0.0f, 90.0f);
 
-    showSpringCreation(scenesAPI);
+    showSceneParameters(scenesAPI);
 
     // Buttons to run and pause the simulation
     if(ImGui::Button("Run Simulation"))

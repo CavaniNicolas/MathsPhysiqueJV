@@ -51,6 +51,7 @@ class Scene
 
     // Getters
     std::vector<std::shared_ptr<PhysicsObject>> getObjects() const;
+    std::vector<std::shared_ptr<Primitive>> getPrimitives() const;
     // std::vector<Particle> getParticlesSynchronized();
 
     // Setters
