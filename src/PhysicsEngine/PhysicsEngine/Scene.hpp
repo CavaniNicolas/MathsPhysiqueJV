@@ -75,7 +75,7 @@ class Scene
 
     void buildPrimitivesFromRigidBodies();
 
-    void integrateAll(float deltaT);
+    bool integrateAll(float deltaT);
 };
 
 } // namespace engine

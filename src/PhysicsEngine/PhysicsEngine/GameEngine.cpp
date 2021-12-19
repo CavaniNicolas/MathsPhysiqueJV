@@ -51,7 +51,7 @@ void GameEngine::gameLoop()
             // cast delta Time into MICROSECONDS
             auto deltaTCastUS = std::chrono::duration_cast<std::chrono::microseconds>(deltaT);
             // Integrate all particles, delta time given is in SECONDS
-            m_scene->integrateAll(float(deltaTCastUS.count() / 1000000.0f));
+            m_running = !(m_scene->integrateAll(float(deltaTCastUS.count() / 1000000.0f)));
 
             // reset lastIntegrationTime
             lastIntegrationTime = std::chrono::high_resolution_clock::now();

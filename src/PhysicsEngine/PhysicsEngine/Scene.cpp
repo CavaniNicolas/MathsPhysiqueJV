@@ -42,7 +42,8 @@ std::vector<std::shared_ptr<PhysicsObject>> Scene::getObjects() const
     return m_physicsObject;
 }
 
-std::vector<std::shared_ptr<Primitive>> Scene::getPrimitives() const {
+std::vector<std::shared_ptr<Primitive>> Scene::getPrimitives() const
+{
     return m_primitives;
 }
 
@@ -114,8 +115,10 @@ void Scene::buildPrimitivesFromRigidBodies()
     }
 }
 
-void Scene::integrateAll(float deltaT)
+bool Scene::integrateAll(float deltaT)
 {
+    bool stopSimulation = 0;
+
     // We move the objects
     for(auto& object: m_physicsObject)
     {
@@ -151,7 +154,8 @@ void Scene::integrateAll(float deltaT)
     // We resolve the found contacts
     if(m_rigidBodyContactResolver.resolveContacts(m_rigidBodyCollisionData))
     {
-        std::cout << "OUIIIIII" << std::endl;
+        stopSimulation = true;
     }
+    return stopSimulation;
 }
 } // namespace engine
