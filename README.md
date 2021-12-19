@@ -4,7 +4,6 @@ This project aims to simulate basic physics principles.
 This first part is about simple particles' behaviors, and you will be able to shoot three types of particles
 with their specific attributes, and see their evolution in space.
 
-
 ## Build Guide
 
 Download the latest version of the project
@@ -13,27 +12,36 @@ Go to your build dir and compile the source using the root CMakeLists.txt
 
 ## User Guide
 
-Once the project is compiled, you will be able to start several executables.
+Once the project is compiled, you will be the executable named mainPhase4
 
-### Launch an object
+### Selecting the parameters
 
-To try to launch a rigidbody with an angular velocity, you should start mainPhase3. This will open an ImGUI window.
+Once the executable is started, you will see a window called "Parameters". Open it and expand it to see all the parameters.
 
-Here, you should set the window to be fullscreen to see everything well.
+Here, you will be able to choose :
+- the car's linear velocity
+- the car's angular velocity (rotation)
+- the plan's normal
+- the plan's offset
 
-Then, just click on the button "Run simulation". You will see two cars launched in the air, and you can observe their rotations.
+If you modify these parameters, you have to click on "Apply changes" before running the simulation to see the changes.
 
-### Spring between two objects
+If you want to apply gravity to the car, you have to click on "Apply gravity" before running the simulation.
 
-Still in the mainPhase3, it is possible to also add a spring between the two cars. To do so, you can click on "Spring creation". Here there is a few settings you can change if you want, and click on "create spring". Then click on "Run simulation" to observe the behaviour of the cars.
+### Starting the simulation
 
-### Collision between two cars
+Under the parameters section, you should see two buttons :
+- Run simulation
+- Pause simulation
 
-To test the collision between two cars, you should start mainPhase3_2. This will open an ImGUI window.
-Here, you should set the window to be fullscreen to see everything well.
+You should click on "Run simulation" once you have all the appropriate settings. This will make the car move (except if you
+did not choose a linear velocity, and did not apply the gravity force). Once the car overlaps the plan, the simulation will
+automatically pause, meaning that the collision was detected.
 
-Then, just click on the button "Run simulation". You will see two cars launched towards each other, and you can observe their collision.
+### Notes
 
+The only plan that is visible is the one with the normal (0, 1, 0) and the offset 0. For now, we did not have time to make
+a corresponding mesh that would move and rotate according to the normal and the offset.
 
 ## References
 
