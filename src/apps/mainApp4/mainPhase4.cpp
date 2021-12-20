@@ -52,7 +52,7 @@ int main()
 
     engine::RigidBodyPrinter::setRigidBody(sportsCarObject);
 
-    std::shared_ptr<engine::RigidBodyGravity> gravity = std::make_shared<engine::RigidBodyGravity>();
+    //    std::shared_ptr<engine::RigidBodyGravity> gravity = std::make_shared<engine::RigidBodyGravity>();
 
     // TODO : Link the engine plan with the rendering plan
     std::shared_ptr<engine::Plan> plan = std::make_shared<engine::Plan>(engine::Vector3D(0, 1, 0), 0);
@@ -89,7 +89,7 @@ int main()
         // add physicsObjects to the main scene
         scenesAPI.addPhysicsObject(sportsCarObject, sportsCarRenderedMesh);
         sceneEngine->buildPrimitivesFromRigidBodies();
-        sceneEngine->addForceToAllRigidBodies(gravity);
+        //        sceneEngine->addForceToAllRigidBodies(gravity);
 
         while(!window.isBeingClosed())
         {
