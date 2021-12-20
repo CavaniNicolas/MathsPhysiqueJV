@@ -56,7 +56,7 @@ void Box::generateContactWith(const std::shared_ptr<Primitive>& other, RigidBody
     {
         for(Vector3D& apex: apexes)
         {
-            if(plan->getNormal().scalarProduct(apex) <= -plan->getPlanOffset())
+            if(plan->getNormal().scalarProduct(apex) <= plan->getPlanOffset())
             {
                 float penetrationDistance = std::abs(plan->getPlanOffset() - apex.getY());
                 Vector3D contactPoint = Vector3D(apex.getX(), plan->getPlanOffset(), apex.getZ());
