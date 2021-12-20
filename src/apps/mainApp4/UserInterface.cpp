@@ -35,6 +35,9 @@ void UserInterface::showSceneParameters(api::ScenesAPI& scenesAPI) const
 {
     if(ImGui::TreeNode("Parameters"))
     {
+        bool gravityON = false;
+        bool applyChanges = false;
+
         static int speedX = 0;
         static int speedY = 5;
         static int speedZ = 0;
@@ -91,45 +94,106 @@ void UserInterface::showSceneParameters(api::ScenesAPI& scenesAPI) const
             ImGui::EndTable();
         }
 
-        // Table with position input boxes
-        if(ImGui::BeginTable("Plan's normal", 3))
+        // Presets
         {
-            ImGui::TableNextRow();
+            ImGui::Text("Select a preset to set up the scene");
 
-            ImGui::TableSetColumnIndex(0);
-            ImGui::Text("Plan's normal");
+            if(ImGui::Button("Preset 1"))
+            {
+                normalX = 0;
+                normalY = 1;
+                normalZ = 0;
+                planOffset = 0;
+                speedX = 1;
+                speedY = 5;
+                speedZ = 1;
 
-            ImGui::TableNextRow();
-            ImGui::TableSetColumnIndex(0);
-            ImGui::InputInt("X", &normalX);
-            ImGui::TableSetColumnIndex(1);
-            ImGui::InputInt("Y", &normalY);
-            ImGui::TableSetColumnIndex(2);
-            ImGui::InputInt("Z", &normalZ);
+                rotationX = 5;
+                rotationY = 5;
+                rotationZ = 5;
+
+                gravityON = true;
+                applyChanges = true;
+            }
             ImGui::SameLine();
-            HelpMarker("Choose the plan's normal.\n");
+            HelpMarker(
+              "plan's normal : (0, 1, 0). Offset = 0. Car speed = (1, 5, 1). Car Rotation = (5, 5, 5). Gravity ON\n");
 
-            ImGui::EndTable();
-        }
+            if(ImGui::Button("Preset 2"))
+            {
+                normalX = 0;
+                normalY = -1;
+                normalZ = 0;
+                planOffset = 25;
+                speedX = 0;
+                speedY = 30;
+                speedZ = 0;
 
-        if(ImGui::BeginTable("Plan's offset", 1))
-        {
-            ImGui::TableNextRow();
+                rotationX = 5;
+                rotationY = -2;
+                rotationZ = 5;
 
-            ImGui::TableSetColumnIndex(0);
-            ImGui::Text("Plan's offset");
-
-            ImGui::TableNextRow();
-            ImGui::TableSetColumnIndex(0);
-            ImGui::InputFloat("Offset", &planOffset);
+                applyChanges = true;
+            }
             ImGui::SameLine();
-            HelpMarker("Choose the wall's offset (its height in the normal direction).");
+            HelpMarker("plan's normal : (0, -1, 0). Offset = 25. Car speed = (0, 30, 0). Car Rotation = (5, -2, 5).\n");
 
-            ImGui::EndTable();
+            if(ImGui::Button("Preset 3"))
+            {
+                normalX = -1;
+                normalY = 0;
+                normalZ = 0;
+                planOffset = 20;
+                speedX = 50;
+                speedY = 5;
+                speedZ = 0;
+
+                applyChanges = true;
+            }
+            ImGui::SameLine();
+            HelpMarker("plan's normal : (-1, 0, 0). Offset = 20. Car speed = (50, 5, 0)\n");
+
+            if(ImGui::Button("Preset 4"))
+            {
+                normalX = -1;
+                normalY = 0;
+                normalZ = 0;
+                planOffset = 40;
+                speedX = 50;
+                speedY = 5;
+                speedZ = 0;
+                rotationX = 1;
+                rotationY = 1;
+                rotationZ = 1;
+
+                applyChanges = true;
+            }
+            ImGui::SameLine();
+            HelpMarker("plan's normal : (-1, 0, 0). Offset = 40. Car speed = (50, 5, 0). Car Rotation = (1, 1, 1).\n");
         }
 
         // Button to create a projectile with the selected position and direction
         if(ImGui::Button("Apply changes"))
+        {
+            applyChanges = true;
+        }
+
+        // Button to create a projectile with the selected position and direction
+        if(ImGui::Button("Apply gravity"))
+        {
+            gravityON = true;
+        }
+        ImGui::TreePop();
+
+        if(gravityON)
+        {
+            std::shared_ptr<engine::RigidBodyGravity> gravity = std::make_shared<engine::RigidBodyGravity>();
+            scenesAPI.getSceneEngine()->addForceToAllRigidBodies(gravity);
+
+            gravityON = false;
+        }
+
+        if(applyChanges)
         {
             std::shared_ptr<engine::RigidBody> car =
               std::dynamic_pointer_cast<engine::RigidBody>(scenesAPI.getSceneEngine()->getObjects()[0]);
@@ -140,15 +204,9 @@ void UserInterface::showSceneParameters(api::ScenesAPI& scenesAPI) const
               std::dynamic_pointer_cast<engine::Plan>(scenesAPI.getSceneEngine()->getPrimitives()[0]);
             plan->setNormal(engine::Vector3D(normalX, normalY, normalZ));
             plan->setPlanOffset(planOffset);
-        }
 
-        // Button to create a projectile with the selected position and direction
-        if(ImGui::Button("Apply gravity"))
-        {
-            std::shared_ptr<engine::RigidBodyGravity> gravity = std::make_shared<engine::RigidBodyGravity>();
-            scenesAPI.getSceneEngine()->addForceToAllRigidBodies(gravity);
+            applyChanges = false;
         }
-        ImGui::TreePop();
     }
 }
 
